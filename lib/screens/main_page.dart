@@ -23,15 +23,14 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: TabBarView(
-          controller: _tabController,
-          children: [DashBoardScreen()]),
+      body: TabBarView(controller: _tabController, children: [DashBoardScreen()]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(
+        elevation: 5,
         icons: const [
           Icons.dashboard_outlined,
           Icons.pie_chart_outline_outlined,
@@ -39,7 +38,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
           Icons.price_change_outlined,
           Icons.person_outline
         ],
-        activeColor: Colors.blue,
+        activeColor: Colors.orange,
         activeIndex: _bottomNavIndex,
         gapLocation: GapLocation.end,
         notchSmoothness: NotchSmoothness.softEdge,

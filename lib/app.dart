@@ -20,12 +20,21 @@ class _AppState extends State<App> {
         ChangeNotifierProvider.value(value: mainProvider),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const MainPage(),
-      ),
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.orange,
+          ),
+          home: ScrollConfiguration(
+            behavior: NoGlow(),
+            child: const MainPage(),
+          )),
     );
+  }
+}
+
+class NoGlow extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
   }
 }
