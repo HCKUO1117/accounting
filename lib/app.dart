@@ -21,6 +21,7 @@ class _AppState extends State<App> {
       ],
       child: MaterialApp(
           title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: Colors.orange,
           ),
@@ -34,7 +35,8 @@ class _AppState extends State<App> {
 
 class NoGlow extends ScrollBehavior {
   @override
-  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
     return child;
   }
 }
