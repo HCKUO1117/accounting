@@ -1,3 +1,4 @@
+import 'package:accounting/screens/category/category_screen.dart';
 import 'package:accounting/screens/chart/chart_screen.dart';
 import 'package:accounting/screens/dashboard/dashboard_screen.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
@@ -17,42 +18,55 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: TabBarView(controller: _tabController, children: const [
-        DashBoardScreen(),
-        ChartScreen(),
-      ]),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      bottomNavigationBar: AnimatedBottomNavigationBar(
-        elevation: 5,
-        icons: const [
-          Icons.dashboard_outlined,
-          Icons.pie_chart_outline_outlined,
-          Icons.bookmarks_outlined,
-          Icons.price_change_outlined,
-          Icons.person_outline
+      body: TabBarView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: _tabController,
+        children: const [
+          DashBoardScreen(),
+          ChartScreen(),
+          CategoryScreen(),
         ],
-        activeColor: Colors.orange,
-        activeIndex: _bottomNavIndex,
-        gapLocation: GapLocation.end,
-        notchSmoothness: NotchSmoothness.softEdge,
-        leftCornerRadius: 32,
-        rightCornerRadius: 0,
-        onTap: (index) {
-          setState(() => _bottomNavIndex = index);
-          _tabController!.animateTo(index);
-        },
-        //other params
+      ),
+      floatingActionButton: _bottomNavIndex == 0
+          ? FloatingActionButton(
+              onPressed: () {},
+              child: const Icon(Icons.add),
+            )
+          : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      bottomNavigationBar: Container(
+        color: _bottomNavIndex == 2
+            ? Colors.orangeAccent.shade200.withOpacity(0.2)
+            : Colors.white,
+        child: AnimatedBottomNavigationBar(
+          elevation: 10,
+          icons: const [
+            Icons.dashboard_outlined,
+            Icons.pie_chart_outline_outlined,
+            Icons.label_outline,
+            Icons.account_balance_wallet_outlined,
+            Icons.person_outline
+          ],
+          gapWidth: _bottomNavIndex == 0 ? null : 0,
+          activeColor: Colors.orange,
+          activeIndex: _bottomNavIndex,
+          gapLocation: GapLocation.end,
+          notchSmoothness: NotchSmoothness.softEdge,
+          leftCornerRadius: 32,
+          rightCornerRadius: 0,
+          onTap: (index) {
+            setState(() => _bottomNavIndex = index);
+            _tabController!.animateTo(index);
+          },
+          //other params
+        ),
       ),
     );
   }

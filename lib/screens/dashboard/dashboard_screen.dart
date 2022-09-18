@@ -1,6 +1,7 @@
+import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/screens/custom_date_picker_dialog.dart';
-import 'package:accounting/screens/utils.dart';
+import 'package:accounting/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +40,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.arrow_drop_down,color: Colors.transparent,),
+                const Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.transparent,
+                ),
                 Text(
                     '${Utils.toDateString(provider.dashBoardStartDate)}${!provider.samDay ? ' ~ ' : ''}${!provider.samDay ? Utils.toDateString(provider.dashBoardEndDate) : ''}'),
                 const Icon(Icons.arrow_drop_down),
@@ -69,8 +73,18 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           explode: true,
                           explodeIndex: 0,
                           dataSource: [
-                            _PieData('支出', 15, '支出', Colors.redAccent),
-                            _PieData('收入', 20, '收入', Colors.blueAccent),
+                            _PieData(
+                              S.of(context).expenditure,
+                              15,
+                              S.of(context).expenditure,
+                              Colors.redAccent,
+                            ),
+                            _PieData(
+                              S.of(context).income,
+                              20,
+                              S.of(context).income,
+                              Colors.blueAccent,
+                            ),
                           ],
                           xValueMapper: (_PieData data, _) => data.xData,
                           yValueMapper: (_PieData data, _) => data.yData,
