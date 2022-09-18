@@ -109,6 +109,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Expand`
+  String get expand {
+    return Intl.message(
+      'Expand',
+      name: 'expand',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

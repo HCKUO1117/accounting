@@ -4,5 +4,6 @@
   "category": "Category",
   "tag": "Tag",
   "goal": "Goal",
-  "setting": "Setting"
+  "setting": "Setting",
+  "expand": "Expand"
 }

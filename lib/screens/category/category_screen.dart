@@ -1,4 +1,5 @@
 import 'package:accounting/generated/l10n.dart';
+import 'package:accounting/screens/category/income_category_page.dart';
 import 'package:flutter/material.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -58,27 +59,83 @@ class _CategoryScreenState extends State<CategoryScreen>
           Row(
             children: [
               Expanded(
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Column(
-                      children: [Text(S.of(context).income)],
+                child: Hero(
+                  tag: 'categoryIncome',
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  S.of(context).income,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const IncomeCategoryPage(
+                                            tag: 'categoryIncome',
+                                          ),
+                                    ),
+                                  );
+                                },
+                                child: Text(S.of(context).expand),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
               Expanded(
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Column(
-                      children: [Text(S.of(context).expenditure)],
+                child: Hero(
+                  tag: 'categoryExpenditure',
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  S.of(context).expenditure,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                      const IncomeCategoryPage(
+                                        tag: 'categoryExpenditure',
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Text(S.of(context).expand),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
