@@ -1,6 +1,8 @@
 import 'package:accounting/screens/category/category_screen.dart';
 import 'package:accounting/screens/chart/chart_screen.dart';
 import 'package:accounting/screens/dashboard/dashboard_screen.dart';
+import 'package:accounting/screens/goal/goal_screen.dart';
+import 'package:accounting/screens/member/member_screen.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +20,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
     super.initState();
   }
 
@@ -32,6 +34,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
           DashBoardScreen(),
           ChartScreen(),
           CategoryScreen(),
+          GoalScreen(),
+          MemberScreen(),
         ],
       ),
       floatingActionButton: _bottomNavIndex == 0
@@ -52,9 +56,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             Icons.pie_chart_outline_outlined,
             Icons.label_outline,
             Icons.account_balance_wallet_outlined,
-            Icons.person_outline
+            Icons.settings_outlined
           ],
-          gapWidth: _bottomNavIndex == 0 ? null : 0,
+          // gapWidth: _bottomNavIndex == 0 ? null : 0,
           activeColor: Colors.orange,
           activeIndex: _bottomNavIndex,
           gapLocation: GapLocation.end,

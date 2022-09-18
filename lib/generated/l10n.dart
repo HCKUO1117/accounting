@@ -89,6 +89,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Goal`
+  String get goal {
+    return Intl.message(
+      'Goal',
+      name: 'goal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Setting`
+  String get setting {
+    return Intl.message(
+      'Setting',
+      name: 'setting',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

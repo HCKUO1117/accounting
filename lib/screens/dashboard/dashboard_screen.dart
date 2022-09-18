@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/main_provider.dart';
+import 'package:accounting/res/app_color.dart';
 import 'package:accounting/screens/custom_date_picker_dialog.dart';
 import 'package:accounting/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,108 +22,72 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<MainProvider>(
-        builder: (BuildContext context, MainProvider provider, _) {
-      return Scaffold(
-        backgroundColor: Colors.orangeAccent.shade200.withOpacity(0.2),
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          centerTitle: true,
-          title: InkWell(
-            onTap: () {
-              CustomDatePickerDialog.show(
-                context,
-                onDateSelect: (arg) {
-                  provider.setDashBoardDateRange(arg.value as PickerDateRange);
-                },
-                start: provider.dashBoardStartDate,
-                end: provider.dashBoardEndDate,
-              );
-            },
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.transparent,
-                ),
-                Text(
-                    '${Utils.toDateString(provider.dashBoardStartDate)}${!provider.samDay ? ' ~ ' : ''}${!provider.samDay ? Utils.toDateString(provider.dashBoardEndDate) : ''}'),
-                const Icon(Icons.arrow_drop_down),
-              ],
+      builder: (BuildContext context, MainProvider provider, _) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: AppColors.backgroundColor,
+            centerTitle: true,
+            title: InkWell(
+              onTap: () {
+                CustomDatePickerDialog.show(
+                  context,
+                  onDateSelect: (arg) {
+                    provider
+                        .setDashBoardDateRange(arg.value as PickerDateRange);
+                  },
+                  start: provider.dashBoardStartDate,
+                  end: provider.dashBoardEndDate,
+                );
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.transparent,
+                  ),
+                  Text(
+                      '${Utils.toDateString(provider.dashBoardStartDate)}${!provider.samDay ? ' ~ ' : ''}${!provider.samDay ? Utils.toDateString(provider.dashBoardEndDate) : ''}'),
+                  const Icon(Icons.arrow_drop_down),
+                ],
+              ),
             ),
           ),
-        ),
-        body: NestedScrollView(
-          headerSliverBuilder: (context, b) {
-            return [
-              SliverAppBar(
-                elevation: 0,
-                stretch: true,
-                expandedHeight: MediaQuery.of(context).size.height / 3,
-                backgroundColor: Colors.transparent,
-                flexibleSpace: FlexibleSpaceBar(
-                  stretchModes: const <StretchMode>[
-                    StretchMode.zoomBackground,
-                    StretchMode.blurBackground,
-                    StretchMode.fadeTitle,
-                  ],
-                  background: Center(
-                    child: SfCircularChart(
-                      legend: Legend(isVisible: false),
-                      series: <PieSeries<_PieData, String>>[
-                        PieSeries<_PieData, String>(
-                          explode: true,
-                          explodeIndex: 0,
-                          dataSource: [
-                            _PieData(
-                              S.of(context).expenditure,
-                              15,
-                              S.of(context).expenditure,
-                              Colors.redAccent,
-                            ),
-                            _PieData(
-                              S.of(context).income,
-                              20,
-                              S.of(context).income,
-                              Colors.blueAccent,
-                            ),
-                          ],
-                          xValueMapper: (_PieData data, _) => data.xData,
-                          yValueMapper: (_PieData data, _) => data.yData,
-                          dataLabelMapper: (_PieData data, _) => data.text,
-                          pointColorMapper: (_PieData data, _) => data.color,
-                          dataLabelSettings: const DataLabelSettings(
-                            isVisible: true,
-                            textStyle: TextStyle(
-                              fontFamily: 'Roboto',
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              color: Colors.white,
-                            ),
-                          ),
+          body: CustomScrollView(
+            slivers: [
+              SliverPersistentHeader(
+                pinned: true,
+                floating: true,
+                delegate: DashBoardSliverPersistentHeaderDelegate(
+                  maxEx: MediaQuery.of(context).size.height / 3 + 50,
+                  minEx: 90,
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (_, i) => ColoredBox(
+                    color: AppColors.backgroundColor,
+                    child: Container(
+                      height: 1000,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
                         ),
-                      ],
+                      ),
                     ),
                   ),
+                  childCount: 1,
                 ),
               ),
-            ];
-          },
-          body: Container(
-            height: 1000,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
+            ],
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }
 
@@ -136,4 +103,146 @@ class _PieData {
   final num yData;
   final String text;
   final Color color;
+}
+
+class DashBoardSliverPersistentHeaderDelegate
+    extends SliverPersistentHeaderDelegate {
+  final double maxEx;
+  final double minEx;
+
+  DashBoardSliverPersistentHeaderDelegate({
+    required this.maxEx,
+    required this.minEx,
+  });
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    double shrinkPercentage = min(1, shrinkOffset / (maxExtent - minExtent));
+    return Container(
+      color: Colors.white,
+      child: Container(
+        color: AppColors.backgroundColor,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            ConstrainedBox(
+              constraints: BoxConstraints.tightFor(
+                height: max(
+                  50,
+                  80 * (1 - shrinkPercentage),
+                ),
+              ),
+              child: FittedBox(
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  width: 200,
+                  child: const Text(
+                    '\$ 5329.05',
+                    style: TextStyle(
+                      fontFamily: 'Barlow',
+                      fontSize: 30,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  if (shrinkPercentage != 1)
+                    Opacity(
+                      opacity: 1 - shrinkPercentage,
+                      child: Center(
+                        child: SfCircularChart(
+                          legend: Legend(isVisible: false),
+                          series: <PieSeries<_PieData, String>>[
+                            PieSeries<_PieData, String>(
+                              explode: true,
+                              explodeIndex: 0,
+                              dataSource: [
+                                _PieData(
+                                  S.of(context).expenditure,
+                                  15,
+                                  S.of(context).expenditure,
+                                  Colors.redAccent,
+                                ),
+                                _PieData(
+                                  S.of(context).income,
+                                  20,
+                                  S.of(context).income,
+                                  Colors.blueAccent,
+                                ),
+                              ],
+                              xValueMapper: (_PieData data, _) => data.xData,
+                              yValueMapper: (_PieData data, _) => data.yData,
+                              dataLabelMapper: (_PieData data, _) => data.text,
+                              pointColorMapper: (_PieData data, _) =>
+                                  data.color,
+                              dataLabelSettings: const DataLabelSettings(
+                                isVisible: true,
+                                textStyle: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  if (shrinkPercentage != 0)
+                    Opacity(
+                      opacity: shrinkPercentage,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text('${S.of(context).income} : '),
+                                const Text(
+                                  '1000',
+                                  style: TextStyle(color: Colors.blueAccent),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text('${S.of(context).expenditure} : '),
+                                const Text(
+                                  '800',
+                                  style: TextStyle(color: Colors.redAccent),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  double get maxExtent => maxEx;
+
+  @override
+  double get minExtent => minEx;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) =>
+      true; // 如果内容需要更新，设置为true
 }

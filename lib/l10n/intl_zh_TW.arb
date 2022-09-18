@@ -2,5 +2,7 @@
   "income": "收入",
   "expenditure": "支出",
   "category": "分類",
-  "tag": "標籤"
+  "tag": "標籤",
+  "goal": "目標",
+  "setting": "設定"
 }

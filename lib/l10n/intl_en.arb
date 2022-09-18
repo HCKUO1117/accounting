@@ -2,5 +2,7 @@
   "income": "Income",
   "expenditure": "Expenditure",
   "category": "Category",
-  "tag": "Tag"
+  "tag": "Tag",
+  "goal": "Goal",
+  "setting": "Setting"
 }
