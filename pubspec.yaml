@@ -20,6 +20,7 @@ dependencies:
   syncfusion_flutter_datepicker: ^20.2.49
   intl: ^0.17.0
   shared_preferences: ^2.0.12
+  sqflite: ^2.1.0
   flutter_localizations:
     sdk: flutter
 

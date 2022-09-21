@@ -40,15 +40,28 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       ),
       floatingActionButton: _bottomNavIndex == 0
           ? FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20),
+                    ),
+                  ),
+                  context: context,
+                  builder: (context) => Column(
+                    children: [
+
+                    ],
+                  ),
+                );
+              },
               child: const Icon(Icons.add),
             )
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: Container(
-        color: _bottomNavIndex == 2
-            ? Colors.orangeAccent.shade200.withOpacity(0.2)
-            : Colors.white,
+        color: _bottomNavIndex == 2 ? Colors.orangeAccent.shade200.withOpacity(0.2) : Colors.white,
         child: AnimatedBottomNavigationBar(
           elevation: 10,
           icons: const [

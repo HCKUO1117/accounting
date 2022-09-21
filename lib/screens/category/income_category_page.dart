@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class IncomeCategoryPage extends StatefulWidget {
   final String tag;
+  final String title;
 
   const IncomeCategoryPage({
     Key? key,
     required this.tag,
+    required this.title,
   }) : super(key: key);
 
   @override
@@ -23,6 +25,9 @@ class _IncomeCategoryPageState extends State<IncomeCategoryPage> {
           backgroundColor: Colors.white,
           elevation: 0,
           automaticallyImplyLeading: false,
+          title: Text(
+            widget.title,
+          ),
           actions: [
             IconButton(
               onPressed: () {

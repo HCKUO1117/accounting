@@ -9,8 +9,7 @@ class CategoryScreen extends StatefulWidget {
   State<CategoryScreen> createState() => _CategoryScreenState();
 }
 
-class _CategoryScreenState extends State<CategoryScreen>
-    with TickerProviderStateMixin {
+class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStateMixin {
   TabController? _tabController;
 
   @override
@@ -72,20 +71,19 @@ class _CategoryScreenState extends State<CategoryScreen>
                           Row(
                             children: [
                               Expanded(
-                                child: Text(
-                                  S.of(context).income,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
+                                child:Text(
+                                    S.of(context).income,
+                                    style: const TextStyle(fontWeight: FontWeight.bold),
+                                  ),
                                 ),
-                              ),
                               TextButton(
                                 onPressed: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          const IncomeCategoryPage(
-                                            tag: 'categoryIncome',
-                                          ),
+                                      builder: (context) => IncomeCategoryPage(
+                                        tag: 'categoryIncome',
+                                        title: S.of(context).income,
+                                      ),
                                     ),
                                   );
                                 },
@@ -113,19 +111,18 @@ class _CategoryScreenState extends State<CategoryScreen>
                           Row(
                             children: [
                               Expanded(
-                                child: Text(
-                                  S.of(context).expenditure,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
+                                child:  Text(
+                                    S.of(context).expenditure,
+                                    style: const TextStyle(fontWeight: FontWeight.bold),
+                                  ),
                                 ),
-                              ),
                               TextButton(
                                 onPressed: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                      const IncomeCategoryPage(
+                                      builder: (context) => IncomeCategoryPage(
                                         tag: 'categoryExpenditure',
+                                        title: S.of(context).expenditure,
                                       ),
                                     ),
                                   );
