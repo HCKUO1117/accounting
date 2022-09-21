@@ -1,5 +1,6 @@
 import 'package:accounting/screens/category/category_screen.dart';
 import 'package:accounting/screens/chart/chart_screen.dart';
+import 'package:accounting/screens/dashboard/add_recode_page.dart';
 import 'package:accounting/screens/dashboard/dashboard_screen.dart';
 import 'package:accounting/screens/goal/goal_screen.dart';
 import 'package:accounting/screens/member/member_screen.dart';
@@ -49,11 +50,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                     ),
                   ),
                   context: context,
-                  builder: (context) => Column(
-                    children: [
-
-                    ],
-                  ),
+                  builder: (context) => const AddRecodePage(),
                 );
               },
               child: const Icon(Icons.add),

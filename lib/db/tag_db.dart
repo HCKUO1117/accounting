@@ -1,15 +1,14 @@
-import 'package:accounting/db/category_model.dart';
+import 'package:accounting/db/tag_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class CategoryDB {
-  static const _databaseName = 'categoryDatabase.db';
+class TagDB {
+  static const _databaseName = 'tagDatabase.db';
   static const _databaseVersion = 1;
 
-  static const tableName = 'category';
+  static const tableName = 'tag';
 
   static const columnId = 'id';
-  static const columnType = 'type';
   static const columnIcon = 'icon';
   static const columnName = 'name';
 
@@ -29,7 +28,6 @@ class CategoryDB {
       onCreate: (db, version) {
         return db.execute("CREATE TABLE $tableName("
             "$columnId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-            "$columnType TEXT"
             "$columnIcon TEXT,"
             "$columnName TEXT,"
             ")");
@@ -40,47 +38,36 @@ class CategoryDB {
   }
 
   //display all data
-  static Future<List<CategoryModel>> displayAllData() async {
+  static Future<List<TagModel>> displayAllData() async {
     final Database? db = await getDataBase();
     final List<Map<String, dynamic>> maps = await db!.query(tableName);
 
     return List.generate(maps.length, (index) {
-      CategoryType type = CategoryType.income;
-      switch (maps[index][columnType]) {
-        case 'income':
-          type = CategoryType.income;
-          break;
-        case 'expenditure':
-          type = CategoryType.expenditure;
-          break;
-      }
-
-      return CategoryModel(
+      return TagModel(
         id: maps[index][columnId],
-        type: type,
         icon: maps[index][columnIcon],
         name: maps[index][columnName],
       );
     });
   }
 
-  static Future<int?> insertData(CategoryModel categoryModel) async {
+  static Future<int?> insertData(TagModel tagModel) async {
     final Database? db = await getDataBase();
     try {
-      return await db!.insert(tableName, categoryModel.toMap());
+      return await db!.insert(tableName, tagModel.toMap());
     } catch (_) {
       return null;
     }
   }
 
-  static Future<bool> updateData(CategoryModel historyModel) async {
+  static Future<bool> updateData(TagModel tagModel) async {
     final Database? db = await getDataBase();
 
     await db!.update(
       tableName,
-      historyModel.toMap(),
+      tagModel.toMap(),
       where: '$columnId = ?',
-      whereArgs: [historyModel.id],
+      whereArgs: [tagModel.id],
     );
     return true;
   }

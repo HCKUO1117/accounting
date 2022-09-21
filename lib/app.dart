@@ -22,6 +22,8 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  MainProvider mainProvider = MainProvider();
+
   Locale? _locale;
 
   final String defaultLocale = Platform.localeName;
@@ -63,14 +65,13 @@ class _AppState extends State<App> {
           // }
         }
       });
+      mainProvider.setDefaultDB();
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    MainProvider mainProvider = MainProvider();
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: mainProvider),
