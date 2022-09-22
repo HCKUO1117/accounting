@@ -5,5 +5,9 @@
   "tag": "標籤",
   "goal": "目標",
   "setting": "設定",
-  "expand": "展開"
+  "expand": "展開",
+  "icon": "圖示",
+  "color": "顏色",
+  "categoryName": "分類名稱",
+  "pleaseEnterName": "請輸入名稱"
 }

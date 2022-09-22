@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:accounting/db/accounting_db.dart';
+import 'package:accounting/db/category_db.dart';
+import 'package:accounting/db/tag_db.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/screens/main_page.dart';
 import 'package:accounting/utils/preferences.dart';
@@ -17,8 +20,7 @@ class App extends StatefulWidget {
 
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
-  static _AppState? of(BuildContext context) =>
-      context.findAncestorStateOfType<_AppState>();
+  static _AppState? of(BuildContext context) => context.findAncestorStateOfType<_AppState>();
 }
 
 class _AppState extends State<App> {
@@ -42,6 +44,9 @@ class _AppState extends State<App> {
   void initState() {
     Future<void>.microtask(() async {
       await Preferences.init();
+      await CategoryDB.initDataBase();
+      await AccountingDB.initDataBase();
+      await TagDB.initDataBase();
       String languageCode = Preferences.getString('languageCode', '');
       String countryCode = Preferences.getString('countryCode', '');
       setState(() {
@@ -50,8 +55,7 @@ class _AppState extends State<App> {
         } else {
           if (defaultLocale.length > 1) {
             String first = defaultLocale.substring(0, 2);
-            String last = defaultLocale.substring(
-                defaultLocale.length - 2, defaultLocale.length);
+            String last = defaultLocale.substring(defaultLocale.length - 2, defaultLocale.length);
             _locale = Locale(first, last == 'TW' ? 'TW' : '');
             Preferences.setString('languageCode', first);
             if (last == 'TW') {
@@ -65,7 +69,8 @@ class _AppState extends State<App> {
           // }
         }
       });
-      mainProvider.setDefaultDB();
+      await mainProvider.setDefaultDB();
+      await mainProvider.getCategoryList();
     });
     super.initState();
   }
@@ -104,8 +109,7 @@ class _AppState extends State<App> {
 
 class NoGlow extends ScrollBehavior {
   @override
-  Widget buildViewportChrome(
-      BuildContext context, Widget child, AxisDirection axisDirection) {
+  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
     return child;
   }
 }

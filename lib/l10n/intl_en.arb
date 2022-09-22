@@ -5,5 +5,9 @@
   "tag": "Tag",
   "goal": "Goal",
   "setting": "Setting",
-  "expand": "Expand"
+  "expand": "Expand",
+  "icon": "Icon",
+  "color": "Color",
+  "categoryName": "Category Name",
+  "pleaseEnterName": "Please enter a name"
 }

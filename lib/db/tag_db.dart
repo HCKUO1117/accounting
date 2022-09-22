@@ -1,4 +1,5 @@
 import 'package:accounting/db/tag_model.dart';
+import 'package:flutter/animation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -10,6 +11,7 @@ class TagDB {
 
   static const columnId = 'id';
   static const columnIcon = 'icon';
+  static const columnColor = 'color';
   static const columnName = 'name';
 
   static Database? database;
@@ -29,7 +31,8 @@ class TagDB {
         return db.execute("CREATE TABLE $tableName("
             "$columnId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
             "$columnIcon TEXT,"
-            "$columnName TEXT,"
+            "$columnColor INTEGER,"
+            "$columnName TEXT"
             ")");
       },
       version: _databaseVersion,
@@ -46,6 +49,7 @@ class TagDB {
       return TagModel(
         id: maps[index][columnId],
         icon: maps[index][columnIcon],
+        color: Color(maps[index][columnColor]),
         name: maps[index][columnName],
       );
     });

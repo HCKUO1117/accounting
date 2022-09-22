@@ -50,7 +50,14 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                     ),
                   ),
                   context: context,
-                  builder: (context) => const AddRecodePage(),
+                  builder: (context) => SingleChildScrollView(
+                    child: AnimatedPadding(
+                      duration: const Duration(milliseconds: 150),
+                      curve: Curves.easeOut,
+                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                      child: const AddRecodePage(),
+                    ),
+                  ),
                 );
               },
               child: const Icon(Icons.add),

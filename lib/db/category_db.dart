@@ -1,4 +1,5 @@
 import 'package:accounting/db/category_model.dart';
+import 'package:flutter/animation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -11,6 +12,7 @@ class CategoryDB {
   static const columnId = 'id';
   static const columnType = 'type';
   static const columnIcon = 'icon';
+  static const columnIconColor = 'iconColor';
   static const columnName = 'name';
 
   static Database? database;
@@ -29,9 +31,10 @@ class CategoryDB {
       onCreate: (db, version) {
         return db.execute("CREATE TABLE $tableName("
             "$columnId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-            "$columnType TEXT"
+            "$columnType TEXT,"
             "$columnIcon TEXT,"
-            "$columnName TEXT,"
+            "$columnIconColor INTEGER,"
+            "$columnName TEXT"
             ")");
       },
       version: _databaseVersion,
@@ -59,6 +62,7 @@ class CategoryDB {
         id: maps[index][columnId],
         type: type,
         icon: maps[index][columnIcon],
+        iconColor: Color(maps[index][columnIconColor]),
         name: maps[index][columnName],
       );
     });
