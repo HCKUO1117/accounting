@@ -14,5 +14,11 @@
   "edit": "Edit",
   "amount": "Amount",
   "note": "Note",
-  "save": "Save"
+  "save": "Save",
+  "time": "Time",
+  "date": "Date",
+  "selectDay": "Select Day",
+  "selectTime": "Select Time",
+  "cancel": "Cancel",
+  "ok": "OK"
 }

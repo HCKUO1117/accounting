@@ -24,9 +24,11 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "add": MessageLookupByLibrary.simpleMessage("添加"),
         "amount": MessageLookupByLibrary.simpleMessage("金額"),
+        "cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "category": MessageLookupByLibrary.simpleMessage("分類"),
         "categoryName": MessageLookupByLibrary.simpleMessage("分類名稱"),
         "color": MessageLookupByLibrary.simpleMessage("顏色"),
+        "date": MessageLookupByLibrary.simpleMessage("日期"),
         "edit": MessageLookupByLibrary.simpleMessage("編輯"),
         "expand": MessageLookupByLibrary.simpleMessage("展開"),
         "expenditure": MessageLookupByLibrary.simpleMessage("支出"),
@@ -34,9 +36,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "icon": MessageLookupByLibrary.simpleMessage("圖示"),
         "income": MessageLookupByLibrary.simpleMessage("收入"),
         "note": MessageLookupByLibrary.simpleMessage("註記"),
+        "ok": MessageLookupByLibrary.simpleMessage("確認"),
         "pleaseEnterName": MessageLookupByLibrary.simpleMessage("請輸入名稱"),
         "save": MessageLookupByLibrary.simpleMessage("儲存"),
+        "selectDay": MessageLookupByLibrary.simpleMessage("選擇日期"),
+        "selectTime": MessageLookupByLibrary.simpleMessage("選擇時間"),
         "setting": MessageLookupByLibrary.simpleMessage("設定"),
-        "tag": MessageLookupByLibrary.simpleMessage("標籤")
+        "tag": MessageLookupByLibrary.simpleMessage("標籤"),
+        "time": MessageLookupByLibrary.simpleMessage("時間")
       };
 }

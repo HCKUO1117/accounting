@@ -24,9 +24,11 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "add": MessageLookupByLibrary.simpleMessage("Add"),
         "amount": MessageLookupByLibrary.simpleMessage("Amount"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "category": MessageLookupByLibrary.simpleMessage("Category"),
         "categoryName": MessageLookupByLibrary.simpleMessage("Category Name"),
         "color": MessageLookupByLibrary.simpleMessage("Color"),
+        "date": MessageLookupByLibrary.simpleMessage("Date"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "expand": MessageLookupByLibrary.simpleMessage("Expand"),
         "expenditure": MessageLookupByLibrary.simpleMessage("Expenditure"),
@@ -34,10 +36,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "icon": MessageLookupByLibrary.simpleMessage("Icon"),
         "income": MessageLookupByLibrary.simpleMessage("Income"),
         "note": MessageLookupByLibrary.simpleMessage("Note"),
+        "ok": MessageLookupByLibrary.simpleMessage("OK"),
         "pleaseEnterName":
             MessageLookupByLibrary.simpleMessage("Please enter a name"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
+        "selectDay": MessageLookupByLibrary.simpleMessage("Select Day"),
+        "selectTime": MessageLookupByLibrary.simpleMessage("Select Time"),
         "setting": MessageLookupByLibrary.simpleMessage("Setting"),
-        "tag": MessageLookupByLibrary.simpleMessage("Tag")
+        "tag": MessageLookupByLibrary.simpleMessage("Tag"),
+        "time": MessageLookupByLibrary.simpleMessage("Time")
       };
 }

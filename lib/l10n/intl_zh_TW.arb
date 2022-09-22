@@ -14,5 +14,11 @@
   "edit": "編輯",
   "amount": "金額",
   "note": "註記",
-  "save": "儲存"
+  "save": "儲存",
+  "time": "時間",
+  "date": "日期",
+  "selectDay": "選擇日期",
+  "selectTime": "選擇時間",
+  "cancel": "取消",
+  "ok": "確認"
 }
