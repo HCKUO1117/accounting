@@ -202,6 +202,7 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                                     topLeft: Radius.circular(20),
                                   ),
                                 ),
+                                isScrollControlled: true,
                                 context: context,
                                 builder: (context) => SingleChildScrollView(
                                   child: AnimatedPadding(
@@ -259,6 +260,7 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                           ),
                         ),
                         context: context,
+                        isScrollControlled: true,
                         builder: (context) => SingleChildScrollView(
                           child: AnimatedPadding(
                             duration: const Duration(milliseconds: 150),

@@ -22,15 +22,20 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "add": MessageLookupByLibrary.simpleMessage("添加"),
+        "amount": MessageLookupByLibrary.simpleMessage("金額"),
         "category": MessageLookupByLibrary.simpleMessage("分類"),
         "categoryName": MessageLookupByLibrary.simpleMessage("分類名稱"),
         "color": MessageLookupByLibrary.simpleMessage("顏色"),
+        "edit": MessageLookupByLibrary.simpleMessage("編輯"),
         "expand": MessageLookupByLibrary.simpleMessage("展開"),
         "expenditure": MessageLookupByLibrary.simpleMessage("支出"),
         "goal": MessageLookupByLibrary.simpleMessage("目標"),
         "icon": MessageLookupByLibrary.simpleMessage("圖示"),
         "income": MessageLookupByLibrary.simpleMessage("收入"),
+        "note": MessageLookupByLibrary.simpleMessage("註記"),
         "pleaseEnterName": MessageLookupByLibrary.simpleMessage("請輸入名稱"),
+        "save": MessageLookupByLibrary.simpleMessage("儲存"),
         "setting": MessageLookupByLibrary.simpleMessage("設定"),
         "tag": MessageLookupByLibrary.simpleMessage("標籤")
       };

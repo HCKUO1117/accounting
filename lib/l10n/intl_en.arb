@@ -9,5 +9,10 @@
   "icon": "Icon",
   "color": "Color",
   "categoryName": "Category Name",
-  "pleaseEnterName": "Please enter a name"
+  "pleaseEnterName": "Please enter a name",
+  "add": "Add",
+  "edit": "Edit",
+  "amount": "Amount",
+  "note": "Note",
+  "save": "Save"
 }

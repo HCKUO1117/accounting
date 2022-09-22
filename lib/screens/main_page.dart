@@ -42,21 +42,20 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       floatingActionButton: _bottomNavIndex == 0
           ? FloatingActionButton(
               onPressed: () {
+                final double padding = MediaQuery.of(context).padding.top;
                 showModalBottomSheet(
+                  backgroundColor: Colors.white,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(20),
                       topLeft: Radius.circular(20),
                     ),
                   ),
+                  isScrollControlled: true,
                   context: context,
-                  builder: (context) => SingleChildScrollView(
-                    child: AnimatedPadding(
-                      duration: const Duration(milliseconds: 150),
-                      curve: Curves.easeOut,
-                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: const AddRecodePage(),
-                    ),
+                  builder: (context) => Padding(
+                    padding: EdgeInsets.only(top: padding),
+                    child: const AddRecodePage(),
                   ),
                 );
               },
