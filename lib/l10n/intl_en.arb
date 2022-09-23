@@ -20,5 +20,7 @@
   "selectDay": "Select Day",
   "selectTime": "Select Time",
   "cancel": "Cancel",
-  "ok": "OK"
+  "ok": "OK",
+  "notSelectCategory": "No category selected",
+  "notFillAmount": "Amount not filled"
 }

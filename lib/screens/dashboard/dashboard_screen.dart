@@ -34,8 +34,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 CustomDatePickerDialog.show(
                   context,
                   onDateSelect: (arg) {
-                    provider
-                        .setDashBoardDateRange(arg.value as PickerDateRange);
+                    provider.setDashBoardDateRange(arg.value as PickerDateRange);
                   },
                   start: provider.dashBoardStartDate,
                   end: provider.dashBoardEndDate,
@@ -59,7 +58,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             slivers: [
               SliverPersistentHeader(
                 pinned: true,
-                floating: true,
                 delegate: DashBoardSliverPersistentHeaderDelegate(
                   maxEx: MediaQuery.of(context).size.height / 3 + 50,
                   minEx: 90,
@@ -105,8 +103,7 @@ class _PieData {
   final Color color;
 }
 
-class DashBoardSliverPersistentHeaderDelegate
-    extends SliverPersistentHeaderDelegate {
+class DashBoardSliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double maxEx;
   final double minEx;
 
@@ -116,8 +113,7 @@ class DashBoardSliverPersistentHeaderDelegate
   });
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     double shrinkPercentage = min(1, shrinkOffset / (maxExtent - minExtent));
     return Container(
       color: Colors.white,
@@ -179,8 +175,7 @@ class DashBoardSliverPersistentHeaderDelegate
                               xValueMapper: (_PieData data, _) => data.xData,
                               yValueMapper: (_PieData data, _) => data.yData,
                               dataLabelMapper: (_PieData data, _) => data.text,
-                              pointColorMapper: (_PieData data, _) =>
-                                  data.color,
+                              pointColorMapper: (_PieData data, _) => data.color,
                               dataLabelSettings: const DataLabelSettings(
                                 isVisible: true,
                                 textStyle: TextStyle(
@@ -243,6 +238,5 @@ class DashBoardSliverPersistentHeaderDelegate
   double get minExtent => minEx;
 
   @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) =>
-      true; // 如果内容需要更新，设置为true
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true; // 如果内容需要更新，设置为true
 }

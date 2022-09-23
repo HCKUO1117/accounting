@@ -60,7 +60,9 @@ class _CustomDatePickerDialogState extends State<CustomDatePickerDialog> {
         ),
         TextButton(
           onPressed: () {
-            widget.onDateSelect(args);
+            if(args != null){
+              widget.onDateSelect(args);
+            }
             Navigator.pop(context);
           },
           child: const Text('確定'),

@@ -22,6 +22,7 @@ dependencies:
   shared_preferences: ^2.0.12
   sqflite: ^2.1.0
   flutter_colorpicker: ^1.0.3
+  dropdown_textfield: ^1.0.4
   flutter_localizations:
     sdk: flutter
 

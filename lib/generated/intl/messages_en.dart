@@ -35,6 +35,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "goal": MessageLookupByLibrary.simpleMessage("Goal"),
         "icon": MessageLookupByLibrary.simpleMessage("Icon"),
         "income": MessageLookupByLibrary.simpleMessage("Income"),
+        "notFillAmount":
+            MessageLookupByLibrary.simpleMessage("Amount not filled"),
+        "notSelectCategory":
+            MessageLookupByLibrary.simpleMessage("No category selected"),
         "note": MessageLookupByLibrary.simpleMessage("Note"),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
         "pleaseEnterName":

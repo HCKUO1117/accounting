@@ -10,7 +10,6 @@ class TagDB {
   static const tableName = 'tag';
 
   static const columnId = 'id';
-  static const columnIcon = 'icon';
   static const columnColor = 'color';
   static const columnName = 'name';
 
@@ -30,7 +29,6 @@ class TagDB {
       onCreate: (db, version) {
         return db.execute("CREATE TABLE $tableName("
             "$columnId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-            "$columnIcon TEXT,"
             "$columnColor INTEGER,"
             "$columnName TEXT"
             ")");
@@ -48,7 +46,6 @@ class TagDB {
     return List.generate(maps.length, (index) {
       return TagModel(
         id: maps[index][columnId],
-        icon: maps[index][columnIcon],
         color: Color(maps[index][columnColor]),
         name: maps[index][columnName],
       );
@@ -59,7 +56,7 @@ class TagDB {
     final Database? db = await getDataBase();
     try {
       return await db!.insert(tableName, tagModel.toMap());
-    } catch (_) {
+    } catch (e) {
       return null;
     }
   }

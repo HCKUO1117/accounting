@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:accounting/db/category_db.dart';
 import 'package:accounting/db/category_model.dart';
+import 'package:accounting/db/tag_db.dart';
+import 'package:accounting/db/tag_model.dart';
 import 'package:accounting/res/constants.dart';
 import 'package:accounting/utils/preferences.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +14,12 @@ class MainProvider with ChangeNotifier {
   DateTime dashBoardStartDate = DateTime.now();
   DateTime dashBoardEndDate = DateTime.now();
 
+  ///Category
   List<CategoryModel> categoryIncomeList = [];
   List<CategoryModel> categoryExpenditureList = [];
+
+  ///Tag
+  List<TagModel> tagList = [];
 
   bool get samDay =>
       dashBoardStartDate.year == dashBoardEndDate.year &&
@@ -52,6 +58,16 @@ class MainProvider with ChangeNotifier {
       }else{
         categoryExpenditureList.add(element);
       }
+    }
+    notifyListeners();
+  }
+
+  Future<void> getTagList() async {
+    final List<TagModel> list = await TagDB.displayAllData();
+    tagList = [];
+    for (var element in list) {
+        tagList.add(element);
+
     }
     notifyListeners();
   }

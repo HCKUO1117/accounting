@@ -269,6 +269,26 @@ class S {
       args: [],
     );
   }
+
+  /// `No category selected`
+  String get notSelectCategory {
+    return Intl.message(
+      'No category selected',
+      name: 'notSelectCategory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount not filled`
+  String get notFillAmount {
+    return Intl.message(
+      'Amount not filled',
+      name: 'notFillAmount',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

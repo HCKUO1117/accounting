@@ -59,64 +59,63 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
         child: Column(
           children: [
             const SizedBox(height: 8),
-            Stack(
-              alignment: Alignment.centerRight,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      widget.type == CategoryType.income
-                          ? S.of(context).income
-                          : S.of(context).expenditure,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'RobotoMono',
-                        color: Colors.orangeAccent,
-                      ),
-                    ),
-                  ],
-                ),
-                IconButton(
-                  onPressed: () async {
-                    if (_editingController.text.isEmpty) {
-                      setState(() {
-                        errorText = S.of(context).pleaseEnterName;
-                      });
-                      return;
-                    }
-                    if (widget.model == null) {
-                      await CategoryDB.insertData(
-                        CategoryModel(
-                          type: widget.type,
-                          icon: iconString,
-                          iconColor: iconColor,
-                          name: _editingController.text,
-                        ),
-                      );
-                    } else {
-                      await CategoryDB.updateData(
-                        CategoryModel(
-                          type: widget.type,
-                          icon: iconString,
-                          iconColor: iconColor,
-                          name: _editingController.text,
-                        ),
-                      );
-                    }
-                    if (!mounted) return;
-                    context.read<MainProvider>().getCategoryList();
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.check,
-                    color: Colors.green,
-                  ),
-                ),
-              ],
+            Text(
+              widget.type == CategoryType.income ? S.of(context).income : S.of(context).expenditure,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'RobotoMono',
+                color: Colors.orangeAccent,
+              ),
             ),
-            const SizedBox(height: 16),
+            // Stack(
+            //   alignment: Alignment.centerRight,
+            //   children: [
+            //     Row(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: [
+            //
+            //       ],
+            //     ),
+            //     IconButton(
+            //       onPressed: () async {
+            //         if (_editingController.text.isEmpty) {
+            //           setState(() {
+            //             errorText = S.of(context).pleaseEnterName;
+            //           });
+            //           return;
+            //         }
+            //         if (widget.model == null) {
+            //           await CategoryDB.insertData(
+            //             CategoryModel(
+            //               type: widget.type,
+            //               icon: iconString,
+            //               iconColor: iconColor,
+            //               name: _editingController.text,
+            //             ),
+            //           );
+            //         } else {
+            //           await CategoryDB.updateData(
+            //             CategoryModel(
+            //               type: widget.type,
+            //               icon: iconString,
+            //               iconColor: iconColor,
+            //               name: _editingController.text,
+            //             ),
+            //           );
+            //         }
+            //         if (!mounted) return;
+            //         context.read<MainProvider>().getCategoryList();
+            //         Navigator.pop(context);
+            //       },
+            //       icon: const Icon(
+            //         Icons.check,
+            //         color: Colors.green,
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            const SizedBox(height: 32),
             Row(
               children: [
                 Text(
@@ -214,6 +213,45 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
               ],
             ),
             const SizedBox(height: 32),
+            ElevatedButton(
+              style: ButtonStyle(
+                elevation: MaterialStateProperty.all(0),
+              ),
+              onPressed: () async {
+                if (_editingController.text.isEmpty) {
+                  setState(() {
+                    errorText = S.of(context).pleaseEnterName;
+                  });
+                  return;
+                }
+                if (widget.model == null) {
+                  await CategoryDB.insertData(
+                    CategoryModel(
+                      type: widget.type,
+                      icon: iconString,
+                      iconColor: iconColor,
+                      name: _editingController.text,
+                    ),
+                  );
+                } else {
+                  await CategoryDB.updateData(
+                    CategoryModel(
+                      type: widget.type,
+                      icon: iconString,
+                      iconColor: iconColor,
+                      name: _editingController.text,
+                    ),
+                  );
+                }
+                if (!mounted) return;
+                context.read<MainProvider>().getCategoryList();
+                Navigator.pop(context);
+              },
+              child: Text(
+                S.of(context).save,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
           ],
         ),
       ),

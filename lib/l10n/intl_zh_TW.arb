@@ -20,5 +20,7 @@
   "selectDay": "選擇日期",
   "selectTime": "選擇時間",
   "cancel": "取消",
-  "ok": "確認"
+  "ok": "確認",
+  "notSelectCategory": "未選擇分類",
+  "notFillAmount": "未填寫金額"
 }

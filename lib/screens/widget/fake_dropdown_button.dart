@@ -1,4 +1,5 @@
 import 'package:accounting/db/category_model.dart';
+import 'package:accounting/screens/widget/category_title.dart';
 import 'package:flutter/material.dart';
 
 class FakeDropDownButton extends StatelessWidget {
@@ -26,15 +27,24 @@ class FakeDropDownButton extends StatelessWidget {
         child: Row(
           children: [
             if (model == null)
-              Text(
-                hint,
-                style: const TextStyle(color: Colors.black38),
+              Expanded(
+                child: Text(
+                  hint,
+                  style: const TextStyle(color: Colors.black38,fontSize: 16,),
+                ),
+              )
+            else
+              Expanded(child: CategoryTitle(model: model!),),
+            Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
               ),
-            const Spacer(),
-            const Icon(
-              Icons.arrow_drop_down,
-              color: Colors.orange,
-            )
+              child: const Icon(
+                Icons.arrow_drop_down,
+                color: Colors.orange,
+              ),
+            ),
           ],
         ),
       ),

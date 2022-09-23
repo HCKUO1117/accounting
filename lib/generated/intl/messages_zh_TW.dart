@@ -35,6 +35,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "goal": MessageLookupByLibrary.simpleMessage("目標"),
         "icon": MessageLookupByLibrary.simpleMessage("圖示"),
         "income": MessageLookupByLibrary.simpleMessage("收入"),
+        "notFillAmount": MessageLookupByLibrary.simpleMessage("未填寫金額"),
+        "notSelectCategory": MessageLookupByLibrary.simpleMessage("未選擇分類"),
         "note": MessageLookupByLibrary.simpleMessage("註記"),
         "ok": MessageLookupByLibrary.simpleMessage("確認"),
         "pleaseEnterName": MessageLookupByLibrary.simpleMessage("請輸入名稱"),
