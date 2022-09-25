@@ -22,5 +22,7 @@
   "cancel": "Cancel",
   "ok": "OK",
   "notSelectCategory": "No category selected",
-  "notFillAmount": "Amount not filled"
+  "notFillAmount": "Amount not filled",
+  "notify": "Notification",
+  "deleteCheck": "Do you want to delete?"
 }

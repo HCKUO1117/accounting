@@ -7,6 +7,11 @@ class Constants {
 
   static List<CategoryModel> defaultCategories = [
     CategoryModel(
-        type: CategoryType.income, icon: 'directions_car', name: '123', iconColor: Colors.redAccent)
+      sort: 0,
+      type: CategoryType.income,
+      icon: 'directions_car',
+      name: '123',
+      iconColor: Colors.redAccent,
+    )
   ];
 }

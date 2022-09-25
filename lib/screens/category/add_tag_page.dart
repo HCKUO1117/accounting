@@ -24,6 +24,8 @@ class _AddTagPageState extends State<AddTagPage> {
   Color iconPickerColor = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
   late Color iconColor;
 
+  int sort = 0;
+
   @override
   void initState() {
     iconColor = iconPickerColor;
@@ -31,6 +33,7 @@ class _AddTagPageState extends State<AddTagPage> {
       _editingController.text = widget.model!.name;
       iconPickerColor = widget.model!.color;
       iconColor = widget.model!.color;
+      sort = widget.model!.sort;
     }
     super.initState();
   }
@@ -141,8 +144,16 @@ class _AddTagPageState extends State<AddTagPage> {
                   return;
                 }
                 if (widget.model == null) {
+                  int newSort = 0;
+                  context.read<MainProvider>().tagList.forEach((element) {
+                    if(element.sort > newSort){
+                      newSort = element.sort;
+                    }
+                  });
+                  newSort ++;
                   await TagDB.insertData(
                     TagModel(
+                      sort: newSort,
                       color: iconColor,
                       name: _editingController.text,
                     ),
@@ -150,6 +161,8 @@ class _AddTagPageState extends State<AddTagPage> {
                 } else {
                   await TagDB.updateData(
                     TagModel(
+                      id: widget.model?.id ?? 0,
+                      sort: sort,
                       color: iconColor,
                       name: _editingController.text,
                     ),

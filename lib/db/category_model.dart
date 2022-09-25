@@ -18,6 +18,7 @@ extension CategoryTypeEx on CategoryType {
 
 class CategoryModel {
   int? id;
+  int sort;
   CategoryType type;
   String icon;
   Color iconColor;
@@ -25,6 +26,7 @@ class CategoryModel {
 
   CategoryModel({
     this.id,
+    required this.sort,
     required this.type,
     required this.icon,
     required this.iconColor,
@@ -34,6 +36,7 @@ class CategoryModel {
   Map<String, dynamic> toMap() {
     return {
       'icon': icon,
+      'sort': sort,
       'iconColor':iconColor.value,
       'name': name,
       'type':type.text
@@ -42,6 +45,6 @@ class CategoryModel {
 
   @override
   String toString() {
-    return 'id : $id\nicon : $icon \niconColor : ${iconColor.value} \nname : $name \ntype : ${type.text}';
+    return '\nid : $id\nicon : $icon \niconColor : ${iconColor.value} \nname : $name \ntype : ${type.text}\nsort: sort,';
   }
 }

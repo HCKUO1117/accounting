@@ -10,6 +10,7 @@ class CategoryDB {
   static const tableName = 'category';
 
   static const columnId = 'id';
+  static const columnSort = 'sort';
   static const columnType = 'type';
   static const columnIcon = 'icon';
   static const columnIconColor = 'iconColor';
@@ -31,6 +32,7 @@ class CategoryDB {
       onCreate: (db, version) {
         return db.execute("CREATE TABLE $tableName("
             "$columnId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            "$columnSort INTEGER,"
             "$columnType TEXT,"
             "$columnIcon TEXT,"
             "$columnIconColor INTEGER,"
@@ -60,6 +62,7 @@ class CategoryDB {
 
       return CategoryModel(
         id: maps[index][columnId],
+        sort: maps[index][columnSort],
         type: type,
         icon: maps[index][columnIcon],
         iconColor: Color(maps[index][columnIconColor]),

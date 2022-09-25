@@ -62,13 +62,13 @@ flutter:
   fonts:
     - family: Raleway
       fonts:
-        - asset: fonts/Raleway-Regular.ttf
-        - asset: fonts/Raleway-Italic.ttf
+        - asset: fonts/Raleway-VariableFont_wght.ttf
+        - asset: fonts/Raleway-Italic-VariableFont_wght.ttf
           style: italic
     - family: RobotoMono
       fonts:
-        - asset: fonts/RobotoMono-Regular.ttf
-        - asset: fonts/RobotoMono-Bold.ttf
+        - asset: fonts/RobotoMono-VariableFont_wght.ttf
+        - asset: fonts/RobotoMono-Italic-VariableFont_wght.ttf
           weight: 700
   #
   # For details regarding fonts from package dependencies,

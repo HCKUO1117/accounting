@@ -289,6 +289,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Notification`
+  String get notify {
+    return Intl.message(
+      'Notification',
+      name: 'notify',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you want to delete?`
+  String get deleteCheck {
+    return Intl.message(
+      'Do you want to delete?',
+      name: 'deleteCheck',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

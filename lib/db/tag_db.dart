@@ -10,6 +10,7 @@ class TagDB {
   static const tableName = 'tag';
 
   static const columnId = 'id';
+  static const columnSort = 'sort';
   static const columnColor = 'color';
   static const columnName = 'name';
 
@@ -29,6 +30,7 @@ class TagDB {
       onCreate: (db, version) {
         return db.execute("CREATE TABLE $tableName("
             "$columnId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            "$columnSort INTEGER,"
             "$columnColor INTEGER,"
             "$columnName TEXT"
             ")");
@@ -46,6 +48,7 @@ class TagDB {
     return List.generate(maps.length, (index) {
       return TagModel(
         id: maps[index][columnId],
+        sort: maps[index][columnSort],
         color: Color(maps[index][columnColor]),
         name: maps[index][columnName],
       );

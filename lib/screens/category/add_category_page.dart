@@ -225,8 +225,27 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                   return;
                 }
                 if (widget.model == null) {
+                  int newSort = 0;
+                  if(widget.type == CategoryType.income){
+
+                    context.read<MainProvider>().categoryIncomeList.forEach((element) {
+                      if(element.sort > newSort){
+                        newSort = element.sort;
+                      }
+                    });
+                    newSort ++;
+                  }else{
+                    context.read<MainProvider>().categoryExpenditureList.forEach((element) {
+                      if(element.sort > newSort){
+                        newSort = element.sort;
+                      }
+                    });
+                    newSort ++;
+                  }
+
                   await CategoryDB.insertData(
                     CategoryModel(
+                      sort: newSort,
                       type: widget.type,
                       icon: iconString,
                       iconColor: iconColor,
@@ -236,6 +255,8 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                 } else {
                   await CategoryDB.updateData(
                     CategoryModel(
+                      id: widget.model!.id,
+                      sort: widget.model!.sort,
                       type: widget.type,
                       icon: iconString,
                       iconColor: iconColor,

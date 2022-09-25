@@ -1,4 +1,6 @@
 import 'package:accounting/db/category_model.dart';
+import 'package:accounting/db/tag_db.dart';
+import 'package:accounting/db/tag_model.dart';
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/screens/category/add_category_page.dart';
@@ -16,7 +18,8 @@ class CategoryScreen extends StatefulWidget {
   State<CategoryScreen> createState() => _CategoryScreenState();
 }
 
-class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStateMixin {
+class _CategoryScreenState extends State<CategoryScreen>
+    with TickerProviderStateMixin {
   TabController? _tabController;
 
   @override
@@ -29,7 +32,8 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MainProvider>(builder: (BuildContext context, MainProvider mainProvider, _) {
+    return Consumer<MainProvider>(
+        builder: (BuildContext context, MainProvider mainProvider, _) {
       return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -111,7 +115,8 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              return CategoryTitle(model: provider.categoryIncomeList[index]);
+                              return CategoryTitle(
+                                  model: provider.categoryIncomeList[index]);
                             },
                             separatorBuilder: (context, index) {
                               return const Divider();
@@ -127,7 +132,8 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20)),
                                   scrollable: true,
-                                  content: const AddCategoryPage(type: CategoryType.income),
+                                  content: const AddCategoryPage(
+                                      type: CategoryType.income),
                                 ),
                               );
                               // showModalBottomSheet(
@@ -200,16 +206,18 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                             ],
                           ),
                           ListView.separated(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                return CategoryTitle(
-                                    model: provider.categoryExpenditureList[index]);
-                              },
-                              separatorBuilder: (context, index) {
-                                return const Divider();
-                              },
-                              itemCount: provider.categoryExpenditureList.length),
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return CategoryTitle(
+                                  model:
+                                      provider.categoryExpenditureList[index]);
+                            },
+                            separatorBuilder: (context, index) {
+                              return const Divider();
+                            },
+                            itemCount: provider.categoryExpenditureList.length,
+                          ),
                           const SizedBox(height: 16),
                           InkWell(
                             onTap: () {
@@ -219,7 +227,8 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20)),
                                   scrollable: true,
-                                  content: const AddCategoryPage(type: CategoryType.expenditure),
+                                  content: const AddCategoryPage(
+                                      type: CategoryType.expenditure),
                                 ),
                               );
                               // showModalBottomSheet(
@@ -256,6 +265,7 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
               ),
             ],
           ),
+          const SizedBox(height: 8),
         ],
       ),
     );
@@ -267,74 +277,162 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
       child: ListView(
         children: [
           const SizedBox(height: 8),
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                children: [
-                  const SizedBox(height: 8),
-                  Text(
-                    S.of(context).tag,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 8),
+                    Text(
+                      S.of(context).tag,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  ListView.separated(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      physics: const NeverScrollableScrollPhysics(),
+                    const SizedBox(height: 16),
+                    ReorderableListView(
                       shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return TagTitle(model: provider.tagList[index]);
+                      physics: const NeverScrollableScrollPhysics(),
+                      onReorder: (int oldIndex, int newIndex) async {
+                        final TagModel m = provider.tagList[oldIndex];
+                        if (newIndex > oldIndex) {
+                          newIndex -= 1;
+                        }
+                        setState(() {
+                          provider.tagList.removeAt(oldIndex);
+                          provider.tagList.insert(newIndex, m);
+                        });
+                        for (int i = 0; i < provider.tagList.length; i++) {
+                          TagModel model = provider.tagList[i];
+                          model.sort = i;
+                          await TagDB.updateData(model);
+                        }
                       },
-                      separatorBuilder: (context, index) {
-                        return const Divider();
-                      },
-                      itemCount: provider.tagList.length),
-                  const SizedBox(height: 16),
-                  InkWell(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                            scrollable: true,
-                            content: const AddTagPage()),
-                      );
-                      // showModalBottomSheet(
-                      //   shape: const RoundedRectangleBorder(
-                      //     borderRadius: BorderRadius.only(
-                      //       topRight: Radius.circular(20),
-                      //       topLeft: Radius.circular(20),
-                      //     ),
-                      //   ),
-                      //   context: context,
-                      //   isScrollControlled: true,
-                      //   builder: (context) => SingleChildScrollView(
-                      //     child: AnimatedPadding(
-                      //       duration: const Duration(milliseconds: 150),
-                      //       curve: Curves.easeOut,
-                      //       padding:
-                      //           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                      //       child: const AddTagPage(),
-                      //     ),
-                      //   ),
-                      // );
-                    },
-                    child: Container(
-                      width: double.maxFinite,
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: const Icon(Icons.add),
+                      children: [
+                        for (int i = 0; i < provider.tagList.length; i++)
+                          Column(
+                            key: Key(i.toString()),
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: TagTitle(
+                                      key: Key(
+                                          provider.tagList[i].id.toString()),
+                                      model: provider.tagList[i],
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () async {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          scrollable: true,
+                                          content: AddTagPage(
+                                            model: provider.tagList[i],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.edit,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () async {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: Text(S.of(context).notify),
+                                          content:
+                                              Text(S.of(context).deleteCheck),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text(
+                                                S.of(context).cancel,
+                                                style: const TextStyle(
+                                                    color: Colors.black54),
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: () async {
+                                                await TagDB.deleteData(
+                                                    provider.tagList[i].id!);
+                                                provider.getTagList();
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text(S.of(context).ok),
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete_outline,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              if (i + 1 != provider.tagList.length)
+                                const Divider()
+                            ],
+                          )
+                      ],
                     ),
-                  ),
-                ],
+                    // ListView.separated(
+                    //     padding: const EdgeInsets.symmetric(horizontal: 16),
+                    //     physics: const NeverScrollableScrollPhysics(),
+                    //     shrinkWrap: true,
+                    //     itemBuilder: (context, index) {
+                    //       return TagTitle(model: provider.tagList[index]);
+                    //     },
+                    //     separatorBuilder: (context, index) {
+                    //       return const Divider();
+                    //     },
+                    //     itemCount: provider.tagList.length,),
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: InkWell(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              scrollable: true,
+                              content: const AddTagPage(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          color: Colors.white,
+                          width: double.maxFinite,
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: const Icon(Icons.add),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
+          const SizedBox(height: 8),
         ],
       ),
     );

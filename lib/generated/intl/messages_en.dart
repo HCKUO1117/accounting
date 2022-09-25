@@ -29,6 +29,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "categoryName": MessageLookupByLibrary.simpleMessage("Category Name"),
         "color": MessageLookupByLibrary.simpleMessage("Color"),
         "date": MessageLookupByLibrary.simpleMessage("Date"),
+        "deleteCheck":
+            MessageLookupByLibrary.simpleMessage("Do you want to delete?"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "expand": MessageLookupByLibrary.simpleMessage("Expand"),
         "expenditure": MessageLookupByLibrary.simpleMessage("Expenditure"),
@@ -40,6 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "notSelectCategory":
             MessageLookupByLibrary.simpleMessage("No category selected"),
         "note": MessageLookupByLibrary.simpleMessage("Note"),
+        "notify": MessageLookupByLibrary.simpleMessage("Notification"),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
         "pleaseEnterName":
             MessageLookupByLibrary.simpleMessage("Please enter a name"),

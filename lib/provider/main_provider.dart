@@ -45,7 +45,7 @@ class MainProvider with ChangeNotifier {
         await CategoryDB.insertData(element);
       }
     }
-   await Preferences.setBool(Constants.hadOpen, true);
+    await Preferences.setBool(Constants.hadOpen, true);
   }
 
   Future<void> getCategoryList() async {
@@ -53,12 +53,14 @@ class MainProvider with ChangeNotifier {
     categoryIncomeList = [];
     categoryExpenditureList = [];
     for (var element in list) {
-      if(element.type == CategoryType.income){
+      if (element.type == CategoryType.income) {
         categoryIncomeList.add(element);
-      }else{
+      } else {
         categoryExpenditureList.add(element);
       }
     }
+    categoryIncomeList.sort((a, b) => a.sort.compareTo(b.sort));
+    categoryExpenditureList.sort((a, b) => a.sort.compareTo(b.sort));
     notifyListeners();
   }
 
@@ -66,9 +68,9 @@ class MainProvider with ChangeNotifier {
     final List<TagModel> list = await TagDB.displayAllData();
     tagList = [];
     for (var element in list) {
-        tagList.add(element);
-
+      tagList.add(element);
     }
+    tagList.sort((a, b) => a.sort.compareTo(b.sort));
     notifyListeners();
   }
 }

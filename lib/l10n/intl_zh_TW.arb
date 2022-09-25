@@ -22,5 +22,7 @@
   "cancel": "取消",
   "ok": "確認",
   "notSelectCategory": "未選擇分類",
-  "notFillAmount": "未填寫金額"
+  "notFillAmount": "未填寫金額",
+  "notify": "通知",
+  "deleteCheck": "是否要刪除？"
 }

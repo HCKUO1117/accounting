@@ -59,7 +59,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                   ),
                 );
               },
-              child: const Icon(Icons.add),
+              child: const Icon(Icons.add,color: Colors.white,),
             )
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,

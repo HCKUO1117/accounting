@@ -184,7 +184,8 @@ class _AddRecodePageState extends State<AddRecodePage> {
                                             return const Divider();
                                           },
                                         ),
-                                      )
+                                      ),
+                                      const SizedBox(height: 16),
                                     ],
                                   ),
                                 ),
