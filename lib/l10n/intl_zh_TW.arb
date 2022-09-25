@@ -24,5 +24,7 @@
   "notSelectCategory": "未選擇分類",
   "notFillAmount": "未填寫金額",
   "notify": "通知",
-  "deleteCheck": "是否要刪除？"
+  "deleteCheck": "是否要刪除？",
+  "addSuccess": "加入成功！",
+  "errorFormat": "格式錯誤"
 }

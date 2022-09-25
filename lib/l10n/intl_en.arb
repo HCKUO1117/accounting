@@ -24,5 +24,7 @@
   "notSelectCategory": "No category selected",
   "notFillAmount": "Amount not filled",
   "notify": "Notification",
-  "deleteCheck": "Do you want to delete?"
+  "deleteCheck": "Do you want to delete?",
+  "addSuccess": "Add Success!",
+  "errorFormat": "Format error"
 }

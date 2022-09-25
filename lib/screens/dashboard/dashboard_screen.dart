@@ -19,6 +19,12 @@ class DashBoardScreen extends StatefulWidget {
 }
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
+
+  @override
+  void initState() {
+    context.read<MainProvider>().getAccountingList();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Consumer<MainProvider>(
@@ -67,14 +73,28 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 delegate: SliverChildBuilderDelegate(
                   (_, i) => ColoredBox(
                     color: AppColors.backgroundColor,
-                    child: Container(
-                      height: 1000,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: MediaQuery.of(context).size.height,
+                      ),
+                      child: Container(
+                        padding: EdgeInsets.all(16),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                          ),
                         ),
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: provider.accountingList.length,
+                            itemBuilder: (context,index){
+                              return Card(
+                                child: Text(provider.accountingList[index].amount.toString()),
+                              );
+                            }),
                       ),
                     ),
                   ),

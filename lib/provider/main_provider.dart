@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:accounting/db/accounting_db.dart';
+import 'package:accounting/db/accounting_model.dart';
 import 'package:accounting/db/category_db.dart';
 import 'package:accounting/db/category_model.dart';
 import 'package:accounting/db/tag_db.dart';
@@ -20,6 +22,9 @@ class MainProvider with ChangeNotifier {
 
   ///Tag
   List<TagModel> tagList = [];
+
+  ///accounting
+  List<AccountingModel> accountingList = [];
 
   bool get samDay =>
       dashBoardStartDate.year == dashBoardEndDate.year &&
@@ -71,6 +76,15 @@ class MainProvider with ChangeNotifier {
       tagList.add(element);
     }
     tagList.sort((a, b) => a.sort.compareTo(b.sort));
+    notifyListeners();
+  }
+
+  Future<void> getAccountingList() async {
+    final List<AccountingModel> list = await AccountingDB.displayAllData();
+    accountingList = [];
+    for (var element in list) {
+      accountingList.add(element);
+    }
     notifyListeners();
   }
 }

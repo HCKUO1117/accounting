@@ -309,6 +309,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Add Success!`
+  String get addSuccess {
+    return Intl.message(
+      'Add Success!',
+      name: 'addSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Format error`
+  String get errorFormat {
+    return Intl.message(
+      'Format error',
+      name: 'errorFormat',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
