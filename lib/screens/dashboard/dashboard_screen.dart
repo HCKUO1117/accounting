@@ -75,10 +75,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     color: AppColors.backgroundColor,
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
-                        minHeight: MediaQuery.of(context).size.height,
                       ),
                       child: Container(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
