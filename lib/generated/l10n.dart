@@ -329,6 +329,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Amount cannot be 0`
+  String get cantBe0 {
+    return Intl.message(
+      'Amount cannot be 0',
+      name: 'cantBe0',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Successful!`
+  String get editSuccess {
+    return Intl.message(
+      'Edit Successful!',
+      name: 'editSuccess',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

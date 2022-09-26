@@ -26,5 +26,7 @@
   "notify": "Notification",
   "deleteCheck": "Do you want to delete?",
   "addSuccess": "Add Success!",
-  "errorFormat": "Format error"
+  "errorFormat": "Format error",
+  "cantBe0": "Amount cannot be 0",
+  "editSuccess": "Edit Successful!"
 }

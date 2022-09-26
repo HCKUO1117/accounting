@@ -26,5 +26,7 @@
   "notify": "通知",
   "deleteCheck": "是否要刪除？",
   "addSuccess": "加入成功！",
-  "errorFormat": "格式錯誤"
+  "errorFormat": "格式錯誤",
+  "cantBe0": "金額不得為0",
+  "editSuccess": "編輯成功！"
 }

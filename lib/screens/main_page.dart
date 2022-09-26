@@ -31,12 +31,14 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       body: TabBarView(
         physics: const NeverScrollableScrollPhysics(),
         controller: _tabController,
-        children: const [
-          DashBoardScreen(),
-          ChartScreen(),
-          CategoryScreen(),
-          GoalScreen(),
-          MemberScreen(),
+        children: [
+          DashBoardScreen(
+            topPadding: MediaQuery.of(context).padding.top,
+          ),
+          const ChartScreen(),
+          const CategoryScreen(),
+          const GoalScreen(),
+          const MemberScreen(),
         ],
       ),
       floatingActionButton: _bottomNavIndex == 0
@@ -59,12 +61,17 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                   ),
                 );
               },
-              child: const Icon(Icons.add,color: Colors.white,),
+              child: const Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
             )
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: Container(
-        color: _bottomNavIndex == 2 ? Colors.orangeAccent.shade200.withOpacity(0.2) : Colors.white,
+        color: _bottomNavIndex == 2
+            ? Colors.orangeAccent.shade200.withOpacity(0.2)
+            : Colors.white,
         child: AnimatedBottomNavigationBar(
           elevation: 10,
           icons: const [

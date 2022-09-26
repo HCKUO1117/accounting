@@ -22,7 +22,7 @@ class AddRecodePage extends StatefulWidget {
 }
 
 class _AddRecodePageState extends State<AddRecodePage> {
-  final List<bool> _selectedIndex = [true, false];
+  List<bool> _selectedIndex = [true, false];
   int currentIndex = 0;
 
   final TextEditingController amount = TextEditingController();
@@ -38,8 +38,41 @@ class _AddRecodePageState extends State<AddRecodePage> {
 
   @override
   void initState() {
-    context.read<MainProvider>().getCategoryList();
-    context.read<MainProvider>().getTagList();
+    Future.microtask(() async {
+      await context.read<MainProvider>().getCategoryList();
+      if (!mounted) return;
+      await context.read<MainProvider>().getTagList();
+      if (widget.model != null) {
+        if (widget.model!.amount < 0) {
+          _selectedIndex = [false, true];
+          currentIndex = 1;
+        } else {
+          _selectedIndex = [true, false];
+          currentIndex = 0;
+        }
+        if (!mounted) return;
+        currentCategory = context
+            .read<MainProvider>()
+            .categoryList
+            .firstWhere((element) => element.id == widget.model!.id);
+        for (var element in widget.model!.tags) {
+          tagList.add(
+            context
+                .read<MainProvider>()
+                .tagList
+                .firstWhere((e) => e.id == element),
+          );
+        }
+        date = widget.model!.date;
+        time = TimeOfDay(
+          hour: widget.model!.date.hour,
+          minute: widget.model!.date.minute,
+        );
+        amount.text = widget.model!.amount.toString();
+        note.text = widget.model!.note;
+        setState(() {});
+      }
+    });
     super.initState();
   }
 
@@ -235,6 +268,7 @@ class _AddRecodePageState extends State<AddRecodePage> {
                         Expanded(
                           child: TextField(
                             controller: amount,
+                            textAlign: TextAlign.end,
                             keyboardType: TextInputType.number,
                             style: const TextStyle(color: Colors.orange),
                             inputFormatters: [
@@ -437,22 +471,49 @@ class _AddRecodePageState extends State<AddRecodePage> {
                           });
                           return;
                         }
-                        await AccountingDB.insertData(
-                          AccountingModel(
-                            date: DateTime(date.year, date.month, date.day,
-                                time.hour, time.minute),
-                            category: currentCategory!.id!,
-                            tags: List.generate(
-                                tagList.length, (index) => tagList[index].id!),
-                            amount: double.parse(amount.text),
-                            note: note.text,
-                          ),
-                        );
+                        if (double.parse(amount.text) == 0) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(S.of(context).cantBe0),
+                              behavior: SnackBarBehavior.floating,
+                            ),
+                          );
+                          return;
+                        }
+                        if (widget.model == null) {
+                          await AccountingDB.insertData(
+                            AccountingModel(
+                              date: DateTime(date.year, date.month, date.day,
+                                  time.hour, time.minute),
+                              category: currentCategory!.id!,
+                              tags: List.generate(tagList.length,
+                                  (index) => tagList[index].id!),
+                              amount: currentIndex == 0? double.parse(amount.text) : -double.parse(amount.text),
+                              note: note.text,
+                            ),
+                          );
+                        } else {
+                          await AccountingDB.updateData(
+                            AccountingModel(
+                              id: widget.model!.id,
+                              date: DateTime(date.year, date.month, date.day,
+                                  time.hour, time.minute),
+                              category: currentCategory!.id!,
+                              tags: List.generate(tagList.length,
+                                  (index) => tagList[index].id!),
+                              amount: currentIndex == 0? double.parse(amount.text) : -double.parse(amount.text),
+                              note: note.text,
+                            ),
+                          );
+                        }
+
                         provider.getAccountingList();
                         if (!mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text(S.of(context).addSuccess),
+                            content: Text(widget.model == null
+                                ? S.of(context).addSuccess
+                                : S.of(context).editSuccess),
                             behavior: SnackBarBehavior.floating,
                           ),
                         );

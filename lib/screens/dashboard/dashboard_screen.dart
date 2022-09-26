@@ -4,27 +4,36 @@ import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
 import 'package:accounting/screens/custom_date_picker_dialog.dart';
+import 'package:accounting/screens/dashboard/add_recode_page.dart';
+import 'package:accounting/screens/widget/accounting_title.dart';
 import 'package:accounting/utils/utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class DashBoardScreen extends StatefulWidget {
-  const DashBoardScreen({Key? key}) : super(key: key);
+  final double topPadding;
+
+  const DashBoardScreen({
+    Key? key,
+    required this.topPadding,
+  }) : super(key: key);
 
   @override
   State<DashBoardScreen> createState() => _DashBoardScreenState();
 }
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
-
   @override
   void initState() {
+    context.read<MainProvider>().getCategoryList();
+    context.read<MainProvider>().getTagList();
     context.read<MainProvider>().getAccountingList();
+
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<MainProvider>(
@@ -40,7 +49,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 CustomDatePickerDialog.show(
                   context,
                   onDateSelect: (arg) {
-                    provider.setDashBoardDateRange(arg.value as PickerDateRange);
+                    provider
+                        .setDashBoardDateRange(arg.value as PickerDateRange);
                   },
                   start: provider.dashBoardStartDate,
                   end: provider.dashBoardEndDate,
@@ -75,6 +85,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     color: AppColors.backgroundColor,
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
+                        minHeight:
+                            MediaQuery.of(context).size.height / 3 * 2 + 50,
                       ),
                       child: Container(
                         padding: const EdgeInsets.all(16),
@@ -89,9 +101,29 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: provider.accountingList.length,
-                            itemBuilder: (context,index){
-                              return Card(
-                                child: Text(provider.accountingList[index].amount.toString()),
+                            itemBuilder: (context, index) {
+                              return AccountingTitle(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    backgroundColor: Colors.white,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(20),
+                                        topLeft: Radius.circular(20),
+                                      ),
+                                    ),
+                                    isScrollControlled: true,
+                                    context: context,
+                                    builder: (context) => Padding(
+                                      padding: EdgeInsets.only(
+                                          top: widget.topPadding),
+                                      child: AddRecodePage(
+                                        model: provider.accountingList[index],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                model: provider.accountingList[index],
                               );
                             }),
                       ),
@@ -122,7 +154,8 @@ class _PieData {
   final Color color;
 }
 
-class DashBoardSliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
+class DashBoardSliverPersistentHeaderDelegate
+    extends SliverPersistentHeaderDelegate {
   final double maxEx;
   final double minEx;
 
@@ -132,7 +165,8 @@ class DashBoardSliverPersistentHeaderDelegate extends SliverPersistentHeaderDele
   });
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     double shrinkPercentage = min(1, shrinkOffset / (maxExtent - minExtent));
     return Container(
       color: Colors.white,
@@ -194,7 +228,8 @@ class DashBoardSliverPersistentHeaderDelegate extends SliverPersistentHeaderDele
                               xValueMapper: (_PieData data, _) => data.xData,
                               yValueMapper: (_PieData data, _) => data.yData,
                               dataLabelMapper: (_PieData data, _) => data.text,
-                              pointColorMapper: (_PieData data, _) => data.color,
+                              pointColorMapper: (_PieData data, _) =>
+                                  data.color,
                               dataLabelSettings: const DataLabelSettings(
                                 isVisible: true,
                                 textStyle: TextStyle(
@@ -257,5 +292,6 @@ class DashBoardSliverPersistentHeaderDelegate extends SliverPersistentHeaderDele
   double get minExtent => minEx;
 
   @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true; // 如果内容需要更新，设置为true
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) =>
+      true; // 如果内容需要更新，设置为true
 }

@@ -17,6 +17,7 @@ class MainProvider with ChangeNotifier {
   DateTime dashBoardEndDate = DateTime.now();
 
   ///Category
+  List<CategoryModel> categoryList = [];
   List<CategoryModel> categoryIncomeList = [];
   List<CategoryModel> categoryExpenditureList = [];
 
@@ -55,6 +56,7 @@ class MainProvider with ChangeNotifier {
 
   Future<void> getCategoryList() async {
     final List<CategoryModel> list = await CategoryDB.displayAllData();
+    categoryList = list;
     categoryIncomeList = [];
     categoryExpenditureList = [];
     for (var element in list) {

@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addSuccess": MessageLookupByLibrary.simpleMessage("Add Success!"),
         "amount": MessageLookupByLibrary.simpleMessage("Amount"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "cantBe0": MessageLookupByLibrary.simpleMessage("Amount cannot be 0"),
         "category": MessageLookupByLibrary.simpleMessage("Category"),
         "categoryName": MessageLookupByLibrary.simpleMessage("Category Name"),
         "color": MessageLookupByLibrary.simpleMessage("Color"),
@@ -33,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deleteCheck":
             MessageLookupByLibrary.simpleMessage("Do you want to delete?"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+        "editSuccess": MessageLookupByLibrary.simpleMessage("Edit Successful!"),
         "errorFormat": MessageLookupByLibrary.simpleMessage("Format error"),
         "expand": MessageLookupByLibrary.simpleMessage("Expand"),
         "expenditure": MessageLookupByLibrary.simpleMessage("Expenditure"),
