@@ -15,6 +15,12 @@ class MainProvider with ChangeNotifier {
   ///dashboard
   DateTime dashBoardStartDate = DateTime.now();
   DateTime dashBoardEndDate = DateTime.now();
+  double currentIncome = 0;
+  double currentExpenditure = 0;
+
+  double get balance => currentIncome + currentExpenditure;
+
+  bool get allEmpty => currentIncome == 0 && currentExpenditure == 0;
 
   ///Category
   List<CategoryModel> categoryList = [];
@@ -26,6 +32,7 @@ class MainProvider with ChangeNotifier {
 
   ///accounting
   List<AccountingModel> accountingList = [];
+  List<AccountingModel> currentAccountingList = [];
 
   bool get samDay =>
       dashBoardStartDate.year == dashBoardEndDate.year &&
@@ -41,6 +48,7 @@ class MainProvider with ChangeNotifier {
     } else if (range.startDate != null && range.endDate == null) {
       dashBoardEndDate = range.startDate!;
     }
+    setCurrentAccounting(dashBoardStartDate, dashBoardEndDate);
     notifyListeners();
   }
 
@@ -86,6 +94,43 @@ class MainProvider with ChangeNotifier {
     accountingList = [];
     for (var element in list) {
       accountingList.add(element);
+    }
+    notifyListeners();
+  }
+
+  Future<void> setCurrentAccounting(
+    DateTime start,
+    DateTime end,
+  ) async {
+    final List<AccountingModel> list = await AccountingDB.displayAllData();
+    end = end.add(
+      const Duration(days: 1),
+    );
+    accountingList = list;
+    currentAccountingList = [];
+    for (var element in accountingList) {
+      if (start.year == end.year &&
+          start.month == end.month &&
+          start.day == end.day) {
+        if (element.date.year == start.year &&
+            element.date.month == start.month &&
+            element.date.day == start.day) {
+          currentAccountingList.add(element);
+        }
+      } else {
+        if (element.date.isAfter(start) && element.date.isBefore(end)) {
+          currentAccountingList.add(element);
+        }
+      }
+    }
+    currentIncome = 0;
+    currentExpenditure = 0;
+    for (var element in currentAccountingList) {
+      if (element.amount < 0) {
+        currentExpenditure += element.amount;
+      } else {
+        currentIncome += element.amount;
+      }
     }
     notifyListeners();
   }

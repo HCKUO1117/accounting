@@ -98,34 +98,36 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           ),
                         ),
                         child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: provider.accountingList.length,
-                            itemBuilder: (context, index) {
-                              return AccountingTitle(
-                                onTap: () {
-                                  showModalBottomSheet(
-                                    backgroundColor: Colors.white,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(20),
-                                        topLeft: Radius.circular(20),
-                                      ),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: provider.currentAccountingList.length,
+                          itemBuilder: (context, index) {
+                            return AccountingTitle(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  backgroundColor: Colors.white,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(20),
+                                      topLeft: Radius.circular(20),
                                     ),
-                                    isScrollControlled: true,
-                                    context: context,
-                                    builder: (context) => Padding(
-                                      padding: EdgeInsets.only(
-                                          top: widget.topPadding),
-                                      child: AddRecodePage(
-                                        model: provider.accountingList[index],
-                                      ),
+                                  ),
+                                  isScrollControlled: true,
+                                  context: context,
+                                  builder: (context) => Padding(
+                                    padding:
+                                        EdgeInsets.only(top: widget.topPadding),
+                                    child: AddRecodePage(
+                                      model:
+                                          provider.currentAccountingList[index],
                                     ),
-                                  );
-                                },
-                                model: provider.accountingList[index],
-                              );
-                            }),
+                                  ),
+                                );
+                              },
+                              model: provider.currentAccountingList[index],
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
@@ -168,120 +170,132 @@ class DashBoardSliverPersistentHeaderDelegate
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     double shrinkPercentage = min(1, shrinkOffset / (maxExtent - minExtent));
-    return Container(
-      color: Colors.white,
-      child: Container(
-        color: AppColors.backgroundColor,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            ConstrainedBox(
-              constraints: BoxConstraints.tightFor(
-                height: max(
-                  50,
-                  80 * (1 - shrinkPercentage),
-                ),
-              ),
-              child: FittedBox(
-                child: Container(
-                  padding: const EdgeInsets.all(20),
-                  width: 200,
-                  child: const Text(
-                    '\$ 5329.05',
-                    style: TextStyle(
-                      fontFamily: 'Barlow',
-                      fontSize: 30,
-                      fontWeight: FontWeight.w500,
+    return Consumer<MainProvider>(
+      builder: (BuildContext context, MainProvider provider, _) {
+        return Container(
+          color: Colors.white,
+          child: Container(
+            color: AppColors.backgroundColor,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                ConstrainedBox(
+                  constraints: BoxConstraints.tightFor(
+                    height: max(
+                      50,
+                      80 * (1 - shrinkPercentage),
+                    ),
+                  ),
+                  child: FittedBox(
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      child: Text(
+                        provider.balance.toString(),
+                        style: const TextStyle(
+                          fontFamily: 'Barlow',
+                          fontSize: 30,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            Expanded(
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  if (shrinkPercentage != 1)
-                    Opacity(
-                      opacity: 1 - shrinkPercentage,
-                      child: Center(
-                        child: SfCircularChart(
-                          legend: Legend(isVisible: false),
-                          series: <PieSeries<_PieData, String>>[
-                            PieSeries<_PieData, String>(
-                              explode: true,
-                              explodeIndex: 0,
-                              dataSource: [
-                                _PieData(
-                                  S.of(context).expenditure,
-                                  15,
-                                  S.of(context).expenditure,
-                                  Colors.redAccent,
-                                ),
-                                _PieData(
-                                  S.of(context).income,
-                                  20,
-                                  S.of(context).income,
-                                  Colors.blueAccent,
-                                ),
-                              ],
-                              xValueMapper: (_PieData data, _) => data.xData,
-                              yValueMapper: (_PieData data, _) => data.yData,
-                              dataLabelMapper: (_PieData data, _) => data.text,
-                              pointColorMapper: (_PieData data, _) =>
-                                  data.color,
-                              dataLabelSettings: const DataLabelSettings(
-                                isVisible: true,
-                                textStyle: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  if (shrinkPercentage != 0)
-                    Opacity(
-                      opacity: shrinkPercentage,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text('${S.of(context).income} : '),
-                                const Text(
-                                  '1000',
-                                  style: TextStyle(color: Colors.blueAccent),
+                Expanded(
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      if (shrinkPercentage != 1)
+                        Opacity(
+                          opacity: 1 - shrinkPercentage,
+                          child: Center(
+                            child: SfCircularChart(
+                              legend: Legend(isVisible: false),
+                              series: <PieSeries<_PieData, String>>[
+                                PieSeries<_PieData, String>(
+                                  explode: true,
+                                  explodeIndex: 0,
+                                  dataSource: [
+                                    _PieData(
+                                      S.of(context).expenditure,
+                                      provider.allEmpty
+                                          ? 1
+                                          : provider.currentExpenditure,
+                                      S.of(context).expenditure,
+                                      Colors.redAccent,
+                                    ),
+                                    _PieData(
+                                      S.of(context).income,
+                                      provider.allEmpty
+                                          ? 1
+                                          : provider.currentIncome,
+                                      S.of(context).income,
+                                      Colors.blueAccent,
+                                    ),
+                                  ],
+                                  xValueMapper: (_PieData data, _) =>
+                                      data.xData,
+                                  yValueMapper: (_PieData data, _) =>
+                                      data.yData,
+                                  dataLabelMapper: (_PieData data, _) =>
+                                      data.text,
+                                  pointColorMapper: (_PieData data, _) =>
+                                      data.color,
+                                  dataLabelSettings: const DataLabelSettings(
+                                    isVisible: true,
+                                    textStyle: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text('${S.of(context).expenditure} : '),
-                                const Text(
-                                  '800',
-                                  style: TextStyle(color: Colors.redAccent),
-                                ),
-                              ],
-                            )
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                ],
-              ),
+                      if (shrinkPercentage != 0)
+                        Opacity(
+                          opacity: shrinkPercentage,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text('${S.of(context).income} : '),
+                                    Text(
+                                      provider.currentIncome.toString(),
+                                      style: const TextStyle(
+                                          color: Colors.blueAccent),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text('${S.of(context).expenditure} : '),
+                                    Text(
+                                      provider.currentExpenditure.toString(),
+                                      style: const TextStyle(
+                                          color: Colors.redAccent),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
