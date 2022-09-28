@@ -20,8 +20,11 @@ class AccountingTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.black26),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -39,9 +42,9 @@ class AccountingTitle extends StatelessWidget {
                   model.amount < 0
                       ? S.of(context).expenditure
                       : S.of(context).income,
-                  style: TextStyle(
-                    color:
-                        model.amount < 0 ? Colors.redAccent : Colors.blueAccent,
+                  style: const TextStyle(
+                    color: Colors.black38,
+                    fontFamily: 'RobotoMono',
                   ),
                 ),
                 const SizedBox(width: 8),

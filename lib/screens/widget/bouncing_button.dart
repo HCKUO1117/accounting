@@ -8,13 +8,14 @@ class Bouncing extends StatefulWidget {
     required this.child,
     Key? key,
     required this.onPress,
-  })  : super(key: key);
+  }) : super(key: key);
 
   @override
   _BouncingState createState() => _BouncingState();
 }
 
-class _BouncingState extends State<Bouncing> with SingleTickerProviderStateMixin {
+class _BouncingState extends State<Bouncing>
+    with SingleTickerProviderStateMixin {
   late double _scale;
   late AnimationController _controller;
 
@@ -41,13 +42,18 @@ class _BouncingState extends State<Bouncing> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     _scale = 1 - _controller.value;
-    return Listener(
-      onPointerDown: (PointerDownEvent event) {
+    return GestureDetector(
+      onTap: () {
+        widget.onPress();
+      },
+      onTapDown: (TapDownDetails d) async {
         _controller.forward();
       },
-      onPointerUp: (PointerUpEvent event) {
+      onTapUp: (TapUpDetails d) async {
+        await Future.delayed(
+          const Duration(milliseconds: 100),
+        );
         _controller.reverse();
-        widget.onPress();
       },
       child: Transform.scale(
         scale: _scale,

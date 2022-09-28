@@ -117,15 +117,23 @@ class _AddTagPageState extends State<AddTagPage> {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 24),
             Row(
               children: [
                 Expanded(
-                  child: TextField(
-                    controller: _editingController,
-                    decoration: InputDecoration(
-                      errorText: errorText,
-                      labelText: S.of(context).categoryName,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black38),
+                      borderRadius: BorderRadius.circular(10)
+                    ),
+                    child: TextField(
+                      controller: _editingController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        errorText: errorText,
+                        hintText: S.of(context).categoryName,
+                      ),
                     ),
                   ),
                 ),

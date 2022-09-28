@@ -95,6 +95,7 @@ class MainProvider with ChangeNotifier {
     for (var element in list) {
       accountingList.add(element);
     }
+    setCurrentAccounting(dashBoardStartDate, dashBoardEndDate);
     notifyListeners();
   }
 
@@ -123,6 +124,7 @@ class MainProvider with ChangeNotifier {
         }
       }
     }
+    currentAccountingList.sort((a, b) => a.date.compareTo(b.date));
     currentIncome = 0;
     currentExpenditure = 0;
     for (var element in currentAccountingList) {

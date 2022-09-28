@@ -64,7 +64,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     color: Colors.transparent,
                   ),
                   Text(
-                      '${Utils.toDateString(provider.dashBoardStartDate)}${!provider.samDay ? ' ~ ' : ''}${!provider.samDay ? Utils.toDateString(provider.dashBoardEndDate) : ''}'),
+                    '${Utils.toDateString(provider.dashBoardStartDate)}${!provider.samDay ? ' ~ ' : ''}${!provider.samDay ? Utils.toDateString(provider.dashBoardEndDate) : ''}',
+                  ),
                   const Icon(Icons.arrow_drop_down),
                 ],
               ),
@@ -97,7 +98,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             topRight: Radius.circular(20),
                           ),
                         ),
-                        child: ListView.builder(
+                        child: ListView.separated(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: provider.currentAccountingList.length,
@@ -126,6 +127,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               },
                               model: provider.currentAccountingList[index],
                             );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(height: 4);
                           },
                         ),
                       ),
@@ -192,7 +196,7 @@ class DashBoardSliverPersistentHeaderDelegate
                       child: Text(
                         provider.balance.toString(),
                         style: const TextStyle(
-                          fontFamily: 'Barlow',
+                          fontFamily: 'RobotoMono',
                           fontSize: 30,
                           fontWeight: FontWeight.w500,
                         ),
@@ -207,52 +211,132 @@ class DashBoardSliverPersistentHeaderDelegate
                       if (shrinkPercentage != 1)
                         Opacity(
                           opacity: 1 - shrinkPercentage,
-                          child: Center(
-                            child: SfCircularChart(
-                              legend: Legend(isVisible: false),
-                              series: <PieSeries<_PieData, String>>[
-                                PieSeries<_PieData, String>(
-                                  explode: true,
-                                  explodeIndex: 0,
-                                  dataSource: [
-                                    _PieData(
-                                      S.of(context).expenditure,
-                                      provider.allEmpty
-                                          ? 1
-                                          : provider.currentExpenditure,
-                                      S.of(context).expenditure,
-                                      Colors.redAccent,
+                          child: Column(
+                            children: [
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: Colors.orange)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            S.of(context).income,
+                                            style: const TextStyle(
+                                              fontFamily: 'RobotoMono',
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 8),
+                                          Text(
+                                            provider.currentIncome.toString(),
+                                            style: const TextStyle(
+                                              color: Colors.blueAccent,
+                                              fontSize: 18,
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                    _PieData(
-                                      S.of(context).income,
-                                      provider.allEmpty
-                                          ? 1
-                                          : provider.currentIncome,
-                                      S.of(context).income,
-                                      Colors.blueAccent,
+                                    const SizedBox(width: 8),
+                                    Container(
+                                      height: 30,
+                                      width: 1,
+                                      color: Colors.black12,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            S.of(context).expenditure,
+                                            style: const TextStyle(
+                                              fontFamily: 'RobotoMono',
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 8),
+                                          Text(
+                                            provider.currentExpenditure
+                                                .toString(),
+                                            style: const TextStyle(
+                                              color: Colors.redAccent,
+                                              fontSize: 18,
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ],
-                                  xValueMapper: (_PieData data, _) =>
-                                      data.xData,
-                                  yValueMapper: (_PieData data, _) =>
-                                      data.yData,
-                                  dataLabelMapper: (_PieData data, _) =>
-                                      data.text,
-                                  pointColorMapper: (_PieData data, _) =>
-                                      data.color,
-                                  dataLabelSettings: const DataLabelSettings(
-                                    isVisible: true,
-                                    textStyle: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                    ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Center(
+                                  child: SfCircularChart(
+                                    legend: Legend(isVisible: false),
+                                    series: <PieSeries<_PieData, String>>[
+                                      PieSeries<_PieData, String>(
+                                        strokeColor: Colors.black,
+                                        strokeWidth: 1,
+                                        explode: true,
+                                        explodeIndex: 0,
+                                        dataSource: [
+                                          _PieData(
+                                            S.of(context).expenditure,
+                                            provider.allEmpty
+                                                ? 1
+                                                : provider.currentExpenditure,
+                                            S.of(context).expenditure,
+                                            Colors.redAccent.shade100,
+                                          ),
+                                          _PieData(
+                                            S.of(context).income,
+                                            provider.allEmpty
+                                                ? 1
+                                                : provider.currentIncome,
+                                            S.of(context).income,
+                                            Colors.blueAccent.shade100,
+                                          ),
+                                        ],
+                                        xValueMapper: (_PieData data, _) =>
+                                            data.xData,
+                                        yValueMapper: (_PieData data, _) =>
+                                            data.yData,
+                                        dataLabelMapper: (_PieData data, _) =>
+                                            data.text,
+                                        pointColorMapper: (_PieData data, _) =>
+                                            data.color,
+                                        dataLabelSettings:
+                                            const DataLabelSettings(
+                                          isVisible: true,
+                                          textStyle: TextStyle(
+                                            fontFamily: 'RobotoMono',
+                                            fontStyle: FontStyle.normal,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12,
+                                            color: Colors.white,
+                                            shadows: <Shadow>[
+                                              Shadow(
+                                                offset: Offset(1.0, 1.0),
+                                                blurRadius: 5.0,
+                                                color: Colors.black54,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              )
+                            ],
                           ),
                         ),
                       if (shrinkPercentage != 0)
@@ -265,22 +349,34 @@ class DashBoardSliverPersistentHeaderDelegate
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Text('${S.of(context).income} : '),
+                                    Text(
+                                      '${S.of(context).income} : ',
+                                      style: const TextStyle(
+                                        fontFamily: 'RobotoMono',
+                                      ),
+                                    ),
                                     Text(
                                       provider.currentIncome.toString(),
                                       style: const TextStyle(
-                                          color: Colors.blueAccent),
+                                        color: Colors.blueAccent,
+                                      ),
                                     ),
                                   ],
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Text('${S.of(context).expenditure} : '),
+                                    Text(
+                                      '${S.of(context).expenditure} : ',
+                                      style: const TextStyle(
+                                        fontFamily: 'RobotoMono',
+                                      ),
+                                    ),
                                     Text(
                                       provider.currentExpenditure.toString(),
                                       style: const TextStyle(
-                                          color: Colors.redAccent),
+                                        color: Colors.redAccent,
+                                      ),
                                     ),
                                   ],
                                 )

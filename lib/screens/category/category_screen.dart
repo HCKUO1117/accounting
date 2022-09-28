@@ -39,7 +39,7 @@ class _CategoryScreenState extends State<CategoryScreen>
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
-          title: Text(S.of(context).category),
+          title: Text(S.of(context).category,style: const TextStyle(fontFamily: 'RobotoMono',),),
           bottom: TabBar(
             controller: _tabController,
             tabs: [
@@ -78,6 +78,7 @@ class _CategoryScreenState extends State<CategoryScreen>
                 child: Hero(
                   tag: 'categoryIncome',
                   child: Card(
+                    elevation: 5,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -172,6 +173,7 @@ class _CategoryScreenState extends State<CategoryScreen>
                 child: Hero(
                   tag: 'categoryExpenditure',
                   child: Card(
+                    elevation: 5,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -280,6 +282,7 @@ class _CategoryScreenState extends State<CategoryScreen>
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Card(
+              elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),

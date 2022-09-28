@@ -36,7 +36,7 @@ class FakeDropDownButton extends StatelessWidget {
             else
               Expanded(child: CategoryTitle(model: model!),),
             Container(
-              padding: const EdgeInsets.all(4),
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
               ),

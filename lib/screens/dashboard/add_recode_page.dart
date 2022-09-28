@@ -68,7 +68,9 @@ class _AddRecodePageState extends State<AddRecodePage> {
           hour: widget.model!.date.hour,
           minute: widget.model!.date.minute,
         );
-        amount.text = widget.model!.amount.toString();
+        amount.text = widget.model!.amount < 0
+            ? (-widget.model!.amount).toString()
+            : widget.model!.amount.toString();
         note.text = widget.model!.note;
         setState(() {});
       }
@@ -89,7 +91,9 @@ class _AddRecodePageState extends State<AddRecodePage> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.white,
+              foregroundColor: Colors.orange,
               automaticallyImplyLeading: false,
+              centerTitle: true,
               title: Text(widget.model == null
                   ? S.of(context).add
                   : S.of(context).edit),
@@ -123,9 +127,13 @@ class _AddRecodePageState extends State<AddRecodePage> {
                         });
                       },
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      selectedBorderColor: Colors.orange,
+                      selectedBorderColor: currentIndex == 0
+                          ? Colors.blueAccent
+                          : Colors.redAccent,
                       selectedColor: Colors.white,
-                      fillColor: Colors.orange.shade400,
+                      fillColor: currentIndex == 0
+                          ? Colors.blueAccent
+                          : Colors.redAccent,
                       color: Colors.black54,
                       constraints: BoxConstraints(
                         minHeight: 40.0,
@@ -266,18 +274,36 @@ class _AddRecodePageState extends State<AddRecodePage> {
                         ),
                         const SizedBox(width: 8),
                         Expanded(
-                          child: TextField(
-                            controller: amount,
-                            textAlign: TextAlign.end,
-                            keyboardType: TextInputType.number,
-                            style: const TextStyle(color: Colors.orange),
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'[0-9.]')),
-                            ],
-                            decoration: InputDecoration(
-                              errorText: errorText,
-                              hintText: S.of(context).amount,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: currentIndex == 0
+                                    ? Colors.blueAccent
+                                    : Colors.redAccent,
+                              ),
+                            ),
+                            child: TextField(
+                              controller: amount,
+                              cursorColor: currentIndex == 0
+                                  ? Colors.blueAccent
+                                  : Colors.redAccent,
+                              textAlign: TextAlign.end,
+                              keyboardType: TextInputType.number,
+                              style: TextStyle(
+                                  color: currentIndex == 0
+                                      ? Colors.blueAccent
+                                      : Colors.redAccent),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'[0-9.]')),
+                              ],
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                errorText: errorText,
+                                hintText: S.of(context).amount,
+                              ),
                             ),
                           ),
                         )
@@ -427,102 +453,76 @@ class _AddRecodePageState extends State<AddRecodePage> {
                             fontFamily: 'RobotoMono',
                           ),
                         ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: TextField(
-                            controller: note,
-                            decoration: InputDecoration(
-                              hintText: S.of(context).note,
-                            ),
-                          ),
-                        )
                       ],
                     ),
+                    const SizedBox(height: 16),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all()),
+                      child: TextField(
+                        controller: note,
+                        maxLines: null,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: S.of(context).note,
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 32),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                        elevation: MaterialStateProperty.all(0),
-                      ),
-                      onPressed: () async {
-                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                        if (currentCategory == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(S.of(context).notSelectCategory),
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
-                          return;
-                        }
-                        if (amount.text.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(S.of(context).notFillAmount),
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
-                          return;
-                        }
-                        try {
-                          double.parse(amount.text);
-                        } catch (e) {
-                          setState(() {
-                            errorText = S.of(context).errorFormat;
-                          });
-                          return;
-                        }
-                        if (double.parse(amount.text) == 0) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(S.of(context).cantBe0),
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
-                          return;
-                        }
-                        if (widget.model == null) {
-                          await AccountingDB.insertData(
-                            AccountingModel(
-                              date: DateTime(date.year, date.month, date.day,
-                                  time.hour, time.minute),
-                              category: currentCategory!.id!,
-                              tags: List.generate(tagList.length,
-                                  (index) => tagList[index].id!),
-                              amount: currentIndex == 0? double.parse(amount.text) : -double.parse(amount.text),
-                              note: note.text,
-                            ),
-                          );
-                        } else {
-                          await AccountingDB.updateData(
-                            AccountingModel(
-                              id: widget.model!.id,
-                              date: DateTime(date.year, date.month, date.day,
-                                  time.hour, time.minute),
-                              category: currentCategory!.id!,
-                              tags: List.generate(tagList.length,
-                                  (index) => tagList[index].id!),
-                              amount: currentIndex == 0? double.parse(amount.text) : -double.parse(amount.text),
-                              note: note.text,
-                            ),
-                          );
-                        }
-
-                        provider.getAccountingList();
-                        if (!mounted) return;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(widget.model == null
-                                ? S.of(context).addSuccess
-                                : S.of(context).editSuccess),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        S.of(context).save,
-                        style: const TextStyle(color: Colors.white),
-                      ),
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        saveButton(provider),
+                        if (widget.model != null)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                onPressed: () async {
+                                  bool? delete = await showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: Text(S.of(context).notify),
+                                      content: Text(S.of(context).deleteCheck),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            S.of(context).cancel,
+                                            style: const TextStyle(
+                                                color: Colors.black54),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () async {
+                                            await AccountingDB.deleteData(
+                                                widget.model!.id!);
+                                            await provider.getAccountingList();
+                                            if (!mounted) return;
+                                            Navigator.pop(context, true);
+                                          },
+                                          child: Text(S.of(context).ok),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                  if (delete ?? false) {
+                                    if (!mounted) return;
+                                    Navigator.pop(context);
+                                  }
+                                },
+                                icon: Icon(
+                                  Icons.delete_outline,
+                                  color: Colors.redAccent.shade700,
+                                ),
+                              )
+                            ],
+                          )
+                      ],
                     ),
                     const SizedBox(height: 32),
                   ],
@@ -531,6 +531,98 @@ class _AddRecodePageState extends State<AddRecodePage> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget saveButton(MainProvider provider) {
+    return ElevatedButton(
+      style: ButtonStyle(
+        elevation: MaterialStateProperty.all(0),
+      ),
+      onPressed: () async {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        if (currentCategory == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(S.of(context).notSelectCategory),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+          return;
+        }
+        if (amount.text.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(S.of(context).notFillAmount),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+          return;
+        }
+        try {
+          double.parse(amount.text);
+        } catch (e) {
+          setState(() {
+            errorText = S.of(context).errorFormat;
+          });
+          return;
+        }
+        if (double.parse(amount.text) == 0) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(S.of(context).cantBe0),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+          return;
+        }
+        if (widget.model == null) {
+          await AccountingDB.insertData(
+            AccountingModel(
+              date: DateTime(
+                  date.year, date.month, date.day, time.hour, time.minute),
+              category: currentCategory!.id!,
+              tags:
+                  List.generate(tagList.length, (index) => tagList[index].id!),
+              amount: currentIndex == 0
+                  ? double.parse(amount.text)
+                  : -double.parse(amount.text),
+              note: note.text,
+            ),
+          );
+        } else {
+          await AccountingDB.updateData(
+            AccountingModel(
+              id: widget.model!.id,
+              date: DateTime(
+                  date.year, date.month, date.day, time.hour, time.minute),
+              category: currentCategory!.id!,
+              tags:
+                  List.generate(tagList.length, (index) => tagList[index].id!),
+              amount: currentIndex == 0
+                  ? double.parse(amount.text)
+                  : -double.parse(amount.text),
+              note: note.text,
+            ),
+          );
+        }
+
+        provider.getAccountingList();
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(widget.model == null
+                ? S.of(context).addSuccess
+                : S.of(context).editSuccess),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+        Navigator.pop(context);
+      },
+      child: Text(
+        S.of(context).save,
+        style: const TextStyle(color: Colors.white),
       ),
     );
   }

@@ -28,7 +28,7 @@ class _GoalScreenState extends State<GoalScreen> {
                 stretch: true,
                 expandedHeight: MediaQuery.of(context).size.height / 3,
                 backgroundColor: AppColors.backgroundColor,
-                title: Text(S.of(context).goal),
+                title: Text(S.of(context).goal,style: TextStyle(fontFamily: 'RobotoMono',),),
                 flexibleSpace: FlexibleSpaceBar(
                   stretchModes: const <StretchMode>[
                     StretchMode.zoomBackground,

@@ -19,7 +19,6 @@ class IconProvider with ChangeNotifier {
 
   void setIcon(String name) {
     if (name == selected) {
-      selected = '';
     } else {
       selected = name;
     }

@@ -17,7 +17,7 @@ class _MemberScreenState extends State<MemberScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.backgroundColor,
         elevation: 0,
-        title: Text(S.of(context).setting),
+        title: Text(S.of(context).setting,style: TextStyle(fontFamily: 'RobotoMono',),),
       ),
     );
   }
