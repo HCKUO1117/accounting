@@ -37,5 +37,11 @@
   "customize": "自訂...",
   "inAndOut": "固定收支與目標",
   "noTarget": "未設定目標",
-  "clickSetTarget": "點此設定目標"
+  "setTarget": "設定目標",
+  "clickSetTarget": "點此設定目標",
+  "noRecord": "沒有紀錄",
+  "eachMonth": "每個月",
+  "longBefore": "...之前",
+  "before": "前",
+  "save1": "存"
 }

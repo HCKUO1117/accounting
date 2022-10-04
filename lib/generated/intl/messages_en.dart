@@ -25,17 +25,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "add": MessageLookupByLibrary.simpleMessage("Add"),
         "addSuccess": MessageLookupByLibrary.simpleMessage("Add Success!"),
         "amount": MessageLookupByLibrary.simpleMessage("Amount"),
+        "before": MessageLookupByLibrary.simpleMessage("before"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cantBe0": MessageLookupByLibrary.simpleMessage("Amount cannot be 0"),
         "category": MessageLookupByLibrary.simpleMessage("Category"),
         "categoryName": MessageLookupByLibrary.simpleMessage("Category Name"),
         "clickSetTarget":
-            MessageLookupByLibrary.simpleMessage("Click here to set target"),
+            MessageLookupByLibrary.simpleMessage("Click here to set goal"),
         "color": MessageLookupByLibrary.simpleMessage("Color"),
         "customize": MessageLookupByLibrary.simpleMessage("Customize..."),
         "date": MessageLookupByLibrary.simpleMessage("Date"),
         "deleteCheck":
             MessageLookupByLibrary.simpleMessage("Do you want to delete?"),
+        "eachMonth": MessageLookupByLibrary.simpleMessage("each month"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "editSuccess": MessageLookupByLibrary.simpleMessage("Edit Successful!"),
         "errorFormat": MessageLookupByLibrary.simpleMessage("Format error"),
@@ -46,7 +48,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "inAndOut":
             MessageLookupByLibrary.simpleMessage("Fixed income and goals"),
         "income": MessageLookupByLibrary.simpleMessage("Income"),
-        "noTarget": MessageLookupByLibrary.simpleMessage("No target set"),
+        "longBefore": MessageLookupByLibrary.simpleMessage("...before"),
+        "noRecord": MessageLookupByLibrary.simpleMessage("No record"),
+        "noTarget": MessageLookupByLibrary.simpleMessage("No goal set"),
         "notFillAmount":
             MessageLookupByLibrary.simpleMessage("Amount not filled"),
         "notSelectCategory":
@@ -57,8 +61,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseEnterName":
             MessageLookupByLibrary.simpleMessage("Please enter a name"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
+        "save1": MessageLookupByLibrary.simpleMessage("save"),
         "selectDay": MessageLookupByLibrary.simpleMessage("Select Day"),
         "selectTime": MessageLookupByLibrary.simpleMessage("Select Time"),
+        "setTarget": MessageLookupByLibrary.simpleMessage("Set Goal"),
         "setting": MessageLookupByLibrary.simpleMessage("Setting"),
         "tag": MessageLookupByLibrary.simpleMessage("Tag"),
         "thisMonth": MessageLookupByLibrary.simpleMessage("This month"),

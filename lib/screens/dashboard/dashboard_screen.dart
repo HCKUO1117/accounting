@@ -4,7 +4,6 @@ import 'package:accounting/app.dart';
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
-import 'package:accounting/screens/custom_date_picker_dialog.dart';
 import 'package:accounting/screens/dashboard/add_recode_page.dart';
 import 'package:accounting/screens/widget/accounting_title.dart';
 import 'package:accounting/utils/utils.dart';
@@ -12,7 +11,6 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class DashBoardScreen extends StatefulWidget {
   final double topPadding;
@@ -87,9 +85,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       child: Text(
                         items[i],
                         style: const TextStyle(
-                        fontFamily: 'RobotoMono',
-                        fontWeight: FontWeight.w500,
-                      ),
+                          fontFamily: 'RobotoMono',
+                          fontWeight: FontWeight.w500,
+                        ),
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                       ),
@@ -101,35 +99,38 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   if (value == 0) {
                     provider.setDashBoardDateRange(
                       DateTimeRange(
-                        start: DateTime(d.year,d.month,d.day),
-                        end: DateTime(d.year,d.month,d.day),
+                        start: DateTime(d.year, d.month, d.day),
+                        end: DateTime(d.year, d.month, d.day),
                       ),
                     );
                   }
                   if (value == 1) {
                     provider.setDashBoardDateRange(
                       DateTimeRange(
-                        start: DateTime(d.year,d.month,d.day-1),
-                        end: DateTime(d.year,d.month,d.day -1),
+                        start: DateTime(d.year, d.month, d.day - 1),
+                        end: DateTime(d.year, d.month, d.day - 1),
                       ),
                     );
                   }
                   if (value == 2) {
                     final int weekDay = d.weekday;
-                    final DateTime firstDayOfWeek = DateTime(d.year,d.month,d.day).subtract(Duration(days: weekDay - 1));
+                    final DateTime firstDayOfWeek =
+                        DateTime(d.year, d.month, d.day)
+                            .subtract(Duration(days: weekDay - 1));
                     provider.setDashBoardDateRange(
                       DateTimeRange(
                         start: firstDayOfWeek,
-                        end: DateTime(d.year,d.month,d.day),
+                        end: DateTime(d.year, d.month, d.day),
                       ),
                     );
                   }
                   if (value == 3) {
-                    final DateTime firstDayOfMonth = DateTime(d.year, d.month, 1);
+                    final DateTime firstDayOfMonth =
+                        DateTime(d.year, d.month, 1);
                     provider.setDashBoardDateRange(
                       DateTimeRange(
                         start: firstDayOfMonth,
-                        end: DateTime(d.year,d.month,d.day),
+                        end: DateTime(d.year, d.month, d.day),
                       ),
                     );
                   }
@@ -138,7 +139,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     provider.setDashBoardDateRange(
                       DateTimeRange(
                         start: firstDayOfYear,
-                        end: DateTime(d.year,d.month,d.day),
+                        end: DateTime(d.year, d.month, d.day),
                       ),
                     );
                   }
@@ -146,7 +147,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     DateTimeRange? range = await showDateRangePicker(
                       context: context,
                       initialDateRange: DateTimeRange(
-                          start: provider.dashBoardStartDate, end: provider.dashBoardEndDate),
+                          start: provider.dashBoardStartDate,
+                          end: provider.dashBoardEndDate),
                       firstDate: DateTime(1970, 1, 1),
                       lastDate: d,
                       locale: App.of(context)?.locale ?? const Locale('en', ''),
@@ -154,8 +156,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     if (range == null) {
                       return;
                     }
-                    provider
-                        .setDashBoardDateRange(DateTimeRange(start: range.start, end: range.end));
+                    provider.setDashBoardDateRange(
+                        DateTimeRange(start: range.start, end: range.end));
                   }
                   setState(() {
                     selectedValue = value as int;
@@ -249,39 +251,64 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             topRight: Radius.circular(20),
                           ),
                         ),
-                        child: ListView.separated(
-                          padding: const EdgeInsets.only(bottom: 50),
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: provider.currentAccountingList.length,
-                          itemBuilder: (context, index) {
-                            return AccountingTitle(
-                              onTap: () {
-                                showModalBottomSheet(
-                                  backgroundColor: Colors.white,
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(20),
-                                      topLeft: Radius.circular(20),
+                        child: provider.currentAccountingList.isEmpty
+                            ? Column(
+                                children: [
+                                  SizedBox(
+                                    height:
+                                        MediaQuery.of(context).size.height / 6,
+                                  ),
+                                  Text(
+                                    S.of(context).noRecord,
+                                    style: const TextStyle(
+                                      color: Colors.orange,
+                                      fontFamily: 'RobotoMono',
                                     ),
                                   ),
-                                  isScrollControlled: true,
-                                  context: context,
-                                  builder: (context) => Padding(
-                                    padding: EdgeInsets.only(top: widget.topPadding),
-                                    child: AddRecodePage(
-                                      model: provider.currentAccountingList[index],
-                                    ),
+                                  const SizedBox(height: 16),
+                                  Image.asset(
+                                    'assets/icons/question.png',
+                                    height: 50,
                                   ),
-                                );
-                              },
-                              model: provider.currentAccountingList[index],
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return const SizedBox(height: 4);
-                          },
-                        ),
+                                ],
+                              )
+                            : ListView.separated(
+                                padding: const EdgeInsets.only(bottom: 50),
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount:
+                                    provider.currentAccountingList.length,
+                                itemBuilder: (context, index) {
+                                  return AccountingTitle(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        backgroundColor: Colors.white,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(20),
+                                            topLeft: Radius.circular(20),
+                                          ),
+                                        ),
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (context) => Padding(
+                                          padding: EdgeInsets.only(
+                                              top: widget.topPadding),
+                                          child: AddRecodePage(
+                                            model: provider
+                                                .currentAccountingList[index],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    model:
+                                        provider.currentAccountingList[index],
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return const SizedBox(height: 4);
+                                },
+                              ),
                       ),
                     ),
                   ),
@@ -310,7 +337,8 @@ class _PieData {
   final Color color;
 }
 
-class DashBoardSliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
+class DashBoardSliverPersistentHeaderDelegate
+    extends SliverPersistentHeaderDelegate {
   final double maxEx;
   final double minEx;
 
@@ -320,7 +348,8 @@ class DashBoardSliverPersistentHeaderDelegate extends SliverPersistentHeaderDele
   });
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     double shrinkPercentage = min(1, shrinkOffset / (maxExtent - minExtent));
     return Consumer<MainProvider>(
       builder: (BuildContext context, MainProvider provider, _) {
@@ -362,7 +391,8 @@ class DashBoardSliverPersistentHeaderDelegate extends SliverPersistentHeaderDele
                           child: Column(
                             children: [
                               Container(
-                                margin: const EdgeInsets.symmetric(horizontal: 16),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
                                     color: Colors.white,
@@ -411,7 +441,8 @@ class DashBoardSliverPersistentHeaderDelegate extends SliverPersistentHeaderDele
                                           ),
                                           const SizedBox(height: 8),
                                           Text(
-                                            provider.currentExpenditure.toString(),
+                                            provider.currentExpenditure
+                                                .toString(),
                                             style: const TextStyle(
                                               color: Colors.redAccent,
                                               fontSize: 18,
@@ -435,26 +466,37 @@ class DashBoardSliverPersistentHeaderDelegate extends SliverPersistentHeaderDele
                                         explodeIndex: 0,
                                         animationDuration: 600,
                                         dataSource: [
-                                          if (provider.allEmpty || provider.currentExpenditure != 0)
+                                          if (provider.allEmpty ||
+                                              provider.currentExpenditure != 0)
                                             _PieData(
                                               S.of(context).expenditure,
-                                              provider.allEmpty ? 1 : provider.currentExpenditure,
+                                              provider.allEmpty
+                                                  ? 1
+                                                  : provider.currentExpenditure,
                                               S.of(context).expenditure,
                                               Colors.redAccent.shade100,
                                             ),
-                                          if (provider.allEmpty || provider.currentIncome != 0)
+                                          if (provider.allEmpty ||
+                                              provider.currentIncome != 0)
                                             _PieData(
                                               S.of(context).income,
-                                              provider.allEmpty ? 1 : provider.currentIncome,
+                                              provider.allEmpty
+                                                  ? 1
+                                                  : provider.currentIncome,
                                               S.of(context).income,
                                               Colors.blueAccent.shade100,
                                             ),
                                         ],
-                                        xValueMapper: (_PieData data, _) => data.xData,
-                                        yValueMapper: (_PieData data, _) => data.yData,
-                                        dataLabelMapper: (_PieData data, _) => data.text,
-                                        pointColorMapper: (_PieData data, _) => data.color,
-                                        dataLabelSettings: const DataLabelSettings(
+                                        xValueMapper: (_PieData data, _) =>
+                                            data.xData,
+                                        yValueMapper: (_PieData data, _) =>
+                                            data.yData,
+                                        dataLabelMapper: (_PieData data, _) =>
+                                            data.text,
+                                        pointColorMapper: (_PieData data, _) =>
+                                            data.color,
+                                        dataLabelSettings:
+                                            const DataLabelSettings(
                                           isVisible: true,
                                           textStyle: TextStyle(
                                             fontFamily: 'RobotoMono',
@@ -542,5 +584,6 @@ class DashBoardSliverPersistentHeaderDelegate extends SliverPersistentHeaderDele
   double get minExtent => minEx;
 
   @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true; // 如果内容需要更新，设置为true
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) =>
+      true; // 如果内容需要更新，设置为true
 }

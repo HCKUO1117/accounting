@@ -250,7 +250,7 @@ class _AddRecodePageState extends State<AddRecodePage> {
                         const SizedBox(width: 8),
                         Expanded(
                           child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(

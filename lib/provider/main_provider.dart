@@ -34,7 +34,11 @@ class MainProvider with ChangeNotifier {
 
   ///goal
   String get goalType => Preferences.getString(Constants.goalType, '');
-  double get goalNum => double.parse(Preferences.getString(Constants.goalNum, '0'));
+
+  double get goalNum =>
+      double.parse(Preferences.getString(Constants.goalNum, '0'));
+
+  int get goalTimeStamp => Preferences.getInt(Constants.goalDate, 0);
 
   bool get samDay =>
       dashBoardStartDate.year == dashBoardEndDate.year &&
@@ -108,7 +112,9 @@ class MainProvider with ChangeNotifier {
     accountingList = list;
     currentAccountingList = [];
     for (var element in accountingList) {
-      if (start.year == end.year && start.month == end.month && start.day == end.day) {
+      if (start.year == end.year &&
+          start.month == end.month &&
+          start.day == end.day) {
         if (element.date.year == start.year &&
             element.date.month == start.month &&
             element.date.day == start.day) {
@@ -130,6 +136,16 @@ class MainProvider with ChangeNotifier {
         currentIncome += element.amount;
       }
     }
+    notifyListeners();
+  }
+
+  Future<void> setGoal(String type, double amount, {DateTime? date}) async {
+    await Future.wait([
+      Preferences.setString(Constants.goalType, type),
+      Preferences.setString(Constants.goalNum, amount.toString()),
+      Preferences.setInt(
+          Constants.goalDate, date != null ? date.millisecondsSinceEpoch : 0),
+    ]);
     notifyListeners();
   }
 }

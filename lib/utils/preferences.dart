@@ -22,4 +22,12 @@ class Preferences {
   static bool getBool(String key, bool defaultValue) {
     return preferences?.getBool(key) ?? defaultValue;
   }
+
+  static Future<void> setInt(String key, int value) async {
+    await preferences?.setInt(key, value);
+  }
+
+  static int getInt(String key, int defaultValue) {
+    return preferences?.getInt(key) ?? defaultValue;
+  }
 }

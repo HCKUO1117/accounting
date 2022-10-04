@@ -36,6 +36,12 @@
   "thisYear": "This year",
   "customize": "Customize...",
   "inAndOut": "Fixed income and goals",
-  "noTarget": "No target set",
-  "clickSetTarget": "Click here to set target"
+  "noTarget": "No goal set",
+  "setTarget": "Set Goal",
+  "clickSetTarget": "Click here to set goal",
+  "noRecord": "No record",
+  "eachMonth": "each month",
+  "longBefore": "...before",
+  "before": "before",
+  "save1": "save"
 }

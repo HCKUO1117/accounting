@@ -420,21 +420,81 @@ class S {
     );
   }
 
-  /// `No target set`
+  /// `No goal set`
   String get noTarget {
     return Intl.message(
-      'No target set',
+      'No goal set',
       name: 'noTarget',
       desc: '',
       args: [],
     );
   }
 
-  /// `Click here to set target`
+  /// `Set Goal`
+  String get setTarget {
+    return Intl.message(
+      'Set Goal',
+      name: 'setTarget',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Click here to set goal`
   String get clickSetTarget {
     return Intl.message(
-      'Click here to set target',
+      'Click here to set goal',
       name: 'clickSetTarget',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No record`
+  String get noRecord {
+    return Intl.message(
+      'No record',
+      name: 'noRecord',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `each month`
+  String get eachMonth {
+    return Intl.message(
+      'each month',
+      name: 'eachMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `...before`
+  String get longBefore {
+    return Intl.message(
+      '...before',
+      name: 'longBefore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `before`
+  String get before {
+    return Intl.message(
+      'before',
+      name: 'before',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `save`
+  String get save1 {
+    return Intl.message(
+      'save',
+      name: 'save1',
       desc: '',
       args: [],
     );
