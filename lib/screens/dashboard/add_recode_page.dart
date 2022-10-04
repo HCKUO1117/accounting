@@ -1,3 +1,4 @@
+import 'package:accounting/app.dart';
 import 'package:accounting/db/accounting_db.dart';
 import 'package:accounting/db/accounting_model.dart';
 import 'package:accounting/db/category_model.dart';
@@ -57,10 +58,7 @@ class _AddRecodePageState extends State<AddRecodePage> {
             .firstWhere((element) => element.id == widget.model!.id);
         for (var element in widget.model!.tags) {
           tagList.add(
-            context
-                .read<MainProvider>()
-                .tagList
-                .firstWhere((e) => e.id == element),
+            context.read<MainProvider>().tagList.firstWhere((e) => e.id == element),
           );
         }
         date = widget.model!.date;
@@ -94,9 +92,7 @@ class _AddRecodePageState extends State<AddRecodePage> {
               foregroundColor: Colors.orange,
               automaticallyImplyLeading: false,
               centerTitle: true,
-              title: Text(widget.model == null
-                  ? S.of(context).add
-                  : S.of(context).edit),
+              title: Text(widget.model == null ? S.of(context).add : S.of(context).edit),
               actions: [
                 IconButton(
                   onPressed: () {
@@ -127,13 +123,9 @@ class _AddRecodePageState extends State<AddRecodePage> {
                         });
                       },
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      selectedBorderColor: currentIndex == 0
-                          ? Colors.blueAccent
-                          : Colors.redAccent,
+                      selectedBorderColor: currentIndex == 0 ? Colors.blueAccent : Colors.redAccent,
                       selectedColor: Colors.white,
-                      fillColor: currentIndex == 0
-                          ? Colors.blueAccent
-                          : Colors.redAccent,
+                      fillColor: currentIndex == 0 ? Colors.blueAccent : Colors.redAccent,
                       color: Colors.black54,
                       constraints: BoxConstraints(
                         minHeight: 40.0,
@@ -174,8 +166,7 @@ class _AddRecodePageState extends State<AddRecodePage> {
                                 ),
                                 context: context,
                                 builder: (context) => SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height / 2,
+                                  height: MediaQuery.of(context).size.height / 2,
                                   child: Column(
                                     children: [
                                       const SizedBox(height: 16),
@@ -191,26 +182,18 @@ class _AddRecodePageState extends State<AddRecodePage> {
                                       const SizedBox(height: 16),
                                       Expanded(
                                         child: ListView.separated(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 16),
+                                          padding: const EdgeInsets.symmetric(horizontal: 16),
                                           shrinkWrap: true,
                                           itemCount: _selectedIndex[0]
-                                              ? provider
-                                                  .categoryIncomeList.length
-                                              : provider.categoryExpenditureList
-                                                  .length,
+                                              ? provider.categoryIncomeList.length
+                                              : provider.categoryExpenditureList.length,
                                           itemBuilder: (context, index) {
                                             return InkWell(
                                               onTap: () {
                                                 setState(() {
-                                                  currentCategory = _selectedIndex[
-                                                          0]
-                                                      ? provider
-                                                              .categoryIncomeList[
-                                                          index]
-                                                      : provider
-                                                              .categoryExpenditureList[
-                                                          index];
+                                                  currentCategory = _selectedIndex[0]
+                                                      ? provider.categoryIncomeList[index]
+                                                      : provider.categoryExpenditureList[index];
                                                 });
                                                 Navigator.pop(context);
                                               },
@@ -219,22 +202,14 @@ class _AddRecodePageState extends State<AddRecodePage> {
                                                   Expanded(
                                                     child: CategoryTitle(
                                                         model: _selectedIndex[0]
-                                                            ? provider
-                                                                    .categoryIncomeList[
-                                                                index]
+                                                            ? provider.categoryIncomeList[index]
                                                             : provider
-                                                                    .categoryExpenditureList[
-                                                                index]),
+                                                                .categoryExpenditureList[index]),
                                                   ),
                                                   if ((_selectedIndex[0]
-                                                          ? provider
-                                                              .categoryIncomeList[
-                                                                  index]
-                                                              .id
+                                                          ? provider.categoryIncomeList[index].id
                                                           : provider
-                                                              .categoryExpenditureList[
-                                                                  index]
-                                                              .id) ==
+                                                              .categoryExpenditureList[index].id) ==
                                                       currentCategory?.id)
                                                     const Icon(
                                                       Icons.check,
@@ -279,25 +254,18 @@ class _AddRecodePageState extends State<AddRecodePage> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(
-                                color: currentIndex == 0
-                                    ? Colors.blueAccent
-                                    : Colors.redAccent,
+                                color: currentIndex == 0 ? Colors.blueAccent : Colors.redAccent,
                               ),
                             ),
                             child: TextField(
                               controller: amount,
-                              cursorColor: currentIndex == 0
-                                  ? Colors.blueAccent
-                                  : Colors.redAccent,
+                              cursorColor: currentIndex == 0 ? Colors.blueAccent : Colors.redAccent,
                               textAlign: TextAlign.end,
                               keyboardType: TextInputType.number,
                               style: TextStyle(
-                                  color: currentIndex == 0
-                                      ? Colors.blueAccent
-                                      : Colors.redAccent),
+                                  color: currentIndex == 0 ? Colors.blueAccent : Colors.redAccent),
                               inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(r'[0-9.]')),
+                                FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
                               ],
                               decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -390,13 +358,15 @@ class _AddRecodePageState extends State<AddRecodePage> {
                         GestureDetector(
                           onTap: () async {
                             final DateTime? d = await showDatePicker(
-                                cancelText: S.of(context).cancel,
-                                confirmText: S.of(context).ok,
-                                helpText: S.of(context).selectDay,
-                                context: context,
-                                initialDate: date,
-                                firstDate: DateTime(1970),
-                                lastDate: DateTime(DateTime.now().year + 100));
+                              cancelText: S.of(context).cancel,
+                              confirmText: S.of(context).ok,
+                              helpText: S.of(context).selectDay,
+                              context: context,
+                              initialDate: date,
+                              firstDate: DateTime(1970),
+                              lastDate: DateTime(DateTime.now().year + 100),
+                              locale: App.of(context)?.locale ?? const Locale('en', ''),
+                            );
                             if (d != null) {
                               setState(() {
                                 date = d;
@@ -459,8 +429,7 @@ class _AddRecodePageState extends State<AddRecodePage> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all()),
+                          borderRadius: BorderRadius.circular(10), border: Border.all()),
                       child: TextField(
                         controller: note,
                         maxLines: null,
@@ -493,14 +462,12 @@ class _AddRecodePageState extends State<AddRecodePage> {
                                           },
                                           child: Text(
                                             S.of(context).cancel,
-                                            style: const TextStyle(
-                                                color: Colors.black54),
+                                            style: const TextStyle(color: Colors.black54),
                                           ),
                                         ),
                                         TextButton(
                                           onPressed: () async {
-                                            await AccountingDB.deleteData(
-                                                widget.model!.id!);
+                                            await AccountingDB.deleteData(widget.model!.id!);
                                             await provider.getAccountingList();
                                             if (!mounted) return;
                                             Navigator.pop(context, true);
@@ -580,14 +547,10 @@ class _AddRecodePageState extends State<AddRecodePage> {
         if (widget.model == null) {
           await AccountingDB.insertData(
             AccountingModel(
-              date: DateTime(
-                  date.year, date.month, date.day, time.hour, time.minute),
+              date: DateTime(date.year, date.month, date.day, time.hour, time.minute),
               category: currentCategory!.id!,
-              tags:
-                  List.generate(tagList.length, (index) => tagList[index].id!),
-              amount: currentIndex == 0
-                  ? double.parse(amount.text)
-                  : -double.parse(amount.text),
+              tags: List.generate(tagList.length, (index) => tagList[index].id!),
+              amount: currentIndex == 0 ? double.parse(amount.text) : -double.parse(amount.text),
               note: note.text,
             ),
           );
@@ -595,14 +558,10 @@ class _AddRecodePageState extends State<AddRecodePage> {
           await AccountingDB.updateData(
             AccountingModel(
               id: widget.model!.id,
-              date: DateTime(
-                  date.year, date.month, date.day, time.hour, time.minute),
+              date: DateTime(date.year, date.month, date.day, time.hour, time.minute),
               category: currentCategory!.id!,
-              tags:
-                  List.generate(tagList.length, (index) => tagList[index].id!),
-              amount: currentIndex == 0
-                  ? double.parse(amount.text)
-                  : -double.parse(amount.text),
+              tags: List.generate(tagList.length, (index) => tagList[index].id!),
+              amount: currentIndex == 0 ? double.parse(amount.text) : -double.parse(amount.text),
               note: note.text,
             ),
           );
@@ -612,9 +571,8 @@ class _AddRecodePageState extends State<AddRecodePage> {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(widget.model == null
-                ? S.of(context).addSuccess
-                : S.of(context).editSuccess),
+            content:
+                Text(widget.model == null ? S.of(context).addSuccess : S.of(context).editSuccess),
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -632,8 +590,7 @@ class ChooseTag extends StatefulWidget {
   final List<TagModel> tagList;
   final Function(List<TagModel>) onCheck;
 
-  const ChooseTag({Key? key, required this.tagList, required this.onCheck})
-      : super(key: key);
+  const ChooseTag({Key? key, required this.tagList, required this.onCheck}) : super(key: key);
 
   @override
   State<ChooseTag> createState() => _ChooseTagState();
@@ -650,17 +607,14 @@ class _ChooseTagState extends State<ChooseTag> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MainProvider>(
-        builder: (BuildContext context, MainProvider provider, _) {
+    return Consumer<MainProvider>(builder: (BuildContext context, MainProvider provider, _) {
       return Column(
         children: [
           const SizedBox(height: 16),
           Text(
             S.of(context).tag,
             style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.orangeAccent),
+                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.orangeAccent),
           ),
           const SizedBox(height: 16),
           Expanded(
@@ -672,11 +626,10 @@ class _ChooseTagState extends State<ChooseTag> {
                 return InkWell(
                   onTap: () {
                     setState(() {
-                      if (list.indexWhere((element) =>
-                              element.id == provider.tagList[index].id) !=
+                      if (list.indexWhere((element) => element.id == provider.tagList[index].id) !=
                           -1) {
-                        list.removeAt(list.indexWhere((element) =>
-                            element.id == provider.tagList[index].id));
+                        list.removeAt(
+                            list.indexWhere((element) => element.id == provider.tagList[index].id));
                       } else {
                         list.add(provider.tagList[index]);
                       }
@@ -687,8 +640,7 @@ class _ChooseTagState extends State<ChooseTag> {
                       Expanded(
                         child: TagTitle(model: provider.tagList[index]),
                       ),
-                      if (list.indexWhere((element) =>
-                              element.id == provider.tagList[index].id) !=
+                      if (list.indexWhere((element) => element.id == provider.tagList[index].id) !=
                           -1)
                         const Icon(
                           Icons.check,

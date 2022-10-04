@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:accounting/db/accounting_db.dart';
 import 'package:accounting/db/accounting_model.dart';
 import 'package:accounting/db/category_db.dart';
@@ -34,20 +32,20 @@ class MainProvider with ChangeNotifier {
   List<AccountingModel> accountingList = [];
   List<AccountingModel> currentAccountingList = [];
 
+  ///goal
+  String get goalType => Preferences.getString(Constants.goalType, '');
+  double get goalNum => double.parse(Preferences.getString(Constants.goalNum, '0'));
+
   bool get samDay =>
       dashBoardStartDate.year == dashBoardEndDate.year &&
       dashBoardStartDate.month == dashBoardEndDate.month &&
       dashBoardStartDate.day == dashBoardEndDate.day;
 
-  void setDashBoardDateRange(PickerDateRange range) {
-    if (range.startDate != null) {
-      dashBoardStartDate = range.startDate!;
-    }
-    if (range.endDate != null) {
-      dashBoardEndDate = range.endDate!;
-    } else if (range.startDate != null && range.endDate == null) {
-      dashBoardEndDate = range.startDate!;
-    }
+  void setDashBoardDateRange(DateTimeRange range) {
+    dashBoardStartDate = range.start;
+
+    dashBoardEndDate = range.end;
+
     setCurrentAccounting(dashBoardStartDate, dashBoardEndDate);
     notifyListeners();
   }
@@ -110,9 +108,7 @@ class MainProvider with ChangeNotifier {
     accountingList = list;
     currentAccountingList = [];
     for (var element in accountingList) {
-      if (start.year == end.year &&
-          start.month == end.month &&
-          start.day == end.day) {
+      if (start.year == end.year && start.month == end.month && start.day == end.day) {
         if (element.date.year == start.year &&
             element.date.month == start.month &&
             element.date.day == start.day) {
@@ -124,7 +120,7 @@ class MainProvider with ChangeNotifier {
         }
       }
     }
-    currentAccountingList.sort((a, b) => a.date.compareTo(b.date));
+    currentAccountingList.sort((a, b) => b.date.compareTo(a.date));
     currentIncome = 0;
     currentExpenditure = 0;
     for (var element in currentAccountingList) {

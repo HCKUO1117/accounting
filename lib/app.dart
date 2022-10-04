@@ -26,7 +26,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   MainProvider mainProvider = MainProvider();
 
-  Locale? _locale;
+  Locale? locale;
 
   final String defaultLocale = Platform.localeName;
 
@@ -34,7 +34,7 @@ class _AppState extends State<App> {
 
   Future<void> setLocale(Locale value) async {
     setState(() {
-      _locale = value;
+      locale = value;
     });
     await Preferences.setString('languageCode', value.languageCode);
     await Preferences.setString('countryCode', value.countryCode ?? '');
@@ -51,12 +51,12 @@ class _AppState extends State<App> {
       String countryCode = Preferences.getString('countryCode', '');
       setState(() {
         if (languageCode.isNotEmpty) {
-          _locale = Locale(languageCode, countryCode);
+          locale = Locale(languageCode, countryCode);
         } else {
           if (defaultLocale.length > 1) {
             String first = defaultLocale.substring(0, 2);
             String last = defaultLocale.substring(defaultLocale.length - 2, defaultLocale.length);
-            _locale = Locale(first, last == 'TW' ? 'TW' : '');
+            locale = Locale(first, last == 'TW' ? 'TW' : '');
             Preferences.setString('languageCode', first);
             if (last == 'TW') {
               Preferences.setString('countryCode', last);
@@ -101,7 +101,7 @@ class _AppState extends State<App> {
           Locale('en', ''),
           Locale('zh', 'TW'),
         ],
-        locale: _locale ?? const Locale('en', ''),
+        locale: locale ?? const Locale('en', ''),
       ),
     );
   }

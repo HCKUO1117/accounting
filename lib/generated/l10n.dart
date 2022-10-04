@@ -349,6 +349,96 @@ class S {
       args: [],
     );
   }
+
+  /// `Today`
+  String get today {
+    return Intl.message(
+      'Today',
+      name: 'today',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yesterday`
+  String get yesterday {
+    return Intl.message(
+      'Yesterday',
+      name: 'yesterday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This week`
+  String get thisWeek {
+    return Intl.message(
+      'This week',
+      name: 'thisWeek',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This month`
+  String get thisMonth {
+    return Intl.message(
+      'This month',
+      name: 'thisMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This year`
+  String get thisYear {
+    return Intl.message(
+      'This year',
+      name: 'thisYear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customize...`
+  String get customize {
+    return Intl.message(
+      'Customize...',
+      name: 'customize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fixed income and goals`
+  String get inAndOut {
+    return Intl.message(
+      'Fixed income and goals',
+      name: 'inAndOut',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No target set`
+  String get noTarget {
+    return Intl.message(
+      'No target set',
+      name: 'noTarget',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Click here to set target`
+  String get clickSetTarget {
+    return Intl.message(
+      'Click here to set target',
+      name: 'clickSetTarget',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

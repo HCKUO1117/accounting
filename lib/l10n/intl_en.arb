@@ -28,5 +28,14 @@
   "addSuccess": "Add Success!",
   "errorFormat": "Format error",
   "cantBe0": "Amount cannot be 0",
-  "editSuccess": "Edit Successful!"
+  "editSuccess": "Edit Successful!",
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "thisWeek": "This week",
+  "thisMonth": "This month",
+  "thisYear": "This year",
+  "customize": "Customize...",
+  "inAndOut": "Fixed income and goals",
+  "noTarget": "No target set",
+  "clickSetTarget": "Click here to set target"
 }

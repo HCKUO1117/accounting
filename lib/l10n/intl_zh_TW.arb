@@ -28,5 +28,14 @@
   "addSuccess": "加入成功！",
   "errorFormat": "格式錯誤",
   "cantBe0": "金額不得為0",
-  "editSuccess": "編輯成功！"
+  "editSuccess": "編輯成功！",
+  "today": "今天",
+  "yesterday": "昨天",
+  "thisWeek": "這週",
+  "thisMonth": "這個月",
+  "thisYear": "今年",
+  "customize": "自訂...",
+  "inAndOut": "固定收支與目標",
+  "noTarget": "未設定目標",
+  "clickSetTarget": "點此設定目標"
 }

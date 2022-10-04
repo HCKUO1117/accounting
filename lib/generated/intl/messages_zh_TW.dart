@@ -29,7 +29,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "cantBe0": MessageLookupByLibrary.simpleMessage("金額不得為0"),
         "category": MessageLookupByLibrary.simpleMessage("分類"),
         "categoryName": MessageLookupByLibrary.simpleMessage("分類名稱"),
+        "clickSetTarget": MessageLookupByLibrary.simpleMessage("點此設定目標"),
         "color": MessageLookupByLibrary.simpleMessage("顏色"),
+        "customize": MessageLookupByLibrary.simpleMessage("自訂..."),
         "date": MessageLookupByLibrary.simpleMessage("日期"),
         "deleteCheck": MessageLookupByLibrary.simpleMessage("是否要刪除？"),
         "edit": MessageLookupByLibrary.simpleMessage("編輯"),
@@ -39,7 +41,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "expenditure": MessageLookupByLibrary.simpleMessage("支出"),
         "goal": MessageLookupByLibrary.simpleMessage("目標"),
         "icon": MessageLookupByLibrary.simpleMessage("圖示"),
+        "inAndOut": MessageLookupByLibrary.simpleMessage("固定收支與目標"),
         "income": MessageLookupByLibrary.simpleMessage("收入"),
+        "noTarget": MessageLookupByLibrary.simpleMessage("未設定目標"),
         "notFillAmount": MessageLookupByLibrary.simpleMessage("未填寫金額"),
         "notSelectCategory": MessageLookupByLibrary.simpleMessage("未選擇分類"),
         "note": MessageLookupByLibrary.simpleMessage("註記"),
@@ -51,6 +55,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectTime": MessageLookupByLibrary.simpleMessage("選擇時間"),
         "setting": MessageLookupByLibrary.simpleMessage("設定"),
         "tag": MessageLookupByLibrary.simpleMessage("標籤"),
-        "time": MessageLookupByLibrary.simpleMessage("時間")
+        "thisMonth": MessageLookupByLibrary.simpleMessage("這個月"),
+        "thisWeek": MessageLookupByLibrary.simpleMessage("這週"),
+        "thisYear": MessageLookupByLibrary.simpleMessage("今年"),
+        "time": MessageLookupByLibrary.simpleMessage("時間"),
+        "today": MessageLookupByLibrary.simpleMessage("今天"),
+        "yesterday": MessageLookupByLibrary.simpleMessage("昨天")
       };
 }
