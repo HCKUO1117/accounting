@@ -40,6 +40,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "eachMonth": MessageLookupByLibrary.simpleMessage("each month"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "editSuccess": MessageLookupByLibrary.simpleMessage("Edit Successful!"),
+        "endBeforeStart": MessageLookupByLibrary.simpleMessage(
+            "End time must not be earlier than start time"),
         "errorFormat": MessageLookupByLibrary.simpleMessage("Format error"),
         "expand": MessageLookupByLibrary.simpleMessage("Expand"),
         "expenditure": MessageLookupByLibrary.simpleMessage("Expenditure"),
@@ -53,6 +55,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "noTarget": MessageLookupByLibrary.simpleMessage("No goal set"),
         "notFillAmount":
             MessageLookupByLibrary.simpleMessage("Amount not filled"),
+        "notFillEndTime":
+            MessageLookupByLibrary.simpleMessage("Please select an end time"),
+        "notFillStartTime":
+            MessageLookupByLibrary.simpleMessage("Please select a start time"),
         "notSelectCategory":
             MessageLookupByLibrary.simpleMessage("No category selected"),
         "note": MessageLookupByLibrary.simpleMessage("Note"),
@@ -66,11 +72,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectTime": MessageLookupByLibrary.simpleMessage("Select Time"),
         "setTarget": MessageLookupByLibrary.simpleMessage("Set Goal"),
         "setting": MessageLookupByLibrary.simpleMessage("Setting"),
+        "start": MessageLookupByLibrary.simpleMessage("start"),
         "tag": MessageLookupByLibrary.simpleMessage("Tag"),
         "thisMonth": MessageLookupByLibrary.simpleMessage("This month"),
         "thisWeek": MessageLookupByLibrary.simpleMessage("This week"),
         "thisYear": MessageLookupByLibrary.simpleMessage("This year"),
         "time": MessageLookupByLibrary.simpleMessage("Time"),
+        "to": MessageLookupByLibrary.simpleMessage("to"),
         "today": MessageLookupByLibrary.simpleMessage("Today"),
         "yesterday": MessageLookupByLibrary.simpleMessage("Yesterday")
       };

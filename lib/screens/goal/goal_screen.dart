@@ -15,11 +15,16 @@ class GoalScreen extends StatefulWidget {
 class _GoalScreenState extends State<GoalScreen> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<MainProvider>(
-        builder: (BuildContext context, MainProvider provider, _) {
+    return Consumer<MainProvider>(builder: (BuildContext context, MainProvider provider, _) {
       return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          title: Text(
+            S.of(context).inAndOut,
+            style: const TextStyle(
+              fontFamily: 'RobotoMono',
+            ),
+          ),
           backgroundColor: AppColors.backgroundColor,
           elevation: 0,
         ),
@@ -45,7 +50,7 @@ class _GoalScreenState extends State<GoalScreen> {
                       StretchMode.blurBackground,
                       StretchMode.fadeTitle,
                     ],
-                    background: provider.goalType.isEmpty
+                    background: provider.goalType == -1
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -55,10 +60,10 @@ class _GoalScreenState extends State<GoalScreen> {
                                 onTap: () {
                                   showDialog(
                                     context: context,
+                                    useRootNavigator: false,
                                     builder: (context) => AlertDialog(
                                       shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
+                                          borderRadius: BorderRadius.circular(20)),
                                       scrollable: true,
                                       content: const AddGoalPage(),
                                     ),
@@ -71,7 +76,31 @@ class _GoalScreenState extends State<GoalScreen> {
                               )
                             ],
                           )
-                        : Container(),
+                        : Column(
+                            children: [
+                              Row(
+                                children: [
+                                  const Spacer(),
+                                  IconButton(
+                                    onPressed: () {
+                                      provider.setGoal(
+                                        -1,
+                                        0,
+                                        date: null,
+                                        start: null,
+                                      );
+                                    },
+                                    icon: const Icon(Icons.delete_outline_outlined),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(S.of(context).eachMonth),
+                                ],
+                              )
+                            ],
+                          ),
                   ),
                 ),
               ];

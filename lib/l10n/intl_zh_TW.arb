@@ -43,5 +43,10 @@
   "eachMonth": "每個月",
   "longBefore": "...之前",
   "before": "前",
-  "save1": "存"
+  "save1": "存",
+  "start": "開始",
+  "to": "至",
+  "notFillStartTime": "請選擇開始時間",
+  "notFillEndTime": "請選擇結束時間",
+  "endBeforeStart": "結束時間不得早於開始時間"
 }

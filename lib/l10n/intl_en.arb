@@ -43,5 +43,10 @@
   "eachMonth": "each month",
   "longBefore": "...before",
   "before": "before",
-  "save1": "save"
+  "save1": "save",
+  "start": "start",
+  "to": "to",
+  "notFillStartTime": "Please select a start time",
+  "notFillEndTime": "Please select an end time",
+  "endBeforeStart": "End time must not be earlier than start time"
 }

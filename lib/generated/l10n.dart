@@ -499,6 +499,56 @@ class S {
       args: [],
     );
   }
+
+  /// `start`
+  String get start {
+    return Intl.message(
+      'start',
+      name: 'start',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `to`
+  String get to {
+    return Intl.message(
+      'to',
+      name: 'to',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select a start time`
+  String get notFillStartTime {
+    return Intl.message(
+      'Please select a start time',
+      name: 'notFillStartTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select an end time`
+  String get notFillEndTime {
+    return Intl.message(
+      'Please select an end time',
+      name: 'notFillEndTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End time must not be earlier than start time`
+  String get endBeforeStart {
+    return Intl.message(
+      'End time must not be earlier than start time',
+      name: 'endBeforeStart',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

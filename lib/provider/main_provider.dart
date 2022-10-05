@@ -7,7 +7,6 @@ import 'package:accounting/db/tag_model.dart';
 import 'package:accounting/res/constants.dart';
 import 'package:accounting/utils/preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class MainProvider with ChangeNotifier {
   ///dashboard
@@ -33,12 +32,10 @@ class MainProvider with ChangeNotifier {
   List<AccountingModel> currentAccountingList = [];
 
   ///goal
-  String get goalType => Preferences.getString(Constants.goalType, '');
-
-  double get goalNum =>
-      double.parse(Preferences.getString(Constants.goalNum, '0'));
-
+  int get goalType => Preferences.getInt(Constants.goalType, -1);
+  double get goalNum => double.parse(Preferences.getString(Constants.goalNum, '0'));
   int get goalTimeStamp => Preferences.getInt(Constants.goalDate, 0);
+  int get goalStartTimeStamp => Preferences.getInt(Constants.goalStartDate, 0);
 
   bool get samDay =>
       dashBoardStartDate.year == dashBoardEndDate.year &&
@@ -112,9 +109,7 @@ class MainProvider with ChangeNotifier {
     accountingList = list;
     currentAccountingList = [];
     for (var element in accountingList) {
-      if (start.year == end.year &&
-          start.month == end.month &&
-          start.day == end.day) {
+      if (start.year == end.year && start.month == end.month && start.day == end.day) {
         if (element.date.year == start.year &&
             element.date.month == start.month &&
             element.date.day == start.day) {
@@ -139,13 +134,14 @@ class MainProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setGoal(String type, double amount, {DateTime? date}) async {
+  Future<void> setGoal(int type, double amount, {DateTime? date,DateTime? start}) async {
     await Future.wait([
-      Preferences.setString(Constants.goalType, type),
+      Preferences.setInt(Constants.goalType, type),
       Preferences.setString(Constants.goalNum, amount.toString()),
-      Preferences.setInt(
-          Constants.goalDate, date != null ? date.millisecondsSinceEpoch : 0),
+      Preferences.setInt(Constants.goalDate, date != null ? date.millisecondsSinceEpoch : 0),
+      Preferences.setInt(Constants.goalStartDate, start != null ? start.millisecondsSinceEpoch : 0),
     ]);
+
     notifyListeners();
   }
 }

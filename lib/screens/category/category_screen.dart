@@ -18,8 +18,7 @@ class CategoryScreen extends StatefulWidget {
   State<CategoryScreen> createState() => _CategoryScreenState();
 }
 
-class _CategoryScreenState extends State<CategoryScreen>
-    with TickerProviderStateMixin {
+class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStateMixin {
   TabController? _tabController;
 
   @override
@@ -32,14 +31,18 @@ class _CategoryScreenState extends State<CategoryScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MainProvider>(
-        builder: (BuildContext context, MainProvider mainProvider, _) {
+    return Consumer<MainProvider>(builder: (BuildContext context, MainProvider mainProvider, _) {
       return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
-          title: Text(S.of(context).category,style: const TextStyle(fontFamily: 'RobotoMono',),),
+          title: Text(
+            S.of(context).category,
+            style: const TextStyle(
+              fontFamily: 'RobotoMono',
+            ),
+          ),
           bottom: TabBar(
             controller: _tabController,
             tabs: [
@@ -116,8 +119,7 @@ class _CategoryScreenState extends State<CategoryScreen>
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              return CategoryTitle(
-                                  model: provider.categoryIncomeList[index]);
+                              return CategoryTitle(model: provider.categoryIncomeList[index]);
                             },
                             separatorBuilder: (context, index) {
                               return const Divider();
@@ -133,8 +135,7 @@ class _CategoryScreenState extends State<CategoryScreen>
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20)),
                                   scrollable: true,
-                                  content: const AddCategoryPage(
-                                      type: CategoryType.income),
+                                  content: const AddCategoryPage(type: CategoryType.income),
                                 ),
                               );
                               // showModalBottomSheet(
@@ -211,9 +212,7 @@ class _CategoryScreenState extends State<CategoryScreen>
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              return CategoryTitle(
-                                  model:
-                                      provider.categoryExpenditureList[index]);
+                              return CategoryTitle(model: provider.categoryExpenditureList[index]);
                             },
                             separatorBuilder: (context, index) {
                               return const Divider();
@@ -229,8 +228,7 @@ class _CategoryScreenState extends State<CategoryScreen>
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20)),
                                   scrollable: true,
-                                  content: const AddCategoryPage(
-                                      type: CategoryType.expenditure),
+                                  content: const AddCategoryPage(type: CategoryType.expenditure),
                                 ),
                               );
                               // showModalBottomSheet(
@@ -326,8 +324,7 @@ class _CategoryScreenState extends State<CategoryScreen>
                                 children: [
                                   Expanded(
                                     child: TagTitle(
-                                      key: Key(
-                                          provider.tagList[i].id.toString()),
+                                      key: Key(provider.tagList[i].id.toString()),
                                       model: provider.tagList[i],
                                     ),
                                   ),
@@ -337,8 +334,7 @@ class _CategoryScreenState extends State<CategoryScreen>
                                         context: context,
                                         builder: (context) => AlertDialog(
                                           shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
+                                              borderRadius: BorderRadius.circular(20)),
                                           scrollable: true,
                                           content: AddTagPage(
                                             model: provider.tagList[i],
@@ -357,8 +353,7 @@ class _CategoryScreenState extends State<CategoryScreen>
                                         context: context,
                                         builder: (context) => AlertDialog(
                                           title: Text(S.of(context).notify),
-                                          content:
-                                              Text(S.of(context).deleteCheck),
+                                          content: Text(S.of(context).deleteCheck),
                                           actions: [
                                             TextButton(
                                               onPressed: () {
@@ -366,14 +361,12 @@ class _CategoryScreenState extends State<CategoryScreen>
                                               },
                                               child: Text(
                                                 S.of(context).cancel,
-                                                style: const TextStyle(
-                                                    color: Colors.black54),
+                                                style: const TextStyle(color: Colors.black54),
                                               ),
                                             ),
                                             TextButton(
                                               onPressed: () async {
-                                                await TagDB.deleteData(
-                                                    provider.tagList[i].id!);
+                                                await TagDB.deleteData(provider.tagList[i].id!);
                                                 provider.getTagList();
                                                 Navigator.pop(context);
                                               },
@@ -390,8 +383,7 @@ class _CategoryScreenState extends State<CategoryScreen>
                                   ),
                                 ],
                               ),
-                              if (i + 1 != provider.tagList.length)
-                                const Divider()
+                              if (i + 1 != provider.tagList.length) const Divider()
                             ],
                           )
                       ],
@@ -415,8 +407,8 @@ class _CategoryScreenState extends State<CategoryScreen>
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
+                              shape:
+                                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                               scrollable: true,
                               content: const AddTagPage(),
                             ),
