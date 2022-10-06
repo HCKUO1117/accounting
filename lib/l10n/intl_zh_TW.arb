@@ -48,5 +48,6 @@
   "to": "至",
   "notFillStartTime": "請選擇開始時間",
   "notFillEndTime": "請選擇結束時間",
-  "endBeforeStart": "結束時間不得早於開始時間"
+  "endBeforeStart": "結束時間不得早於開始時間",
+  "amountFormatError": "金額格式錯誤"
 }

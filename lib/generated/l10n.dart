@@ -549,6 +549,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Amount format error`
+  String get amountFormatError {
+    return Intl.message(
+      'Amount format error',
+      name: 'amountFormatError',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

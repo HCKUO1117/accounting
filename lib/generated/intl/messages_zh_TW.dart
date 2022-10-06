@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "add": MessageLookupByLibrary.simpleMessage("添加"),
         "addSuccess": MessageLookupByLibrary.simpleMessage("加入成功！"),
         "amount": MessageLookupByLibrary.simpleMessage("金額"),
+        "amountFormatError": MessageLookupByLibrary.simpleMessage("金額格式錯誤"),
         "before": MessageLookupByLibrary.simpleMessage("前"),
         "cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "cantBe0": MessageLookupByLibrary.simpleMessage("金額不得為0"),

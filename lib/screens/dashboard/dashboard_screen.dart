@@ -186,39 +186,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 scrollbarAlwaysShow: true,
               ),
             ),
-
-            // InkWell(
-            //   onTap: () {
-            //     showDateRangePicker(
-            //       context: context,
-            //       firstDate: DateTime(2022, 1, 1),
-            //       lastDate: DateTime(2023, 1, 1),
-            //       locale: App.of(context)?.locale ?? const Locale('en', ''),
-            //     );
-            //     CustomDatePickerDialog.show(
-            //       context,
-            //       onDateSelect: (arg) {
-            //         provider
-            //             .setDashBoardDateRange(arg.value as PickerDateRange);
-            //       },
-            //       start: provider.dashBoardStartDate,
-            //       end: provider.dashBoardEndDate,
-            //     );
-            //   },
-            //   child: Row(
-            //     mainAxisSize: MainAxisSize.min,
-            //     children: [
-            //       const Icon(
-            //         Icons.arrow_drop_down,
-            //         color: Colors.transparent,
-            //       ),
-            //       Text(
-            //         '${Utils.toDateString(provider.dashBoardStartDate)}${!provider.samDay ? ' ~ ' : ''}${!provider.samDay ? Utils.toDateString(provider.dashBoardEndDate) : ''}',
-            //       ),
-            //       const Icon(Icons.arrow_drop_down),
-            //     ],
-            //   ),
-            // ),
           ),
           body: CustomScrollView(
             slivers: [
@@ -375,7 +342,7 @@ class DashBoardSliverPersistentHeaderDelegate
                         style: const TextStyle(
                           fontFamily: 'RobotoMono',
                           fontSize: 30,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),

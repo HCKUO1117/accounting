@@ -25,6 +25,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "add": MessageLookupByLibrary.simpleMessage("Add"),
         "addSuccess": MessageLookupByLibrary.simpleMessage("Add Success!"),
         "amount": MessageLookupByLibrary.simpleMessage("Amount"),
+        "amountFormatError":
+            MessageLookupByLibrary.simpleMessage("Amount format error"),
         "before": MessageLookupByLibrary.simpleMessage("before"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cantBe0": MessageLookupByLibrary.simpleMessage("Amount cannot be 0"),

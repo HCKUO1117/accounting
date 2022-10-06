@@ -25,6 +25,20 @@ class _AddGoalPageState extends State<AddGoalPage> {
   String? errorText;
 
   @override
+  void initState() {
+    final MainProvider mainProvider = context.read<MainProvider>();
+    selectedValue = mainProvider.goalType != -1 ? mainProvider.goalType : 0;
+    goalDate = mainProvider.goalTimeStamp != 0
+        ? DateTime.fromMillisecondsSinceEpoch(mainProvider.goalTimeStamp)
+        : null;
+    startDate = mainProvider.goalStartTimeStamp != 0
+        ? DateTime.fromMillisecondsSinceEpoch(mainProvider.goalStartTimeStamp)
+        : null;
+    amount.text = mainProvider.goalNum.toString();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     items = [
       S.of(context).eachMonth,
@@ -256,10 +270,17 @@ class _AddGoalPageState extends State<AddGoalPage> {
                   ShowToast.showToast(S.of(context).endBeforeStart);
                   return;
                 }
+                try {
+                  double.parse(amount.text);
+                } catch (e) {
+                  ShowToast.showToast(S.of(context).amountFormatError);
+                  return;
+                }
                 await context.read<MainProvider>().setGoal(
                       selectedValue,
                       double.parse(amount.text),
                       date: goalDate,
+                      start: startDate,
                     );
                 if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(

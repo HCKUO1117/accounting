@@ -530,9 +530,12 @@ class _AddRecodePageState extends State<AddRecodePage> {
         try {
           double.parse(amount.text);
         } catch (e) {
-          setState(() {
-            errorText = S.of(context).errorFormat;
-          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(S.of(context).amountFormatError),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
           return;
         }
         if (double.parse(amount.text) == 0) {
