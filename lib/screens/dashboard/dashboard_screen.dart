@@ -1,16 +1,18 @@
 import 'dart:math';
 
-import 'package:accounting/app.dart';
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
+import 'package:accounting/screens/custom_date_picker_dialog.dart';
 import 'package:accounting/screens/dashboard/add_recode_page.dart';
+import 'package:accounting/screens/dashboard/calendar_page.dart';
 import 'package:accounting/screens/widget/accounting_title.dart';
 import 'package:accounting/utils/utils.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class DashBoardScreen extends StatefulWidget {
   final double topPadding;
@@ -35,7 +37,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   }
 
   late List<String> items;
-  int selectedValue = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     ];
     return Consumer<MainProvider>(
       builder: (BuildContext context, MainProvider provider, _) {
-        if (selectedValue == 5) {
+        if (provider.selectedValue == 5) {
           items[5] =
               '${Utils.toDateString(provider.dashBoardStartDate)}${!provider.samDay ? ' ~ ' : ''}${!provider.samDay ? Utils.toDateString(provider.dashBoardEndDate) : ''}';
         }
@@ -93,7 +94,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       ),
                     ),
                 ],
-                value: selectedValue,
+                value: provider.selectedValue,
                 onChanged: (value) async {
                   final DateTime d = DateTime.now();
                   if (value == 0) {
@@ -115,8 +116,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   if (value == 2) {
                     final int weekDay = d.weekday;
                     final DateTime firstDayOfWeek =
-                        DateTime(d.year, d.month, d.day)
-                            .subtract(Duration(days: weekDay - 1));
+                        DateTime(d.year, d.month, d.day).subtract(Duration(days: weekDay - 1));
                     provider.setDashBoardDateRange(
                       DateTimeRange(
                         start: firstDayOfWeek,
@@ -125,8 +125,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     );
                   }
                   if (value == 3) {
-                    final DateTime firstDayOfMonth =
-                        DateTime(d.year, d.month, 1);
+                    final DateTime firstDayOfMonth = DateTime(d.year, d.month, 1);
                     provider.setDashBoardDateRange(
                       DateTimeRange(
                         start: firstDayOfMonth,
@@ -144,23 +143,39 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     );
                   }
                   if (value == 5) {
-                    DateTimeRange? range = await showDateRangePicker(
-                      context: context,
-                      initialDateRange: DateTimeRange(
-                          start: provider.dashBoardStartDate,
-                          end: provider.dashBoardEndDate),
-                      firstDate: DateTime(1970, 1, 1),
-                      lastDate: d,
-                      locale: App.of(context)?.locale ?? const Locale('en', ''),
+                    DateTimeRange? range;
+                    await CustomDatePickerDialog.show(
+                      context,
+                      onDateSelect: (arg) {
+                        PickerDateRange r = arg.value;
+                        range = DateTimeRange(
+                          start: r.startDate!,
+                          end: r.endDate != null ? r.endDate! : r.startDate!,
+                        );
+                      },
+                      start: provider.dashBoardStartDate,
+                      end: provider.dashBoardEndDate,
                     );
                     if (range == null) {
                       return;
                     }
-                    provider.setDashBoardDateRange(
-                        DateTimeRange(start: range.start, end: range.end));
+                    provider.setDashBoardDateRange(range!);
+                    // DateTimeRange? range = await showDateRangePicker(
+                    //   context: context,
+                    //   initialDateRange: DateTimeRange(
+                    //       start: provider.dashBoardStartDate, end: provider.dashBoardEndDate),
+                    //   firstDate: DateTime(1970, 1, 1),
+                    //   lastDate: d,
+                    //   locale: App.of(context)?.locale ?? const Locale('en', ''),
+                    // );
+                    // if (range == null) {
+                    //   return;
+                    // }
+                    // provider
+                    //     .setDashBoardDateRange(DateTimeRange(start: range.start, end: range.end));
                   }
                   setState(() {
-                    selectedValue = value as int;
+                    provider.selectedValue = value as int;
                   });
                 },
                 iconSize: 14,
@@ -193,7 +208,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 pinned: true,
                 delegate: DashBoardSliverPersistentHeaderDelegate(
                   maxEx: MediaQuery.of(context).size.height / 3 + 50,
-                  minEx: 90,
+                  minEx: 100,
+                  topPadding: widget.topPadding,
                 ),
               ),
               SliverList(
@@ -203,7 +219,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
                         minHeight: MediaQuery.of(context).size.height -
-                            90 -
+                            100 -
                             (MediaQuery.of(context).padding.top +
                                 kToolbarHeight +
                                 MediaQuery.of(context).padding.bottom +
@@ -222,8 +238,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             ? Column(
                                 children: [
                                   SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.height / 6,
+                                    height: MediaQuery.of(context).size.height / 6,
                                   ),
                                   Text(
                                     S.of(context).noRecord,
@@ -243,8 +258,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 padding: const EdgeInsets.only(bottom: 50),
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount:
-                                    provider.currentAccountingList.length,
+                                itemCount: provider.currentAccountingList.length,
                                 itemBuilder: (context, index) {
                                   return AccountingTitle(
                                     onTap: () {
@@ -259,17 +273,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                         isScrollControlled: true,
                                         context: context,
                                         builder: (context) => Padding(
-                                          padding: EdgeInsets.only(
-                                              top: widget.topPadding),
+                                          padding: EdgeInsets.only(top: widget.topPadding),
                                           child: AddRecodePage(
-                                            model: provider
-                                                .currentAccountingList[index],
+                                            model: provider.currentAccountingList[index],
                                           ),
                                         ),
                                       );
                                     },
-                                    model:
-                                        provider.currentAccountingList[index],
+                                    model: provider.currentAccountingList[index],
                                   );
                                 },
                                 separatorBuilder: (context, index) {
@@ -304,49 +315,73 @@ class _PieData {
   final Color color;
 }
 
-class DashBoardSliverPersistentHeaderDelegate
-    extends SliverPersistentHeaderDelegate {
+class DashBoardSliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double maxEx;
   final double minEx;
+  final double topPadding;
 
   DashBoardSliverPersistentHeaderDelegate({
     required this.maxEx,
     required this.minEx,
+    required this.topPadding,
   });
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     double shrinkPercentage = min(1, shrinkOffset / (maxExtent - minExtent));
     return Consumer<MainProvider>(
       builder: (BuildContext context, MainProvider provider, _) {
-        return Container(
+        return Material(
           color: Colors.white,
           child: Container(
             color: AppColors.backgroundColor,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                ConstrainedBox(
-                  constraints: BoxConstraints.tightFor(
-                    height: max(
-                      50,
-                      80 * (1 - shrinkPercentage),
+                Stack(
+                  children: [
+                    const SizedBox(
+                      width: double.maxFinite,
                     ),
-                  ),
-                  child: FittedBox(
-                    child: Container(
-                      padding: const EdgeInsets.all(20),
-                      child: Text(
-                        provider.balance.toString(),
-                        style: const TextStyle(
-                          fontFamily: 'RobotoMono',
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
+                    ConstrainedBox(
+                      constraints: BoxConstraints.tightFor(
+                        height: max(
+                          50,
+                          80 * (1 - shrinkPercentage),
+                        ),
+                      ),
+                      child: FittedBox(
+                        child: Container(
+                          padding: const EdgeInsets.all(20),
+                          child: Text(
+                            provider.balance.toString(),
+                            style: const TextStyle(
+                              fontFamily: 'RobotoMono',
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                    Positioned(
+                        right: 0,
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CalendarPage(
+                                  start: provider.dashBoardStartDate,
+                                  end: provider.dashBoardEndDate,
+                                  topPadding: topPadding,
+                                ),
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.calendar_today),
+                        ))
+                  ],
                 ),
                 Expanded(
                   child: Stack(
@@ -358,8 +393,7 @@ class DashBoardSliverPersistentHeaderDelegate
                           child: Column(
                             children: [
                               Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 16),
+                                margin: const EdgeInsets.symmetric(horizontal: 16),
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
                                     color: Colors.white,
@@ -408,8 +442,7 @@ class DashBoardSliverPersistentHeaderDelegate
                                           ),
                                           const SizedBox(height: 8),
                                           Text(
-                                            provider.currentExpenditure
-                                                .toString(),
+                                            provider.currentExpenditure.toString(),
                                             style: const TextStyle(
                                               color: Colors.redAccent,
                                               fontSize: 18,
@@ -433,37 +466,26 @@ class DashBoardSliverPersistentHeaderDelegate
                                         explodeIndex: 0,
                                         animationDuration: 600,
                                         dataSource: [
-                                          if (provider.allEmpty ||
-                                              provider.currentExpenditure != 0)
+                                          if (provider.allEmpty || provider.currentExpenditure != 0)
                                             _PieData(
                                               S.of(context).expenditure,
-                                              provider.allEmpty
-                                                  ? 1
-                                                  : provider.currentExpenditure,
+                                              provider.allEmpty ? 1 : provider.currentExpenditure,
                                               S.of(context).expenditure,
                                               Colors.redAccent.shade100,
                                             ),
-                                          if (provider.allEmpty ||
-                                              provider.currentIncome != 0)
+                                          if (provider.allEmpty || provider.currentIncome != 0)
                                             _PieData(
                                               S.of(context).income,
-                                              provider.allEmpty
-                                                  ? 1
-                                                  : provider.currentIncome,
+                                              provider.allEmpty ? 1 : provider.currentIncome,
                                               S.of(context).income,
                                               Colors.blueAccent.shade100,
                                             ),
                                         ],
-                                        xValueMapper: (_PieData data, _) =>
-                                            data.xData,
-                                        yValueMapper: (_PieData data, _) =>
-                                            data.yData,
-                                        dataLabelMapper: (_PieData data, _) =>
-                                            data.text,
-                                        pointColorMapper: (_PieData data, _) =>
-                                            data.color,
-                                        dataLabelSettings:
-                                            const DataLabelSettings(
+                                        xValueMapper: (_PieData data, _) => data.xData,
+                                        yValueMapper: (_PieData data, _) => data.yData,
+                                        dataLabelMapper: (_PieData data, _) => data.text,
+                                        pointColorMapper: (_PieData data, _) => data.color,
+                                        dataLabelSettings: const DataLabelSettings(
                                           isVisible: true,
                                           textStyle: TextStyle(
                                             fontFamily: 'RobotoMono',
@@ -551,6 +573,5 @@ class DashBoardSliverPersistentHeaderDelegate
   double get minExtent => minEx;
 
   @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) =>
-      true; // 如果内容需要更新，设置为true
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true; // 如果内容需要更新，设置为true
 }

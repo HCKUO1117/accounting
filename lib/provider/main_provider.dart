@@ -15,6 +15,8 @@ class MainProvider with ChangeNotifier {
   double currentIncome = 0;
   double currentExpenditure = 0;
 
+  int selectedValue = 0;
+
   double get balance => currentIncome + currentExpenditure;
 
   bool get allEmpty => currentIncome == 0 && currentExpenditure == 0;

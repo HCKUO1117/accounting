@@ -55,7 +55,7 @@ class _AddRecodePageState extends State<AddRecodePage> {
         currentCategory = context
             .read<MainProvider>()
             .categoryList
-            .firstWhere((element) => element.id == widget.model!.id);
+            .firstWhere((element) => element.id == widget.model!.category);
         for (var element in widget.model!.tags) {
           tagList.add(
             context.read<MainProvider>().tagList.firstWhere((e) => e.id == element),
