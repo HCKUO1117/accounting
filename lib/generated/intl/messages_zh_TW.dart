@@ -35,6 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "color": MessageLookupByLibrary.simpleMessage("顏色"),
         "customize": MessageLookupByLibrary.simpleMessage("自訂..."),
         "date": MessageLookupByLibrary.simpleMessage("日期"),
+        "day": MessageLookupByLibrary.simpleMessage("天"),
         "deleteCheck": MessageLookupByLibrary.simpleMessage("是否要刪除？"),
         "eachMonth": MessageLookupByLibrary.simpleMessage("每個月"),
         "edit": MessageLookupByLibrary.simpleMessage("編輯"),
@@ -48,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "inAndOut": MessageLookupByLibrary.simpleMessage("固定收支與目標"),
         "income": MessageLookupByLibrary.simpleMessage("收入"),
         "longBefore": MessageLookupByLibrary.simpleMessage("...之前"),
+        "month": MessageLookupByLibrary.simpleMessage("月"),
         "noRecord": MessageLookupByLibrary.simpleMessage("沒有紀錄"),
         "noTarget": MessageLookupByLibrary.simpleMessage("未設定目標"),
         "notFillAmount": MessageLookupByLibrary.simpleMessage("未填寫金額"),
@@ -72,6 +74,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "time": MessageLookupByLibrary.simpleMessage("時間"),
         "to": MessageLookupByLibrary.simpleMessage("至"),
         "today": MessageLookupByLibrary.simpleMessage("今天"),
+        "year": MessageLookupByLibrary.simpleMessage("年"),
         "yesterday": MessageLookupByLibrary.simpleMessage("昨天")
       };
 }

@@ -49,5 +49,8 @@
   "notFillStartTime": "Please select a start time",
   "notFillEndTime": "Please select an end time",
   "endBeforeStart": "End time must not be earlier than start time",
-  "amountFormatError": "Amount format error"
+  "amountFormatError": "Amount format error",
+  "day": "day",
+  "month": "month",
+  "year": "year"
 }

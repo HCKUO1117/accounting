@@ -11,4 +11,18 @@ class Utils {
     }
     return false;
   }
+
+  static bool checkIsSameMonth(DateTime start, DateTime end) {
+    if (start.year == end.year && start.month == end.month) {
+      return true;
+    }
+    return false;
+  }
+
+  static bool checkIsSameYear(DateTime start, DateTime end) {
+    if (start.year == end.year) {
+      return true;
+    }
+    return false;
+  }
 }

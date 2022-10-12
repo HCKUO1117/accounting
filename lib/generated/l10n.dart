@@ -559,6 +559,36 @@ class S {
       args: [],
     );
   }
+
+  /// `day`
+  String get day {
+    return Intl.message(
+      'day',
+      name: 'day',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `month`
+  String get month {
+    return Intl.message(
+      'month',
+      name: 'month',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `year`
+  String get year {
+    return Intl.message(
+      'year',
+      name: 'year',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

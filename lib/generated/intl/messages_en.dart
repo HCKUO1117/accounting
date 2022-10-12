@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "color": MessageLookupByLibrary.simpleMessage("Color"),
         "customize": MessageLookupByLibrary.simpleMessage("Customize..."),
         "date": MessageLookupByLibrary.simpleMessage("Date"),
+        "day": MessageLookupByLibrary.simpleMessage("day"),
         "deleteCheck":
             MessageLookupByLibrary.simpleMessage("Do you want to delete?"),
         "eachMonth": MessageLookupByLibrary.simpleMessage("each month"),
@@ -53,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Fixed income and goals"),
         "income": MessageLookupByLibrary.simpleMessage("Income"),
         "longBefore": MessageLookupByLibrary.simpleMessage("...before"),
+        "month": MessageLookupByLibrary.simpleMessage("month"),
         "noRecord": MessageLookupByLibrary.simpleMessage("No record"),
         "noTarget": MessageLookupByLibrary.simpleMessage("No goal set"),
         "notFillAmount":
@@ -82,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "time": MessageLookupByLibrary.simpleMessage("Time"),
         "to": MessageLookupByLibrary.simpleMessage("to"),
         "today": MessageLookupByLibrary.simpleMessage("Today"),
+        "year": MessageLookupByLibrary.simpleMessage("year"),
         "yesterday": MessageLookupByLibrary.simpleMessage("Yesterday")
       };
 }
