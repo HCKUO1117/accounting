@@ -1,4 +1,8 @@
+import 'dart:math';
+
+import 'package:accounting/db/accounting_model.dart';
 import 'package:accounting/generated/l10n.dart';
+import 'package:accounting/models/date_model.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
 import 'package:accounting/screens/widget/accounting_title.dart';
@@ -368,61 +372,138 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
             },
           ),
           const Divider(),
-          provider.currentAccountingList.isEmpty
-              ? Column(
-                  children: [
-                    Text(
-                      S.of(context).noRecord,
-                      style: const TextStyle(
-                        color: Colors.orange,
-                        fontFamily: 'RobotoMono',
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Image.asset(
-                      'assets/icons/question.png',
-                      height: 50,
-                    ),
-                  ],
-                )
-              : ListView.separated(
-                  padding: const EdgeInsets.only(
-                    bottom: 50,
-                    top: 32,
-                    left: 16,
-                    right: 16,
+          Builder(
+            builder: (context) {
+              List<DateModel> list = [];
+              for (DateTime i = start!;
+                  i.year != end!.year || i.month != end!.month;
+                  i = DateTime(i.year, i.month + 1)) {
+                list.insert(
+                  0,
+                  DateModel(
+                    year: i.year,
+                    month: i.month,
                   ),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: provider.currentAccountingList.length,
-                  itemBuilder: (context, index) {
-                    return AccountingTitle(
-                      onTap: () {
-                        showModalBottomSheet(
-                          backgroundColor: Colors.white,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              topLeft: Radius.circular(20),
-                            ),
-                          ),
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (context) => Padding(
-                            padding: EdgeInsets.only(top: widget.topPadding),
-                            child: AddRecodePage(
-                              model: provider.currentAccountingList[index],
-                            ),
-                          ),
-                        );
-                      },
-                      model: provider.currentAccountingList[index],
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(height: 4);
-                  },
+                );
+              }
+              list.insert(
+                0,
+                DateModel(
+                  year: end!.year,
+                  month: end!.month,
                 ),
+              );
+              return ListView.separated(
+                shrinkWrap: true,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final List<AccountingModel> l = [];
+                  List<int> dList = [];
+                  for (var element in provider.accountingList) {
+                    if (element.date.year == list[index].year &&
+                        element.date.month == list[index].month) {
+                      l.add(element);
+
+                      dList.add(element.date.day);
+                    }
+                  }
+                  dList = dList.toSet().toList();
+                  dList.sort(
+                    (a, b) => b.compareTo(a),
+                  );
+                  l.sort((a, b) => b.date.compareTo(a.date));
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${list[index].year}/${list[index].month}',
+                        style: const TextStyle(color: Colors.black54),
+                      ),
+                      const SizedBox(height: 8),
+                      ListView.separated(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          double income = 0;
+                          double outcome = 0;
+                          for (var element in l) {
+                            if (element.date.day == dList[index]) {
+                              if (element.amount > 0) {
+                                income += element.amount;
+                              } else {
+                                outcome += element.amount;
+                              }
+                            }
+                          }
+                          final balance = income + outcome;
+
+                          return Row(
+                            children: [
+                              Text(
+                                dList[index].toString(),
+                                style: const TextStyle(color: Colors.black, fontSize: 18),
+                              ),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        income.toString(),
+                                        style: const TextStyle(
+                                          color: Colors.blueAccent,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.end,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        outcome.toString(),
+                                        style: const TextStyle(
+                                          color: Colors.redAccent,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.end,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        balance.toString(),
+                                        style: TextStyle(
+                                          color: balance < 0 ? Colors.redAccent : Colors.blueAccent,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.end,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const Divider();
+                        },
+                        itemCount: dList.length,
+                      )
+                    ],
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const Divider();
+                },
+                itemCount: list.length,
+              );
+            },
+          ),
+          const SizedBox(height: 32),
         ],
       ),
     );
