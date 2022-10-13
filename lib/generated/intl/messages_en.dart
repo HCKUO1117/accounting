@@ -30,6 +30,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "balance": MessageLookupByLibrary.simpleMessage("balance"),
         "before": MessageLookupByLibrary.simpleMessage("before"),
         "budget": MessageLookupByLibrary.simpleMessage("Budget"),
+        "budgetLeft": MessageLookupByLibrary.simpleMessage("Budget Balance"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cantBe0": MessageLookupByLibrary.simpleMessage("Amount cannot be 0"),
         "category": MessageLookupByLibrary.simpleMessage("Category"),

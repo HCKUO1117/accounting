@@ -8,6 +8,7 @@ import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/screens/widget/category_title.dart';
 import 'package:accounting/screens/widget/fake_dropdown_button.dart';
 import 'package:accounting/screens/widget/tag_title.dart';
+import 'package:accounting/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -84,6 +85,23 @@ class _AddRecodePageState extends State<AddRecodePage> {
       },
       child: Consumer<MainProvider>(
         builder: (BuildContext context, MainProvider provider, _) {
+          ///預算餘額
+          double budgetLeft = provider.goalNum;
+          double expenditure = 0;
+          for (var element in provider.accountingList) {
+            if (Utils.checkIsSameMonth(element.date, date)) {
+              if (element.amount < 0) {
+                expenditure += element.amount;
+              }
+            }
+          }
+          budgetLeft += expenditure;
+          try {
+            if (currentIndex == 1) {
+              budgetLeft -= double.parse(amount.text);
+            }
+          } catch (_) {}
+
           return Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
@@ -267,6 +285,9 @@ class _AddRecodePageState extends State<AddRecodePage> {
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
                               ],
+                              onChanged: (v) {
+                                setState(() {});
+                              },
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 errorText: errorText,
@@ -277,6 +298,28 @@ class _AddRecodePageState extends State<AddRecodePage> {
                         )
                       ],
                     ),
+                    if (provider.goalNum != -1)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            '${DateFormat('yyyy/MM').format(date)} ${S.of(context).budgetLeft}:',
+                            textAlign: TextAlign.end,
+                            style: const TextStyle(fontFamily: 'RobotoMono'),
+                          ),
+                          Text(
+                            ' $budgetLeft',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: budgetLeft < 0 ? Colors.redAccent : Colors.blueAccent,
+                            ),
+                            strutStyle: const StrutStyle(
+                              forceStrutHeight: true,
+                              height: 1.5,
+                            ),
+                          ),
+                        ],
+                      ),
                     const SizedBox(height: 16),
                     const Divider(),
                     const SizedBox(height: 16),

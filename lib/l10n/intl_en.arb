@@ -54,5 +54,6 @@
   "month": "month",
   "year": "year",
   "balance": "balance",
-  "total": "total"
+  "total": "total",
+  "budgetLeft": "Budget Balance"
 }

@@ -10,6 +10,7 @@ import 'package:accounting/screens/widget/accounting_title.dart';
 import 'package:accounting/utils/utils.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -207,7 +208,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               SliverPersistentHeader(
                 pinned: true,
                 delegate: DashBoardSliverPersistentHeaderDelegate(
-                  maxEx: MediaQuery.of(context).size.height / 3 + 50,
+                  maxEx: MediaQuery.of(context).size.height / 3 + 100,
                   minEx: 100,
                   topPadding: widget.topPadding,
                 ),
@@ -238,7 +239,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             ? Column(
                                 children: [
                                   SizedBox(
-                                    height: MediaQuery.of(context).size.height / 6,
+                                    height: MediaQuery.of(context).size.height / 10,
                                   ),
                                   Text(
                                     S.of(context).noRecord,
@@ -331,6 +332,18 @@ class DashBoardSliverPersistentHeaderDelegate extends SliverPersistentHeaderDele
     double shrinkPercentage = min(1, shrinkOffset / (maxExtent - minExtent));
     return Consumer<MainProvider>(
       builder: (BuildContext context, MainProvider provider, _) {
+        ///預算餘額
+        double budgetLeft = provider.goalNum;
+        double expenditure = 0;
+        for (var element in provider.accountingList) {
+          if (Utils.checkIsSameMonth(element.date, DateTime.now())) {
+            if (element.amount < 0) {
+              expenditure += element.amount;
+            }
+          }
+        }
+        budgetLeft += expenditure;
+
         return Material(
           color: Colors.white,
           child: Container(
@@ -365,22 +378,23 @@ class DashBoardSliverPersistentHeaderDelegate extends SliverPersistentHeaderDele
                       ),
                     ),
                     Positioned(
-                        right: 0,
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CalendarPage(
-                                  start: provider.dashBoardStartDate,
-                                  end: provider.dashBoardEndDate,
-                                  topPadding: topPadding,
-                                ),
+                      right: 0,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CalendarPage(
+                                start: provider.dashBoardStartDate,
+                                end: provider.dashBoardEndDate,
+                                topPadding: topPadding,
                               ),
-                            );
-                          },
-                          icon: const Icon(Icons.calendar_today),
-                        ))
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.calendar_today),
+                      ),
+                    ),
                   ],
                 ),
                 Expanded(
@@ -506,7 +520,31 @@ class DashBoardSliverPersistentHeaderDelegate extends SliverPersistentHeaderDele
                                     ],
                                   ),
                                 ),
-                              )
+                              ),
+                              if (provider.goalNum != -1) ...[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    const SizedBox(width: 16),
+                                    Text(
+                                      '${DateFormat('yyyy/MM').format(DateTime.now())} ${S.of(context).budgetLeft} : ',
+                                      textAlign: TextAlign.end,
+                                      style: const TextStyle(fontFamily: 'RobotoMono'),
+                                    ),
+                                    Text(
+                                      ' $budgetLeft',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color:
+                                            budgetLeft < 0 ? Colors.redAccent : Colors.blueAccent,
+                                      ),
+                                      strutStyle: const StrutStyle(forceStrutHeight: true,height: 1.5,),
+                                    ),
+                                    const SizedBox(width: 16),
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
+                              ]
                             ],
                           ),
                         ),

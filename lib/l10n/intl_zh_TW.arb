@@ -10,7 +10,7 @@
   "color": "顏色",
   "categoryName": "分類名稱",
   "pleaseEnterName": "請輸入名稱",
-  "add": "添加",
+  "add": "新增",
   "edit": "編輯",
   "amount": "金額",
   "note": "註記",
@@ -54,5 +54,6 @@
   "month": "月",
   "year": "年",
   "balance": "結餘",
-  "total": "總共"
+  "total": "總共",
+  "budgetLeft": "預算餘額"
 }

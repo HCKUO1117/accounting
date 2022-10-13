@@ -609,6 +609,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Budget Balance`
+  String get budgetLeft {
+    return Intl.message(
+      'Budget Balance',
+      name: 'budgetLeft',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
