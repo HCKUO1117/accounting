@@ -71,6 +71,7 @@ class _AppState extends State<App> {
       });
       await mainProvider.setDefaultDB();
       await mainProvider.getCategoryList();
+      await mainProvider.getFixedIncomeList();
     });
     super.initState();
   }

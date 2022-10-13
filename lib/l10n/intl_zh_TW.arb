@@ -55,5 +55,10 @@
   "year": "年",
   "balance": "結餘",
   "total": "總共",
-  "budgetLeft": "預算餘額"
+  "budgetLeft": "預算餘額",
+  "fixedIncome": "固定收支",
+  "period": "週期",
+  "eachDay": "每天",
+  "eachYear": "每年",
+  "oClock": "點"
 }

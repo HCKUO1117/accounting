@@ -2,6 +2,8 @@ import 'package:accounting/db/accounting_db.dart';
 import 'package:accounting/db/accounting_model.dart';
 import 'package:accounting/db/category_db.dart';
 import 'package:accounting/db/category_model.dart';
+import 'package:accounting/db/fixed_income_db.dart';
+import 'package:accounting/db/fixed_income_model.dart';
 import 'package:accounting/db/tag_db.dart';
 import 'package:accounting/db/tag_model.dart';
 import 'package:accounting/res/constants.dart';
@@ -35,6 +37,9 @@ class MainProvider with ChangeNotifier {
 
   ///goal
   double get goalNum => double.parse(Preferences.getString(Constants.goalNum, '-1'));
+
+  ///fixed income
+  List<FixedIncomeModel> fixedIncomeList = [];
 
   bool get samDay =>
       dashBoardStartDate.year == dashBoardEndDate.year &&
@@ -138,6 +143,15 @@ class MainProvider with ChangeNotifier {
       Preferences.setString(Constants.goalNum, amount.toString()),
     ]);
 
+    notifyListeners();
+  }
+
+  Future<void> getFixedIncomeList() async {
+    final List<FixedIncomeModel> list = await FixedIncomeDB.displayAllData();
+    fixedIncomeList = [];
+    for (var element in list) {
+      fixedIncomeList.add(element);
+    }
     notifyListeners();
   }
 }

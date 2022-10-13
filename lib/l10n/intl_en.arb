@@ -55,5 +55,10 @@
   "year": "year",
   "balance": "balance",
   "total": "total",
-  "budgetLeft": "Budget Balance"
+  "budgetLeft": "Budget Balance",
+  "fixedIncome": "Fixed Income",
+  "period": "period",
+  "eachDay": "Everyday",
+  "eachYear": "Every Year",
+  "oClock": "o'clock"
 }

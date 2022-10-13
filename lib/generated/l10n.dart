@@ -619,6 +619,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Fixed Income`
+  String get fixedIncome {
+    return Intl.message(
+      'Fixed Income',
+      name: 'fixedIncome',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `period`
+  String get period {
+    return Intl.message(
+      'period',
+      name: 'period',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Everyday`
+  String get eachDay {
+    return Intl.message(
+      'Everyday',
+      name: 'eachDay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Every Year`
+  String get eachYear {
+    return Intl.message(
+      'Every Year',
+      name: 'eachYear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `o'clock`
+  String get oClock {
+    return Intl.message(
+      'o\'clock',
+      name: 'oClock',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

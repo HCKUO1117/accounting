@@ -43,7 +43,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "day": MessageLookupByLibrary.simpleMessage("day"),
         "deleteCheck":
             MessageLookupByLibrary.simpleMessage("Do you want to delete?"),
+        "eachDay": MessageLookupByLibrary.simpleMessage("Everyday"),
         "eachMonth": MessageLookupByLibrary.simpleMessage("each month"),
+        "eachYear": MessageLookupByLibrary.simpleMessage("Every Year"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "editSuccess": MessageLookupByLibrary.simpleMessage("Edit Successful!"),
         "endBeforeStart": MessageLookupByLibrary.simpleMessage(
@@ -51,6 +53,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorFormat": MessageLookupByLibrary.simpleMessage("Format error"),
         "expand": MessageLookupByLibrary.simpleMessage("Expand"),
         "expenditure": MessageLookupByLibrary.simpleMessage("Expenditure"),
+        "fixedIncome": MessageLookupByLibrary.simpleMessage("Fixed Income"),
         "icon": MessageLookupByLibrary.simpleMessage("Icon"),
         "inAndOut":
             MessageLookupByLibrary.simpleMessage("Fixed Income and Budget"),
@@ -69,7 +72,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No category selected"),
         "note": MessageLookupByLibrary.simpleMessage("Note"),
         "notify": MessageLookupByLibrary.simpleMessage("Notification"),
+        "oClock": MessageLookupByLibrary.simpleMessage("o\'clock"),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
+        "period": MessageLookupByLibrary.simpleMessage("period"),
         "pleaseEnterName":
             MessageLookupByLibrary.simpleMessage("Please enter a name"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),

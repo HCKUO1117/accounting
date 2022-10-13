@@ -415,7 +415,6 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                           );
                         },
                         child: Container(
-                          color: Colors.white,
                           width: double.maxFinite,
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           child: const Icon(Icons.add),

@@ -1,13 +1,19 @@
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
+import 'package:accounting/screens/goal/add_fixed_income_page.dart';
 import 'package:accounting/screens/goal/add_goal_page.dart';
-import 'package:accounting/utils/utils.dart';
+import 'package:accounting/screens/widget/fixed_income_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class GoalScreen extends StatefulWidget {
-  const GoalScreen({Key? key}) : super(key: key);
+  final double topPadding;
+
+  const GoalScreen({
+    Key? key,
+    required this.topPadding,
+  }) : super(key: key);
 
   @override
   State<GoalScreen> createState() => _GoalScreenState();
@@ -24,6 +30,7 @@ class _GoalScreenState extends State<GoalScreen> with TickerProviderStateMixin {
     super.initState();
     prepareAnimations();
     _runExpandCheck();
+    context.read<MainProvider>().getFixedIncomeList();
   }
 
   ///Setting up the animation
@@ -54,22 +61,23 @@ class _GoalScreenState extends State<GoalScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MainProvider>(builder: (BuildContext context, MainProvider provider, _) {
-      return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text(
-            S.of(context).inAndOut,
-            style: const TextStyle(
-              fontFamily: 'RobotoMono',
+    return Consumer<MainProvider>(
+      builder: (BuildContext context, MainProvider provider, _) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            title: Text(
+              S.of(context).inAndOut,
+              style: const TextStyle(
+                fontFamily: 'RobotoMono',
+              ),
             ),
+            backgroundColor: AppColors.backgroundColor,
+            elevation: 0,
           ),
-          backgroundColor: AppColors.backgroundColor,
-          elevation: 0,
-        ),
-        body: SafeArea(
-          child: SingleChildScrollView(
+          body: SafeArea(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GestureDetector(
                   onTap: () {
@@ -226,12 +234,87 @@ class _GoalScreenState extends State<GoalScreen> with TickerProviderStateMixin {
                             ],
                           ),
                   ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Text(
+                    S.of(context).fixedIncome,
+                    style: const TextStyle(fontSize: 20, fontFamily: 'RobotoMono'),
+                  ),
+                ),
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ListView.separated(
+                        padding: const EdgeInsets.all(8),
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return FixedIncomeTitle(
+                            model: provider.fixedIncomeList[index],
+                            onTap: () {
+                              final double padding = MediaQuery.of(context).padding.top;
+                              showModalBottomSheet(
+                                backgroundColor: Colors.white,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                    topLeft: Radius.circular(20),
+                                  ),
+                                ),
+                                isScrollControlled: true,
+                                context: context,
+                                builder: (context) => Padding(
+                                  padding: EdgeInsets.only(top: widget.topPadding),
+                                  child: AddFixedIncomePage(
+                                    model: provider.fixedIncomeList[index],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(height: 4);
+                        },
+                        itemCount: provider.fixedIncomeList.length,
+                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(16),
+                      //   child: InkWell(
+                      //     onTap: () {
+                      //       final double padding = MediaQuery.of(context).padding.top;
+                      //       showModalBottomSheet(
+                      //         backgroundColor: Colors.white,
+                      //         shape: const RoundedRectangleBorder(
+                      //           borderRadius: BorderRadius.only(
+                      //             topRight: Radius.circular(20),
+                      //             topLeft: Radius.circular(20),
+                      //           ),
+                      //         ),
+                      //         isScrollControlled: true,
+                      //         context: context,
+                      //         builder: (context) => Padding(
+                      //           padding: EdgeInsets.only(top: padding),
+                      //           child: const AddFixedIncomePage(),
+                      //         ),
+                      //       );
+                      //     },
+                      //     child: Container(
+                      //       width: double.maxFinite,
+                      //       padding: const EdgeInsets.symmetric(vertical: 8),
+                      //       child: const Icon(Icons.add),
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
+                  ),
                 )
               ],
             ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }

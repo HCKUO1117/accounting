@@ -2,6 +2,7 @@ import 'package:accounting/screens/category/category_screen.dart';
 import 'package:accounting/screens/chart/chart_screen.dart';
 import 'package:accounting/screens/dashboard/add_recode_page.dart';
 import 'package:accounting/screens/dashboard/dashboard_screen.dart';
+import 'package:accounting/screens/goal/add_fixed_income_page.dart';
 import 'package:accounting/screens/goal/goal_screen.dart';
 import 'package:accounting/screens/member/member_screen.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
@@ -37,29 +38,48 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
           ),
           const ChartScreen(),
           const CategoryScreen(),
-          const GoalScreen(),
+          GoalScreen(topPadding: MediaQuery.of(context).padding.top,),
           const MemberScreen(),
         ],
       ),
-      floatingActionButton: _bottomNavIndex == 0
+      floatingActionButton: _bottomNavIndex == 0 || _bottomNavIndex == 3
           ? FloatingActionButton(
               onPressed: () {
                 final double padding = MediaQuery.of(context).padding.top;
-                showModalBottomSheet(
-                  backgroundColor: Colors.white,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      topLeft: Radius.circular(20),
+                if(_bottomNavIndex == 0){
+                  showModalBottomSheet(
+                    backgroundColor: Colors.white,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(20),
+                        topLeft: Radius.circular(20),
+                      ),
                     ),
-                  ),
-                  isScrollControlled: true,
-                  context: context,
-                  builder: (context) => Padding(
-                    padding: EdgeInsets.only(top: padding),
-                    child: const AddRecodePage(),
-                  ),
-                );
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (context) => Padding(
+                      padding: EdgeInsets.only(top: padding),
+                      child: const AddRecodePage(),
+                    ),
+                  );
+                }
+                if(_bottomNavIndex == 3){
+                  showModalBottomSheet(
+                    backgroundColor: Colors.white,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(20),
+                        topLeft: Radius.circular(20),
+                      ),
+                    ),
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (context) => Padding(
+                      padding: EdgeInsets.only(top: padding),
+                      child: const AddFixedIncomePage(),
+                    ),
+                  );
+                }
               },
               child: const Icon(
                 Icons.add,
