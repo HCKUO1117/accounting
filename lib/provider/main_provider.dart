@@ -34,10 +34,7 @@ class MainProvider with ChangeNotifier {
   List<AccountingModel> currentAccountingList = [];
 
   ///goal
-  int get goalType => Preferences.getInt(Constants.goalType, -1);
-  double get goalNum => double.parse(Preferences.getString(Constants.goalNum, '0'));
-  int get goalTimeStamp => Preferences.getInt(Constants.goalDate, 0);
-  int get goalStartTimeStamp => Preferences.getInt(Constants.goalStartDate, 0);
+  double get goalNum => double.parse(Preferences.getString(Constants.goalNum, '-1'));
 
   bool get samDay =>
       dashBoardStartDate.year == dashBoardEndDate.year &&
@@ -136,12 +133,9 @@ class MainProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setGoal(int type, double amount, {DateTime? date,DateTime? start}) async {
+  Future<void> setGoal(double amount) async {
     await Future.wait([
-      Preferences.setInt(Constants.goalType, type),
       Preferences.setString(Constants.goalNum, amount.toString()),
-      Preferences.setInt(Constants.goalDate, date != null ? date.millisecondsSinceEpoch : 0),
-      Preferences.setInt(Constants.goalStartDate, start != null ? start.millisecondsSinceEpoch : 0),
     ]);
 
     notifyListeners();

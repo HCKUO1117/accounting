@@ -3,7 +3,7 @@
   "expenditure": "Expenditure",
   "category": "Category",
   "tag": "Tag",
-  "goal": "Goal",
+  "budget": "Budget",
   "setting": "Setting",
   "expand": "Expand",
   "icon": "Icon",
@@ -35,10 +35,10 @@
   "thisMonth": "This month",
   "thisYear": "This year",
   "customize": "Customize...",
-  "inAndOut": "Fixed income and goals",
-  "noTarget": "No goal set",
-  "setTarget": "Set Goal",
-  "clickSetTarget": "Click here to set goal",
+  "inAndOut": "Fixed Income and Budget",
+  "noBudget": "No budget set",
+  "setBudget": "Set Budget",
+  "clickSetBudget": "Click here to set budget",
   "noRecord": "No record",
   "eachMonth": "each month",
   "longBefore": "...before",
@@ -52,5 +52,7 @@
   "amountFormatError": "Amount format error",
   "day": "day",
   "month": "month",
-  "year": "year"
+  "year": "year",
+  "balance": "balance",
+  "total": "total"
 }

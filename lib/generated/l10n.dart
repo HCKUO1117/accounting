@@ -90,11 +90,11 @@ class S {
     );
   }
 
-  /// `Goal`
-  String get goal {
+  /// `Budget`
+  String get budget {
     return Intl.message(
-      'Goal',
-      name: 'goal',
+      'Budget',
+      name: 'budget',
       desc: '',
       args: [],
     );
@@ -410,41 +410,41 @@ class S {
     );
   }
 
-  /// `Fixed income and goals`
+  /// `Fixed Income and Budget`
   String get inAndOut {
     return Intl.message(
-      'Fixed income and goals',
+      'Fixed Income and Budget',
       name: 'inAndOut',
       desc: '',
       args: [],
     );
   }
 
-  /// `No goal set`
-  String get noTarget {
+  /// `No budget set`
+  String get noBudget {
     return Intl.message(
-      'No goal set',
-      name: 'noTarget',
+      'No budget set',
+      name: 'noBudget',
       desc: '',
       args: [],
     );
   }
 
-  /// `Set Goal`
-  String get setTarget {
+  /// `Set Budget`
+  String get setBudget {
     return Intl.message(
-      'Set Goal',
-      name: 'setTarget',
+      'Set Budget',
+      name: 'setBudget',
       desc: '',
       args: [],
     );
   }
 
-  /// `Click here to set goal`
-  String get clickSetTarget {
+  /// `Click here to set budget`
+  String get clickSetBudget {
     return Intl.message(
-      'Click here to set goal',
-      name: 'clickSetTarget',
+      'Click here to set budget',
+      name: 'clickSetBudget',
       desc: '',
       args: [],
     );
@@ -585,6 +585,26 @@ class S {
     return Intl.message(
       'year',
       name: 'year',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `balance`
+  String get balance {
+    return Intl.message(
+      'balance',
+      name: 'balance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `total`
+  String get total {
+    return Intl.message(
+      'total',
+      name: 'total',
       desc: '',
       args: [],
     );

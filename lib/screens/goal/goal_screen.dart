@@ -84,11 +84,22 @@ class _GoalScreenState extends State<GoalScreen> with TickerProviderStateMixin {
                     child: Row(
                       children: [
                         Text(
-                          S.of(context).goal,
+                          S.of(context).budget,
                           style: const TextStyle(
                               fontSize: 20, fontFamily: 'RobotoMono', color: Colors.orange),
                         ),
-                        const Spacer(),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: FadeTransition(
+                            opacity: Tween(begin: 1.0, end: 0.0).animate(expandController),
+                            child: Text(
+                              provider.goalNum == -1 ? '' : provider.goalNum.toString(),
+                              textAlign: TextAlign.end,
+                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
                         RotationTransition(
                           turns: Tween(begin: 0.0, end: -0.5).animate(expandController),
                           child: const Icon(
@@ -106,11 +117,11 @@ class _GoalScreenState extends State<GoalScreen> with TickerProviderStateMixin {
                   child: Container(
                     color: AppColors.backgroundColor,
                     width: double.maxFinite,
-                    child: provider.goalType == -1
+                    child: provider.goalNum == -1
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(S.of(context).noTarget),
+                              Text(S.of(context).noBudget),
                               const SizedBox(height: 16),
                               GestureDetector(
                                 onTap: () {
@@ -126,7 +137,7 @@ class _GoalScreenState extends State<GoalScreen> with TickerProviderStateMixin {
                                   );
                                 },
                                 child: Text(
-                                  S.of(context).clickSetTarget,
+                                  S.of(context).clickSetBudget,
                                   style: const TextStyle(color: Colors.orange),
                                 ),
                               ),
@@ -136,46 +147,19 @@ class _GoalScreenState extends State<GoalScreen> with TickerProviderStateMixin {
                         : Column(
                             children: [
                               const Divider(),
-                              Row(
-                                children: [
-                                  const SizedBox(width: 16),
-                                  if (provider.goalType == 0)
-                                    Text(
-                                      S.of(context).eachMonth,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: 'RobotoMono',
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  if (provider.goalType == 1)
-                                    Text(
-                                      '${Utils.toDateString(
-                                        DateTime.fromMillisecondsSinceEpoch(
-                                            provider.goalStartTimeStamp),
-                                      )} ~ ${Utils.toDateString(
-                                        DateTime.fromMillisecondsSinceEpoch(provider.goalTimeStamp),
-                                      )}',
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  const SizedBox(width: 16),
-                                ],
-                              ),
                               const SizedBox(height: 16),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   const SizedBox(width: 16),
                                   Text(
-                                    '${S.of(context).save1} : ',
+                                    S.of(context).eachMonth,
                                     style: const TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       fontFamily: 'RobotoMono',
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
+                                  const Spacer(),
                                   Text(
                                     provider.goalNum.toString(),
                                     style:
@@ -184,6 +168,7 @@ class _GoalScreenState extends State<GoalScreen> with TickerProviderStateMixin {
                                   const SizedBox(width: 16),
                                 ],
                               ),
+                              const SizedBox(height: 16),
                               const Divider(),
                               Row(
                                 children: [
@@ -222,12 +207,7 @@ class _GoalScreenState extends State<GoalScreen> with TickerProviderStateMixin {
                                             ),
                                             TextButton(
                                               onPressed: () async {
-                                                provider.setGoal(
-                                                  -1,
-                                                  0,
-                                                  date: null,
-                                                  start: null,
-                                                );
+                                                provider.setGoal(-1);
                                                 Navigator.pop(context, true);
                                               },
                                               child: Text(S.of(context).ok),

@@ -3,7 +3,7 @@
   "expenditure": "支出",
   "category": "分類",
   "tag": "標籤",
-  "goal": "目標",
+  "budget": "預算",
   "setting": "設定",
   "expand": "展開",
   "icon": "圖示",
@@ -35,10 +35,10 @@
   "thisMonth": "這個月",
   "thisYear": "今年",
   "customize": "自訂...",
-  "inAndOut": "固定收支與目標",
-  "noTarget": "未設定目標",
-  "setTarget": "設定目標",
-  "clickSetTarget": "點此設定目標",
+  "inAndOut": "固定收支與預算",
+  "noBudget": "未設定預算",
+  "setBudget": "設定預算",
+  "clickSetBudget": "點此設定預算",
   "noRecord": "沒有紀錄",
   "eachMonth": "每個月",
   "longBefore": "...之前",
@@ -52,5 +52,7 @@
   "amountFormatError": "金額格式錯誤",
   "day": "天",
   "month": "月",
-  "year": "年"
+  "year": "年",
+  "balance": "結餘",
+  "total": "總共"
 }

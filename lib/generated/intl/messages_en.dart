@@ -27,13 +27,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "amount": MessageLookupByLibrary.simpleMessage("Amount"),
         "amountFormatError":
             MessageLookupByLibrary.simpleMessage("Amount format error"),
+        "balance": MessageLookupByLibrary.simpleMessage("balance"),
         "before": MessageLookupByLibrary.simpleMessage("before"),
+        "budget": MessageLookupByLibrary.simpleMessage("Budget"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cantBe0": MessageLookupByLibrary.simpleMessage("Amount cannot be 0"),
         "category": MessageLookupByLibrary.simpleMessage("Category"),
         "categoryName": MessageLookupByLibrary.simpleMessage("Category Name"),
-        "clickSetTarget":
-            MessageLookupByLibrary.simpleMessage("Click here to set goal"),
+        "clickSetBudget":
+            MessageLookupByLibrary.simpleMessage("Click here to set budget"),
         "color": MessageLookupByLibrary.simpleMessage("Color"),
         "customize": MessageLookupByLibrary.simpleMessage("Customize..."),
         "date": MessageLookupByLibrary.simpleMessage("Date"),
@@ -48,15 +50,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorFormat": MessageLookupByLibrary.simpleMessage("Format error"),
         "expand": MessageLookupByLibrary.simpleMessage("Expand"),
         "expenditure": MessageLookupByLibrary.simpleMessage("Expenditure"),
-        "goal": MessageLookupByLibrary.simpleMessage("Goal"),
         "icon": MessageLookupByLibrary.simpleMessage("Icon"),
         "inAndOut":
-            MessageLookupByLibrary.simpleMessage("Fixed income and goals"),
+            MessageLookupByLibrary.simpleMessage("Fixed Income and Budget"),
         "income": MessageLookupByLibrary.simpleMessage("Income"),
         "longBefore": MessageLookupByLibrary.simpleMessage("...before"),
         "month": MessageLookupByLibrary.simpleMessage("month"),
+        "noBudget": MessageLookupByLibrary.simpleMessage("No budget set"),
         "noRecord": MessageLookupByLibrary.simpleMessage("No record"),
-        "noTarget": MessageLookupByLibrary.simpleMessage("No goal set"),
         "notFillAmount":
             MessageLookupByLibrary.simpleMessage("Amount not filled"),
         "notFillEndTime":
@@ -74,7 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "save1": MessageLookupByLibrary.simpleMessage("save"),
         "selectDay": MessageLookupByLibrary.simpleMessage("Select Day"),
         "selectTime": MessageLookupByLibrary.simpleMessage("Select Time"),
-        "setTarget": MessageLookupByLibrary.simpleMessage("Set Goal"),
+        "setBudget": MessageLookupByLibrary.simpleMessage("Set Budget"),
         "setting": MessageLookupByLibrary.simpleMessage("Setting"),
         "start": MessageLookupByLibrary.simpleMessage("start"),
         "tag": MessageLookupByLibrary.simpleMessage("Tag"),
@@ -84,6 +85,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "time": MessageLookupByLibrary.simpleMessage("Time"),
         "to": MessageLookupByLibrary.simpleMessage("to"),
         "today": MessageLookupByLibrary.simpleMessage("Today"),
+        "total": MessageLookupByLibrary.simpleMessage("total"),
         "year": MessageLookupByLibrary.simpleMessage("year"),
         "yesterday": MessageLookupByLibrary.simpleMessage("Yesterday")
       };
