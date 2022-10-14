@@ -53,10 +53,14 @@ class _AddRecodePageState extends State<AddRecodePage> {
           currentIndex = 0;
         }
         if (!mounted) return;
-        currentCategory = context
-            .read<MainProvider>()
-            .categoryList
-            .firstWhere((element) => element.id == widget.model!.category);
+        try {
+          currentCategory = context
+              .read<MainProvider>()
+              .categoryList
+              .firstWhere((element) => element.id == widget.model!.category);
+        } catch (_) {
+          currentCategory = null;
+        }
         for (var element in widget.model!.tags) {
           tagList.add(
             context.read<MainProvider>().tagList.firstWhere((e) => e.id == element),

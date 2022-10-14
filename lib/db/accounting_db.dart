@@ -58,8 +58,7 @@ class AccountingDB {
       List<int> tags = [];
       if (maps[index][columnTags].toString().isNotEmpty) {
         tags = [
-          for (var element in maps[index][columnTags].toString().split(','))
-            int.parse(element)
+          for (var element in maps[index][columnTags].toString().split(',')) int.parse(element)
         ];
       }
 
@@ -106,10 +105,13 @@ class AccountingDB {
     );
 
     return List.generate(maps.length, (index) {
-      final List<int> tags = [
-        for (var element in maps[index][columnTags].toString().split(','))
-          int.parse(element)
-      ];
+      List<int> tags = [];
+      if (maps[index][columnTags].toString().isNotEmpty) {
+        tags = [
+          for (var element in maps[index][columnTags].toString().split(',')) int.parse(element)
+        ];
+      }
+
       return AccountingModel(
         id: maps[index][columnId],
         date: DateTime.fromMillisecondsSinceEpoch(

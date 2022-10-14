@@ -1,3 +1,5 @@
+import 'package:accounting/db/accounting_db.dart';
+import 'package:accounting/db/accounting_model.dart';
 import 'package:accounting/db/category_db.dart';
 import 'package:accounting/db/category_model.dart';
 import 'package:accounting/generated/l10n.dart';
@@ -57,8 +59,7 @@ class _IncomeCategoryPageState extends State<IncomeCategoryPage> {
                     shrinkWrap: true,
                     onReorder: (int oldIndex, int newIndex) async {
                       if (widget.tag == 'categoryIncome') {
-                        final CategoryModel m =
-                            provider.categoryIncomeList[oldIndex];
+                        final CategoryModel m = provider.categoryIncomeList[oldIndex];
 
                         if (newIndex > oldIndex) {
                           newIndex -= 1;
@@ -67,16 +68,13 @@ class _IncomeCategoryPageState extends State<IncomeCategoryPage> {
                           provider.categoryIncomeList.removeAt(oldIndex);
                           provider.categoryIncomeList.insert(newIndex, m);
                         });
-                        for (int i = 0;
-                            i < provider.categoryIncomeList.length;
-                            i++) {
+                        for (int i = 0; i < provider.categoryIncomeList.length; i++) {
                           CategoryModel model = provider.categoryIncomeList[i];
                           model.sort = i;
                           await CategoryDB.updateData(model);
                         }
                       } else {
-                        final CategoryModel m =
-                            provider.categoryExpenditureList[oldIndex];
+                        final CategoryModel m = provider.categoryExpenditureList[oldIndex];
 
                         if (newIndex > oldIndex) {
                           newIndex -= 1;
@@ -85,11 +83,8 @@ class _IncomeCategoryPageState extends State<IncomeCategoryPage> {
                           provider.categoryExpenditureList.removeAt(oldIndex);
                           provider.categoryExpenditureList.insert(newIndex, m);
                         });
-                        for (int i = 0;
-                            i < provider.categoryExpenditureList.length;
-                            i++) {
-                          CategoryModel model =
-                              provider.categoryExpenditureList[i];
+                        for (int i = 0; i < provider.categoryExpenditureList.length; i++) {
+                          CategoryModel model = provider.categoryExpenditureList[i];
                           model.sort = i;
                           await CategoryDB.updateData(model);
                         }
@@ -119,8 +114,7 @@ class _IncomeCategoryPageState extends State<IncomeCategoryPage> {
                                       context: context,
                                       builder: (context) => AlertDialog(
                                         shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
+                                            borderRadius: BorderRadius.circular(20)),
                                         scrollable: true,
                                         content: AddCategoryPage(
                                           type: widget.tag == 'categoryIncome'
@@ -138,27 +132,42 @@ class _IncomeCategoryPageState extends State<IncomeCategoryPage> {
                                 ),
                                 IconButton(
                                   onPressed: () async {
+                                    List<AccountingModel> l = await AccountingDB.queryData(
+                                        queryType: QueryType.category, query: ['${list[i].id!}']);
                                     showDialog(
                                       context: context,
                                       builder: (context) => AlertDialog(
                                         title: Text(S.of(context).notify),
-                                        content:
-                                            Text(S.of(context).deleteCheck),
+                                        content: Text(S.of(context).deleteCheck +
+                                            (l.isNotEmpty
+                                                ? '\n(${S.of(context).toUnCategory})'
+                                                : '')),
                                         actions: [
+                                          if(l.isNotEmpty)
+                                            TextButton(
+                                              onPressed: () {
+                                                //TODO 顯示未分類列表
+                                              },
+                                              child: Text(
+                                                S.of(context).showRecord,
+                                                style: const TextStyle(color: Colors.black54),
+                                              ),
+                                            ),
                                           TextButton(
                                             onPressed: () {
                                               Navigator.pop(context);
                                             },
                                             child: Text(
                                               S.of(context).cancel,
-                                              style: const TextStyle(
-                                                  color: Colors.black54),
+                                              style: const TextStyle(color: Colors.black54),
                                             ),
                                           ),
                                           TextButton(
                                             onPressed: () async {
-                                              await CategoryDB.deleteData(
-                                                  list[i].id!);
+                                              await CategoryDB.deleteData(list[i].id!);
+                                              for (var element in l) {
+                                                AccountingDB.updateData(element..category = -1);
+                                              }
                                               provider.getCategoryList();
                                               Navigator.pop(context);
                                             },
@@ -191,8 +200,7 @@ class _IncomeCategoryPageState extends State<IncomeCategoryPage> {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                         scrollable: true,
                         content: AddCategoryPage(
                           type: widget.tag == 'categoryIncome'

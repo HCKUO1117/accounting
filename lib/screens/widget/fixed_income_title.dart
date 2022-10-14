@@ -1,3 +1,4 @@
+import 'package:accounting/db/category_model.dart';
 import 'package:accounting/db/fixed_income_model.dart';
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/main_provider.dart';
@@ -54,9 +55,20 @@ class FixedIncomeTitle extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: CategoryTitle(
-                    model: context.read<MainProvider>().categoryList.firstWhere(
-                          (element) => element.id == model.category,
-                        ),
+                    model: (context
+                                .read<MainProvider>()
+                                .categoryList
+                                .indexWhere((element) => element.id == model.category) !=
+                            -1
+                        ? context.read<MainProvider>().categoryList.firstWhere(
+                              (element) => element.id == model.category,
+                            )
+                        : CategoryModel(
+                            sort: -1,
+                            type: CategoryType.income,
+                            icon: 'help_outline_outlined',
+                            iconColor: Colors.grey,
+                            name: S.of(context).unCategory)),
                   ),
                 ),
                 Text(

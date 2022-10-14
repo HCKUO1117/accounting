@@ -83,6 +83,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectTime": MessageLookupByLibrary.simpleMessage("Select Time"),
         "setBudget": MessageLookupByLibrary.simpleMessage("Set Budget"),
         "setting": MessageLookupByLibrary.simpleMessage("Setting"),
+        "showRecord": MessageLookupByLibrary.simpleMessage("View items"),
         "start": MessageLookupByLibrary.simpleMessage("start"),
         "tag": MessageLookupByLibrary.simpleMessage("Tag"),
         "thisMonth": MessageLookupByLibrary.simpleMessage("This month"),
@@ -90,8 +91,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "thisYear": MessageLookupByLibrary.simpleMessage("This year"),
         "time": MessageLookupByLibrary.simpleMessage("Time"),
         "to": MessageLookupByLibrary.simpleMessage("to"),
+        "toUnCategory": MessageLookupByLibrary.simpleMessage(
+            "There is a record using this category in your account book. If you delete this category, the item will be classified as \'Uncategory\'"),
         "today": MessageLookupByLibrary.simpleMessage("Today"),
         "total": MessageLookupByLibrary.simpleMessage("total"),
+        "unCategory": MessageLookupByLibrary.simpleMessage("Uncategory"),
         "year": MessageLookupByLibrary.simpleMessage("year"),
         "yesterday": MessageLookupByLibrary.simpleMessage("Yesterday")
       };

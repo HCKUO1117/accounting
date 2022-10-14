@@ -669,6 +669,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Uncategory`
+  String get unCategory {
+    return Intl.message(
+      'Uncategory',
+      name: 'unCategory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There is a record using this category in your account book. If you delete this category, the item will be classified as 'Uncategory'`
+  String get toUnCategory {
+    return Intl.message(
+      'There is a record using this category in your account book. If you delete this category, the item will be classified as \'Uncategory\'',
+      name: 'toUnCategory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View items`
+  String get showRecord {
+    return Intl.message(
+      'View items',
+      name: 'showRecord',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

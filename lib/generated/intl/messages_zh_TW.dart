@@ -73,6 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectTime": MessageLookupByLibrary.simpleMessage("選擇時間"),
         "setBudget": MessageLookupByLibrary.simpleMessage("設定預算"),
         "setting": MessageLookupByLibrary.simpleMessage("設定"),
+        "showRecord": MessageLookupByLibrary.simpleMessage("查看項目"),
         "start": MessageLookupByLibrary.simpleMessage("開始"),
         "tag": MessageLookupByLibrary.simpleMessage("標籤"),
         "thisMonth": MessageLookupByLibrary.simpleMessage("這個月"),
@@ -80,8 +81,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "thisYear": MessageLookupByLibrary.simpleMessage("今年"),
         "time": MessageLookupByLibrary.simpleMessage("時間"),
         "to": MessageLookupByLibrary.simpleMessage("至"),
+        "toUnCategory": MessageLookupByLibrary.simpleMessage(
+            "您的帳本中有使用此分類的紀錄，若刪除此分類該項目會被歸為\'未分類\'"),
         "today": MessageLookupByLibrary.simpleMessage("今天"),
         "total": MessageLookupByLibrary.simpleMessage("總共"),
+        "unCategory": MessageLookupByLibrary.simpleMessage("未分類"),
         "year": MessageLookupByLibrary.simpleMessage("年"),
         "yesterday": MessageLookupByLibrary.simpleMessage("昨天")
       };
