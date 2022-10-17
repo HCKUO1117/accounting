@@ -2,6 +2,8 @@ import 'package:accounting/app.dart';
 import 'package:accounting/db/accounting_db.dart';
 import 'package:accounting/db/accounting_model.dart';
 import 'package:accounting/db/category_model.dart';
+import 'package:accounting/db/record_tag_db.dart';
+import 'package:accounting/db/record_tag_model.dart';
 import 'package:accounting/db/tag_model.dart';
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/main_provider.dart';
@@ -595,7 +597,7 @@ class _AddRecodePageState extends State<AddRecodePage> {
           return;
         }
         if (widget.model == null) {
-          await AccountingDB.insertData(
+          int? id = await AccountingDB.insertData(
             AccountingModel(
               date: DateTime(date.year, date.month, date.day, time.hour, time.minute),
               category: currentCategory!.id!,
@@ -604,6 +606,12 @@ class _AddRecodePageState extends State<AddRecodePage> {
               note: note.text,
             ),
           );
+          if (id != null) {
+            await RecordTagDB.deleteData(type: RecordTagType.record, id: id);
+            for (var element in tagList) {
+              await RecordTagDB.insertData(RecordTagModel(recordId: id, tagId: element.id!));
+            }
+          }
         } else {
           await AccountingDB.updateData(
             AccountingModel(
@@ -615,6 +623,12 @@ class _AddRecodePageState extends State<AddRecodePage> {
               note: note.text,
             ),
           );
+
+          await RecordTagDB.deleteData(type: RecordTagType.record, id: widget.model!.id!);
+          for (var element in tagList) {
+            await RecordTagDB.insertData(
+                RecordTagModel(recordId: widget.model!.id!, tagId: element.id!));
+          }
         }
 
         provider.getAccountingList();

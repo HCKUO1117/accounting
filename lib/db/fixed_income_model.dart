@@ -19,8 +19,8 @@ extension FixedIncomeTypeEx on FixedIncomeType {
     }
   }
 
-  int get minDay{
-    switch(this){
+  int get minDay {
+    switch (this) {
       case FixedIncomeType.eachDay:
         return 0;
       case FixedIncomeType.eachMonth:
@@ -30,8 +30,8 @@ extension FixedIncomeTypeEx on FixedIncomeType {
     }
   }
 
-  int get maxDay{
-    switch(this){
+  int get maxDay {
+    switch (this) {
       case FixedIncomeType.eachDay:
         return 23;
       case FixedIncomeType.eachMonth:
@@ -51,6 +51,8 @@ class FixedIncomeModel {
   List<int> tags;
   double amount;
   String note;
+  DateTime createDate;
+  DateTime? lastAddTime;
 
   FixedIncomeModel({
     this.id,
@@ -61,6 +63,8 @@ class FixedIncomeModel {
     required this.tags,
     required this.amount,
     required this.note,
+    required this.createDate,
+    this.lastAddTime,
   });
 
   Map<String, dynamic> toMap() {
@@ -74,11 +78,13 @@ class FixedIncomeModel {
       'tags': tagString.replaceAll('[', '').replaceAll(']', ''),
       'amount': amount.toString(),
       'note': note,
+      'createDate': createDate.millisecondsSinceEpoch,
+      'lastAddTime': lastAddTime == null ? null : lastAddTime!.millisecondsSinceEpoch,
     };
   }
 
   @override
   String toString() {
-    return 'id : $id\ntype : $type\nmonth : $month\nday : $day \ncategory : $category\ntags : $tags\namount : $amount\nnote : $note';
+    return 'id : $id\ntype : $type\nmonth : $month\nday : $day \ncategory : $category\ntags : $tags\namount : $amount\nnote : $note \ncreateDate : $createDate';
   }
 }

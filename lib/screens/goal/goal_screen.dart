@@ -242,74 +242,45 @@ class _GoalScreenState extends State<GoalScreen> with TickerProviderStateMixin {
                     style: const TextStyle(fontSize: 20, fontFamily: 'RobotoMono'),
                   ),
                 ),
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ListView.separated(
-                        padding: const EdgeInsets.all(8),
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return FixedIncomeTitle(
-                            model: provider.fixedIncomeList[index],
-                            onTap: () {
-                              final double padding = MediaQuery.of(context).padding.top;
-                              showModalBottomSheet(
-                                backgroundColor: Colors.white,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(20),
-                                    topLeft: Radius.circular(20),
-                                  ),
-                                ),
-                                isScrollControlled: true,
-                                context: context,
-                                builder: (context) => Padding(
-                                  padding: EdgeInsets.only(top: widget.topPadding),
-                                  child: AddFixedIncomePage(
-                                    model: provider.fixedIncomeList[index],
-                                  ),
-                                ),
-                              );
-                            },
+                Expanded(
+                  child: ListView.separated(
+                    padding: const EdgeInsets.all(8),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      if (index == provider.fixedIncomeList.length) {
+                        return const SizedBox(height: 50);
+                      }
+
+                      return FixedIncomeTitle(
+                        model: provider.fixedIncomeList[index],
+                        onTap: () {
+                          final double padding = MediaQuery.of(context).padding.top;
+                          showModalBottomSheet(
+                            backgroundColor: Colors.white,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(20),
+                                topLeft: Radius.circular(20),
+                              ),
+                            ),
+                            isScrollControlled: true,
+                            context: context,
+                            builder: (context) => Padding(
+                              padding: EdgeInsets.only(top: widget.topPadding),
+                              child: AddFixedIncomePage(
+                                model: provider.fixedIncomeList[index],
+                              ),
+                            ),
                           );
                         },
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(height: 4);
-                        },
-                        itemCount: provider.fixedIncomeList.length,
-                      ),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(16),
-                      //   child: InkWell(
-                      //     onTap: () {
-                      //       final double padding = MediaQuery.of(context).padding.top;
-                      //       showModalBottomSheet(
-                      //         backgroundColor: Colors.white,
-                      //         shape: const RoundedRectangleBorder(
-                      //           borderRadius: BorderRadius.only(
-                      //             topRight: Radius.circular(20),
-                      //             topLeft: Radius.circular(20),
-                      //           ),
-                      //         ),
-                      //         isScrollControlled: true,
-                      //         context: context,
-                      //         builder: (context) => Padding(
-                      //           padding: EdgeInsets.only(top: padding),
-                      //           child: const AddFixedIncomePage(),
-                      //         ),
-                      //       );
-                      //     },
-                      //     child: Container(
-                      //       width: double.maxFinite,
-                      //       padding: const EdgeInsets.symmetric(vertical: 8),
-                      //       child: const Icon(Icons.add),
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: 4);
+                    },
+                    itemCount: provider.fixedIncomeList.length + 1,
                   ),
-                )
+                ),
               ],
             ),
           ),

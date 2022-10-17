@@ -54,12 +54,12 @@ class _AddFixedIncomePageState extends State<AddFixedIncomePage> {
           currentIndex = 0;
         }
         if (!mounted) return;
-        try{
+        try {
           currentCategory = context
               .read<MainProvider>()
               .categoryList
               .firstWhere((element) => element.id == widget.model!.category);
-        }catch (_){
+        } catch (_) {
           currentCategory = null;
         }
         for (var element in widget.model!.tags) {
@@ -630,6 +630,7 @@ class _AddFixedIncomePageState extends State<AddFixedIncomePage> {
               tags: List.generate(tagList.length, (index) => tagList[index].id!),
               amount: currentIndex == 0 ? double.parse(amount.text) : -double.parse(amount.text),
               note: note.text,
+              createDate: DateTime.now(),
             ),
           );
         } else {
@@ -643,6 +644,7 @@ class _AddFixedIncomePageState extends State<AddFixedIncomePage> {
               tags: List.generate(tagList.length, (index) => tagList[index].id!),
               amount: currentIndex == 0 ? double.parse(amount.text) : -double.parse(amount.text),
               note: note.text,
+              createDate: widget.model!.createDate,
             ),
           );
         }

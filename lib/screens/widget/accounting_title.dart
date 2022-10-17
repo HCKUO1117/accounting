@@ -91,7 +91,7 @@ class AccountingTitle extends StatelessWidget {
                   Expanded(
                     child: Text(
                       model.note,
-                      textAlign: TextAlign.end,
+                      textAlign: TextAlign.start,
                       style: const TextStyle(
                         color: Colors.black38,
                         fontSize: 12,

@@ -4,6 +4,7 @@ import 'package:accounting/db/category_db.dart';
 import 'package:accounting/db/category_model.dart';
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/main_provider.dart';
+import 'package:accounting/screens/category/accounting_list_page.dart';
 import 'package:accounting/screens/category/add_category_page.dart';
 import 'package:accounting/screens/widget/category_title.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,13 @@ import 'package:provider/provider.dart';
 class IncomeCategoryPage extends StatefulWidget {
   final String tag;
   final String title;
+  final double topPadding;
 
   const IncomeCategoryPage({
     Key? key,
     required this.tag,
     required this.title,
+    required this.topPadding,
   }) : super(key: key);
 
   @override
@@ -143,10 +146,20 @@ class _IncomeCategoryPageState extends State<IncomeCategoryPage> {
                                                 ? '\n(${S.of(context).toUnCategory})'
                                                 : '')),
                                         actions: [
-                                          if(l.isNotEmpty)
+                                          if (l.isNotEmpty)
                                             TextButton(
                                               onPressed: () {
-                                                //TODO 顯示未分類列表
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => AccountingListPage(
+                                                      list: l,
+                                                      topPadding:
+                                                          MediaQuery.of(context).padding.top,
+                                                      id: list[i].id!,
+                                                    ),
+                                                  ),
+                                                );
                                               },
                                               child: Text(
                                                 S.of(context).showRecord,
@@ -164,8 +177,12 @@ class _IncomeCategoryPageState extends State<IncomeCategoryPage> {
                                           ),
                                           TextButton(
                                             onPressed: () async {
+                                              List<AccountingModel> dl =
+                                                  await AccountingDB.queryData(
+                                                      queryType: QueryType.category,
+                                                      query: ['${list[i].id!}']);
                                               await CategoryDB.deleteData(list[i].id!);
-                                              for (var element in l) {
+                                              for (var element in dl) {
                                                 AccountingDB.updateData(element..category = -1);
                                               }
                                               provider.getCategoryList();

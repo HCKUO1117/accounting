@@ -69,7 +69,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                     Text(
                       '${Utils.toDateString(provider.dashBoardStartDate)}${!provider.samDay ? ' ~ ' : ''}${!provider.samDay ? Utils.toDateString(provider.dashBoardEndDate) : ''}',
                       style: const TextStyle(
-                        fontSize: 12,
+                        fontSize: 10,
                         color: Colors.black54,
                       ),
                     ),
@@ -93,14 +93,14 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                             '${S.of(context).income} : ',
                             style: const TextStyle(
                               fontFamily: 'RobotoMono',
-                              fontSize: 14,
+                              fontSize: 12,
                             ),
                           ),
                           Text(
                             provider.currentIncome.toString(),
                             style: const TextStyle(
                               color: Colors.blueAccent,
-                              fontSize: 16,
+                              fontSize: 14,
                             ),
                           ),
                         ],
@@ -112,14 +112,14 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                             '${S.of(context).expenditure} : ',
                             style: const TextStyle(
                               fontFamily: 'RobotoMono',
-                              fontSize: 14,
+                              fontSize: 12,
                             ),
                           ),
                           Text(
                             provider.currentExpenditure.toString(),
                             style: const TextStyle(
                               color: Colors.redAccent,
-                              fontSize: 16,
+                              fontSize: 14,
                             ),
                           ),
                         ],

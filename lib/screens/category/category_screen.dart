@@ -1,4 +1,6 @@
 import 'package:accounting/db/category_model.dart';
+import 'package:accounting/db/fixed_income_db.dart';
+import 'package:accounting/db/record_tag_db.dart';
 import 'package:accounting/db/tag_db.dart';
 import 'package:accounting/db/tag_model.dart';
 import 'package:accounting/generated/l10n.dart';
@@ -12,7 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({Key? key}) : super(key: key);
+  final double topPadding;
+
+  const CategoryScreen({Key? key, required this.topPadding}) : super(key: key);
 
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
@@ -102,11 +106,13 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                               ),
                               TextButton(
                                 onPressed: () {
+                                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) => IncomeCategoryPage(
                                         tag: 'categoryIncome',
                                         title: S.of(context).income,
+                                        topPadding: MediaQuery.of(context).padding.top,
                                       ),
                                     ),
                                   );
@@ -195,16 +201,20 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                               ),
                               TextButton(
                                 onPressed: () {
+                                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) => IncomeCategoryPage(
                                         tag: 'categoryExpenditure',
                                         title: S.of(context).expenditure,
+                                        topPadding: MediaQuery.of(context).padding.top,
                                       ),
                                     ),
                                   );
                                 },
-                                child: Text(S.of(context).expand),
+                                child: Text(
+                                  S.of(context).expand,
+                                ),
                               )
                             ],
                           ),
@@ -367,6 +377,22 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                                             TextButton(
                                               onPressed: () async {
                                                 await TagDB.deleteData(provider.tagList[i].id!);
+                                                await RecordTagDB.deleteData(
+                                                  type: RecordTagType.tag,
+                                                  id: provider.tagList[i].id!,
+                                                );
+                                                await provider.getFixedIncomeList();
+                                                for (var element in provider.fixedIncomeList) {
+                                                  if (element.tags
+                                                      .contains(provider.tagList[i].id!)) {
+                                                    await FixedIncomeDB.updateData(
+                                                      element
+                                                        ..tags.removeWhere((element) =>
+                                                            element == provider.tagList[i].id!),
+                                                    );
+                                                  }
+                                                }
+                                                provider.getFixedIncomeList();
                                                 provider.getTagList();
                                                 Navigator.pop(context);
                                               },

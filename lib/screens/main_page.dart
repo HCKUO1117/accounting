@@ -37,7 +37,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             topPadding: MediaQuery.of(context).padding.top,
           ),
           const ChartScreen(),
-          const CategoryScreen(),
+          CategoryScreen(topPadding: MediaQuery.of(context).padding.top,),
           GoalScreen(topPadding: MediaQuery.of(context).padding.top,),
           const MemberScreen(),
         ],
