@@ -6,6 +6,7 @@ import 'package:accounting/res/app_color.dart';
 import 'package:accounting/screens/custom_date_picker_dialog.dart';
 import 'package:accounting/screens/dashboard/add_recode_page.dart';
 import 'package:accounting/screens/dashboard/calendar_page.dart';
+import 'package:accounting/screens/dashboard/filter_page.dart';
 import 'package:accounting/screens/widget/accounting_title.dart';
 import 'package:accounting/utils/utils.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -379,20 +380,41 @@ class DashBoardSliverPersistentHeaderDelegate extends SliverPersistentHeaderDele
                     ),
                     Positioned(
                       right: 0,
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CalendarPage(
-                                start: provider.dashBoardStartDate,
-                                end: provider.dashBoardEndDate,
-                                topPadding: topPadding,
-                              ),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CalendarPage(
+                                    start: provider.dashBoardStartDate,
+                                    end: provider.dashBoardEndDate,
+                                    topPadding: topPadding,
+                                  ),
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.calendar_today),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  scrollable: true,
+                                  content: const FilterPage(),
+                                ),
+                              );
+                            },
+                            icon: Icon(
+                              Icons.tune,
+                              color: provider.filter ? Colors.orange : null,
                             ),
-                          );
-                        },
-                        icon: const Icon(Icons.calendar_today),
+                          )
+                        ],
                       ),
                     ),
                   ],
@@ -538,7 +560,10 @@ class DashBoardSliverPersistentHeaderDelegate extends SliverPersistentHeaderDele
                                         color:
                                             budgetLeft < 0 ? Colors.redAccent : Colors.blueAccent,
                                       ),
-                                      strutStyle: const StrutStyle(forceStrutHeight: true,height: 1.5,),
+                                      strutStyle: const StrutStyle(
+                                        forceStrutHeight: true,
+                                        height: 1.5,
+                                      ),
                                     ),
                                     const SizedBox(width: 16),
                                   ],

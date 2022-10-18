@@ -1,8 +1,12 @@
+import 'dart:math';
+
 import 'package:accounting/db/accounting_model.dart';
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/models/date_model.dart';
+import 'package:accounting/models/states.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
+import 'package:accounting/screens/dashboard/filter_page.dart';
 import 'package:accounting/screens/widget/accounting_title.dart';
 import 'package:accounting/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -144,13 +148,36 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
               ],
             ),
           ),
-          body: TabBarView(
-            physics: const NeverScrollableScrollPhysics(),
-            controller: _pageController,
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              day(provider),
-              month(provider),
-              year(provider),
+              IconButton(
+                onPressed: () async {
+                  await showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      scrollable: true,
+                      content: const FilterPage(),
+                    ),
+                  );
+                },
+                icon: Icon(
+                  Icons.tune,
+                  color: provider.filter ? Colors.orange : null,
+                ),
+              ),
+              Expanded(
+                child: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: _pageController,
+                  children: [
+                    day(provider),
+                    month(provider),
+                    year(provider),
+                  ],
+                ),
+              ),
             ],
           ),
         );
@@ -207,7 +234,36 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
               markerBuilder: (context, d, _) {
                 double amount = 0;
                 bool show = false;
-                for (var element in provider.accountingList) {
+                List<AccountingModel> allList = provider.accountingList;
+                if (provider.dashBoardFilter != null) {
+                  List<AccountingModel> list = [];
+                  for (var element in allList) {
+                    if (provider.dashBoardFilter!.contains(element.category)) {
+                      list.add(element);
+                    }
+                  }
+                  allList = list;
+                }
+                if (provider.dashBoardTagFilter != null) {
+                  List<AccountingModel> list = [];
+                  for (var element in allList) {
+                    if (element.tags.isEmpty) {
+                      if (provider.dashBoardTagFilter!.contains(-1)) {
+                        list.add(element);
+                      }
+                    } else {
+                      bool done = false;
+                      for (var e in element.tags) {
+                        if (provider.dashBoardTagFilter!.contains(e) && !done) {
+                          list.add(element);
+                          done = true;
+                        }
+                      }
+                    }
+                  }
+                  allList = list;
+                }
+                for (var element in allList) {
                   if (Utils.checkIsSameDay(element.date, d)) {
                     amount += element.amount;
                     show = true;
@@ -220,7 +276,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                   amount.toString(),
                   style: TextStyle(
                     color: amount < 0 ? Colors.redAccent : Colors.blueAccent,
-                    fontSize: 12,
+                    fontSize: 10,
                     fontWeight: FontWeight.bold,
                     shadows: const <Shadow>[
                       Shadow(
@@ -296,6 +352,9 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
   }
 
   Widget month(MainProvider provider) {
+
+    int r = DateTime.now().millisecondsSinceEpoch;
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -306,6 +365,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: SfDateRangePicker(
+                key: Key(r.toString()),
                 controller: _controller,
                 onSelectionChanged: (arg) {
                   args = arg;
@@ -333,7 +393,36 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                 cellBuilder: (BuildContext context, DateRangePickerCellDetails cellDetails) {
                   double amount = 0;
                   bool show = false;
-                  for (var element in provider.accountingList) {
+                  List<AccountingModel> allList = provider.accountingList;
+                  if (provider.dashBoardFilter != null) {
+                    List<AccountingModel> list = [];
+                    for (var element in allList) {
+                      if (provider.dashBoardFilter!.contains(element.category)) {
+                        list.add(element);
+                      }
+                    }
+                    allList = list;
+                  }
+                  if (provider.dashBoardTagFilter != null) {
+                    List<AccountingModel> list = [];
+                    for (var element in allList) {
+                      if (element.tags.isEmpty) {
+                        if (provider.dashBoardTagFilter!.contains(-1)) {
+                          list.add(element);
+                        }
+                      } else {
+                        bool done = false;
+                        for (var e in element.tags) {
+                          if (provider.dashBoardTagFilter!.contains(e) && !done) {
+                            list.add(element);
+                            done = true;
+                          }
+                        }
+                      }
+                    }
+                    allList = list;
+                  }
+                  for (var element in allList) {
                     if (element.date.year == cellDetails.date.year &&
                         element.date.month == cellDetails.date.month) {
                       amount += element.amount;
@@ -346,7 +435,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       border: cellDetails.date.year == DateTime.now().year &&
-                              cellDetails.date.month == DateTime.now().month
+                          cellDetails.date.month == DateTime.now().month
                           ? Border.all(color: Colors.orange)
                           : null,
                     ),
@@ -357,7 +446,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                           DateFormat.MMMM().format(cellDetails.date),
                           style: TextStyle(
                             color: Utils.checkIsSameMonth(cellDetails.date, start!) ||
-                                    Utils.checkIsSameMonth(cellDetails.date, end!)
+                                Utils.checkIsSameMonth(cellDetails.date, end!)
                                 ? Colors.white
                                 : null,
                           ),
@@ -461,6 +550,35 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                   month: end!.month,
                 ),
               );
+              List<AccountingModel> allList = provider.accountingList;
+              if (provider.dashBoardFilter != null) {
+                List<AccountingModel> list = [];
+                for (var element in allList) {
+                  if (provider.dashBoardFilter!.contains(element.category)) {
+                    list.add(element);
+                  }
+                }
+                allList = list;
+              }
+              if (provider.dashBoardTagFilter != null) {
+                List<AccountingModel> list = [];
+                for (var element in allList) {
+                  if (element.tags.isEmpty) {
+                    if (provider.dashBoardTagFilter!.contains(-1)) {
+                      list.add(element);
+                    }
+                  } else {
+                    bool done = false;
+                    for (var e in element.tags) {
+                      if (provider.dashBoardTagFilter!.contains(e) && !done) {
+                        list.add(element);
+                        done = true;
+                      }
+                    }
+                  }
+                }
+                allList = list;
+              }
               return ListView.separated(
                 shrinkWrap: true,
                 padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -468,7 +586,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                 itemBuilder: (context, index) {
                   final List<AccountingModel> l = [];
                   List<int> dList = [];
-                  for (var element in provider.accountingList) {
+                  for (var element in allList) {
                     if (element.date.year == list[index].year &&
                         element.date.month == list[index].month) {
                       l.add(element);
@@ -651,6 +769,9 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
   }
 
   Widget year(MainProvider provider) {
+
+    int r = DateTime.now().millisecondsSinceEpoch;
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -661,6 +782,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: SfDateRangePicker(
+                key: Key('$r-2'),
                 controller: _yearController,
                 onSelectionChanged: (arg) {
                   args = arg;
@@ -688,7 +810,36 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                 cellBuilder: (BuildContext context, DateRangePickerCellDetails cellDetails) {
                   double amount = 0;
                   bool show = false;
-                  for (var element in provider.accountingList) {
+                  List<AccountingModel> allList = provider.accountingList;
+                  if (provider.dashBoardFilter != null) {
+                    List<AccountingModel> list = [];
+                    for (var element in allList) {
+                      if (provider.dashBoardFilter!.contains(element.category)) {
+                        list.add(element);
+                      }
+                    }
+                    allList = list;
+                  }
+                  if (provider.dashBoardTagFilter != null) {
+                    List<AccountingModel> list = [];
+                    for (var element in allList) {
+                      if (element.tags.isEmpty) {
+                        if (provider.dashBoardTagFilter!.contains(-1)) {
+                          list.add(element);
+                        }
+                      } else {
+                        bool done = false;
+                        for (var e in element.tags) {
+                          if (provider.dashBoardTagFilter!.contains(e) && !done) {
+                            list.add(element);
+                            done = true;
+                          }
+                        }
+                      }
+                    }
+                    allList = list;
+                  }
+                  for (var element in allList) {
                     if (element.date.year == cellDetails.date.year) {
                       amount += element.amount;
                       show = true;
@@ -812,6 +963,35 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                   month: 1,
                 ),
               );
+              List<AccountingModel> allList = provider.accountingList;
+              if (provider.dashBoardFilter != null) {
+                List<AccountingModel> list = [];
+                for (var element in allList) {
+                  if (provider.dashBoardFilter!.contains(element.category)) {
+                    list.add(element);
+                  }
+                }
+                allList = list;
+              }
+              if (provider.dashBoardTagFilter != null) {
+                List<AccountingModel> list = [];
+                for (var element in allList) {
+                  if (element.tags.isEmpty) {
+                    if (provider.dashBoardTagFilter!.contains(-1)) {
+                      list.add(element);
+                    }
+                  } else {
+                    bool done = false;
+                    for (var e in element.tags) {
+                      if (provider.dashBoardTagFilter!.contains(e) && !done) {
+                        list.add(element);
+                        done = true;
+                      }
+                    }
+                  }
+                }
+                allList = list;
+              }
               return ListView.separated(
                 shrinkWrap: true,
                 padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -819,7 +999,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                 itemBuilder: (context, index) {
                   final List<AccountingModel> l = [];
                   List<int> dList = [];
-                  for (var element in provider.accountingList) {
+                  for (var element in allList) {
                     if (element.date.year == list[index].year) {
                       l.add(element);
 

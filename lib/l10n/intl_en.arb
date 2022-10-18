@@ -63,5 +63,7 @@
   "oClock": "o'clock",
   "unCategory": "Uncategory",
   "toUnCategory": "There is a record using this category in your account book. If you delete this category, the item will be classified as 'Uncategory'",
-  "showRecord": "View items"
+  "showRecord": "View items",
+  "all": "All",
+  "noTag": "No Tag"
 }

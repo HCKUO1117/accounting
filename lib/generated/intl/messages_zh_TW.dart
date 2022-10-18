@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "add": MessageLookupByLibrary.simpleMessage("新增"),
         "addSuccess": MessageLookupByLibrary.simpleMessage("加入成功！"),
+        "all": MessageLookupByLibrary.simpleMessage("全部"),
         "amount": MessageLookupByLibrary.simpleMessage("金額"),
         "amountFormatError": MessageLookupByLibrary.simpleMessage("金額格式錯誤"),
         "balance": MessageLookupByLibrary.simpleMessage("結餘"),
@@ -57,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "month": MessageLookupByLibrary.simpleMessage("月"),
         "noBudget": MessageLookupByLibrary.simpleMessage("未設定預算"),
         "noRecord": MessageLookupByLibrary.simpleMessage("沒有紀錄"),
+        "noTag": MessageLookupByLibrary.simpleMessage("無標籤"),
         "notFillAmount": MessageLookupByLibrary.simpleMessage("未填寫金額"),
         "notFillEndTime": MessageLookupByLibrary.simpleMessage("請選擇結束時間"),
         "notFillStartTime": MessageLookupByLibrary.simpleMessage("請選擇開始時間"),

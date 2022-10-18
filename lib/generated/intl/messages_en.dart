@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "add": MessageLookupByLibrary.simpleMessage("Add"),
         "addSuccess": MessageLookupByLibrary.simpleMessage("Add Success!"),
+        "all": MessageLookupByLibrary.simpleMessage("All"),
         "amount": MessageLookupByLibrary.simpleMessage("Amount"),
         "amountFormatError":
             MessageLookupByLibrary.simpleMessage("Amount format error"),
@@ -62,6 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "month": MessageLookupByLibrary.simpleMessage("month"),
         "noBudget": MessageLookupByLibrary.simpleMessage("No budget set"),
         "noRecord": MessageLookupByLibrary.simpleMessage("No record"),
+        "noTag": MessageLookupByLibrary.simpleMessage("No Tag"),
         "notFillAmount":
             MessageLookupByLibrary.simpleMessage("Amount not filled"),
         "notFillEndTime":

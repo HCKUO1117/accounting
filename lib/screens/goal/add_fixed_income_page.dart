@@ -630,7 +630,7 @@ class _AddFixedIncomePageState extends State<AddFixedIncomePage> {
               tags: List.generate(tagList.length, (index) => tagList[index].id!),
               amount: currentIndex == 0 ? double.parse(amount.text) : -double.parse(amount.text),
               note: note.text,
-              createDate: DateTime.now(),
+              createDate: DateTime(2019,10,1),
             ),
           );
         } else {

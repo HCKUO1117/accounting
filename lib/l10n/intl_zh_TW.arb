@@ -63,5 +63,7 @@
   "oClock": "點",
   "unCategory": "未分類",
   "toUnCategory": "您的帳本中有使用此分類的紀錄，若刪除此分類該項目會被歸為'未分類'",
-  "showRecord": "查看項目"
+  "showRecord": "查看項目",
+  "all": "全部",
+  "noTag": "無標籤"
 }
