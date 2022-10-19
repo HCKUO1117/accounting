@@ -31,10 +31,7 @@ class DashBoardScreen extends StatefulWidget {
 class _DashBoardScreenState extends State<DashBoardScreen> {
   @override
   void initState() {
-    context.read<MainProvider>().getCategoryList();
-    context.read<MainProvider>().getTagList();
-    context.read<MainProvider>().getAccountingList();
-
+    context.read<MainProvider>().dashboardInit();
     super.initState();
   }
 

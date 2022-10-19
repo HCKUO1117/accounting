@@ -234,16 +234,56 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
               markerBuilder: (context, d, _) {
                 double amount = 0;
                 bool show = false;
-                List<AccountingModel> allList = provider.accountingList;
-                if (provider.dashBoardFilter != null) {
+
+                List<AccountingModel> allList = [];
+
+                ///收入
+                if (provider.incomeCategoryFilter != null) {
                   List<AccountingModel> list = [];
-                  for (var element in allList) {
-                    if (provider.dashBoardFilter!.contains(element.category)) {
-                      list.add(element);
+                  for (var element in provider.accountingList) {
+                    if (provider.incomeCategoryFilter!.contains(element.category)) {
+                      if (element.category == -1) {
+                        if (element.amount > 0) {
+                          list.add(element);
+                        }
+                      } else {
+                        list.add(element);
+                      }
                     }
                   }
-                  allList = list;
+                  allList.addAll(list);
+                } else {
+                  for (var element in provider.accountingList) {
+                    if (element.amount > 0) {
+                      allList.add(element);
+                    }
+                  }
                 }
+
+                ///支出
+                if (provider.expenditureCategoryFilter != null) {
+                  List<AccountingModel> list = [];
+                  for (var element in provider.accountingList) {
+                    if (provider.expenditureCategoryFilter!.contains(element.category)) {
+                      if (element.category == -1) {
+                        if (element.amount < 0) {
+                          list.add(element);
+                        }
+                      } else {
+                        list.add(element);
+                      }
+                    }
+                  }
+                  allList.addAll(list);
+                } else {
+                  for (var element in provider.accountingList) {
+                    if (element.amount < 0) {
+                      allList.add(element);
+                    }
+                  }
+                }
+                allList.sort((a, b) => b.date.compareTo(b.date));
+
                 if (provider.dashBoardTagFilter != null) {
                   List<AccountingModel> list = [];
                   for (var element in allList) {
@@ -352,7 +392,6 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
   }
 
   Widget month(MainProvider provider) {
-
     int r = DateTime.now().millisecondsSinceEpoch;
 
     return SingleChildScrollView(
@@ -393,35 +432,54 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                 cellBuilder: (BuildContext context, DateRangePickerCellDetails cellDetails) {
                   double amount = 0;
                   bool show = false;
-                  List<AccountingModel> allList = provider.accountingList;
-                  if (provider.dashBoardFilter != null) {
+                  List<AccountingModel> allList = [];
+
+                  ///收入
+                  if (provider.incomeCategoryFilter != null) {
                     List<AccountingModel> list = [];
-                    for (var element in allList) {
-                      if (provider.dashBoardFilter!.contains(element.category)) {
-                        list.add(element);
-                      }
-                    }
-                    allList = list;
-                  }
-                  if (provider.dashBoardTagFilter != null) {
-                    List<AccountingModel> list = [];
-                    for (var element in allList) {
-                      if (element.tags.isEmpty) {
-                        if (provider.dashBoardTagFilter!.contains(-1)) {
+                    for (var element in provider.accountingList) {
+                      if (provider.incomeCategoryFilter!.contains(element.category)) {
+                        if (element.category == -1) {
+                          if (element.amount > 0) {
+                            list.add(element);
+                          }
+                        } else {
                           list.add(element);
                         }
-                      } else {
-                        bool done = false;
-                        for (var e in element.tags) {
-                          if (provider.dashBoardTagFilter!.contains(e) && !done) {
+                      }
+                    }
+                    allList.addAll(list);
+                  } else {
+                    for (var element in provider.accountingList) {
+                      if (element.amount > 0) {
+                        allList.add(element);
+                      }
+                    }
+                  }
+
+                  ///支出
+                  if (provider.expenditureCategoryFilter != null) {
+                    List<AccountingModel> list = [];
+                    for (var element in provider.accountingList) {
+                      if (provider.expenditureCategoryFilter!.contains(element.category)) {
+                        if (element.category == -1) {
+                          if (element.amount < 0) {
                             list.add(element);
-                            done = true;
                           }
+                        } else {
+                          list.add(element);
                         }
                       }
                     }
-                    allList = list;
+                    allList.addAll(list);
+                  } else {
+                    for (var element in provider.accountingList) {
+                      if (element.amount < 0) {
+                        allList.add(element);
+                      }
+                    }
                   }
+                  allList.sort((a, b) => b.date.compareTo(b.date));
                   for (var element in allList) {
                     if (element.date.year == cellDetails.date.year &&
                         element.date.month == cellDetails.date.month) {
@@ -435,7 +493,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       border: cellDetails.date.year == DateTime.now().year &&
-                          cellDetails.date.month == DateTime.now().month
+                              cellDetails.date.month == DateTime.now().month
                           ? Border.all(color: Colors.orange)
                           : null,
                     ),
@@ -446,7 +504,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                           DateFormat.MMMM().format(cellDetails.date),
                           style: TextStyle(
                             color: Utils.checkIsSameMonth(cellDetails.date, start!) ||
-                                Utils.checkIsSameMonth(cellDetails.date, end!)
+                                    Utils.checkIsSameMonth(cellDetails.date, end!)
                                 ? Colors.white
                                 : null,
                           ),
@@ -550,35 +608,54 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                   month: end!.month,
                 ),
               );
-              List<AccountingModel> allList = provider.accountingList;
-              if (provider.dashBoardFilter != null) {
+              List<AccountingModel> allList = [];
+
+              ///收入
+              if (provider.incomeCategoryFilter != null) {
                 List<AccountingModel> list = [];
-                for (var element in allList) {
-                  if (provider.dashBoardFilter!.contains(element.category)) {
-                    list.add(element);
-                  }
-                }
-                allList = list;
-              }
-              if (provider.dashBoardTagFilter != null) {
-                List<AccountingModel> list = [];
-                for (var element in allList) {
-                  if (element.tags.isEmpty) {
-                    if (provider.dashBoardTagFilter!.contains(-1)) {
+                for (var element in provider.accountingList) {
+                  if (provider.incomeCategoryFilter!.contains(element.category)) {
+                    if (element.category == -1) {
+                      if (element.amount > 0) {
+                        list.add(element);
+                      }
+                    } else {
                       list.add(element);
                     }
-                  } else {
-                    bool done = false;
-                    for (var e in element.tags) {
-                      if (provider.dashBoardTagFilter!.contains(e) && !done) {
+                  }
+                }
+                allList.addAll(list);
+              } else {
+                for (var element in provider.accountingList) {
+                  if (element.amount > 0) {
+                    allList.add(element);
+                  }
+                }
+              }
+
+              ///支出
+              if (provider.expenditureCategoryFilter != null) {
+                List<AccountingModel> list = [];
+                for (var element in provider.accountingList) {
+                  if (provider.expenditureCategoryFilter!.contains(element.category)) {
+                    if (element.category == -1) {
+                      if (element.amount < 0) {
                         list.add(element);
-                        done = true;
                       }
+                    } else {
+                      list.add(element);
                     }
                   }
                 }
-                allList = list;
+                allList.addAll(list);
+              } else {
+                for (var element in provider.accountingList) {
+                  if (element.amount < 0) {
+                    allList.add(element);
+                  }
+                }
               }
+              allList.sort((a, b) => b.date.compareTo(b.date));
               return ListView.separated(
                 shrinkWrap: true,
                 padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -769,7 +846,6 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
   }
 
   Widget year(MainProvider provider) {
-
     int r = DateTime.now().millisecondsSinceEpoch;
 
     return SingleChildScrollView(
@@ -810,35 +886,54 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                 cellBuilder: (BuildContext context, DateRangePickerCellDetails cellDetails) {
                   double amount = 0;
                   bool show = false;
-                  List<AccountingModel> allList = provider.accountingList;
-                  if (provider.dashBoardFilter != null) {
+                  List<AccountingModel> allList = [];
+
+                  ///收入
+                  if (provider.incomeCategoryFilter != null) {
                     List<AccountingModel> list = [];
-                    for (var element in allList) {
-                      if (provider.dashBoardFilter!.contains(element.category)) {
-                        list.add(element);
-                      }
-                    }
-                    allList = list;
-                  }
-                  if (provider.dashBoardTagFilter != null) {
-                    List<AccountingModel> list = [];
-                    for (var element in allList) {
-                      if (element.tags.isEmpty) {
-                        if (provider.dashBoardTagFilter!.contains(-1)) {
+                    for (var element in provider.accountingList) {
+                      if (provider.incomeCategoryFilter!.contains(element.category)) {
+                        if (element.category == -1) {
+                          if (element.amount > 0) {
+                            list.add(element);
+                          }
+                        } else {
                           list.add(element);
                         }
-                      } else {
-                        bool done = false;
-                        for (var e in element.tags) {
-                          if (provider.dashBoardTagFilter!.contains(e) && !done) {
+                      }
+                    }
+                    allList.addAll(list);
+                  } else {
+                    for (var element in provider.accountingList) {
+                      if (element.amount > 0) {
+                        allList.add(element);
+                      }
+                    }
+                  }
+
+                  ///支出
+                  if (provider.expenditureCategoryFilter != null) {
+                    List<AccountingModel> list = [];
+                    for (var element in provider.accountingList) {
+                      if (provider.expenditureCategoryFilter!.contains(element.category)) {
+                        if (element.category == -1) {
+                          if (element.amount < 0) {
                             list.add(element);
-                            done = true;
                           }
+                        } else {
+                          list.add(element);
                         }
                       }
                     }
-                    allList = list;
+                    allList.addAll(list);
+                  } else {
+                    for (var element in provider.accountingList) {
+                      if (element.amount < 0) {
+                        allList.add(element);
+                      }
+                    }
                   }
+                  allList.sort((a, b) => b.date.compareTo(b.date));
                   for (var element in allList) {
                     if (element.date.year == cellDetails.date.year) {
                       amount += element.amount;
@@ -963,16 +1058,54 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                   month: 1,
                 ),
               );
-              List<AccountingModel> allList = provider.accountingList;
-              if (provider.dashBoardFilter != null) {
+              List<AccountingModel> allList = [];
+
+              ///收入
+              if (provider.incomeCategoryFilter != null) {
                 List<AccountingModel> list = [];
-                for (var element in allList) {
-                  if (provider.dashBoardFilter!.contains(element.category)) {
-                    list.add(element);
+                for (var element in provider.accountingList) {
+                  if (provider.incomeCategoryFilter!.contains(element.category)) {
+                    if (element.category == -1) {
+                      if (element.amount > 0) {
+                        list.add(element);
+                      }
+                    } else {
+                      list.add(element);
+                    }
                   }
                 }
-                allList = list;
+                allList.addAll(list);
+              } else {
+                for (var element in provider.accountingList) {
+                  if (element.amount > 0) {
+                    allList.add(element);
+                  }
+                }
               }
+
+              ///支出
+              if (provider.expenditureCategoryFilter != null) {
+                List<AccountingModel> list = [];
+                for (var element in provider.accountingList) {
+                  if (provider.expenditureCategoryFilter!.contains(element.category)) {
+                    if (element.category == -1) {
+                      if (element.amount < 0) {
+                        list.add(element);
+                      }
+                    } else {
+                      list.add(element);
+                    }
+                  }
+                }
+                allList.addAll(list);
+              } else {
+                for (var element in provider.accountingList) {
+                  if (element.amount < 0) {
+                    allList.add(element);
+                  }
+                }
+              }
+              allList.sort((a, b) => b.date.compareTo(b.date));
               if (provider.dashBoardTagFilter != null) {
                 List<AccountingModel> list = [];
                 for (var element in allList) {

@@ -25,13 +25,17 @@ class MainProvider with ChangeNotifier {
   double currentIncome = 0;
   double currentExpenditure = 0;
 
-  List<int>? dashBoardFilter;
+  List<int>? incomeCategoryFilter;
+  List<int>? expenditureCategoryFilter;
 
   List<int>? dashBoardTagFilter;
 
   int selectedValue = 0;
 
-  bool get filter => dashBoardFilter != null || dashBoardTagFilter != null;
+  bool get filter =>
+      incomeCategoryFilter != null ||
+      expenditureCategoryFilter != null ||
+      dashBoardTagFilter != null;
 
   double get balance => currentIncome + currentExpenditure;
 
@@ -230,33 +234,87 @@ class MainProvider with ChangeNotifier {
     }
   }
 
-  void setFilter(int id) {
-    if (dashBoardFilter == null) {
-      dashBoardFilter = [];
+  void setIncomeFilter(int id) {
+    if (incomeCategoryFilter == null) {
+      incomeCategoryFilter = [];
       if (id != 0) {
-        for (var element in categoryList) {
+        for (var element in categoryIncomeList) {
           if (element.id != id) {
-            dashBoardFilter!.add(element.id!);
+            incomeCategoryFilter!.add(element.id!);
           }
         }
         if (id != -1) {
-          dashBoardFilter!.add(-1);
+          incomeCategoryFilter!.add(-1);
         }
       }
     } else {
       if (id != 0) {
-        if (dashBoardFilter!.contains(id)) {
-          dashBoardFilter!.removeWhere((element) => element == id);
+        if (incomeCategoryFilter!.contains(id)) {
+          incomeCategoryFilter!.removeWhere((element) => element == id);
         } else {
-          dashBoardFilter!.add(id);
+          incomeCategoryFilter!.add(id);
         }
       } else {
-        dashBoardFilter = null;
+        incomeCategoryFilter = null;
       }
     }
     setCurrentAccounting(dashBoardStartDate, dashBoardEndDate);
-    notifyListeners();
   }
+
+  void setExpenditureFilter(int id) {
+    if (expenditureCategoryFilter == null) {
+      expenditureCategoryFilter = [];
+      if (id != 0) {
+        for (var element in categoryExpenditureList) {
+          if (element.id != id) {
+            expenditureCategoryFilter!.add(element.id!);
+          }
+        }
+        if (id != -1) {
+          expenditureCategoryFilter!.add(-1);
+        }
+      }
+    } else {
+      if (id != 0) {
+        if (expenditureCategoryFilter!.contains(id)) {
+          expenditureCategoryFilter!.removeWhere((element) => element == id);
+        } else {
+          expenditureCategoryFilter!.add(id);
+        }
+      } else {
+        expenditureCategoryFilter = null;
+      }
+    }
+    setCurrentAccounting(dashBoardStartDate, dashBoardEndDate);
+  }
+
+  // void setFilter(int id) {
+  //   if (dashBoardFilter == null) {
+  //     dashBoardFilter = [];
+  //     if (id != 0) {
+  //       for (var element in categoryList) {
+  //         if (element.id != id) {
+  //           dashBoardFilter!.add(element.id!);
+  //         }
+  //       }
+  //       if (id != -1) {
+  //         dashBoardFilter!.add(-1);
+  //       }
+  //     }
+  //   } else {
+  //     if (id != 0) {
+  //       if (dashBoardFilter!.contains(id)) {
+  //         dashBoardFilter!.removeWhere((element) => element == id);
+  //       } else {
+  //         dashBoardFilter!.add(id);
+  //       }
+  //     } else {
+  //       dashBoardFilter = null;
+  //     }
+  //   }
+  //   setCurrentAccounting(dashBoardStartDate, dashBoardEndDate);
+  //   notifyListeners();
+  // }
 
   void setTagFilter(int id) {
     if (dashBoardTagFilter == null) {
@@ -283,7 +341,6 @@ class MainProvider with ChangeNotifier {
       }
     }
     setCurrentAccounting(dashBoardStartDate, dashBoardEndDate);
-    notifyListeners();
   }
 
   void setDashBoardDateRange(DateTimeRange range) {
@@ -292,7 +349,6 @@ class MainProvider with ChangeNotifier {
     dashBoardEndDate = range.end;
 
     setCurrentAccounting(dashBoardStartDate, dashBoardEndDate);
-    notifyListeners();
   }
 
   Future<void> setDefaultDB() async {
@@ -305,7 +361,16 @@ class MainProvider with ChangeNotifier {
     await Preferences.setBool(Constants.hadOpen, true);
   }
 
-  Future<void> getCategoryList() async {
+  Future<void> dashboardInit() async {
+    await Future.wait([
+      getTagList(),
+      getCategoryList(),
+      getAccountingList(),
+    ]);
+    notifyListeners();
+  }
+
+  Future<void> getCategoryList({bool? notify}) async {
     final List<CategoryModel> list = await CategoryDB.displayAllData();
     categoryList = list;
     categoryIncomeList = [];
@@ -319,33 +384,37 @@ class MainProvider with ChangeNotifier {
     }
     categoryIncomeList.sort((a, b) => a.sort.compareTo(b.sort));
     categoryExpenditureList.sort((a, b) => a.sort.compareTo(b.sort));
-    notifyListeners();
+    if (notify ?? true) {
+      notifyListeners();
+    }
   }
 
-  Future<void> getTagList() async {
+  Future<void> getTagList({bool? notify}) async {
     final List<TagModel> list = await TagDB.displayAllData();
     tagList = [];
     for (var element in list) {
       tagList.add(element);
     }
     tagList.sort((a, b) => a.sort.compareTo(b.sort));
-    notifyListeners();
+    if (notify ?? true) {
+      notifyListeners();
+    }
   }
 
-  Future<void> getAccountingList() async {
+  Future<void> getAccountingList({bool? notify}) async {
     final List<AccountingModel> list = await AccountingDB.displayAllData();
     accountingList = [];
     for (var element in list) {
       accountingList.add(element);
     }
-    notifyListeners();
-    setCurrentAccounting(dashBoardStartDate, dashBoardEndDate);
+    setCurrentAccounting(
+      dashBoardStartDate,
+      dashBoardEndDate,
+      notify: false,
+    );
   }
 
-  Future<void> setCurrentAccounting(
-    DateTime start,
-    DateTime end,
-  ) async {
+  Future<void> setCurrentAccounting(DateTime start, DateTime end, {bool? notify}) async {
     final List<AccountingModel> list = await AccountingDB.displayAllData();
     end = end.add(
       const Duration(days: 1),
@@ -372,15 +441,58 @@ class MainProvider with ChangeNotifier {
           await RecordTagDB.queryData(queryType: RecordTagType.record, query: [element.id!]);
       element.tags = List.generate(l.length, (index) => l[index].tagId);
     }
-    if (dashBoardFilter != null) {
+
+    ///收入
+    List<AccountingModel> fl = [];
+    if (incomeCategoryFilter != null) {
       List<AccountingModel> list = [];
       for (var element in currentAccountingList) {
-        if (dashBoardFilter!.contains(element.category)) {
-          list.add(element);
+        if (incomeCategoryFilter!.contains(element.category)) {
+          if (element.category == -1) {
+            if (element.amount > 0) {
+              list.add(element);
+            }
+          } else {
+            list.add(element);
+          }
         }
       }
-      currentAccountingList = list;
+      fl.addAll(list);
+    } else {
+      for (var element in currentAccountingList) {
+        if (element.amount > 0) {
+          fl.add(element);
+        }
+      }
     }
+
+    ///支出
+    if (expenditureCategoryFilter != null) {
+      List<AccountingModel> list = [];
+      for (var element in currentAccountingList) {
+        if (expenditureCategoryFilter!.contains(element.category)) {
+          if (element.category == -1) {
+            if (element.amount < 0) {
+              list.add(element);
+            }
+          } else {
+            list.add(element);
+          }
+        }
+      }
+      fl.addAll(list);
+    } else {
+      for (var element in currentAccountingList) {
+        if (element.amount < 0) {
+          fl.add(element);
+        }
+      }
+    }
+
+    currentAccountingList = fl;
+
+    currentAccountingList.sort((a, b) => b.date.compareTo(a.date));
+
     if (dashBoardTagFilter != null) {
       List<AccountingModel> list = [];
       for (var element in currentAccountingList) {
@@ -409,7 +521,9 @@ class MainProvider with ChangeNotifier {
         currentIncome += element.amount;
       }
     }
-    notifyListeners();
+    if (notify ?? true) {
+      notifyListeners();
+    }
   }
 
   Future<void> setGoal(double amount) async {
@@ -428,4 +542,8 @@ class MainProvider with ChangeNotifier {
     }
     notifyListeners();
   }
+
+
+  ///chart page
+
 }
