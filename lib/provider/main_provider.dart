@@ -11,6 +11,7 @@ import 'package:accounting/db/record_tag_model.dart';
 import 'package:accounting/db/tag_db.dart';
 import 'package:accounting/db/tag_model.dart';
 import 'package:accounting/generated/l10n.dart';
+import 'package:accounting/models/line_chart_model.dart';
 import 'package:accounting/models/states.dart';
 import 'package:accounting/res/constants.dart';
 import 'package:accounting/screens/chart/chart_screen.dart';
@@ -58,7 +59,8 @@ class MainProvider with ChangeNotifier {
   List<AccountingModel> currentAccountingList = [];
 
   ///goal
-  double get goalNum => double.parse(Preferences.getString(Constants.goalNum, '-1'));
+  double get goalNum =>
+      double.parse(Preferences.getString(Constants.goalNum, '-1'));
 
   ///fixed income
   List<FixedIncomeModel> fixedIncomeList = [];
@@ -104,7 +106,8 @@ class MainProvider with ChangeNotifier {
                 );
                 if (id != null) {
                   for (var element in element.tags) {
-                    await RecordTagDB.insertData(RecordTagModel(recordId: id, tagId: element));
+                    await RecordTagDB.insertData(
+                        RecordTagModel(recordId: id, tagId: element));
                   }
                 }
               }
@@ -121,7 +124,8 @@ class MainProvider with ChangeNotifier {
                 );
                 if (id != null) {
                   for (var element in element.tags) {
-                    await RecordTagDB.insertData(RecordTagModel(recordId: id, tagId: element));
+                    await RecordTagDB.insertData(
+                        RecordTagModel(recordId: id, tagId: element));
                   }
                 }
               }
@@ -153,7 +157,8 @@ class MainProvider with ChangeNotifier {
                 );
                 if (id != null) {
                   for (var element in element.tags) {
-                    await RecordTagDB.insertData(RecordTagModel(recordId: id, tagId: element));
+                    await RecordTagDB.insertData(
+                        RecordTagModel(recordId: id, tagId: element));
                   }
                 }
               }
@@ -170,7 +175,8 @@ class MainProvider with ChangeNotifier {
                 );
                 if (id != null) {
                   for (var element in element.tags) {
-                    await RecordTagDB.insertData(RecordTagModel(recordId: id, tagId: element));
+                    await RecordTagDB.insertData(
+                        RecordTagModel(recordId: id, tagId: element));
                   }
                 }
               }
@@ -206,7 +212,8 @@ class MainProvider with ChangeNotifier {
                 );
                 if (id != null) {
                   for (var element in element.tags) {
-                    await RecordTagDB.insertData(RecordTagModel(recordId: id, tagId: element));
+                    await RecordTagDB.insertData(
+                        RecordTagModel(recordId: id, tagId: element));
                   }
                 }
               }
@@ -223,7 +230,8 @@ class MainProvider with ChangeNotifier {
                 );
                 if (id != null) {
                   for (var element in element.tags) {
-                    await RecordTagDB.insertData(RecordTagModel(recordId: id, tagId: element));
+                    await RecordTagDB.insertData(
+                        RecordTagModel(recordId: id, tagId: element));
                   }
                 }
               }
@@ -414,11 +422,12 @@ class MainProvider with ChangeNotifier {
     setCurrentAccounting(
       dashBoardStartDate,
       dashBoardEndDate,
-      notify: false,
+      notify: notify,
     );
   }
 
-  Future<void> setCurrentAccounting(DateTime start, DateTime end, {bool? notify}) async {
+  Future<void> setCurrentAccounting(DateTime start, DateTime end,
+      {bool? notify}) async {
     final List<AccountingModel> list = await AccountingDB.displayAllData();
     end = end.add(
       const Duration(days: 1),
@@ -426,7 +435,9 @@ class MainProvider with ChangeNotifier {
     accountingList = list;
     currentAccountingList = [];
     for (var element in accountingList) {
-      if (start.year == end.year && start.month == end.month && start.day == end.day) {
+      if (start.year == end.year &&
+          start.month == end.month &&
+          start.day == end.day) {
         if (element.date.year == start.year &&
             element.date.month == start.month &&
             element.date.day == start.day) {
@@ -441,8 +452,8 @@ class MainProvider with ChangeNotifier {
     currentAccountingList.sort((a, b) => b.date.compareTo(a.date));
 
     for (var element in currentAccountingList) {
-      List<RecordTagModel> l =
-          await RecordTagDB.queryData(queryType: RecordTagType.record, query: [element.id!]);
+      List<RecordTagModel> l = await RecordTagDB.queryData(
+          queryType: RecordTagType.record, query: [element.id!]);
       element.tags = List.generate(l.length, (index) => l[index].tagId);
     }
 
@@ -610,7 +621,28 @@ class MainProvider with ChangeNotifier {
       allList.addAll(accountingList);
     }
 
+    if (lineTagFilter != null) {
+      List<AccountingModel> list = [];
+      for (var element in allList) {
+        if (element.tags.isEmpty) {
+          if (lineTagFilter!.contains(-1)) {
+            list.add(element);
+          }
+        } else {
+          bool done = false;
+          for (var e in element.tags) {
+            if (lineTagFilter!.contains(e) && !done) {
+              list.add(element);
+              done = true;
+            }
+          }
+        }
+      }
+      allList = list;
+    }
+
     allList.sort((a, b) => b.date.compareTo(b.date));
+
     if (lineChartDataType == ChartDataType.inOut) {
       int days = lineChartEnd.difference(lineChartStart).inDays;
       List<SalesData> incomes = [];
@@ -620,11 +652,12 @@ class MainProvider with ChangeNotifier {
           for (int i = 0; i < days; i++) {
             double income = 0;
             double expenditure = 0;
-            DateTime d =
-                DateTime(lineChartStart.year, lineChartStart.month, lineChartStart.day + i);
+            DateTime d = DateTime(lineChartStart.year, lineChartStart.month,
+                lineChartStart.day + i);
 
-            final List<AccountingModel> l =
-                allList.where((element) => Utils.checkIsSameDay(element.date, d)).toList();
+            final List<AccountingModel> l = allList
+                .where((element) => Utils.checkIsSameDay(element.date, d))
+                .toList();
             for (var element in l) {
               if (element.amount > 0) {
                 income += element.amount;
@@ -641,12 +674,12 @@ class MainProvider with ChangeNotifier {
           for (DateTime i = lineChartStart;
               i.year != end.year || i.month != end.month;
               i = DateTime(i.year, i.month + 1)) {
-            print(i);
             double income = 0;
             double expenditure = 0;
 
-            final List<AccountingModel> l =
-                allList.where((element) => Utils.checkIsSameMonth(element.date, i)).toList();
+            final List<AccountingModel> l = allList
+                .where((element) => Utils.checkIsSameMonth(element.date, i))
+                .toList();
             for (var element in l) {
               if (element.amount > 0) {
                 income += element.amount;
@@ -660,12 +693,15 @@ class MainProvider with ChangeNotifier {
           break;
         case 2:
           DateTime end = DateTime(lineChartEnd.year + 1);
-          for (DateTime i = lineChartStart; i.year != end.year + 1; i = DateTime(i.year + 1)) {
+          for (DateTime i = lineChartStart;
+              i.year != end.year + 1;
+              i = DateTime(i.year + 1)) {
             double income = 0;
             double expenditure = 0;
 
-            final List<AccountingModel> l =
-                allList.where((element) => Utils.checkIsSameYear(element.date, i)).toList();
+            final List<AccountingModel> l = allList
+                .where((element) => Utils.checkIsSameYear(element.date, i))
+                .toList();
             for (var element in l) {
               if (element.amount > 0) {
                 income += element.amount;
@@ -680,18 +716,121 @@ class MainProvider with ChangeNotifier {
       }
 
       lineChartList = [
-        LineSeries<SalesData, DateTime>(
-          dataSource: incomes,
-          name: S.of(context).income,
-          xValueMapper: (SalesData sales, _) => sales.year,
-          yValueMapper: (SalesData sales, _) => sales.sales,
-        ),
-        LineSeries<SalesData, DateTime>(
-          dataSource: expenditures,
-          name: S.of(context).expenditure,
-          xValueMapper: (SalesData sales, _) => sales.year,
-          yValueMapper: (SalesData sales, _) => sales.sales,
-        ),
+        if (lineFilter.contains(0))
+          LineSeries<SalesData, DateTime>(
+            dataSource: incomes,
+            name: S.of(context).income,
+            color: Colors.blueAccent,
+            xValueMapper: (SalesData sales, _) => sales.year,
+            yValueMapper: (SalesData sales, _) => sales.sales,
+          ),
+        if (lineFilter.contains(1))
+          LineSeries<SalesData, DateTime>(
+            dataSource: expenditures,
+            name: S.of(context).expenditure,
+            color: Colors.redAccent,
+            xValueMapper: (SalesData sales, _) => sales.year,
+            yValueMapper: (SalesData sales, _) => sales.sales,
+          ),
+      ];
+    } else {
+      List<LineChartModel> chartList = [];
+      for (var element in lineFilter) {
+        if (categoryList.indexWhere((e) => e.id == element) != -1) {
+          CategoryModel model = categoryList.firstWhere((e) => e.id == element);
+          chartList.add(
+            LineChartModel(model: model, dataList: []),
+          );
+        }
+      }
+      if (lineFilter.contains(-1)) {
+        chartList.add(
+          LineChartModel(
+            model: CategoryModel(
+                id: -1,
+                sort: -1,
+                type: CategoryType.income,
+                icon: 'help_outline',
+                iconColor: Colors.grey,
+                name: S.of(context).unCategory),
+            dataList: [],
+          ),
+        );
+      }
+
+      switch (lineScale) {
+        case 0:
+          int days = lineChartEnd.difference(lineChartStart).inDays;
+          for (int i = 0; i < days; i++) {
+            DateTime d = DateTime(lineChartStart.year, lineChartStart.month,
+                lineChartStart.day + i);
+
+            final List<AccountingModel> l = allList
+                .where((element) => Utils.checkIsSameDay(element.date, d))
+                .toList();
+
+            for (var element in chartList) {
+              List<AccountingModel> al =
+                  l.where((e) => e.category == element.model.id).toList();
+              double amount = 0;
+              for (var el in al) {
+                amount += el.amount;
+              }
+              element.dataList.add(SalesData(d, amount.abs()));
+            }
+          }
+          break;
+        case 1:
+          DateTime end = DateTime(lineChartEnd.year, lineChartEnd.month + 1);
+          for (DateTime i = lineChartStart;
+              i.year != end.year || i.month != end.month;
+              i = DateTime(i.year, i.month + 1)) {
+            final List<AccountingModel> l = allList
+                .where((element) => Utils.checkIsSameMonth(element.date, i))
+                .toList();
+
+            for (var element in chartList) {
+              List<AccountingModel> al =
+                  l.where((e) => e.category == element.model.id).toList();
+              double amount = 0;
+              for (var el in al) {
+                amount += el.amount;
+              }
+              element.dataList.add(SalesData(i, amount.abs()));
+            }
+          }
+          break;
+        case 2:
+          DateTime end = DateTime(lineChartEnd.year + 1);
+          for (DateTime i = lineChartStart;
+              i.year != end.year + 1;
+              i = DateTime(i.year + 1)) {
+            final List<AccountingModel> l = allList
+                .where((element) => Utils.checkIsSameYear(element.date, i))
+                .toList();
+
+            for (var element in chartList) {
+              List<AccountingModel> al =
+                  l.where((e) => e.category == element.model.id).toList();
+              double amount = 0;
+              for (var el in al) {
+                amount += el.amount;
+              }
+              element.dataList.add(SalesData(i, amount.abs()));
+            }
+          }
+          break;
+      }
+
+      lineChartList = [
+        for (final element in chartList)
+          LineSeries<SalesData, DateTime>(
+            dataSource: element.dataList,
+            name: element.model.name,
+            color: element.model.iconColor,
+            xValueMapper: (SalesData sales, _) => sales.year,
+            yValueMapper: (SalesData sales, _) => sales.sales,
+          ),
       ];
     }
     lineChartState = AppState.finish;
