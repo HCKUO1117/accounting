@@ -719,6 +719,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Time Scale`
+  String get timeScale {
+    return Intl.message(
+      'Time Scale',
+      name: 'timeScale',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Data Source`
+  String get dataType {
+    return Intl.message(
+      'Data Source',
+      name: 'dataType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Incoming and Expenditure`
+  String get inOut {
+    return Intl.message(
+      'Incoming and Expenditure',
+      name: 'inOut',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filter`
+  String get filter {
+    return Intl.message(
+      'Filter',
+      name: 'filter',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

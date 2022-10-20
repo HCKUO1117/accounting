@@ -40,6 +40,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Click here to set budget"),
         "color": MessageLookupByLibrary.simpleMessage("Color"),
         "customize": MessageLookupByLibrary.simpleMessage("Customize..."),
+        "dataType": MessageLookupByLibrary.simpleMessage("Data Source"),
         "date": MessageLookupByLibrary.simpleMessage("Date"),
         "day": MessageLookupByLibrary.simpleMessage("day"),
         "deleteCheck":
@@ -54,10 +55,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorFormat": MessageLookupByLibrary.simpleMessage("Format error"),
         "expand": MessageLookupByLibrary.simpleMessage("Expand"),
         "expenditure": MessageLookupByLibrary.simpleMessage("Expenditure"),
+        "filter": MessageLookupByLibrary.simpleMessage("Filter"),
         "fixedIncome": MessageLookupByLibrary.simpleMessage("Fixed Income"),
         "icon": MessageLookupByLibrary.simpleMessage("Icon"),
         "inAndOut":
             MessageLookupByLibrary.simpleMessage("Fixed Income and Budget"),
+        "inOut":
+            MessageLookupByLibrary.simpleMessage("Incoming and Expenditure"),
         "income": MessageLookupByLibrary.simpleMessage("Income"),
         "longBefore": MessageLookupByLibrary.simpleMessage("...before"),
         "month": MessageLookupByLibrary.simpleMessage("month"),
@@ -92,6 +96,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "thisWeek": MessageLookupByLibrary.simpleMessage("This week"),
         "thisYear": MessageLookupByLibrary.simpleMessage("This year"),
         "time": MessageLookupByLibrary.simpleMessage("Time"),
+        "timeScale": MessageLookupByLibrary.simpleMessage("Time Scale"),
         "to": MessageLookupByLibrary.simpleMessage("to"),
         "toUnCategory": MessageLookupByLibrary.simpleMessage(
             "There is a record using this category in your account book. If you delete this category, the item will be classified as \'Uncategory\'"),

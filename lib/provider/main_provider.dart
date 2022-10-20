@@ -10,11 +10,15 @@ import 'package:accounting/db/record_tag_db.dart';
 import 'package:accounting/db/record_tag_model.dart';
 import 'package:accounting/db/tag_db.dart';
 import 'package:accounting/db/tag_model.dart';
+import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/models/states.dart';
 import 'package:accounting/res/constants.dart';
+import 'package:accounting/screens/chart/chart_screen.dart';
+import 'package:accounting/screens/chart/line_chart_setting_page.dart';
 import 'package:accounting/utils/preferences.dart';
 import 'package:accounting/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class MainProvider with ChangeNotifier {
   AppState calendarState = AppState.finish;
@@ -320,7 +324,7 @@ class MainProvider with ChangeNotifier {
     if (dashBoardTagFilter == null) {
       dashBoardTagFilter = [];
       if (id != 0) {
-        for (var element in categoryList) {
+        for (var element in tagList) {
           if (element.id != id) {
             dashBoardTagFilter!.add(element.id!);
           }
@@ -543,7 +547,154 @@ class MainProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
   ///chart page
+  DateTime lineChartStart = DateTime.now().subtract(const Duration(days: 30));
+  DateTime lineChartEnd = DateTime.now();
 
+  bool get lineSamDay =>
+      lineChartStart.year == lineChartEnd.year &&
+      lineChartStart.month == lineChartEnd.month &&
+      lineChartStart.day == lineChartEnd.day;
+
+  ChartDataType lineChartDataType = ChartDataType.inOut;
+
+  int lineScale = 0;
+
+  List<int> lineFilter = [0, 1];
+
+  List<int>? lineTagFilter;
+
+  List<ChartSeries> lineChartList = [];
+
+  AppState lineChartState = AppState.finish;
+
+  Future<void> setLineChartTime({
+    required DateTime start,
+    required DateTime end,
+    required ChartDataType type,
+    required int scale,
+    required List<int> filter,
+    required List<int>? tagFilter,
+  }) async {
+    lineChartStart = start;
+    lineChartEnd = end;
+    lineChartDataType = type;
+    lineScale = scale;
+    lineFilter = filter;
+    lineTagFilter = tagFilter;
+
+    notifyListeners();
+  }
+
+  Future<void> drawLineChart(BuildContext context) async {
+    lineChartState = AppState.loading;
+    notifyListeners();
+
+    List<AccountingModel> allList = [];
+
+    if (lineChartDataType == ChartDataType.category) {
+      List<AccountingModel> list = [];
+      for (var element in accountingList) {
+        if (lineFilter.contains(element.category)) {
+          if (element.category == -1) {
+            if (element.amount > 0) {
+              list.add(element);
+            }
+          } else {
+            list.add(element);
+          }
+        }
+      }
+      allList.addAll(list);
+    } else {
+      allList.addAll(accountingList);
+    }
+
+    allList.sort((a, b) => b.date.compareTo(b.date));
+    if (lineChartDataType == ChartDataType.inOut) {
+      int days = lineChartEnd.difference(lineChartStart).inDays;
+      List<SalesData> incomes = [];
+      List<SalesData> expenditures = [];
+      switch (lineScale) {
+        case 0:
+          for (int i = 0; i < days; i++) {
+            double income = 0;
+            double expenditure = 0;
+            DateTime d =
+                DateTime(lineChartStart.year, lineChartStart.month, lineChartStart.day + i);
+
+            final List<AccountingModel> l =
+                allList.where((element) => Utils.checkIsSameDay(element.date, d)).toList();
+            for (var element in l) {
+              if (element.amount > 0) {
+                income += element.amount;
+              } else {
+                expenditure += element.amount;
+              }
+            }
+            incomes.add(SalesData(d, income));
+            expenditures.add(SalesData(d, expenditure.abs()));
+          }
+          break;
+        case 1:
+          DateTime end = DateTime(lineChartEnd.year, lineChartEnd.month + 1);
+          for (DateTime i = lineChartStart;
+              i.year != end.year || i.month != end.month;
+              i = DateTime(i.year, i.month + 1)) {
+            print(i);
+            double income = 0;
+            double expenditure = 0;
+
+            final List<AccountingModel> l =
+                allList.where((element) => Utils.checkIsSameMonth(element.date, i)).toList();
+            for (var element in l) {
+              if (element.amount > 0) {
+                income += element.amount;
+              } else {
+                expenditure += element.amount;
+              }
+            }
+            incomes.add(SalesData(i, income));
+            expenditures.add(SalesData(i, expenditure.abs()));
+          }
+          break;
+        case 2:
+          DateTime end = DateTime(lineChartEnd.year + 1);
+          for (DateTime i = lineChartStart; i.year != end.year + 1; i = DateTime(i.year + 1)) {
+            double income = 0;
+            double expenditure = 0;
+
+            final List<AccountingModel> l =
+                allList.where((element) => Utils.checkIsSameYear(element.date, i)).toList();
+            for (var element in l) {
+              if (element.amount > 0) {
+                income += element.amount;
+              } else {
+                expenditure += element.amount;
+              }
+            }
+            incomes.add(SalesData(i, income));
+            expenditures.add(SalesData(i, expenditure.abs()));
+          }
+          break;
+      }
+
+      lineChartList = [
+        LineSeries<SalesData, DateTime>(
+          dataSource: incomes,
+          name: S.of(context).income,
+          xValueMapper: (SalesData sales, _) => sales.year,
+          yValueMapper: (SalesData sales, _) => sales.sales,
+        ),
+        LineSeries<SalesData, DateTime>(
+          dataSource: expenditures,
+          name: S.of(context).expenditure,
+          xValueMapper: (SalesData sales, _) => sales.year,
+          yValueMapper: (SalesData sales, _) => sales.sales,
+        ),
+      ];
+    }
+    lineChartState = AppState.finish;
+    notifyListeners();
+  }
 }

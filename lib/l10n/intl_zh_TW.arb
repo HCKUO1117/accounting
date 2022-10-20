@@ -65,5 +65,9 @@
   "toUnCategory": "您的帳本中有使用此分類的紀錄，若刪除此分類該項目會被歸為'未分類'",
   "showRecord": "查看項目",
   "all": "全部",
-  "noTag": "無標籤"
+  "noTag": "無標籤",
+  "timeScale": "時間尺度",
+  "dataType": "資料來源",
+  "inOut": "收支",
+  "filter": "篩選"
 }

@@ -9,12 +9,18 @@ class CustomDatePickerDialog extends StatefulWidget {
   final Function(DateRangePickerSelectionChangedArgs) onDateSelect;
   final DateTime start;
   final DateTime end;
+  final bool showDot;
+  final bool allowViewNavigation;
+  final DateRangePickerView view;
 
   const CustomDatePickerDialog({
     Key? key,
     required this.onDateSelect,
     required this.start,
     required this.end,
+    this.showDot = true,
+    this.allowViewNavigation = true,
+    this.view = DateRangePickerView.month,
   }) : super(key: key);
 
   static Future<void> show(
@@ -22,6 +28,9 @@ class CustomDatePickerDialog extends StatefulWidget {
     required Function(DateRangePickerSelectionChangedArgs) onDateSelect,
     required DateTime start,
     required DateTime end,
+    bool? showDot,
+    bool? allowViewNavigation,
+    DateRangePickerView? view,
   }) async {
     await showDialog(
       context: context,
@@ -29,6 +38,9 @@ class CustomDatePickerDialog extends StatefulWidget {
         onDateSelect: onDateSelect,
         start: start,
         end: end,
+        showDot: showDot ?? true,
+        allowViewNavigation: allowViewNavigation ?? true,
+        view: view ?? DateRangePickerView.month,
       ),
     );
   }
@@ -77,92 +89,96 @@ class _CustomDatePickerDialogState extends State<CustomDatePickerDialog> {
           navigationMode: DateRangePickerNavigationMode.scroll,
           navigationDirection: DateRangePickerNavigationDirection.vertical,
           selectionMode: DateRangePickerSelectionMode.range,
-          cellBuilder: (BuildContext context, DateRangePickerCellDetails cellDetails) {
-            Widget dot = Container(
-              width: 10,
-              height: 10,
-              decoration: BoxDecoration(
-                color: Utils.checkIsSameDay(cellDetails.date, start) ||
-                        Utils.checkIsSameDay(cellDetails.date, end)
-                    ? Colors.white
-                    : Colors.orange,
-                borderRadius: BorderRadius.circular(10),
-              ),
-            );
+          allowViewNavigation: widget.allowViewNavigation,
+          view: widget.view,
+          cellBuilder: widget.showDot
+              ? (BuildContext context, DateRangePickerCellDetails cellDetails) {
+                  Widget dot = Container(
+                    width: 10,
+                    height: 10,
+                    decoration: BoxDecoration(
+                      color: Utils.checkIsSameDay(cellDetails.date, start) ||
+                              Utils.checkIsSameDay(cellDetails.date, end)
+                          ? Colors.white
+                          : Colors.orange,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  );
 
-            if (_controller.view == DateRangePickerView.month) {
-              return Container(
-                width: cellDetails.bounds.width,
-                height: cellDetails.bounds.height,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  border: Utils.checkIsSameDay(cellDetails.date, DateTime.now())
-                      ? Border.all(color: Colors.orange)
-                      : null,
-                ),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 8),
-                    Text(
-                      cellDetails.date.day.toString(),
-                      style: TextStyle(
-                        color: Utils.checkIsSameDay(cellDetails.date, start) ||
-                                Utils.checkIsSameDay(cellDetails.date, end)
-                            ? Colors.white
+                  if (_controller.view == DateRangePickerView.month) {
+                    return Container(
+                      width: cellDetails.bounds.width,
+                      height: cellDetails.bounds.height,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        border: Utils.checkIsSameDay(cellDetails.date, DateTime.now())
+                            ? Border.all(color: Colors.orange)
                             : null,
                       ),
-                    ),
-                    if (context.read<MainProvider>().accountingList.indexWhere(
-                            (element) => Utils.checkIsSameDay(element.date, cellDetails.date)) !=
-                        -1)
-                      Expanded(
-                          child: Center(
-                        child: dot,
-                      )),
-                  ],
-                ),
-              );
-            } else if (_controller.view == DateRangePickerView.year) {
-              return Container(
-                width: cellDetails.bounds.width,
-                height: cellDetails.bounds.height,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  border: cellDetails.date.year == DateTime.now().year &&
-                          cellDetails.date.month == DateTime.now().month
-                      ? Border.all(color: Colors.orange)
-                      : null,
-                ),
-                child: Text(DateFormat.MMMM().format(cellDetails.date)),
-              );
-            } else if (_controller.view == DateRangePickerView.decade) {
-              return Container(
-                width: cellDetails.bounds.width,
-                height: cellDetails.bounds.height,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  border: cellDetails.date.year == DateTime.now().year
-                      ? Border.all(color: Colors.orange)
-                      : null,
-                ),
-                child: Text(cellDetails.date.year.toString()),
-              );
-            } else {
-              final int yearValue = (cellDetails.date.year ~/ 10) * 10;
-              return Container(
-                width: cellDetails.bounds.width,
-                height: cellDetails.bounds.height,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  border: cellDetails.date.year <= DateTime.now().year &&
-                          cellDetails.date.year + 9 >= DateTime.now().year
-                      ? Border.all(color: Colors.orange)
-                      : null,
-                ),
-                child: Text('$yearValue - ${yearValue + 9}'),
-              );
-            }
-          },
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 8),
+                          Text(
+                            cellDetails.date.day.toString(),
+                            style: TextStyle(
+                              color: Utils.checkIsSameDay(cellDetails.date, start) ||
+                                      Utils.checkIsSameDay(cellDetails.date, end)
+                                  ? Colors.white
+                                  : null,
+                            ),
+                          ),
+                          if (context.read<MainProvider>().accountingList.indexWhere((element) =>
+                                  Utils.checkIsSameDay(element.date, cellDetails.date)) !=
+                              -1)
+                            Expanded(
+                                child: Center(
+                              child: dot,
+                            )),
+                        ],
+                      ),
+                    );
+                  } else if (_controller.view == DateRangePickerView.year) {
+                    return Container(
+                      width: cellDetails.bounds.width,
+                      height: cellDetails.bounds.height,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        border: cellDetails.date.year == DateTime.now().year &&
+                                cellDetails.date.month == DateTime.now().month
+                            ? Border.all(color: Colors.orange)
+                            : null,
+                      ),
+                      child: Text(DateFormat.MMMM().format(cellDetails.date)),
+                    );
+                  } else if (_controller.view == DateRangePickerView.decade) {
+                    return Container(
+                      width: cellDetails.bounds.width,
+                      height: cellDetails.bounds.height,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        border: cellDetails.date.year == DateTime.now().year
+                            ? Border.all(color: Colors.orange)
+                            : null,
+                      ),
+                      child: Text(cellDetails.date.year.toString()),
+                    );
+                  } else {
+                    final int yearValue = (cellDetails.date.year ~/ 10) * 10;
+                    return Container(
+                      width: cellDetails.bounds.width,
+                      height: cellDetails.bounds.height,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        border: cellDetails.date.year <= DateTime.now().year &&
+                                cellDetails.date.year + 9 >= DateTime.now().year
+                            ? Border.all(color: Colors.orange)
+                            : null,
+                      ),
+                      child: Text('$yearValue - ${yearValue + 9}'),
+                    );
+                  }
+                }
+              : null,
         ),
       ),
       actions: [

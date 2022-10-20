@@ -65,5 +65,9 @@
   "toUnCategory": "There is a record using this category in your account book. If you delete this category, the item will be classified as 'Uncategory'",
   "showRecord": "View items",
   "all": "All",
-  "noTag": "No Tag"
+  "noTag": "No Tag",
+  "timeScale": "Time Scale",
+  "dataType": "Data Source",
+  "inOut": "Incoming and Expenditure",
+  "filter": "Filter"
 }
