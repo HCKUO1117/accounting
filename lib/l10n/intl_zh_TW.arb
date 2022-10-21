@@ -69,5 +69,6 @@
   "timeScale": "時間尺度",
   "dataType": "資料來源",
   "inOut": "收支",
-  "filter": "篩選"
+  "filter": "篩選",
+  "plzChooseTime": "請選擇時間"
 }

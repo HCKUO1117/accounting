@@ -83,6 +83,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "period": MessageLookupByLibrary.simpleMessage("period"),
         "pleaseEnterName":
             MessageLookupByLibrary.simpleMessage("Please enter a name"),
+        "plzChooseTime":
+            MessageLookupByLibrary.simpleMessage("Please choose a time"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "save1": MessageLookupByLibrary.simpleMessage("save"),
         "selectDay": MessageLookupByLibrary.simpleMessage("Select Day"),

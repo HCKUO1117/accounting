@@ -3,8 +3,11 @@ import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/screens/custom_date_picker_dialog.dart';
 import 'package:accounting/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+
+enum ChartType { line, pie, stack }
 
 enum ChartDataType {
   inOut,
@@ -25,8 +28,11 @@ extension ChartDataTypeEx on ChartDataType {
 }
 
 class LineChartSettingPage extends StatefulWidget {
+  final ChartType type;
+
   const LineChartSettingPage({
     Key? key,
+    required this.type,
   }) : super(key: key);
 
   @override
@@ -34,8 +40,8 @@ class LineChartSettingPage extends StatefulWidget {
 }
 
 class _LineChartSettingPageState extends State<LineChartSettingPage> {
-  late DateTime start;
-  late DateTime end;
+  late DateTime? start;
+  late DateTime? end;
 
   ChartDataType lineChartDataType = ChartDataType.inOut;
 
@@ -47,15 +53,34 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
 
   @override
   void initState() {
-    start = context.read<MainProvider>().lineChartStart;
-    end = context.read<MainProvider>().lineChartEnd;
-    lineChartDataType = context.read<MainProvider>().lineChartDataType;
-    scale = context.read<MainProvider>().lineScale;
+    switch (widget.type) {
+      case ChartType.line:
+        start = context.read<MainProvider>().lineChartStart;
+        end = context.read<MainProvider>().lineChartEnd;
+        lineChartDataType = context.read<MainProvider>().lineChartDataType;
+        scale = context.read<MainProvider>().lineScale;
 
-    lineFilter.addAll(context.read<MainProvider>().lineFilter);
-    if (context.read<MainProvider>().lineTagFilter != null) {
-      tagFilter = [];
-      tagFilter!.addAll(context.read<MainProvider>().lineTagFilter!);
+        lineFilter.addAll(context.read<MainProvider>().lineFilter);
+        if (context.read<MainProvider>().lineTagFilter != null) {
+          tagFilter = [];
+          tagFilter!.addAll(context.read<MainProvider>().lineTagFilter!);
+        }
+        break;
+      case ChartType.pie:
+        start = context.read<MainProvider>().pieChartStart;
+        end = context.read<MainProvider>().pieChartEnd;
+        lineChartDataType = context.read<MainProvider>().pieChartDataType;
+        scale = context.read<MainProvider>().pieScale;
+
+        lineFilter.addAll(context.read<MainProvider>().pieFilter);
+        if (context.read<MainProvider>().pieTagFilter != null) {
+          tagFilter = [];
+          tagFilter!.addAll(context.read<MainProvider>().pieTagFilter!);
+        }
+        break;
+      case ChartType.stack:
+        // TODO: Handle this case.
+        break;
     }
 
     super.initState();
@@ -63,7 +88,11 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
 
   @override
   Widget build(BuildContext context) {
-    bool samDay = start.year == end.year && start.month == end.month && start.day == end.day;
+    bool samDay = false;
+    if (start != null && end != null) {
+      samDay = start!.year == end!.year && start!.month == end!.month && start!.day == end!.day;
+    }
+
     return Consumer<MainProvider>(builder: (BuildContext context, MainProvider provider, _) {
       return Column(
         children: [
@@ -119,6 +148,10 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                   ],
                   onChanged: (v) {
                     setState(() {
+                      if (v != scale) {
+                        start = null;
+                        end = null;
+                      }
                       scale = v!;
                     });
                   },
@@ -150,8 +183,8 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                           end: r.endDate != null ? r.endDate! : r.startDate!,
                         );
                       },
-                      start: start,
-                      end: end,
+                      start: start ?? DateTime.now(),
+                      end: end ?? DateTime.now(),
                       showDot: false,
                       allowViewNavigation: scale == 0,
                       view: scale == 0
@@ -159,6 +192,7 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                           : scale == 1
                               ? DateRangePickerView.year
                               : DateRangePickerView.decade,
+                      noInit: start == null || end == null ? true : false,
                     );
                     if (range == null) {
                       return;
@@ -169,7 +203,9 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                     });
                   },
                   child: Text(
-                    '${Utils.toDateString(start)}${!samDay ? ' ~ ' : ''}${!samDay ? Utils.toDateString(end) : ''}',
+                    start != null && end != null
+                        ? '${Utils.dateStringByType(start!,scale)}${!samDay ? ' ~ ' : ''}${!samDay ? Utils.dateStringByType(end!,scale) : ''}'
+                        : S.of(context).plzChooseTime,
                     strutStyle: const StrutStyle(height: 1.5),
                   ),
                 ),
@@ -299,15 +335,38 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
               elevation: MaterialStateProperty.all(0),
             ),
             onPressed: () async {
-              await provider.setLineChartTime(
-                start: start,
-                end: end,
-                type: lineChartDataType,
-                scale: scale,
-                filter: lineFilter,
-                tagFilter: tagFilter,
-              );
-              provider.drawLineChart(context);
+              if (start == null || end == null) {
+                Fluttertoast.showToast(msg: S.of(context).plzChooseTime);
+                return;
+              }
+              switch (widget.type) {
+                case ChartType.line:
+                  await provider.setLineChartTime(
+                    start: start ?? DateTime.now(),
+                    end: end ?? DateTime.now(),
+                    type: lineChartDataType,
+                    scale: scale,
+                    filter: lineFilter,
+                    tagFilter: tagFilter,
+                  );
+                  provider.drawLineChart(context);
+                  break;
+                case ChartType.pie:
+                  await provider.setPieChartTime(
+                    start: start ?? DateTime.now(),
+                    end: end ?? DateTime.now(),
+                    type: lineChartDataType,
+                    scale: scale,
+                    filter: lineFilter,
+                    tagFilter: tagFilter,
+                  );
+                  provider.drawPieChart(context);
+                  break;
+                case ChartType.stack:
+                  // TODO: Handle this case.
+                  break;
+              }
+
               Navigator.pop(context);
             },
             child: Text(

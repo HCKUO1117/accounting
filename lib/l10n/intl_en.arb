@@ -69,5 +69,6 @@
   "timeScale": "Time Scale",
   "dataType": "Data Source",
   "inOut": "Incoming and Expenditure",
-  "filter": "Filter"
+  "filter": "Filter",
+  "plzChooseTime": "Please choose a time"
 }

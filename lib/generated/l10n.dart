@@ -759,6 +759,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Please choose a time`
+  String get plzChooseTime {
+    return Intl.message(
+      'Please choose a time',
+      name: 'plzChooseTime',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

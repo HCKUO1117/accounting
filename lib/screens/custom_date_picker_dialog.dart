@@ -12,6 +12,7 @@ class CustomDatePickerDialog extends StatefulWidget {
   final bool showDot;
   final bool allowViewNavigation;
   final DateRangePickerView view;
+  final bool noInit;
 
   const CustomDatePickerDialog({
     Key? key,
@@ -20,7 +21,7 @@ class CustomDatePickerDialog extends StatefulWidget {
     required this.end,
     this.showDot = true,
     this.allowViewNavigation = true,
-    this.view = DateRangePickerView.month,
+    this.view = DateRangePickerView.month, this.noInit = false,
   }) : super(key: key);
 
   static Future<void> show(
@@ -31,6 +32,7 @@ class CustomDatePickerDialog extends StatefulWidget {
     bool? showDot,
     bool? allowViewNavigation,
     DateRangePickerView? view,
+        bool noInit = false,
   }) async {
     await showDialog(
       context: context,
@@ -41,6 +43,7 @@ class CustomDatePickerDialog extends StatefulWidget {
         showDot: showDot ?? true,
         allowViewNavigation: allowViewNavigation ?? true,
         view: view ?? DateRangePickerView.month,
+        noInit: noInit,
       ),
     );
   }
@@ -85,7 +88,7 @@ class _CustomDatePickerDialogState extends State<CustomDatePickerDialog> {
               }
             });
           },
-          initialSelectedRange: PickerDateRange(widget.start, widget.end),
+          initialSelectedRange: widget.noInit ? null:PickerDateRange(widget.start, widget.end),
           navigationMode: DateRangePickerNavigationMode.scroll,
           navigationDirection: DateRangePickerNavigationDirection.vertical,
           selectionMode: DateRangePickerSelectionMode.range,

@@ -72,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ok": MessageLookupByLibrary.simpleMessage("確認"),
         "period": MessageLookupByLibrary.simpleMessage("週期"),
         "pleaseEnterName": MessageLookupByLibrary.simpleMessage("請輸入名稱"),
+        "plzChooseTime": MessageLookupByLibrary.simpleMessage("請選擇時間"),
         "save": MessageLookupByLibrary.simpleMessage("儲存"),
         "save1": MessageLookupByLibrary.simpleMessage("存"),
         "selectDay": MessageLookupByLibrary.simpleMessage("選擇日期"),
