@@ -1,4 +1,3 @@
-
 import 'package:accounting/db/accounting_model.dart';
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/models/date_model.dart';
@@ -31,7 +30,8 @@ class CalendarPage extends StatefulWidget {
   State<CalendarPage> createState() => _CalendarPageState();
 }
 
-class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMixin {
+class _CalendarPageState extends State<CalendarPage>
+    with TickerProviderStateMixin {
   DateTime? start;
   DateTime? end;
 
@@ -154,7 +154,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                   await showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
                       scrollable: true,
                       content: const FilterPage(),
                     ),
@@ -221,10 +222,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
 
               _controller.selectedRange = PickerDateRange(start, end);
               _yearController.selectedRange = PickerDateRange(start, end);
-
-              provider.dashBoardStartDate = start!;
-              provider.dashBoardEndDate = end != null ? end! : start!;
-              provider.setCurrentAccounting(start!, end != null ? end! : start!);
+              provider.setDashBoardDateRange(DateTimeRange(
+                  start: start!, end: end != null ? end! : start!));
               provider.selectedValue = 5;
             },
             onHeaderTapped: (d) {},
@@ -239,7 +238,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                 if (provider.incomeCategoryFilter != null) {
                   List<AccountingModel> list = [];
                   for (var element in provider.accountingList) {
-                    if (provider.incomeCategoryFilter!.contains(element.category)) {
+                    if (provider.incomeCategoryFilter!
+                        .contains(element.category)) {
                       if (element.category == -1) {
                         if (element.amount > 0) {
                           list.add(element);
@@ -262,7 +262,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                 if (provider.expenditureCategoryFilter != null) {
                   List<AccountingModel> list = [];
                   for (var element in provider.accountingList) {
-                    if (provider.expenditureCategoryFilter!.contains(element.category)) {
+                    if (provider.expenditureCategoryFilter!
+                        .contains(element.category)) {
                       if (element.category == -1) {
                         if (element.amount < 0) {
                           list.add(element);
@@ -398,7 +399,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
           Container(
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.black54), borderRadius: BorderRadius.circular(20)),
+                border: Border.all(color: Colors.black54),
+                borderRadius: BorderRadius.circular(20)),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: SfDateRangePicker(
@@ -412,14 +414,14 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                     if (range.endDate != null) {
                       end = range.endDate!;
                     } else {
-                      DateTime lastDayOfMonth = DateTime(start!.year, start!.month + 1, 0);
+                      DateTime lastDayOfMonth =
+                          DateTime(start!.year, start!.month + 1, 0);
                       end = lastDayOfMonth;
                     }
                     _yearController.selectedRange = PickerDateRange(start, end);
                   });
-                  provider.dashBoardStartDate = start!;
-                  provider.dashBoardEndDate = end != null ? end! : start!;
-                  provider.setCurrentAccounting(start!, end != null ? end! : start!);
+                  provider.setDashBoardDateRange(DateTimeRange(
+                      start: start!, end: end != null ? end! : start!));
                   provider.selectedValue = 5;
                 },
                 view: DateRangePickerView.year,
@@ -427,7 +429,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                 initialSelectedRange: PickerDateRange(start, end),
                 navigationMode: DateRangePickerNavigationMode.scroll,
                 selectionMode: DateRangePickerSelectionMode.range,
-                cellBuilder: (BuildContext context, DateRangePickerCellDetails cellDetails) {
+                cellBuilder: (BuildContext context,
+                    DateRangePickerCellDetails cellDetails) {
                   double amount = 0;
                   bool show = false;
                   List<AccountingModel> allList = [];
@@ -436,7 +439,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                   if (provider.incomeCategoryFilter != null) {
                     List<AccountingModel> list = [];
                     for (var element in provider.accountingList) {
-                      if (provider.incomeCategoryFilter!.contains(element.category)) {
+                      if (provider.incomeCategoryFilter!
+                          .contains(element.category)) {
                         if (element.category == -1) {
                           if (element.amount > 0) {
                             list.add(element);
@@ -459,7 +463,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                   if (provider.expenditureCategoryFilter != null) {
                     List<AccountingModel> list = [];
                     for (var element in provider.accountingList) {
-                      if (provider.expenditureCategoryFilter!.contains(element.category)) {
+                      if (provider.expenditureCategoryFilter!
+                          .contains(element.category)) {
                         if (element.category == -1) {
                           if (element.amount < 0) {
                             list.add(element);
@@ -501,8 +506,10 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                         Text(
                           DateFormat.MMMM().format(cellDetails.date),
                           style: TextStyle(
-                            color: Utils.checkIsSameMonth(cellDetails.date, start!) ||
-                                    Utils.checkIsSameMonth(cellDetails.date, end!)
+                            color: Utils.checkIsSameMonth(
+                                        cellDetails.date, start!) ||
+                                    Utils.checkIsSameMonth(
+                                        cellDetails.date, end!)
                                 ? Colors.white
                                 : null,
                           ),
@@ -513,7 +520,9 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                               child: Text(
                                 amount.toString(),
                                 style: TextStyle(
-                                  color: amount < 0 ? Colors.redAccent : Colors.blueAccent,
+                                  color: amount < 0
+                                      ? Colors.redAccent
+                                      : Colors.blueAccent,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                   shadows: const <Shadow>[
@@ -612,7 +621,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
               if (provider.incomeCategoryFilter != null) {
                 List<AccountingModel> list = [];
                 for (var element in provider.accountingList) {
-                  if (provider.incomeCategoryFilter!.contains(element.category)) {
+                  if (provider.incomeCategoryFilter!
+                      .contains(element.category)) {
                     if (element.category == -1) {
                       if (element.amount > 0) {
                         list.add(element);
@@ -635,7 +645,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
               if (provider.expenditureCategoryFilter != null) {
                 List<AccountingModel> list = [];
                 for (var element in provider.accountingList) {
-                  if (provider.expenditureCategoryFilter!.contains(element.category)) {
+                  if (provider.expenditureCategoryFilter!
+                      .contains(element.category)) {
                     if (element.category == -1) {
                       if (element.amount < 0) {
                         list.add(element);
@@ -738,7 +749,9 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                                   child: Text(
                                     total.toString(),
                                     style: TextStyle(
-                                      color: total < 0 ? Colors.redAccent : Colors.blueAccent,
+                                      color: total < 0
+                                          ? Colors.redAccent
+                                          : Colors.blueAccent,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -775,8 +788,10 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                               SizedBox(
                                 width: 50,
                                 child: Text(
-                                  DateFormat.d().format(DateTime(2000, 1, dList[index])),
-                                  style: const TextStyle(color: Colors.black54, fontSize: 16),
+                                  DateFormat.d()
+                                      .format(DateTime(2000, 1, dList[index])),
+                                  style: const TextStyle(
+                                      color: Colors.black54, fontSize: 16),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -807,7 +822,9 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                                       child: Text(
                                         balance.toString(),
                                         style: TextStyle(
-                                          color: balance < 0 ? Colors.redAccent : Colors.blueAccent,
+                                          color: balance < 0
+                                              ? Colors.redAccent
+                                              : Colors.blueAccent,
                                           fontSize: 14,
                                         ),
                                         textAlign: TextAlign.end,
@@ -852,7 +869,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
           Container(
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.black54), borderRadius: BorderRadius.circular(20)),
+                border: Border.all(color: Colors.black54),
+                borderRadius: BorderRadius.circular(20)),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: SfDateRangePicker(
@@ -866,14 +884,15 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                     if (range.endDate != null) {
                       end = range.endDate!;
                     } else {
-                      DateTime lastDayOfMonth = DateTime(start!.year + 1, 0);
+                      DateTime lastDayOfMonth =
+                          DateTime(start!.year + 1, 0, 31);
                       end = lastDayOfMonth;
                     }
                     _controller.selectedRange = PickerDateRange(start, end);
                   });
-                  provider.dashBoardStartDate = start!;
-                  provider.dashBoardEndDate = end != null ? end! : start!;
-                  provider.setCurrentAccounting(start!, end != null ? end! : start!);
+                  provider.setDashBoardDateRange(DateTimeRange(
+                      start: start!, end: end != null ? end! : start!));
+
                   provider.selectedValue = 5;
                 },
                 view: DateRangePickerView.decade,
@@ -881,7 +900,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                 initialSelectedRange: PickerDateRange(widget.start, widget.end),
                 navigationMode: DateRangePickerNavigationMode.scroll,
                 selectionMode: DateRangePickerSelectionMode.range,
-                cellBuilder: (BuildContext context, DateRangePickerCellDetails cellDetails) {
+                cellBuilder: (BuildContext context,
+                    DateRangePickerCellDetails cellDetails) {
                   double amount = 0;
                   bool show = false;
                   List<AccountingModel> allList = [];
@@ -890,7 +910,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                   if (provider.incomeCategoryFilter != null) {
                     List<AccountingModel> list = [];
                     for (var element in provider.accountingList) {
-                      if (provider.incomeCategoryFilter!.contains(element.category)) {
+                      if (provider.incomeCategoryFilter!
+                          .contains(element.category)) {
                         if (element.category == -1) {
                           if (element.amount > 0) {
                             list.add(element);
@@ -913,7 +934,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                   if (provider.expenditureCategoryFilter != null) {
                     List<AccountingModel> list = [];
                     for (var element in provider.accountingList) {
-                      if (provider.expenditureCategoryFilter!.contains(element.category)) {
+                      if (provider.expenditureCategoryFilter!
+                          .contains(element.category)) {
                         if (element.category == -1) {
                           if (element.amount < 0) {
                             list.add(element);
@@ -953,8 +975,10 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                         Text(
                           cellDetails.date.year.toString(),
                           style: TextStyle(
-                            color: Utils.checkIsSameYear(cellDetails.date, start!) ||
-                                    Utils.checkIsSameYear(cellDetails.date, end!)
+                            color: Utils.checkIsSameYear(
+                                        cellDetails.date, start!) ||
+                                    Utils.checkIsSameYear(
+                                        cellDetails.date, end!)
                                 ? Colors.white
                                 : null,
                           ),
@@ -965,7 +989,9 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                               child: Text(
                                 amount.toString(),
                                 style: TextStyle(
-                                  color: amount < 0 ? Colors.redAccent : Colors.blueAccent,
+                                  color: amount < 0
+                                      ? Colors.redAccent
+                                      : Colors.blueAccent,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                   shadows: const <Shadow>[
@@ -1040,7 +1066,9 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
           Builder(
             builder: (context) {
               List<DateModel> list = [];
-              for (DateTime i = start!; i.year != end!.year; i = DateTime(i.year + 1, 1)) {
+              for (DateTime i = start!;
+                  i.year != end!.year;
+                  i = DateTime(i.year + 1, 1)) {
                 list.insert(
                   0,
                   DateModel(
@@ -1062,7 +1090,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
               if (provider.incomeCategoryFilter != null) {
                 List<AccountingModel> list = [];
                 for (var element in provider.accountingList) {
-                  if (provider.incomeCategoryFilter!.contains(element.category)) {
+                  if (provider.incomeCategoryFilter!
+                      .contains(element.category)) {
                     if (element.category == -1) {
                       if (element.amount > 0) {
                         list.add(element);
@@ -1085,7 +1114,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
               if (provider.expenditureCategoryFilter != null) {
                 List<AccountingModel> list = [];
                 for (var element in provider.accountingList) {
-                  if (provider.expenditureCategoryFilter!.contains(element.category)) {
+                  if (provider.expenditureCategoryFilter!
+                      .contains(element.category)) {
                     if (element.category == -1) {
                       if (element.amount < 0) {
                         list.add(element);
@@ -1205,7 +1235,9 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                                   child: Text(
                                     total.toString(),
                                     style: TextStyle(
-                                      color: total < 0 ? Colors.redAccent : Colors.blueAccent,
+                                      color: total < 0
+                                          ? Colors.redAccent
+                                          : Colors.blueAccent,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -1242,8 +1274,10 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                               SizedBox(
                                 width: 50,
                                 child: Text(
-                                  DateFormat.MMM().format(DateTime(2000, dList[index])),
-                                  style: const TextStyle(color: Colors.black54, fontSize: 16),
+                                  DateFormat.MMM()
+                                      .format(DateTime(2000, dList[index])),
+                                  style: const TextStyle(
+                                      color: Colors.black54, fontSize: 16),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -1274,7 +1308,9 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                                       child: Text(
                                         balance.toString(),
                                         style: TextStyle(
-                                          color: balance < 0 ? Colors.redAccent : Colors.blueAccent,
+                                          color: balance < 0
+                                              ? Colors.redAccent
+                                              : Colors.blueAccent,
                                           fontSize: 14,
                                         ),
                                         textAlign: TextAlign.end,
@@ -1311,7 +1347,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
   }
 }
 
-class TextRowSliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
+class TextRowSliverPersistentHeaderDelegate
+    extends SliverPersistentHeaderDelegate {
   final double maxEx;
   final double minEx;
 
@@ -1321,7 +1358,8 @@ class TextRowSliverPersistentHeaderDelegate extends SliverPersistentHeaderDelega
   });
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Consumer<MainProvider>(
       builder: (BuildContext context, MainProvider provider, _) {
         return Row(
@@ -1384,5 +1422,6 @@ class TextRowSliverPersistentHeaderDelegate extends SliverPersistentHeaderDelega
   double get minExtent => minEx;
 
   @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => false; // 如果内容需要更新，设置为true
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) =>
+      false; // 如果内容需要更新，设置为true
 }

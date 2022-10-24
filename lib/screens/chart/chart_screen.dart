@@ -43,6 +43,12 @@ class _ChartScreenState extends State<ChartScreen>
           appBar: AppBar(
             backgroundColor: Colors.white,
             elevation: 0,
+            title: Text(
+              S.of(context).chart,
+              style: const TextStyle(
+                fontFamily: 'RobotoMono',
+              ),
+            ),
             // actions: [
             //   IconButton(
             //     onPressed: () {},

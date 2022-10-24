@@ -70,5 +70,6 @@
   "dataType": "Data Source",
   "inOut": "Incoming and Expenditure",
   "filter": "Filter",
-  "plzChooseTime": "Please choose a time"
+  "plzChooseTime": "Please choose a time",
+  "chart": "Chart"
 }

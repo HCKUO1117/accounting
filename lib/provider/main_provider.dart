@@ -372,9 +372,23 @@ class MainProvider with ChangeNotifier {
   }
 
   void setDashBoardDateRange(DateTimeRange range) {
-    dashBoardStartDate = range.start;
+    dashBoardStartDate = DateTime(
+      range.start.year,
+      range.start.month,
+      range.start.day,
+      range.start.hour,
+      range.start.minute,
+      range.start.second,
+    );
 
-    dashBoardEndDate = range.end;
+    dashBoardEndDate = DateTime(
+      range.end.year,
+      range.end.month,
+      range.end.day,
+      range.end.hour,
+      range.end.minute,
+      range.end.second,
+    );
 
     setCurrentAccounting(dashBoardStartDate, dashBoardEndDate);
   }
@@ -664,12 +678,12 @@ class MainProvider with ChangeNotifier {
       allList = list;
     }
 
-    if (lineChartDataType == ChartDataType.inOut){
-      if(!lineFilter.contains(0)){
-        allList.removeWhere((element) => element.amount >0);
+    if (lineChartDataType == ChartDataType.inOut) {
+      if (!lineFilter.contains(0)) {
+        allList.removeWhere((element) => element.amount > 0);
       }
 
-      if(!lineFilter.contains(1)){
+      if (!lineFilter.contains(1)) {
         allList.removeWhere((element) => element.amount < 0);
       }
     }
@@ -1027,12 +1041,12 @@ class MainProvider with ChangeNotifier {
       allList = list;
     }
 
-    if (pieChartDataType == ChartDataType.inOut){
-      if(!pieFilter.contains(0)){
-        allList.removeWhere((element) => element.amount >0);
+    if (pieChartDataType == ChartDataType.inOut) {
+      if (!pieFilter.contains(0)) {
+        allList.removeWhere((element) => element.amount > 0);
       }
 
-      if(!pieFilter.contains(1)){
+      if (!pieFilter.contains(1)) {
         allList.removeWhere((element) => element.amount < 0);
       }
     }
@@ -1186,12 +1200,12 @@ class MainProvider with ChangeNotifier {
       allList = list;
     }
 
-    if (stackChartDataType == ChartDataType.inOut){
-      if(!stackFilter.contains(0)){
-        allList.removeWhere((element) => element.amount >0);
+    if (stackChartDataType == ChartDataType.inOut) {
+      if (!stackFilter.contains(0)) {
+        allList.removeWhere((element) => element.amount > 0);
       }
 
-      if(!stackFilter.contains(1)){
+      if (!stackFilter.contains(1)) {
         allList.removeWhere((element) => element.amount < 0);
       }
     }
@@ -1205,8 +1219,6 @@ class MainProvider with ChangeNotifier {
         stackCurrentExpenditure += element.amount;
       }
     }
-
-
 
     allList.sort((a, b) => b.date.compareTo(b.date));
 

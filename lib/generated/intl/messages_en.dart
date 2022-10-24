@@ -36,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cantBe0": MessageLookupByLibrary.simpleMessage("Amount cannot be 0"),
         "category": MessageLookupByLibrary.simpleMessage("Category"),
         "categoryName": MessageLookupByLibrary.simpleMessage("Category Name"),
+        "chart": MessageLookupByLibrary.simpleMessage("Chart"),
         "clickSetBudget":
             MessageLookupByLibrary.simpleMessage("Click here to set budget"),
         "color": MessageLookupByLibrary.simpleMessage("Color"),

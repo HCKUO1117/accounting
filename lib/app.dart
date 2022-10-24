@@ -20,7 +20,8 @@ class App extends StatefulWidget {
 
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
-  static _AppState? of(BuildContext context) => context.findAncestorStateOfType<_AppState>();
+  static _AppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_AppState>();
 }
 
 class _AppState extends State<App> {
@@ -55,7 +56,8 @@ class _AppState extends State<App> {
         } else {
           if (defaultLocale.length > 1) {
             String first = defaultLocale.substring(0, 2);
-            String last = defaultLocale.substring(defaultLocale.length - 2, defaultLocale.length);
+            String last = defaultLocale.substring(
+                defaultLocale.length - 2, defaultLocale.length);
             locale = Locale(first, last == 'TW' ? 'TW' : '');
             Preferences.setString('languageCode', first);
             if (last == 'TW') {
@@ -111,7 +113,8 @@ class _AppState extends State<App> {
 
 class NoGlow extends ScrollBehavior {
   @override
-  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
     return child;
   }
 }
