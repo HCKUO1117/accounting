@@ -79,7 +79,16 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
         }
         break;
       case ChartType.stack:
-        // TODO: Handle this case.
+        start = context.read<MainProvider>().stackChartStart;
+        end = context.read<MainProvider>().stackChartEnd;
+        lineChartDataType = context.read<MainProvider>().stackChartDataType;
+        scale = context.read<MainProvider>().stackScale;
+
+        lineFilter.addAll(context.read<MainProvider>().stackFilter);
+        if (context.read<MainProvider>().stackTagFilter != null) {
+          tagFilter = [];
+          tagFilter!.addAll(context.read<MainProvider>().stackTagFilter!);
+        }
         break;
     }
 
@@ -90,10 +99,13 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
   Widget build(BuildContext context) {
     bool samDay = false;
     if (start != null && end != null) {
-      samDay = start!.year == end!.year && start!.month == end!.month && start!.day == end!.day;
+      samDay = start!.year == end!.year &&
+          start!.month == end!.month &&
+          start!.day == end!.day;
     }
 
-    return Consumer<MainProvider>(builder: (BuildContext context, MainProvider provider, _) {
+    return Consumer<MainProvider>(
+        builder: (BuildContext context, MainProvider provider, _) {
       return Column(
         children: [
           Text(
@@ -106,6 +118,8 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
             ),
           ),
           const SizedBox(height: 32),
+
+          ///scale
           Row(
             children: [
               Text(
@@ -161,6 +175,8 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
           ),
           const Divider(),
           const SizedBox(height: 16),
+
+          ///time
           Row(
             children: [
               Text(
@@ -204,7 +220,7 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                   },
                   child: Text(
                     start != null && end != null
-                        ? '${Utils.dateStringByType(start!,scale)}${!samDay ? ' ~ ' : ''}${!samDay ? Utils.dateStringByType(end!,scale) : ''}'
+                        ? '${Utils.dateStringByType(start!, scale)}${!samDay ? ' ~ ' : ''}${!samDay ? Utils.dateStringByType(end!, scale) : ''}'
                         : S.of(context).plzChooseTime,
                     strutStyle: const StrutStyle(height: 1.5),
                   ),
@@ -214,6 +230,7 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
           ),
           const Divider(),
           const SizedBox(height: 16),
+
           Row(
             children: [
               Text(
@@ -225,60 +242,75 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
               ),
             ],
           ),
-          Row(
-            children: [
-              Expanded(
-                child: DropdownButton<ChartDataType>(
-                  underline: const SizedBox(),
-                  isExpanded: true,
-                  value: lineChartDataType,
-                  items: [
-                    for (final element in ChartDataType.values)
-                      DropdownMenuItem<ChartDataType>(
-                        value: element,
-                        alignment: AlignmentDirectional.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                element.text(context),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                  ],
-                  onChanged: (v) {
-                    setState(() {
-                      if (v != lineChartDataType) {
-                        lineFilter = [];
-                        switch (v!) {
-                          case ChartDataType.inOut:
-                            lineFilter = [0, 1];
-                            break;
-                          case ChartDataType.category:
-                            for (var element in provider.categoryList) {
-                              lineFilter.add(element.id!);
-                            }
-                            lineFilter.add(-1);
-                            break;
-                          // case ChartDataType.tag:
-                          //   for (var element in provider.tagList) {
-                          //     lineFilter.add(element.id!);
-                          //   }
-                          //   lineFilter.add(-1);
-                          //   break;
-                        }
-                      }
-                      lineChartDataType = v!;
-                    });
-                  },
+
+          ///data source
+          if (widget.type == ChartType.stack)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(
+                    ChartDataType.inOut.text(context),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              )
-            ],
-          ),
+              ],
+            )
+          else
+            Row(
+              children: [
+                Expanded(
+                  child: DropdownButton<ChartDataType>(
+                    underline: const SizedBox(),
+                    isExpanded: true,
+                    value: lineChartDataType,
+                    items: [
+                      for (final element in ChartDataType.values)
+                        DropdownMenuItem<ChartDataType>(
+                          value: element,
+                          alignment: AlignmentDirectional.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  element.text(context),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                    onChanged: (v) {
+                      setState(() {
+                        if (v != lineChartDataType) {
+                          lineFilter = [];
+                          switch (v!) {
+                            case ChartDataType.inOut:
+                              lineFilter = [0, 1];
+                              break;
+                            case ChartDataType.category:
+                              for (var element in provider.categoryList) {
+                                lineFilter.add(element.id!);
+                              }
+                              lineFilter.add(-1);
+                              break;
+                            // case ChartDataType.tag:
+                            //   for (var element in provider.tagList) {
+                            //     lineFilter.add(element.id!);
+                            //   }
+                            //   lineFilter.add(-1);
+                            //   break;
+                          }
+                        }
+                        lineChartDataType = v!;
+                      });
+                    },
+                  ),
+                )
+              ],
+            ),
           const SizedBox(height: 16),
           filter(provider),
           const Divider(),
@@ -316,8 +348,9 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                     selected: tagFilter?.contains(-1) ?? true,
                     selectedColor: Colors.black54,
                     side: BorderSide(
-                        color:
-                            tagFilter?.contains(-1) ?? true ? Colors.transparent : Colors.black54),
+                        color: tagFilter?.contains(-1) ?? true
+                            ? Colors.transparent
+                            : Colors.black54),
                     backgroundColor: Colors.black12,
                     label: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -363,7 +396,15 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                   provider.drawPieChart(context);
                   break;
                 case ChartType.stack:
-                  // TODO: Handle this case.
+                  await provider.setStackChartTime(
+                    start: start ?? DateTime.now(),
+                    end: end ?? DateTime.now(),
+                    type: lineChartDataType,
+                    scale: scale,
+                    filter: lineFilter,
+                    tagFilter: tagFilter,
+                  );
+                  provider.drawStackChart(context);
                   break;
               }
 
@@ -391,7 +432,9 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                   selected: lineFilter.contains(0),
                   selectedColor: Colors.blueAccent,
                   side: BorderSide(
-                      color: lineFilter.contains(0) ? Colors.transparent : Colors.blueAccent),
+                      color: lineFilter.contains(0)
+                          ? Colors.transparent
+                          : Colors.blueAccent),
                   backgroundColor: Colors.blueAccent.withOpacity(0.2),
                   label: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -410,7 +453,9 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                   selected: lineFilter.contains(1),
                   selectedColor: Colors.redAccent,
                   side: BorderSide(
-                      color: lineFilter.contains(1) ? Colors.transparent : Colors.redAccent),
+                      color: lineFilter.contains(1)
+                          ? Colors.transparent
+                          : Colors.redAccent),
                   backgroundColor: Colors.redAccent.withOpacity(0.2),
                   label: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -457,7 +502,9 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                   selected: lineFilter.contains(-1),
                   selectedColor: Colors.black54,
                   side: BorderSide(
-                      color: lineFilter.contains(-1) ? Colors.transparent : Colors.black54),
+                      color: lineFilter.contains(-1)
+                          ? Colors.transparent
+                          : Colors.black54),
                   backgroundColor: Colors.black12,
                   label: Row(
                     mainAxisSize: MainAxisSize.min,

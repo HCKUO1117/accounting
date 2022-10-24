@@ -17,30 +17,22 @@ class ChartScreen extends StatefulWidget {
   State<ChartScreen> createState() => _ChartScreenState();
 }
 
-class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin {
+class _ChartScreenState extends State<ChartScreen>
+    with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
+    Future.delayed(
+      Duration.zero,
+      () {
+        context.read<MainProvider>().drawLineChart(context);
+        context.read<MainProvider>().drawPieChart(context);
+      },
+    );
     super.initState();
   }
-
-  final List<SalesData> chartData = [
-    SalesData(DateTime(2010, 1), 35),
-    SalesData(DateTime(2010, 2), 28),
-    SalesData(DateTime(2010, 3), 34),
-    SalesData(DateTime(2010, 4), 32),
-    SalesData(DateTime(2010, 5), 40)
-  ];
-
-  final List<SalesData> chartData1 = [
-    SalesData(DateTime(2010, 1, 1), 20),
-    SalesData(DateTime(2010, 1, 2), 60),
-    SalesData(DateTime(2010, 1, 4), 40),
-    SalesData(DateTime(2010, 1, 5), 45),
-    SalesData(DateTime(2010, 1, 6), -60)
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +104,8 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                 await showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
                     scrollable: true,
                     content: const LineChartSettingPage(
                       type: ChartType.line,
@@ -131,8 +124,9 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
           zoomPanBehavior: ZoomPanBehavior(enablePinching: true),
           trackballBehavior: TrackballBehavior(
             enable: true,
-            tooltipSettings: const InteractiveTooltip(enable: true, color: Colors.red),
-            tooltipDisplayMode: TrackballDisplayMode.floatAllPoints,
+            tooltipSettings: const InteractiveTooltip(enable: true),
+            tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
+            activationMode: ActivationMode.singleTap,
           ),
           series: provider.lineChartList,
         ),
@@ -144,6 +138,9 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
             categoryFilter: provider.lineFilter,
             tagFilter: provider.lineTagFilter,
             scale: provider.lineScale,
+            income: provider.lineCurrentIncome,
+            expenditure: provider.lineCurrentExpenditure,
+            allList: provider.lineAllList,
           )
         else
           yearList(
@@ -152,6 +149,9 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
             end: provider.lineChartEnd,
             categoryFilter: provider.lineFilter,
             tagFilter: provider.lineTagFilter,
+            income: provider.lineCurrentIncome,
+            expenditure: provider.lineCurrentExpenditure,
+            allList: provider.lineAllList,
           )
       ],
     );
@@ -182,7 +182,8 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                 await showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
                     scrollable: true,
                     content: const LineChartSettingPage(
                       type: ChartType.pie,
@@ -197,6 +198,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
         SfCircularChart(
           key: Key('$r pie'),
           legend: Legend(isVisible: true),
+          tooltipBehavior: TooltipBehavior(enable: true),
           series: <PieSeries<PieData, String>>[
             PieSeries<PieData, String>(
               strokeColor: Colors.black,
@@ -237,6 +239,9 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
             categoryFilter: provider.pieFilter,
             tagFilter: provider.pieTagFilter,
             scale: provider.pieScale,
+            income: provider.pieCurrentIncome,
+            expenditure: provider.pieCurrentExpenditure,
+            allList: provider.pieAllList,
           )
         else
           yearList(
@@ -245,13 +250,93 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
             end: provider.pieChartEnd,
             categoryFilter: provider.pieFilter,
             tagFilter: provider.pieTagFilter,
+            income: provider.pieCurrentIncome,
+            expenditure: provider.pieCurrentExpenditure,
+            allList: provider.pieAllList,
           )
       ],
     );
   }
 
   Widget stackColumn(MainProvider provider) {
-    return SizedBox();
+    int r = DateTime.now().millisecondsSinceEpoch;
+    if (provider.lineChartState == AppState.loading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    return ListView(
+      shrinkWrap: true,
+      children: [
+        Row(
+          children: [
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      '${Utils.dateStringByType(provider.stackChartStart, provider.stackScale)}${!provider.stackSamDay ? ' ~ ' : ''}${!provider.stackSamDay ? Utils.dateStringByType(provider.stackChartEnd, provider.stackScale) : ''}'),
+                  Text(
+                      '${S.of(context).timeScale} : ${provider.stackScale == 0 ? S.of(context).day : provider.stackScale == 1 ? S.of(context).month : S.of(context).year}')
+                ],
+              ),
+            ),
+            IconButton(
+              onPressed: () async {
+                await showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    scrollable: true,
+                    content: const LineChartSettingPage(
+                      type: ChartType.stack,
+                    ),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.settings_outlined),
+            )
+          ],
+        ),
+        SfCartesianChart(
+            key: Key('$r stack'),
+            primaryXAxis: CategoryAxis(),
+            legend: Legend(isVisible: true, position: LegendPosition.bottom),
+            zoomPanBehavior: ZoomPanBehavior(enablePinching: true),
+            trackballBehavior: TrackballBehavior(
+              enable: true,
+              tooltipSettings: const InteractiveTooltip(enable: true),
+              tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
+              activationMode: ActivationMode.singleTap,
+            ),
+            series: provider.stackChartList),
+        if (provider.stackScale != 2)
+          dayList(
+            provider,
+            start: provider.stackChartStart,
+            end: provider.stackChartEnd,
+            categoryFilter: provider.stackFilter,
+            tagFilter: provider.stackTagFilter,
+            scale: provider.stackScale,
+            income: provider.stackCurrentIncome,
+            expenditure: provider.stackCurrentExpenditure,
+            allList: provider.stackAllList,
+          )
+        else
+          yearList(
+            provider,
+            start: provider.stackChartStart,
+            end: provider.stackChartEnd,
+            categoryFilter: provider.stackFilter,
+            tagFilter: provider.stackTagFilter,
+            income: provider.stackCurrentIncome,
+            expenditure: provider.stackCurrentExpenditure,
+            allList: provider.stackAllList,
+          )
+      ],
+    );
   }
 
   Widget dayList(
@@ -261,9 +346,14 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
     required List<int> categoryFilter,
     required List<int>? tagFilter,
     required int scale,
+    required double income,
+    required double expenditure,
+    required List<AccountingModel> allList,
   }) {
     return Column(
       children: [
+        const Divider(),
+        const SizedBox(height: 16),
         Row(
           children: [
             const SizedBox(width: 24),
@@ -313,6 +403,56 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
           ],
         ),
         const SizedBox(height: 16),
+        Row(
+          children: [
+            const SizedBox(width: 24),
+            const SizedBox(
+              width: 50,
+            ),
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      income.toString(),
+                      style: const TextStyle(
+                        color: Colors.blueAccent,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      expenditure.toString(),
+                      style: const TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      (income + expenditure).toString(),
+                      style: TextStyle(
+                        color: (income + expenditure) > 0
+                            ? Colors.blueAccent
+                            : Colors.redAccent,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 24),
+          ],
+        ),
         const Divider(),
         Builder(
           builder: (context) {
@@ -335,47 +475,47 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                 month: end.month,
               ),
             );
-            List<AccountingModel> allList = [];
-
-            if (provider.lineChartDataType == ChartDataType.category) {
-              List<AccountingModel> list = [];
-              for (var element in provider.accountingList) {
-                if (provider.lineFilter.contains(element.category)) {
-                  if (element.category == -1) {
-                    if (element.amount > 0) {
-                      list.add(element);
-                    }
-                  } else {
-                    list.add(element);
-                  }
-                }
-              }
-              allList.addAll(list);
-            } else {
-              allList.addAll(provider.accountingList);
-            }
-
-            if (provider.lineTagFilter != null) {
-              List<AccountingModel> list = [];
-              for (var element in allList) {
-                if (element.tags.isEmpty) {
-                  if (provider.lineTagFilter!.contains(-1)) {
-                    list.add(element);
-                  }
-                } else {
-                  bool done = false;
-                  for (var e in element.tags) {
-                    if (provider.lineTagFilter!.contains(e) && !done) {
-                      list.add(element);
-                      done = true;
-                    }
-                  }
-                }
-              }
-              allList = list;
-            }
-
-            allList.sort((a, b) => b.date.compareTo(b.date));
+            // List<AccountingModel> allList = [];
+            //
+            // if (provider.lineChartDataType == ChartDataType.category) {
+            //   List<AccountingModel> list = [];
+            //   for (var element in provider.accountingList) {
+            //     if (provider.lineFilter.contains(element.category)) {
+            //       if (element.category == -1) {
+            //         if (element.amount > 0) {
+            //           list.add(element);
+            //         }
+            //       } else {
+            //         list.add(element);
+            //       }
+            //     }
+            //   }
+            //   allList.addAll(list);
+            // } else {
+            //   allList.addAll(provider.accountingList);
+            // }
+            //
+            // if (provider.lineTagFilter != null) {
+            //   List<AccountingModel> list = [];
+            //   for (var element in allList) {
+            //     if (element.tags.isEmpty) {
+            //       if (provider.lineTagFilter!.contains(-1)) {
+            //         list.add(element);
+            //       }
+            //     } else {
+            //       bool done = false;
+            //       for (var e in element.tags) {
+            //         if (provider.lineTagFilter!.contains(e) && !done) {
+            //           list.add(element);
+            //           done = true;
+            //         }
+            //       }
+            //     }
+            //   }
+            //   allList = list;
+            // }
+            //
+            // allList.sort((a, b) => b.date.compareTo(b.date));
             return ListView.separated(
               shrinkWrap: true,
               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -400,7 +540,8 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                       }
                     } else {
                       if (element.date.isAfter(start) &&
-                          element.date.isBefore(end.add(const Duration(days: 1)))) {
+                          element.date
+                              .isBefore(end.add(const Duration(days: 1)))) {
                         if (element.date.year == list[index].year &&
                             element.date.month == list[index].month) {
                           l.add(element);
@@ -487,7 +628,9 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                                 child: Text(
                                   total.toString(),
                                   style: TextStyle(
-                                    color: total < 0 ? Colors.redAccent : Colors.blueAccent,
+                                    color: total < 0
+                                        ? Colors.redAccent
+                                        : Colors.blueAccent,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -524,8 +667,10 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                             SizedBox(
                               width: 50,
                               child: Text(
-                                DateFormat.d().format(DateTime(2000, 1, dList[index])),
-                                style: const TextStyle(color: Colors.black54, fontSize: 16),
+                                DateFormat.d()
+                                    .format(DateTime(2000, 1, dList[index])),
+                                style: const TextStyle(
+                                    color: Colors.black54, fontSize: 16),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -556,7 +701,9 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                                     child: Text(
                                       balance.toString(),
                                       style: TextStyle(
-                                        color: balance < 0 ? Colors.redAccent : Colors.blueAccent,
+                                        color: balance < 0
+                                            ? Colors.redAccent
+                                            : Colors.blueAccent,
                                         fontSize: 14,
                                       ),
                                       textAlign: TextAlign.end,
@@ -597,9 +744,14 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
     required DateTime end,
     required List<int> categoryFilter,
     required List<int>? tagFilter,
+    required double income,
+    required double expenditure,
+    required List<AccountingModel> allList,
   }) {
     return Column(
       children: [
+        const Divider(),
+        const SizedBox(height: 16),
         Row(
           children: [
             const SizedBox(width: 24),
@@ -649,11 +801,63 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
           ],
         ),
         const SizedBox(height: 16),
+        Row(
+          children: [
+            const SizedBox(width: 24),
+            const SizedBox(
+              width: 50,
+            ),
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      income.toString(),
+                      style: const TextStyle(
+                        color: Colors.blueAccent,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      expenditure.toString(),
+                      style: const TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      (income + expenditure).toString(),
+                      style: TextStyle(
+                        color: (income + expenditure) > 0
+                            ? Colors.blueAccent
+                            : Colors.redAccent,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 24),
+          ],
+        ),
         const Divider(),
         Builder(
           builder: (context) {
             List<DateModel> list = [];
-            for (DateTime i = start; i.year != end.year; i = DateTime(i.year + 1, 1)) {
+            for (DateTime i = start;
+                i.year != end.year;
+                i = DateTime(i.year + 1, 1)) {
               list.insert(
                 0,
                 DateModel(
@@ -669,47 +873,47 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                 month: 1,
               ),
             );
-            List<AccountingModel> allList = [];
-
-            if (provider.lineChartDataType == ChartDataType.category) {
-              List<AccountingModel> list = [];
-              for (var element in provider.accountingList) {
-                if (provider.lineFilter.contains(element.category)) {
-                  if (element.category == -1) {
-                    if (element.amount > 0) {
-                      list.add(element);
-                    }
-                  } else {
-                    list.add(element);
-                  }
-                }
-              }
-              allList.addAll(list);
-            } else {
-              allList.addAll(provider.accountingList);
-            }
-
-            if (provider.lineTagFilter != null) {
-              List<AccountingModel> list = [];
-              for (var element in allList) {
-                if (element.tags.isEmpty) {
-                  if (provider.lineTagFilter!.contains(-1)) {
-                    list.add(element);
-                  }
-                } else {
-                  bool done = false;
-                  for (var e in element.tags) {
-                    if (provider.lineTagFilter!.contains(e) && !done) {
-                      list.add(element);
-                      done = true;
-                    }
-                  }
-                }
-              }
-              allList = list;
-            }
-
-            allList.sort((a, b) => b.date.compareTo(b.date));
+            // List<AccountingModel> allList = [];
+            //
+            // if (provider.lineChartDataType == ChartDataType.category) {
+            //   List<AccountingModel> list = [];
+            //   for (var element in provider.accountingList) {
+            //     if (provider.lineFilter.contains(element.category)) {
+            //       if (element.category == -1) {
+            //         if (element.amount > 0) {
+            //           list.add(element);
+            //         }
+            //       } else {
+            //         list.add(element);
+            //       }
+            //     }
+            //   }
+            //   allList.addAll(list);
+            // } else {
+            //   allList.addAll(provider.accountingList);
+            // }
+            //
+            // if (provider.lineTagFilter != null) {
+            //   List<AccountingModel> list = [];
+            //   for (var element in allList) {
+            //     if (element.tags.isEmpty) {
+            //       if (provider.lineTagFilter!.contains(-1)) {
+            //         list.add(element);
+            //       }
+            //     } else {
+            //       bool done = false;
+            //       for (var e in element.tags) {
+            //         if (provider.lineTagFilter!.contains(e) && !done) {
+            //           list.add(element);
+            //           done = true;
+            //         }
+            //       }
+            //     }
+            //   }
+            //   allList = list;
+            // }
+            //
+            // allList.sort((a, b) => b.date.compareTo(b.date));
             return ListView.separated(
               shrinkWrap: true,
               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -792,7 +996,9 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                                 child: Text(
                                   total.toString(),
                                   style: TextStyle(
-                                    color: total < 0 ? Colors.redAccent : Colors.blueAccent,
+                                    color: total < 0
+                                        ? Colors.redAccent
+                                        : Colors.blueAccent,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -829,8 +1035,10 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                             SizedBox(
                               width: 50,
                               child: Text(
-                                DateFormat.MMM().format(DateTime(2000, dList[index])),
-                                style: const TextStyle(color: Colors.black54, fontSize: 16),
+                                DateFormat.MMM()
+                                    .format(DateTime(2000, dList[index])),
+                                style: const TextStyle(
+                                    color: Colors.black54, fontSize: 16),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -861,7 +1069,9 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                                     child: Text(
                                       balance.toString(),
                                       style: TextStyle(
-                                        color: balance < 0 ? Colors.redAccent : Colors.blueAccent,
+                                        color: balance < 0
+                                            ? Colors.redAccent
+                                            : Colors.blueAccent,
                                         fontSize: 14,
                                       ),
                                       textAlign: TextAlign.end,
@@ -916,4 +1126,11 @@ class PieData {
   final num yData;
   final String text;
   final Color color;
+}
+
+class ChartData {
+  ChartData(this.x, this.y);
+
+  final String x;
+  final double y;
 }
