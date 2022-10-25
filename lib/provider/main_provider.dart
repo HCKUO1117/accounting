@@ -1492,8 +1492,7 @@ class MainProvider with ChangeNotifier {
         .get('19aHY-tAluz0jR4Gpla8aJ98z7eGJHrRz', downloadOptions: drive.DownloadOptions.fullMedia) as drive.Media;
     List<int> bytes = await file.stream.first;
     print(Utf8Decoder().convert(bytes));
-
-    print(await driveApi.files.list());
+    await driveApi.files.list().then((value) => print(value.files![0].id));
 
   }
 }
