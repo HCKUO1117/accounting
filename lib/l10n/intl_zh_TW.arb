@@ -71,5 +71,6 @@
   "inOut": "收支",
   "filter": "篩選",
   "plzChooseTime": "請選擇時間",
-  "chart": "圖表"
+  "chart": "圖表",
+  "login": "登入"
 }

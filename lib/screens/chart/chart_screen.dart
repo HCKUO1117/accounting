@@ -29,6 +29,7 @@ class _ChartScreenState extends State<ChartScreen>
       () {
         context.read<MainProvider>().drawLineChart(context);
         context.read<MainProvider>().drawPieChart(context);
+        context.read<MainProvider>().drawStackChart(context);
       },
     );
     super.initState();

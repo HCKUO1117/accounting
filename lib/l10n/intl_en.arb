@@ -71,5 +71,6 @@
   "inOut": "Incoming and Expenditure",
   "filter": "Filter",
   "plzChooseTime": "Please choose a time",
-  "chart": "Chart"
+  "chart": "Chart",
+  "login": "Login"
 }

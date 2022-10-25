@@ -58,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "inAndOut": MessageLookupByLibrary.simpleMessage("固定收支與預算"),
         "inOut": MessageLookupByLibrary.simpleMessage("收支"),
         "income": MessageLookupByLibrary.simpleMessage("收入"),
+        "login": MessageLookupByLibrary.simpleMessage("登入"),
         "longBefore": MessageLookupByLibrary.simpleMessage("...之前"),
         "month": MessageLookupByLibrary.simpleMessage("月"),
         "noBudget": MessageLookupByLibrary.simpleMessage("未設定預算"),

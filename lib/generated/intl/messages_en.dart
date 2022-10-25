@@ -64,6 +64,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "inOut":
             MessageLookupByLibrary.simpleMessage("Incoming and Expenditure"),
         "income": MessageLookupByLibrary.simpleMessage("Income"),
+        "login": MessageLookupByLibrary.simpleMessage("Login"),
         "longBefore": MessageLookupByLibrary.simpleMessage("...before"),
         "month": MessageLookupByLibrary.simpleMessage("month"),
         "noBudget": MessageLookupByLibrary.simpleMessage("No budget set"),
