@@ -72,5 +72,10 @@
   "filter": "Filter",
   "plzChooseTime": "Please choose a time",
   "chart": "Chart",
-  "login": "Login"
+  "login": "Login",
+  "backup": "Backup",
+  "backupTime": "Backup Time",
+  "none": "none",
+  "download": "download",
+  "logout": "Logout"
 }

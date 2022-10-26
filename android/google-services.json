@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "899808043943",
+    "project_id": "accounting-c55cb",
+    "storage_bucket": "accounting-c55cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899808043943:android:88758ba05543e19f5c0c82",
+        "android_client_info": {
+          "package_name": "com.hc.accounting.accounting"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "899808043943-o1vjj07da68l8jkanqs7bfc34qtsstfk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hc.accounting.accounting",
+            "certificate_hash": "0da29a78bc6323529643769870194dd4b6174f11"
+          }
+        },
+        {
+          "client_id": "899808043943-6kcr25jbbrlqn7nbulcebk6ik6ev5trn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2gYzbQGjmABv01H80-U6Ah49Et4FynYA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "899808043943-6kcr25jbbrlqn7nbulcebk6ik6ev5trn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "899808043943-dbrj5oo8fne9outto37cq9qnn4sdqcig.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hc.accounting.accounting"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

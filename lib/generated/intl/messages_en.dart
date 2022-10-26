@@ -28,6 +28,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "amount": MessageLookupByLibrary.simpleMessage("Amount"),
         "amountFormatError":
             MessageLookupByLibrary.simpleMessage("Amount format error"),
+        "backup": MessageLookupByLibrary.simpleMessage("Backup"),
+        "backupTime": MessageLookupByLibrary.simpleMessage("Backup Time"),
         "balance": MessageLookupByLibrary.simpleMessage("balance"),
         "before": MessageLookupByLibrary.simpleMessage("before"),
         "budget": MessageLookupByLibrary.simpleMessage("Budget"),
@@ -46,6 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "day": MessageLookupByLibrary.simpleMessage("day"),
         "deleteCheck":
             MessageLookupByLibrary.simpleMessage("Do you want to delete?"),
+        "download": MessageLookupByLibrary.simpleMessage("download"),
         "eachDay": MessageLookupByLibrary.simpleMessage("Everyday"),
         "eachMonth": MessageLookupByLibrary.simpleMessage("each month"),
         "eachYear": MessageLookupByLibrary.simpleMessage("Every Year"),
@@ -65,11 +68,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Incoming and Expenditure"),
         "income": MessageLookupByLibrary.simpleMessage("Income"),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
+        "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "longBefore": MessageLookupByLibrary.simpleMessage("...before"),
         "month": MessageLookupByLibrary.simpleMessage("month"),
         "noBudget": MessageLookupByLibrary.simpleMessage("No budget set"),
         "noRecord": MessageLookupByLibrary.simpleMessage("No record"),
         "noTag": MessageLookupByLibrary.simpleMessage("No Tag"),
+        "none": MessageLookupByLibrary.simpleMessage("none"),
         "notFillAmount":
             MessageLookupByLibrary.simpleMessage("Amount not filled"),
         "notFillEndTime":

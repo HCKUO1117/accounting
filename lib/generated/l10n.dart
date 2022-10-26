@@ -789,6 +789,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Backup`
+  String get backup {
+    return Intl.message(
+      'Backup',
+      name: 'backup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Backup Time`
+  String get backupTime {
+    return Intl.message(
+      'Backup Time',
+      name: 'backupTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `none`
+  String get none {
+    return Intl.message(
+      'none',
+      name: 'none',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `download`
+  String get download {
+    return Intl.message(
+      'download',
+      name: 'download',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logout`
+  String get logout {
+    return Intl.message(
+      'Logout',
+      name: 'logout',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

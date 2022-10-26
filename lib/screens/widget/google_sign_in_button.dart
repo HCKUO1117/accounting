@@ -5,8 +5,7 @@ class GoogleSignInButton extends StatefulWidget {
   final bool isSigningIn;
   final VoidCallback signInClick;
 
-  const GoogleSignInButton(
-      {Key? key, required this.signInClick, required this.isSigningIn})
+  const GoogleSignInButton({Key? key, required this.signInClick, required this.isSigningIn})
       : super(key: key);
 
   @override
@@ -14,14 +13,14 @@ class GoogleSignInButton extends StatefulWidget {
 }
 
 class _GoogleSignInButtonState extends State<GoogleSignInButton> {
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: widget.isSigningIn
-          ? const CircularProgressIndicator(
-      )
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
           : OutlinedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.white),

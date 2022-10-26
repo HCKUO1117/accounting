@@ -1,11 +1,14 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:accounting/db/accounting_db.dart';
 import 'package:accounting/db/category_db.dart';
 import 'package:accounting/db/tag_db.dart';
 import 'package:accounting/provider/main_provider.dart';
+import 'package:accounting/res/app_color.dart';
 import 'package:accounting/screens/main_page.dart';
 import 'package:accounting/utils/preferences.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -20,8 +23,7 @@ class App extends StatefulWidget {
 
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
-  static _AppState? of(BuildContext context) =>
-      context.findAncestorStateOfType<_AppState>();
+  static _AppState? of(BuildContext context) => context.findAncestorStateOfType<_AppState>();
 }
 
 class _AppState extends State<App> {
@@ -41,6 +43,9 @@ class _AppState extends State<App> {
     await Preferences.setString('countryCode', value.countryCode ?? '');
   }
 
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
+
   @override
   void initState() {
     Future<void>.microtask(() async {
@@ -56,8 +61,7 @@ class _AppState extends State<App> {
         } else {
           if (defaultLocale.length > 1) {
             String first = defaultLocale.substring(0, 2);
-            String last = defaultLocale.substring(
-                defaultLocale.length - 2, defaultLocale.length);
+            String last = defaultLocale.substring(defaultLocale.length - 2, defaultLocale.length);
             locale = Locale(first, last == 'TW' ? 'TW' : '');
             Preferences.setString('languageCode', first);
             if (last == 'TW') {
@@ -89,8 +93,11 @@ class _AppState extends State<App> {
         title: '',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.orange,
-        ),
+            primarySwatch: Colors.orange,
+            appBarTheme: AppBarTheme(
+              backgroundColor: AppColors.backgroundColor,
+              elevation: 0,
+            )),
         home: ScrollConfiguration(
           behavior: NoGlow(),
           child: const MainPage(),
@@ -106,6 +113,7 @@ class _AppState extends State<App> {
           Locale('zh', 'TW'),
         ],
         locale: locale ?? const Locale('en', ''),
+        navigatorObservers: <NavigatorObserver>[observer],
       ),
     );
   }
@@ -113,8 +121,7 @@ class _AppState extends State<App> {
 
 class NoGlow extends ScrollBehavior {
   @override
-  Widget buildViewportChrome(
-      BuildContext context, Widget child, AxisDirection axisDirection) {
+  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
     return child;
   }
 }
