@@ -156,4 +156,9 @@ class AccountingDB {
     );
     return;
   }
+
+  static Future<void> deleteDatabase() async {
+    await databaseFactory.deleteDatabase(join(await getDatabasesPath(), _databaseName));
+    database = null;
+  }
 }

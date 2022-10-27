@@ -91,6 +91,7 @@ class _AppState extends State<App> {
       ],
       child: MaterialApp(
         title: '',
+        navigatorKey: App.navigatorKey,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             primarySwatch: Colors.orange,

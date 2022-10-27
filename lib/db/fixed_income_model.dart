@@ -83,6 +83,29 @@ class FixedIncomeModel {
     };
   }
 
+  factory FixedIncomeModel.fromJson(Map json){
+    List<int> tags = [];
+    if (json['tags'].toString().isNotEmpty) {
+      tags = [
+        for (var element in json['tags'].toString().split(',')) int.parse(element)
+      ];
+    }
+
+    return FixedIncomeModel(
+      type: FixedIncomeType.values[json['type']],
+      month: json['month'],
+      day: json['day'],
+      category: json['category'],
+      tags: tags,
+      amount: double.parse(json['amount']),
+      note: json['note'],
+      createDate: DateTime.fromMillisecondsSinceEpoch(json['createDate']),
+      lastAddTime: json['lastAddTime'] == null
+          ? null
+          : DateTime.fromMillisecondsSinceEpoch(json['lastAddTime']),
+    );
+  }
+
   @override
   String toString() {
     return 'id : $id\ntype : $type\nmonth : $month\nday : $day \ncategory : $category\ntags : $tags\namount : $amount\nnote : $note \ncreateDate : $createDate';

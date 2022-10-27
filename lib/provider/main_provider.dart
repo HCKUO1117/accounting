@@ -26,8 +26,8 @@ class MainProvider with ChangeNotifier {
   AppState calendarState = AppState.finish;
 
   ///dashboard
-  DateTime dashBoardStartDate = DateTime.now();
-  DateTime dashBoardEndDate = DateTime.now();
+  DateTime dashBoardStartDate = DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
+  DateTime dashBoardEndDate = DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
   double currentIncome = 0;
   double currentExpenditure = 0;
 

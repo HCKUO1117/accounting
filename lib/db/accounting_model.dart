@@ -27,6 +27,23 @@ class AccountingModel {
     };
   }
 
+  factory AccountingModel.fromJson(Map json) {
+    List<int> tags = [];
+    if (json['tags'].toString().isNotEmpty) {
+      tags = [
+        for (var element in json['tags'].toString().split(',')) int.parse(element)
+      ];
+    }
+
+    return AccountingModel(
+      date: DateTime.fromMillisecondsSinceEpoch(json['date']),
+      category: json['category'],
+      tags: tags,
+      amount: double.parse(json['amount']),
+      note: json['note'],
+    );
+  }
+
   @override
   String toString() {
     return 'id : $id\ndate : $date \ncategory : $category\ntags : $tags\namount : $amount\nnote : $note';

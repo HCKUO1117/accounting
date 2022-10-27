@@ -839,6 +839,226 @@ class S {
       args: [],
     );
   }
+
+  /// `Your data will be overwritten and cannot be recovered. Do you want to continue?`
+  String get overwriteInfo {
+    return Intl.message(
+      'Your data will be overwritten and cannot be recovered. Do you want to continue?',
+      name: 'overwriteInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We will use your google drive to store your account data. After the backup is completed, a "accountingData.act" file will be generated on your google drive. Please do not modify or move this file to Make sure the backup function is normal, if you want to remove the backup data, you need to delete the files completely (including the files in the trash)`
+  String get googleDriveInfo {
+    return Intl.message(
+      'We will use your google drive to store your account data. After the backup is completed, a "accountingData.act" file will be generated on your google drive. Please do not modify or move this file to Make sure the backup function is normal, if you want to remove the backup data, you need to delete the files completely (including the files in the trash)',
+      name: 'googleDriveInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reminder`
+  String get notification {
+    return Intl.message(
+      'Reminder',
+      name: 'notification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Repeat`
+  String get repeat {
+    return Intl.message(
+      'Repeat',
+      name: 'repeat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Monday`
+  String get monday {
+    return Intl.message(
+      'Monday',
+      name: 'monday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tuesday`
+  String get tuesday {
+    return Intl.message(
+      'Tuesday',
+      name: 'tuesday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wednesday`
+  String get wednesday {
+    return Intl.message(
+      'Wednesday',
+      name: 'wednesday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thursday`
+  String get thursday {
+    return Intl.message(
+      'Thursday',
+      name: 'thursday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Friday`
+  String get friday {
+    return Intl.message(
+      'Friday',
+      name: 'friday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saturday`
+  String get saturday {
+    return Intl.message(
+      'Saturday',
+      name: 'saturday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sunday`
+  String get sunday {
+    return Intl.message(
+      'Sunday',
+      name: 'sunday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mon`
+  String get mon {
+    return Intl.message(
+      'Mon',
+      name: 'mon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tue`
+  String get tue {
+    return Intl.message(
+      'Tue',
+      name: 'tue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wed`
+  String get wed {
+    return Intl.message(
+      'Wed',
+      name: 'wed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thu`
+  String get thu {
+    return Intl.message(
+      'Thu',
+      name: 'thu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fri`
+  String get fri {
+    return Intl.message(
+      'Fri',
+      name: 'fri',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sat`
+  String get sat {
+    return Intl.message(
+      'Sat',
+      name: 'sat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sun`
+  String get sun {
+    return Intl.message(
+      'Sun',
+      name: 'sun',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A penny saved is a penny earned`
+  String get slang1 {
+    return Intl.message(
+      'A penny saved is a penny earned',
+      name: 'slang1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saving for a rainy day`
+  String get slang2 {
+    return Intl.message(
+      'Saving for a rainy day',
+      name: 'slang2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Money doesn’t grow on trees.`
+  String get slang3 {
+    return Intl.message(
+      'Money doesn’t grow on trees.',
+      name: 'slang3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start saving now!`
+  String get savingNow {
+    return Intl.message(
+      'Start saving now!',
+      name: 'savingNow',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

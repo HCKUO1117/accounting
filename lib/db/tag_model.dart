@@ -21,6 +21,14 @@ class TagModel {
     };
   }
 
+  factory TagModel.fromJson(Map json){
+    return TagModel(
+      sort: json['sort'],
+      color: Color(json['color']),
+      name: json['name'],
+    );
+  }
+
   @override
   String toString() {
     return '\nid : $id\ncolor : $color \nname : $name\nsort : $sort';

@@ -37,10 +37,29 @@ class CategoryModel {
     return {
       'icon': icon,
       'sort': sort,
-      'iconColor':iconColor.value,
+      'iconColor': iconColor.value,
       'name': name,
-      'type':type.text
+      'type': type.text
     };
+  }
+
+  factory CategoryModel.fromJson(Map json) {
+    CategoryType type = CategoryType.income;
+    switch (json['type']) {
+      case 'income':
+        type = CategoryType.income;
+        break;
+      case 'expenditure':
+        type = CategoryType.expenditure;
+        break;
+    }
+    return CategoryModel(
+      sort: json['sort'],
+      type: type,
+      icon: json['icon'],
+      iconColor: Color(json['iconColor']),
+      name: json['name'],
+    );
   }
 
   @override

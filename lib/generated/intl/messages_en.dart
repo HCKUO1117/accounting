@@ -61,6 +61,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "expenditure": MessageLookupByLibrary.simpleMessage("Expenditure"),
         "filter": MessageLookupByLibrary.simpleMessage("Filter"),
         "fixedIncome": MessageLookupByLibrary.simpleMessage("Fixed Income"),
+        "fri": MessageLookupByLibrary.simpleMessage("Fri"),
+        "friday": MessageLookupByLibrary.simpleMessage("Friday"),
+        "googleDriveInfo": MessageLookupByLibrary.simpleMessage(
+            "We will use your google drive to store your account data. After the backup is completed, a \"accountingData.act\" file will be generated on your google drive. Please do not modify or move this file to Make sure the backup function is normal, if you want to remove the backup data, you need to delete the files completely (including the files in the trash)"),
         "icon": MessageLookupByLibrary.simpleMessage("Icon"),
         "inAndOut":
             MessageLookupByLibrary.simpleMessage("Fixed Income and Budget"),
@@ -70,6 +74,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("Login"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "longBefore": MessageLookupByLibrary.simpleMessage("...before"),
+        "mon": MessageLookupByLibrary.simpleMessage("Mon"),
+        "monday": MessageLookupByLibrary.simpleMessage("Monday"),
         "month": MessageLookupByLibrary.simpleMessage("month"),
         "noBudget": MessageLookupByLibrary.simpleMessage("No budget set"),
         "noRecord": MessageLookupByLibrary.simpleMessage("No record"),
@@ -84,26 +90,43 @@ class MessageLookup extends MessageLookupByLibrary {
         "notSelectCategory":
             MessageLookupByLibrary.simpleMessage("No category selected"),
         "note": MessageLookupByLibrary.simpleMessage("Note"),
+        "notification": MessageLookupByLibrary.simpleMessage("Reminder"),
         "notify": MessageLookupByLibrary.simpleMessage("Notification"),
         "oClock": MessageLookupByLibrary.simpleMessage("o\'clock"),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
+        "overwriteInfo": MessageLookupByLibrary.simpleMessage(
+            "Your data will be overwritten and cannot be recovered. Do you want to continue?"),
         "period": MessageLookupByLibrary.simpleMessage("period"),
         "pleaseEnterName":
             MessageLookupByLibrary.simpleMessage("Please enter a name"),
         "plzChooseTime":
             MessageLookupByLibrary.simpleMessage("Please choose a time"),
+        "repeat": MessageLookupByLibrary.simpleMessage("Repeat"),
+        "sat": MessageLookupByLibrary.simpleMessage("Sat"),
+        "saturday": MessageLookupByLibrary.simpleMessage("Saturday"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "save1": MessageLookupByLibrary.simpleMessage("save"),
+        "savingNow": MessageLookupByLibrary.simpleMessage("Start saving now!"),
         "selectDay": MessageLookupByLibrary.simpleMessage("Select Day"),
         "selectTime": MessageLookupByLibrary.simpleMessage("Select Time"),
         "setBudget": MessageLookupByLibrary.simpleMessage("Set Budget"),
         "setting": MessageLookupByLibrary.simpleMessage("Setting"),
         "showRecord": MessageLookupByLibrary.simpleMessage("View items"),
+        "slang1": MessageLookupByLibrary.simpleMessage(
+            "A penny saved is a penny earned"),
+        "slang2":
+            MessageLookupByLibrary.simpleMessage("Saving for a rainy day"),
+        "slang3": MessageLookupByLibrary.simpleMessage(
+            "Money doesn’t grow on trees."),
         "start": MessageLookupByLibrary.simpleMessage("start"),
+        "sun": MessageLookupByLibrary.simpleMessage("Sun"),
+        "sunday": MessageLookupByLibrary.simpleMessage("Sunday"),
         "tag": MessageLookupByLibrary.simpleMessage("Tag"),
         "thisMonth": MessageLookupByLibrary.simpleMessage("This month"),
         "thisWeek": MessageLookupByLibrary.simpleMessage("This week"),
         "thisYear": MessageLookupByLibrary.simpleMessage("This year"),
+        "thu": MessageLookupByLibrary.simpleMessage("Thu"),
+        "thursday": MessageLookupByLibrary.simpleMessage("Thursday"),
         "time": MessageLookupByLibrary.simpleMessage("Time"),
         "timeScale": MessageLookupByLibrary.simpleMessage("Time Scale"),
         "to": MessageLookupByLibrary.simpleMessage("to"),
@@ -111,7 +134,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "There is a record using this category in your account book. If you delete this category, the item will be classified as \'Uncategory\'"),
         "today": MessageLookupByLibrary.simpleMessage("Today"),
         "total": MessageLookupByLibrary.simpleMessage("total"),
+        "tue": MessageLookupByLibrary.simpleMessage("Tue"),
+        "tuesday": MessageLookupByLibrary.simpleMessage("Tuesday"),
         "unCategory": MessageLookupByLibrary.simpleMessage("Uncategory"),
+        "wed": MessageLookupByLibrary.simpleMessage("Wed"),
+        "wednesday": MessageLookupByLibrary.simpleMessage("Wednesday"),
         "year": MessageLookupByLibrary.simpleMessage("year"),
         "yesterday": MessageLookupByLibrary.simpleMessage("Yesterday")
       };

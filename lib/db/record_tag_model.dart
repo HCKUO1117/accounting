@@ -18,6 +18,13 @@ class RecordTagModel {
     };
   }
 
+  factory RecordTagModel.fromJson(Map json){
+    return RecordTagModel(
+      recordId: json['recordId'],
+      tagId: json['tagId'],
+    );
+  }
+
   @override
   String toString() {
     return '\nid : $id\nrecordId : $recordId \ntagId : $tagId';

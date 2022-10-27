@@ -15,4 +15,27 @@ class Constants {
       iconColor: Colors.redAccent,
     )
   ];
+
+  ///notification
+  static const List<String> weeks = [
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+    'sunday',
+  ];
+
+  static const List<String> weeksShort = [
+    'mon',
+    'tue',
+    'wed',
+    'thu',
+    'fri',
+    'sat',
+    'sun',
+  ];
+
+  static const announcementText = 'announcement_';
 }

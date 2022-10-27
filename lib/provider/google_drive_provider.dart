@@ -1,5 +1,15 @@
 import 'dart:convert';
 
+import 'package:accounting/db/accounting_db.dart';
+import 'package:accounting/db/accounting_model.dart';
+import 'package:accounting/db/category_db.dart';
+import 'package:accounting/db/category_model.dart';
+import 'package:accounting/db/fixed_income_db.dart';
+import 'package:accounting/db/fixed_income_model.dart';
+import 'package:accounting/db/record_tag_db.dart';
+import 'package:accounting/db/record_tag_model.dart';
+import 'package:accounting/db/tag_db.dart';
+import 'package:accounting/db/tag_model.dart';
 import 'package:accounting/utils/google_drive.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -9,7 +19,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/drive/v3.dart' as drive;
 
 class GoogleDriveProvider with ChangeNotifier {
-  ///login
+  bool loading = false;
+
   bool logingIn = false;
   bool isLogin = false;
 
@@ -29,12 +40,14 @@ class GoogleDriveProvider with ChangeNotifier {
     if (user != null) {
       final GoogleSignIn googleSignIn = GoogleSignIn(scopes: [drive.DriveApi.driveFileScope]);
       googleSignInAccount = await googleSignIn.signIn();
-
-
+      loading = true;
+      notifyListeners();
 
       await getFileData();
 
       isLogin = true;
+
+      loading = false;
       notifyListeners();
     }
   }
@@ -43,15 +56,14 @@ class GoogleDriveProvider with ChangeNotifier {
     var client = GoogleAuthClient(await googleSignInAccount!.authHeaders);
     var driveApi = drive.DriveApi(client);
 
-    try{
-      drive.FileList list =
-      await driveApi.files.list($fields: 'files(createdTime,id,name)');
+    try {
+      drive.FileList list = await driveApi.files.list($fields: 'files(createdTime,id,name)');
 
       if (list.files == null || list.files!.isEmpty) {
         return;
       }
 
-      if(list.files!.indexWhere((element) => element.name == 'accountingData.act') == -1) {
+      if (list.files!.indexWhere((element) => element.name == 'accountingData.act') == -1) {
         id = null;
         lastSaveTime = null;
 
@@ -62,12 +74,8 @@ class GoogleDriveProvider with ChangeNotifier {
       drive.File file = list.files!.firstWhere((element) => element.name == 'accountingData.act');
       id = file.id!;
 
-      lastSaveTime = file.createdTime;
-    }catch(_){
-
-    }
-
-
+      lastSaveTime = file.createdTime!.toLocal();
+    } catch (_) {}
   }
 
   Future<User?> signInWithGoogle({required BuildContext context}) async {
@@ -141,6 +149,8 @@ class GoogleDriveProvider with ChangeNotifier {
   }
 
   Future<void> uploadFile(BuildContext context) async {
+    loading = true;
+    notifyListeners();
     if (googleSignInAccount != null) {
       final authHeaders = await googleSignInAccount!.authHeaders;
       final authenticateClient = GoogleAuthClient(
@@ -148,8 +158,9 @@ class GoogleDriveProvider with ChangeNotifier {
       );
       final driveApi = drive.DriveApi(authenticateClient);
 
-      String content =
-          '都市代謝作用係指維持都市居民生活及生產所需提供之物質,這些物質在生產及消費行為 經轉換後再輸出或排放出都市的過程。近年來都市規模快速擴張,除加速其代謝作用物質的流 動量,而其所產生的線性代謝作用模式更對環境產生極大之影響。本研究以台北地區公共工程 (包括道路、橋樑、下水道、防洪、捷運工程)及建築工程等都市建設活動所產生的代謝作用物 質(包括砂石、水泥、瀝青等建材資源及廢棄土)為研究對象,分析近二十年來台北地區都市建 設代謝作用物質流動的趨勢。根據估算結果顯示台北地區都市建設代謝作用物質流動量主要以 砂石資源為主(佔91%),且每年約產生3000萬噸的棄土量,其中以公共工程所佔比例最大。能值 評估結果顯示,台北地區都市建設所使用之砂石、水泥、及瀝青,在總體生態經濟系統之貢獻 雖因都市工程建設逐漸完成而減少,但仍佔極重要之份量。其中,尤以水泥為最。此外,廢棄 土能值在廢棄物中之比例極高。為進一步探討台北地區都市開發建設行為對於自然、人文環境 的影響,本文並建立整合都市建設、代謝作用及自然作用的永續性指標。分析結果顯示目前台北地區資源使用結構仍以都市建設活動為主,但已趨於平緩,且建材資源的使用效率已有明顯 的提昇,不僅使每人擁有道路面積及污水下水道普及率提高,亦使淡水河嚴重污染程度降低。 另一方面,土壤大量流失使淡水河輸沙量增加。在廢棄土方面,每年所產生的棄土量高達3000 萬頓,約為台灣地區三分之一,且資源使用量亦高達1000萬頓,對地表是雙重的破壞,而回收 再利用或回填的比例相當低,僅有500萬噸左右。未來除積極開發多樣性的砂石料源,建立健全 的砂石資源市場供需調查機制,並有效的回收利用廢棄土,提高資源使用效率,解決砂石料源';
+      Map<String, dynamic> dataMap = await changeDBtoString();
+
+      String content = jsonEncode(dataMap);
       final Stream<List<int>> mediaStream =
           Future.value(utf8.encode(content)).asStream().asBroadcastStream();
 
@@ -165,7 +176,7 @@ class GoogleDriveProvider with ChangeNotifier {
           $fields: 'createdTime,id,name',
         );
         id = result.id;
-        lastSaveTime = result.createdTime;
+        lastSaveTime = result.createdTime!.toLocal();
       } else {
         drive.File result = await driveApi.files.create(
           driveFile,
@@ -176,15 +187,19 @@ class GoogleDriveProvider with ChangeNotifier {
         await driveApi.files.delete(id!);
 
         id = result.id;
-        lastSaveTime = result.createdTime;
+        lastSaveTime = result.createdTime!.toLocal();
       }
     }
+
+    loading = false;
     notifyListeners();
   }
 
   String text = '';
 
   Future<void> downloadGoogleDriveFile() async {
+    loading = true;
+    notifyListeners();
     if (id == null) return;
     var client = GoogleAuthClient(await googleSignInAccount!.authHeaders);
     var driveApi = drive.DriveApi(client);
@@ -199,6 +214,72 @@ class GoogleDriveProvider with ChangeNotifier {
     });
     text = const Utf8Decoder().convert(bytes);
 
+    jsonDecode(text);
+
+    List<AccountingModel> accountingList = [];
+    for (var element in jsonDecode(text)['accounting'] as List<dynamic>) {
+      accountingList.add(AccountingModel.fromJson(element));
+    }
+
+    List<CategoryModel> categoryList = [];
+    for (var element in jsonDecode(text)['category'] as List<dynamic>) {
+      categoryList.add(CategoryModel.fromJson(element));
+    }
+
+    List<FixedIncomeModel> fixIncomeList = [];
+    for (var element in jsonDecode(text)['fixIncome'] as List<dynamic>) {
+      fixIncomeList.add(FixedIncomeModel.fromJson(element));
+    }
+    List<RecordTagModel> recordTagList = [];
+    for (var element in jsonDecode(text)['recordTag'] as List<dynamic>) {
+      recordTagList.add(RecordTagModel.fromJson(element));
+    }
+    List<TagModel> tagList = [];
+    for (var element in jsonDecode(text)['tag'] as List<dynamic>) {
+      tagList.add(TagModel.fromJson(element));
+    }
+
+    await AccountingDB.deleteDatabase();
+    for (var element in accountingList) {
+      AccountingDB.insertData(element);
+    }
+    await CategoryDB.deleteDatabase();
+    for (var element in categoryList) {
+      CategoryDB.insertData(element);
+    }
+    await FixedIncomeDB.deleteDatabase();
+    for (var element in fixIncomeList) {
+      FixedIncomeDB.insertData(element);
+    }
+    await RecordTagDB.deleteDatabase();
+    for (var element in recordTagList) {
+      RecordTagDB.insertData(element);
+    }
+    await TagDB.deleteDatabase();
+    for (var element in tagList) {
+      TagDB.insertData(element);
+    }
+
+    loading = false;
     notifyListeners();
+  }
+
+  Future<Map<String, dynamic>> changeDBtoString() async {
+    Map<String, dynamic> allData = {};
+    List<AccountingModel> accountingList = await AccountingDB.displayAllData();
+    List<CategoryModel> categoryList = await CategoryDB.displayAllData();
+    List<FixedIncomeModel> fixIncomeList = await FixedIncomeDB.displayAllData();
+    List<RecordTagModel> recordTagList = await RecordTagDB.displayAllData();
+    List<TagModel> tagList = await TagDB.displayAllData();
+
+    allData.addAll({
+      'accounting': List.generate(accountingList.length, (index) => accountingList[index].toMap()),
+      'category': List.generate(categoryList.length, (index) => categoryList[index].toMap()),
+      'fixIncome': List.generate(fixIncomeList.length, (index) => fixIncomeList[index].toMap()),
+      'recordTag': List.generate(recordTagList.length, (index) => recordTagList[index].toMap()),
+      'tag': List.generate(tagList.length, (index) => tagList[index].toMap()),
+    });
+
+    return allData;
   }
 }

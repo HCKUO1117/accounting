@@ -2,7 +2,7 @@ import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
 import 'package:accounting/screens/member/google_drive_page.dart';
-import 'package:accounting/screens/widget/google_sign_in_button.dart';
+import 'package:accounting/screens/member/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,6 +40,19 @@ class _MemberScreenState extends State<MemberScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const GoogleDrivePage(),
+                    ),
+                  );
+                },
+              ),
+              const Divider(),
+              settingTitle(
+                title: S.of(context).notification,
+                icon: Icons.notifications_none_sharp,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const NotificationPage(),
                     ),
                   );
                 },
