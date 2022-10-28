@@ -4,6 +4,7 @@ import 'package:accounting/models/date_model.dart';
 import 'package:accounting/models/states.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/screens/chart/line_chart_setting_page.dart';
+import 'package:accounting/utils/my_banner_ad.dart';
 import 'package:accounting/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -137,6 +138,8 @@ class _ChartScreenState extends State<ChartScreen>
           ),
           series: provider.lineChartList,
         ),
+        const SizedBox(height: 16),
+        const AdBanner(large: false),
         if (provider.lineScale != 2)
           dayList(
             provider,
@@ -238,6 +241,8 @@ class _ChartScreenState extends State<ChartScreen>
             ),
           ],
         ),
+        const SizedBox(height: 16),
+        const AdBanner(large: false),
         if (provider.pieScale != 2)
           dayList(
             provider,
@@ -319,6 +324,8 @@ class _ChartScreenState extends State<ChartScreen>
               activationMode: ActivationMode.singleTap,
             ),
             series: provider.stackChartList),
+        const SizedBox(height: 16),
+        const AdBanner(large: false),
         if (provider.stackScale != 2)
           dayList(
             provider,

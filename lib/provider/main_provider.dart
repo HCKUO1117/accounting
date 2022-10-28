@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:accounting/db/accounting_db.dart';
 import 'package:accounting/db/accounting_model.dart';
@@ -16,18 +17,24 @@ import 'package:accounting/models/states.dart';
 import 'package:accounting/res/constants.dart';
 import 'package:accounting/screens/chart/chart_screen.dart';
 import 'package:accounting/screens/chart/line_chart_setting_page.dart';
+import 'package:accounting/screens/member/export_excel_page.dart';
 import 'package:accounting/utils/preferences.dart';
 import 'package:accounting/utils/utils.dart';
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class MainProvider with ChangeNotifier {
   AppState calendarState = AppState.finish;
 
   ///dashboard
-  DateTime dashBoardStartDate = DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
-  DateTime dashBoardEndDate = DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
+  DateTime dashBoardStartDate =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  DateTime dashBoardEndDate =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   double currentIncome = 0;
   double currentExpenditure = 0;
 
@@ -1370,5 +1377,6 @@ class MainProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  ///Excel
 
 }

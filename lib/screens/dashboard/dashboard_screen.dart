@@ -8,6 +8,7 @@ import 'package:accounting/screens/dashboard/add_recode_page.dart';
 import 'package:accounting/screens/dashboard/calendar_page.dart';
 import 'package:accounting/screens/dashboard/filter_page.dart';
 import 'package:accounting/screens/widget/accounting_title.dart';
+import 'package:accounting/utils/my_banner_ad.dart';
 import 'package:accounting/utils/utils.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -236,8 +237,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         child: provider.currentAccountingList.isEmpty
                             ? Column(
                                 children: [
-                                  SizedBox(
-                                    height: MediaQuery.of(context).size.height / 10,
+                                  const SizedBox(
+                                    height: 32,
                                   ),
                                   Text(
                                     S.of(context).noRecord,
@@ -251,40 +252,48 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     'assets/icons/question.png',
                                     height: 50,
                                   ),
+                                  const SizedBox(height: 32),
+                                  const AdBanner(large: true),
                                 ],
                               )
-                            : ListView.separated(
-                                padding: const EdgeInsets.only(bottom: 50),
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: provider.currentAccountingList.length,
-                                itemBuilder: (context, index) {
-                                  return AccountingTitle(
-                                    onTap: () {
-                                      showModalBottomSheet(
-                                        backgroundColor: Colors.white,
-                                        shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(20),
-                                            topLeft: Radius.circular(20),
-                                          ),
-                                        ),
-                                        isScrollControlled: true,
-                                        context: context,
-                                        builder: (context) => Padding(
-                                          padding: EdgeInsets.only(top: widget.topPadding),
-                                          child: AddRecodePage(
-                                            model: provider.currentAccountingList[index],
-                                          ),
-                                        ),
+                            : Column(
+                                children: [
+                                  const AdBanner(large: false),
+                                  const SizedBox(height: 16),
+                                  ListView.separated(
+                                    padding: const EdgeInsets.only(bottom: 50),
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: provider.currentAccountingList.length,
+                                    itemBuilder: (context, index) {
+                                      return AccountingTitle(
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                            backgroundColor: Colors.white,
+                                            shape: const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(20),
+                                                topLeft: Radius.circular(20),
+                                              ),
+                                            ),
+                                            isScrollControlled: true,
+                                            context: context,
+                                            builder: (context) => Padding(
+                                              padding: EdgeInsets.only(top: widget.topPadding),
+                                              child: AddRecodePage(
+                                                model: provider.currentAccountingList[index],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        model: provider.currentAccountingList[index],
                                       );
                                     },
-                                    model: provider.currentAccountingList[index],
-                                  );
-                                },
-                                separatorBuilder: (context, index) {
-                                  return const SizedBox(height: 4);
-                                },
+                                    separatorBuilder: (context, index) {
+                                      return const SizedBox(height: 4);
+                                    },
+                                  )
+                                ],
                               ),
                       ),
                     ),

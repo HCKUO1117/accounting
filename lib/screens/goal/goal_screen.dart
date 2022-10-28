@@ -4,6 +4,7 @@ import 'package:accounting/res/app_color.dart';
 import 'package:accounting/screens/goal/add_fixed_income_page.dart';
 import 'package:accounting/screens/goal/add_goal_page.dart';
 import 'package:accounting/screens/widget/fixed_income_title.dart';
+import 'package:accounting/utils/my_banner_ad.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -235,6 +236,7 @@ class _GoalScreenState extends State<GoalScreen> with TickerProviderStateMixin {
                           ),
                   ),
                 ),
+                const AdBanner(large: false),
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: Text(

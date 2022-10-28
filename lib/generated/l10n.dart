@@ -1059,6 +1059,216 @@ class S {
       args: [],
     );
   }
+
+  /// `Export Excel`
+  String get exportExcel {
+    return Intl.message(
+      'Export Excel',
+      name: 'exportExcel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start Export`
+  String get startExport {
+    return Intl.message(
+      'Start Export',
+      name: 'startExport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Exporting`
+  String get exporting {
+    return Intl.message(
+      'Exporting',
+      name: 'exporting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export your ledger to Excel`
+  String get exportInfo {
+    return Intl.message(
+      'Export your ledger to Excel',
+      name: 'exportInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export complete`
+  String get finishExport {
+    return Intl.message(
+      'Export complete',
+      name: 'finishExport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share`
+  String get share {
+    return Intl.message(
+      'Share',
+      name: 'share',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please go to "Download" in your phone's storage to view the exported file, or click "Share" to share your file to your group or cloud`
+  String get finishExportInfo {
+    return Intl.message(
+      'Please go to "Download" in your phone\'s storage to view the exported file, or click "Share" to share your file to your group or cloud',
+      name: 'finishExportInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Feedback`
+  String get feedback {
+    return Intl.message(
+      'Feedback',
+      name: 'feedback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select the type of feedback you want`
+  String get feedbackType {
+    return Intl.message(
+      'Please select the type of feedback you want',
+      name: 'feedbackType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please explain your question or feedback`
+  String get explainFeedback {
+    return Intl.message(
+      'Please explain your question or feedback',
+      name: 'explainFeedback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Content`
+  String get yorContent {
+    return Intl.message(
+      'Your Content',
+      name: 'yorContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the type`
+  String get typeEmpty {
+    return Intl.message(
+      'Please enter the type',
+      name: 'typeEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter content`
+  String get contentEmpty {
+    return Intl.message(
+      'Please enter content',
+      name: 'contentEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send`
+  String get send {
+    return Intl.message(
+      'Send',
+      name: 'send',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter...`
+  String get enter {
+    return Intl.message(
+      'Please enter...',
+      name: 'enter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Suggestions for improvement`
+  String get recommendation {
+    return Intl.message(
+      'Suggestions for improvement',
+      name: 'recommendation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error report`
+  String get errorReport {
+    return Intl.message(
+      'Error report',
+      name: 'errorReport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Usage Problem`
+  String get usageProblem {
+    return Intl.message(
+      'Usage Problem',
+      name: 'usageProblem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other...`
+  String get other {
+    return Intl.message(
+      'Other...',
+      name: 'other',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `your nickname`
+  String get yourName {
+    return Intl.message(
+      'your nickname',
+      name: 'yourName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `your E-mail`
+  String get yourEmail {
+    return Intl.message(
+      'your E-mail',
+      name: 'yourEmail',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -10,6 +10,7 @@ import 'package:accounting/screens/category/add_tag_page.dart';
 import 'package:accounting/screens/category/income_category_page.dart';
 import 'package:accounting/screens/widget/category_title.dart';
 import 'package:accounting/screens/widget/tag_title.dart';
+import 'package:accounting/utils/my_banner_ad.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -77,6 +78,8 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
       color: Colors.orangeAccent.shade200.withOpacity(0.2),
       child: ListView(
         children: [
+          const SizedBox(height: 8),
+          const AdBanner(large: false),
           const SizedBox(height: 8),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,6 +289,8 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
       color: Colors.orangeAccent.shade200.withOpacity(0.2),
       child: ListView(
         children: [
+          const SizedBox(height: 8),
+          const AdBanner(large: false),
           const SizedBox(height: 8),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),

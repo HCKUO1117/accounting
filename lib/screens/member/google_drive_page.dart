@@ -1,6 +1,7 @@
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/google_drive_provider.dart';
 import 'package:accounting/screens/widget/google_sign_in_button.dart';
+import 'package:accounting/utils/my_banner_ad.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -150,6 +151,8 @@ class _GoogleDrivePageState extends State<GoogleDrivePage> {
                       ),
                       const SizedBox(height: 32),
                       Text(S.of(context).googleDriveInfo),
+                      const SizedBox(height: 32),
+                      const AdBanner(large: true),
                     ],
                   ),
                   if (provider.loading)
@@ -160,7 +163,8 @@ class _GoogleDrivePageState extends State<GoogleDrivePage> {
                       child: const Center(
                         child: CircularProgressIndicator(),
                       ),
-                    )
+                    ),
+
                 ],
               ),
             ),

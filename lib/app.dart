@@ -7,6 +7,7 @@ import 'package:accounting/db/tag_db.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
 import 'package:accounting/screens/main_page.dart';
+import 'package:accounting/utils/app_open_ad_manager.dart';
 import 'package:accounting/utils/preferences.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -46,9 +47,16 @@ class _AppState extends State<App> {
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
+  late AppLifecycleReactor _appLifecycleReactor;
+
   @override
   void initState() {
     Future<void>.microtask(() async {
+      AppOpenAdManager appOpenAdManager = AppOpenAdManager();
+      appOpenAdManager.loadAd();
+      _appLifecycleReactor = AppLifecycleReactor(
+          appOpenAdManager: appOpenAdManager);
+      _appLifecycleReactor.listenToAppStateChanges();
       await Preferences.init();
       await CategoryDB.initDataBase();
       await AccountingDB.initDataBase();
@@ -80,6 +88,7 @@ class _AppState extends State<App> {
       await mainProvider.getFixedIncomeList();
       mainProvider.checkInsertData();
     });
+
     super.initState();
   }
 

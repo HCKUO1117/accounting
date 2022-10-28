@@ -99,6 +99,26 @@
   "slang1": "省一分錢就是賺一分錢",
   "slang2": "存錢以備不時之需",
   "slang3": "金錢來之不易",
-  "savingNow": "現在就開始記帳吧!"
-
+  "savingNow": "現在就開始記帳吧!",
+  "exportExcel": "匯出Excel",
+  "startExport": "開始匯出",
+  "exporting": "匯出中",
+  "exportInfo": "將您的帳本匯出為Excel",
+  "finishExport": "匯出完成",
+  "share": "分享",
+  "finishExportInfo": "請至手機儲存空間的\"下載\"查看匯出的檔案，或點擊\"分享\"將您的檔案分享至您的群組或雲端",
+  "feedback": "意見回饋",
+  "feedbackType": "請選擇您要回報的類型",
+  "explainFeedback": "請說明您的問題或回饋",
+  "yorContent": "您的內容",
+  "typeEmpty": "請輸入類型",
+  "contentEmpty": "請輸入內容",
+  "send": "送出",
+  "enter": "請輸入...",
+  "recommendation": "改善建議",
+  "errorReport": "錯誤回報",
+  "usageProblem": "使用問題",
+  "other": "其他...",
+  "yourName": "您的暱稱",
+  "yourEmail": "您的E-mail"
 }

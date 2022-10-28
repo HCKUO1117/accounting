@@ -1,9 +1,14 @@
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
+import 'package:accounting/res/constants.dart';
+import 'package:accounting/screens/member/export_excel_page.dart';
+import 'package:accounting/screens/member/feedback_page.dart';
 import 'package:accounting/screens/member/google_drive_page.dart';
 import 'package:accounting/screens/member/notification_page.dart';
+import 'package:accounting/utils/my_banner_ad.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 class MemberScreen extends StatefulWidget {
@@ -14,6 +19,12 @@ class MemberScreen extends StatefulWidget {
 }
 
 class _MemberScreenState extends State<MemberScreen> {
+  @override
+  void initState() {
+    loadAd();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<MainProvider>(
@@ -58,6 +69,40 @@ class _MemberScreenState extends State<MemberScreen> {
                 },
               ),
               const Divider(),
+              settingTitle(
+                title: S.of(context).exportExcel,
+                icon: Icons.description_outlined,
+                onTap: () async {
+                  if (interstitialAd != null) {
+                    await interstitialAd!.show();
+                  }
+                  loadAd();
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      scrollable: true,
+                      content: const ExportExcelPage(),
+                    ),
+                  );
+                },
+              ),
+              const Divider(),
+              settingTitle(
+                title: S.of(context).feedback,
+                icon: Icons.chat_outlined,
+                onTap: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FeedBackPage(),
+                    ),
+                  );
+                },
+              ),
+              const Divider(),
+              const SizedBox(height: 32),
+              const AdBanner(large: true),
             ],
           ),
         );
@@ -84,6 +129,40 @@ class _MemberScreenState extends State<MemberScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  InterstitialAd? interstitialAd;
+
+  Future<void> loadAd() async {
+    await InterstitialAd.load(
+        adUnitId:
+            Constants.testingMode ? Constants.testInterstitialAdId : Constants.interstitialAdId,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (InterstitialAd ad) {
+            // Keep a reference to the ad so you can show it later.
+            interstitialAd = ad;
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            print('InterstitialAd failed to load: $error');
+          },
+        ));
+    if (interstitialAd == null) return;
+    interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) => print('%ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        print('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+      },
+      onAdWillDismissFullScreenContent: (InterstitialAd ad) {
+        ad.dispose();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+        print('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+      },
+      onAdImpression: (InterstitialAd ad) => print('$ad impression occurred.'),
     );
   }
 }

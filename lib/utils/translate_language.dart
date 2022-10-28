@@ -43,6 +43,14 @@ class TranslateLanguage {
         return S.of(App.navigatorKey.currentContext!).saturday;
       case "sunday":
         return S.of(App.navigatorKey.currentContext!).sunday;
+      case "recommendation":
+        return S.of(App.navigatorKey.currentContext!).recommendation;
+      case "errorReport":
+        return S.of(App.navigatorKey.currentContext!).errorReport;
+      case "usageProblem":
+        return S.of(App.navigatorKey.currentContext!).usageProblem;
+      case "other":
+        return S.of(App.navigatorKey.currentContext!).other;
       default:
         return code;
     }

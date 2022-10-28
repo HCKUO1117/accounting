@@ -38,4 +38,22 @@ class Constants {
   ];
 
   static const announcementText = 'announcement_';
+
+  ///ad
+  static const bool testingMode = true;
+  static const String testBannerId = 'ca-app-pub-3940256099942544/6300978111';
+  static const String testInterstitialAdId = 'ca-app-pub-3940256099942544/1033173712';
+  static const String testBackAdId = 'ca-app-pub-3940256099942544/3419835294';
+
+  static const String bannerId = 'ca-app-pub-9063356592993842/3684734841';
+  static const String interstitialAdId = 'ca-app-pub-9063356592993842/3301591466';
+  static const String backAdId = 'ca-app-pub-9063356592993842/7428538738';
+
+  ///feedback
+  static const List<String> feedbackTypes = [
+    'recommendation',
+    'errorReport',
+    'usageProblem',
+    'other',
+  ];
 }

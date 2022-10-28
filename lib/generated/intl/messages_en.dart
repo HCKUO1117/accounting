@@ -42,6 +42,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "clickSetBudget":
             MessageLookupByLibrary.simpleMessage("Click here to set budget"),
         "color": MessageLookupByLibrary.simpleMessage("Color"),
+        "contentEmpty":
+            MessageLookupByLibrary.simpleMessage("Please enter content"),
         "customize": MessageLookupByLibrary.simpleMessage("Customize..."),
         "dataType": MessageLookupByLibrary.simpleMessage("Data Source"),
         "date": MessageLookupByLibrary.simpleMessage("Date"),
@@ -56,10 +58,24 @@ class MessageLookup extends MessageLookupByLibrary {
         "editSuccess": MessageLookupByLibrary.simpleMessage("Edit Successful!"),
         "endBeforeStart": MessageLookupByLibrary.simpleMessage(
             "End time must not be earlier than start time"),
+        "enter": MessageLookupByLibrary.simpleMessage("Please enter..."),
         "errorFormat": MessageLookupByLibrary.simpleMessage("Format error"),
+        "errorReport": MessageLookupByLibrary.simpleMessage("Error report"),
         "expand": MessageLookupByLibrary.simpleMessage("Expand"),
         "expenditure": MessageLookupByLibrary.simpleMessage("Expenditure"),
+        "explainFeedback": MessageLookupByLibrary.simpleMessage(
+            "Please explain your question or feedback"),
+        "exportExcel": MessageLookupByLibrary.simpleMessage("Export Excel"),
+        "exportInfo":
+            MessageLookupByLibrary.simpleMessage("Export your ledger to Excel"),
+        "exporting": MessageLookupByLibrary.simpleMessage("Exporting"),
+        "feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
+        "feedbackType": MessageLookupByLibrary.simpleMessage(
+            "Please select the type of feedback you want"),
         "filter": MessageLookupByLibrary.simpleMessage("Filter"),
+        "finishExport": MessageLookupByLibrary.simpleMessage("Export complete"),
+        "finishExportInfo": MessageLookupByLibrary.simpleMessage(
+            "Please go to \"Download\" in your phone\'s storage to view the exported file, or click \"Share\" to share your file to your group or cloud"),
         "fixedIncome": MessageLookupByLibrary.simpleMessage("Fixed Income"),
         "fri": MessageLookupByLibrary.simpleMessage("Fri"),
         "friday": MessageLookupByLibrary.simpleMessage("Friday"),
@@ -94,6 +110,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "notify": MessageLookupByLibrary.simpleMessage("Notification"),
         "oClock": MessageLookupByLibrary.simpleMessage("o\'clock"),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
+        "other": MessageLookupByLibrary.simpleMessage("Other..."),
         "overwriteInfo": MessageLookupByLibrary.simpleMessage(
             "Your data will be overwritten and cannot be recovered. Do you want to continue?"),
         "period": MessageLookupByLibrary.simpleMessage("period"),
@@ -101,6 +118,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter a name"),
         "plzChooseTime":
             MessageLookupByLibrary.simpleMessage("Please choose a time"),
+        "recommendation":
+            MessageLookupByLibrary.simpleMessage("Suggestions for improvement"),
         "repeat": MessageLookupByLibrary.simpleMessage("Repeat"),
         "sat": MessageLookupByLibrary.simpleMessage("Sat"),
         "saturday": MessageLookupByLibrary.simpleMessage("Saturday"),
@@ -109,8 +128,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "savingNow": MessageLookupByLibrary.simpleMessage("Start saving now!"),
         "selectDay": MessageLookupByLibrary.simpleMessage("Select Day"),
         "selectTime": MessageLookupByLibrary.simpleMessage("Select Time"),
+        "send": MessageLookupByLibrary.simpleMessage("Send"),
         "setBudget": MessageLookupByLibrary.simpleMessage("Set Budget"),
         "setting": MessageLookupByLibrary.simpleMessage("Setting"),
+        "share": MessageLookupByLibrary.simpleMessage("Share"),
         "showRecord": MessageLookupByLibrary.simpleMessage("View items"),
         "slang1": MessageLookupByLibrary.simpleMessage(
             "A penny saved is a penny earned"),
@@ -119,6 +140,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "slang3": MessageLookupByLibrary.simpleMessage(
             "Money doesn’t grow on trees."),
         "start": MessageLookupByLibrary.simpleMessage("start"),
+        "startExport": MessageLookupByLibrary.simpleMessage("Start Export"),
         "sun": MessageLookupByLibrary.simpleMessage("Sun"),
         "sunday": MessageLookupByLibrary.simpleMessage("Sunday"),
         "tag": MessageLookupByLibrary.simpleMessage("Tag"),
@@ -136,10 +158,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "total": MessageLookupByLibrary.simpleMessage("total"),
         "tue": MessageLookupByLibrary.simpleMessage("Tue"),
         "tuesday": MessageLookupByLibrary.simpleMessage("Tuesday"),
+        "typeEmpty":
+            MessageLookupByLibrary.simpleMessage("Please enter the type"),
         "unCategory": MessageLookupByLibrary.simpleMessage("Uncategory"),
+        "usageProblem": MessageLookupByLibrary.simpleMessage("Usage Problem"),
         "wed": MessageLookupByLibrary.simpleMessage("Wed"),
         "wednesday": MessageLookupByLibrary.simpleMessage("Wednesday"),
         "year": MessageLookupByLibrary.simpleMessage("year"),
-        "yesterday": MessageLookupByLibrary.simpleMessage("Yesterday")
+        "yesterday": MessageLookupByLibrary.simpleMessage("Yesterday"),
+        "yorContent": MessageLookupByLibrary.simpleMessage("Your Content"),
+        "yourEmail": MessageLookupByLibrary.simpleMessage("your E-mail"),
+        "yourName": MessageLookupByLibrary.simpleMessage("your nickname")
       };
 }
