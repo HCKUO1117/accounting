@@ -45,8 +45,8 @@ class FixedIncomeDB {
             "$columnMonth INTEGER,"
             "$columnDay INTEGER,"
             "$columnCategory INTEGER,"
-            "$columnCreateDate INTEGER,"
-            "$columnLastAddTime INTEGER,"
+            "$columnCreateDate TEXT,"
+            "$columnLastAddTime TEXT,"
             "$columnTags TEXT,"
             "$columnAmount TEXT,"
             "$columnNote TEXT"
@@ -79,10 +79,8 @@ class FixedIncomeDB {
         tags: tags,
         amount: double.parse(maps[index][columnAmount]),
         note: maps[index][columnNote],
-        createDate: DateTime.fromMillisecondsSinceEpoch(maps[index][columnCreateDate]),
-        lastAddTime: maps[index][columnLastAddTime] == null
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(maps[index][columnLastAddTime]),
+        createDate: DateTime.parse(maps[index][columnCreateDate]),
+        lastAddTime: maps[index][columnLastAddTime] != null ? DateTime.parse(maps[index][columnLastAddTime]) : null,
       );
     });
   }

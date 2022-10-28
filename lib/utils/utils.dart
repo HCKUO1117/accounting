@@ -1,6 +1,10 @@
 import 'package:intl/intl.dart';
 
 class Utils {
+  static String toDateTimeString(DateTime time, {String? format}) {
+    return DateFormat(format ?? 'yyyy-MM-dd HH:mm:ss').format(time);
+  }
+
   static String toDateString(DateTime time, {String? format}) {
     return DateFormat(format ?? 'yyyy/MM/dd').format(time);
   }

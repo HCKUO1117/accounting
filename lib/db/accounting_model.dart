@@ -1,3 +1,5 @@
+import 'package:accounting/utils/utils.dart';
+
 class AccountingModel {
   int? id;
   DateTime date;
@@ -19,7 +21,7 @@ class AccountingModel {
     String tagString = tags.toString();
 
     return {
-      'date': date.millisecondsSinceEpoch,
+      'date': Utils.toDateTimeString(date),
       'category': category,
       'tags': tagString.replaceAll('[', '').replaceAll(']', ''),
       'amount': amount.toString(),
@@ -36,7 +38,7 @@ class AccountingModel {
     }
 
     return AccountingModel(
-      date: DateTime.fromMillisecondsSinceEpoch(json['date']),
+      date: DateTime.parse(json['date']),
       category: json['category'],
       tags: tags,
       amount: double.parse(json['amount']),

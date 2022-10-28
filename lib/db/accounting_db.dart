@@ -1,4 +1,5 @@
 import 'package:accounting/db/accounting_model.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -62,11 +63,10 @@ class AccountingDB {
         ];
       }
 
+
       return AccountingModel(
         id: maps[index][columnId],
-        date: DateTime.fromMillisecondsSinceEpoch(
-          int.parse(maps[index][columnDate]),
-        ),
+        date: DateTime.parse(maps[index][columnDate]),
         category: maps[index][columnCategory],
         tags: tags,
         amount: double.parse(maps[index][columnAmount]),
@@ -114,9 +114,7 @@ class AccountingDB {
 
       return AccountingModel(
         id: maps[index][columnId],
-        date: DateTime.fromMillisecondsSinceEpoch(
-          int.parse(maps[index][columnDate]),
-        ),
+        date: DateTime.parse(maps[index][columnDate]),
         category: maps[index][columnCategory],
         tags: tags,
         amount: double.parse(maps[index][columnAmount]),

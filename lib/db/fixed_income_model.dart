@@ -1,4 +1,5 @@
 import 'package:accounting/generated/l10n.dart';
+import 'package:accounting/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 
 enum FixedIncomeType {
@@ -78,8 +79,8 @@ class FixedIncomeModel {
       'tags': tagString.replaceAll('[', '').replaceAll(']', ''),
       'amount': amount.toString(),
       'note': note,
-      'createDate': createDate.millisecondsSinceEpoch,
-      'lastAddTime': lastAddTime == null ? null : lastAddTime!.millisecondsSinceEpoch,
+      'createDate': Utils.toDateTimeString(createDate),
+      'lastAddTime': lastAddTime == null ? null : Utils.toDateTimeString(lastAddTime!),
     };
   }
 
@@ -99,10 +100,8 @@ class FixedIncomeModel {
       tags: tags,
       amount: double.parse(json['amount']),
       note: json['note'],
-      createDate: DateTime.fromMillisecondsSinceEpoch(json['createDate']),
-      lastAddTime: json['lastAddTime'] == null
-          ? null
-          : DateTime.fromMillisecondsSinceEpoch(json['lastAddTime']),
+      createDate: DateTime.parse(json['createDate']),
+      lastAddTime: json['lastAddTime'] != null ? DateTime.parse(json['lastAddTime']) : null,
     );
   }
 

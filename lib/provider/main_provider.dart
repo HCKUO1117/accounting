@@ -109,9 +109,9 @@ class MainProvider with ChangeNotifier {
                     await RecordTagDB.insertData(RecordTagModel(recordId: id, tagId: element));
                   }
                 }
-                element.lastAddTime = d;
+                element.lastAddTime = DateTime(i.year, i.month, i.day, element.day);
                 FixedIncomeDB.updateData(
-                  element..lastAddTime = d,
+                  element..lastAddTime = DateTime(i.year, i.month, i.day, element.day),
                 );
               }
             } else {
@@ -130,9 +130,9 @@ class MainProvider with ChangeNotifier {
                     await RecordTagDB.insertData(RecordTagModel(recordId: id, tagId: element));
                   }
                 }
-                element.lastAddTime = d;
+                element.lastAddTime = DateTime(i.year, i.month, i.day, element.day);
                 FixedIncomeDB.updateData(
-                  element..lastAddTime = d,
+                  element..lastAddTime = DateTime(i.year, i.month, i.day, element.day),
                 );
               }
             }
@@ -163,9 +163,9 @@ class MainProvider with ChangeNotifier {
                     await RecordTagDB.insertData(RecordTagModel(recordId: id, tagId: element));
                   }
                 }
-                element.lastAddTime = d;
+                element.lastAddTime = DateTime(i.year, i.month, element.day);
                 FixedIncomeDB.updateData(
-                  element..lastAddTime = d,
+                  element..lastAddTime = DateTime(i.year, i.month, element.day),
                 );
               }
             } else {
@@ -184,9 +184,9 @@ class MainProvider with ChangeNotifier {
                     await RecordTagDB.insertData(RecordTagModel(recordId: id, tagId: element));
                   }
                 }
-                element.lastAddTime = d;
+                element.lastAddTime = DateTime(i.year, i.month, element.day);
                 FixedIncomeDB.updateData(
-                  element..lastAddTime = d,
+                  element..lastAddTime = DateTime(i.year, i.month, element.day),
                 );
               }
             }
@@ -221,9 +221,9 @@ class MainProvider with ChangeNotifier {
                     await RecordTagDB.insertData(RecordTagModel(recordId: id, tagId: element));
                   }
                 }
-                element.lastAddTime = d;
+                element.lastAddTime = DateTime(i.year, element.month, element.day);
                 FixedIncomeDB.updateData(
-                  element..lastAddTime = d,
+                  element..lastAddTime = DateTime(i.year, element.month, element.day),
                 );
               }
             } else {
@@ -242,9 +242,9 @@ class MainProvider with ChangeNotifier {
                     await RecordTagDB.insertData(RecordTagModel(recordId: id, tagId: element));
                   }
                 }
-                element.lastAddTime = d;
+                element.lastAddTime = DateTime(i.year, element.month, element.day);
                 FixedIncomeDB.updateData(
-                  element..lastAddTime = d,
+                  element..lastAddTime = DateTime(i.year, element.month, element.day),
                 );
               }
             }
@@ -464,7 +464,7 @@ class MainProvider with ChangeNotifier {
           currentAccountingList.add(element);
         }
       } else {
-        if (element.date.isAfter(start) && element.date.isBefore(end)) {
+        if (!element.date.isBefore(start) && element.date.isBefore(end)) {
           currentAccountingList.add(element);
         }
       }
