@@ -103,6 +103,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseEnterName": MessageLookupByLibrary.simpleMessage("請輸入名稱"),
         "plzChooseTime": MessageLookupByLibrary.simpleMessage("請選擇時間"),
         "recommendation": MessageLookupByLibrary.simpleMessage("改善建議"),
+        "removeAd": MessageLookupByLibrary.simpleMessage("移除廣告"),
+        "removeAdInfo": MessageLookupByLibrary.simpleMessage(
+            "我們希望可以在不影響APP正常使用的狀態下進行一定程度的廣告投放，用以維持基本的收益。若您覺得廣告令人厭煩，您可以選擇購買去除廣告的方案，這同時也是對我們的支持，若您仍覺得有不合理或其他建議，歡迎使用\"意見回饋\"反映。"),
         "repeat": MessageLookupByLibrary.simpleMessage("重複"),
         "sat": MessageLookupByLibrary.simpleMessage("週六"),
         "saturday": MessageLookupByLibrary.simpleMessage("星期六"),
@@ -121,6 +124,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "slang3": MessageLookupByLibrary.simpleMessage("金錢來之不易"),
         "start": MessageLookupByLibrary.simpleMessage("開始"),
         "startExport": MessageLookupByLibrary.simpleMessage("開始匯出"),
+        "subscribing": MessageLookupByLibrary.simpleMessage("訂閱中"),
+        "subscription": MessageLookupByLibrary.simpleMessage("訂閱"),
         "sun": MessageLookupByLibrary.simpleMessage("週日"),
         "sunday": MessageLookupByLibrary.simpleMessage("星期日"),
         "tag": MessageLookupByLibrary.simpleMessage("標籤"),

@@ -120,5 +120,9 @@
   "usageProblem": "使用問題",
   "other": "其他...",
   "yourName": "您的暱稱",
-  "yourEmail": "您的E-mail"
+  "yourEmail": "您的E-mail",
+  "removeAd": "移除廣告",
+  "removeAdInfo": "我們希望可以在不影響APP正常使用的狀態下進行一定程度的廣告投放，用以維持基本的收益。若您覺得廣告令人厭煩，您可以選擇購買去除廣告的方案，這同時也是對我們的支持，若您仍覺得有不合理或其他建議，歡迎使用\"意見回饋\"反映。",
+  "subscription": "訂閱",
+  "subscribing": "訂閱中"
 }

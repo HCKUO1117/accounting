@@ -1,4 +1,5 @@
 import 'package:accounting/generated/l10n.dart';
+import 'package:accounting/provider/iap.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
 import 'package:accounting/res/constants.dart';
@@ -6,6 +7,7 @@ import 'package:accounting/screens/member/export_excel_page.dart';
 import 'package:accounting/screens/member/feedback_page.dart';
 import 'package:accounting/screens/member/google_drive_page.dart';
 import 'package:accounting/screens/member/notification_page.dart';
+import 'package:accounting/screens/member/remove_ad_page.dart';
 import 'package:accounting/utils/my_banner_ad.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -73,10 +75,14 @@ class _MemberScreenState extends State<MemberScreen> {
                 title: S.of(context).exportExcel,
                 icon: Icons.description_outlined,
                 onTap: () async {
-                  if (interstitialAd != null) {
-                    await interstitialAd!.show();
+                  var iap = Provider.of<IAP>(context);
+                  if (iap.isSubscription != true) {
+                    if (interstitialAd != null) {
+                      await interstitialAd!.show();
+                    }
+                    loadAd();
                   }
-                  loadAd();
+
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
@@ -96,6 +102,19 @@ class _MemberScreenState extends State<MemberScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const FeedBackPage(),
+                    ),
+                  );
+                },
+              ),
+              const Divider(),
+              settingTitle(
+                title: S.of(context).removeAd,
+                icon: Icons.web_asset_off_outlined,
+                onTap: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RemoveAdPage(),
                     ),
                   );
                 },

@@ -120,5 +120,9 @@
   "usageProblem": "Usage Problem",
   "other": "Other...",
   "yourName": "your nickname",
-  "yourEmail": "your E-mail"
+  "yourEmail": "your E-mail",
+  "removeAd": "Remove Ad",
+  "removeAdInfo": "We hope that a certain level of advertising can be placed without affecting the normal use of the APP to maintain basic income. If you feel that advertising is annoying, you can choose to buy a plan to remove advertising. At the same time, It is also our support. If you still feel that you have unreasonable or other suggestions, please use \"feedback\"report.",
+  "subscription": "Subscribe",
+  "subscribing": "Subscribing"
 }

@@ -1269,6 +1269,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Remove Ad`
+  String get removeAd {
+    return Intl.message(
+      'Remove Ad',
+      name: 'removeAd',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We hope that a certain level of advertising can be placed without affecting the normal use of the APP to maintain basic income. If you feel that advertising is annoying, you can choose to buy a plan to remove advertising. At the same time, It is also our support. If you still feel that you have unreasonable or other suggestions, please use "feedback"report.`
+  String get removeAdInfo {
+    return Intl.message(
+      'We hope that a certain level of advertising can be placed without affecting the normal use of the APP to maintain basic income. If you feel that advertising is annoying, you can choose to buy a plan to remove advertising. At the same time, It is also our support. If you still feel that you have unreasonable or other suggestions, please use "feedback"report.',
+      name: 'removeAdInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscribe`
+  String get subscription {
+    return Intl.message(
+      'Subscribe',
+      name: 'subscription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscribing`
+  String get subscribing {
+    return Intl.message(
+      'Subscribing',
+      name: 'subscribing',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

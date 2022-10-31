@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:accounting/db/accounting_db.dart';
 import 'package:accounting/db/category_db.dart';
 import 'package:accounting/db/tag_db.dart';
+import 'package:accounting/provider/iap.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
 import 'package:accounting/screens/main_page.dart';
@@ -29,6 +30,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   MainProvider mainProvider = MainProvider();
+  IAP iap = IAP();
 
   Locale? locale;
 
@@ -54,9 +56,8 @@ class _AppState extends State<App> {
     Future<void>.microtask(() async {
       AppOpenAdManager appOpenAdManager = AppOpenAdManager();
       appOpenAdManager.loadAd();
-      _appLifecycleReactor = AppLifecycleReactor(
-          appOpenAdManager: appOpenAdManager);
-      _appLifecycleReactor.listenToAppStateChanges();
+      _appLifecycleReactor = AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
+      _appLifecycleReactor.listenToAppStateChanges(context);
       await Preferences.init();
       await CategoryDB.initDataBase();
       await AccountingDB.initDataBase();
@@ -87,6 +88,8 @@ class _AppState extends State<App> {
       await mainProvider.getCategoryList();
       await mainProvider.getFixedIncomeList();
       mainProvider.checkInsertData();
+      await iap.initIAP();
+      iap.periodCheckSubscription();
     });
 
     super.initState();
@@ -97,6 +100,7 @@ class _AppState extends State<App> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: mainProvider),
+        ChangeNotifierProvider.value(value: iap),
       ],
       child: MaterialApp(
         title: '',

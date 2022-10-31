@@ -1,6 +1,10 @@
+import 'package:accounting/provider/iap.dart';
 import 'package:accounting/res/constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'dart:io' show Platform;
+
+import 'package:provider/provider.dart';
 
 class AppOpenAdManager {
   String adUnitId = Constants.testingMode ? Constants.testBackAdId : Constants.backAdId;
@@ -41,6 +45,8 @@ class AppOpenAdManager {
   }
 
   void showAdIfAvailable() {
+
+
     if (!isAdAvailable) {
       print('Tried to show ad before available.');
       loadAd();
@@ -88,18 +94,19 @@ class AppLifecycleReactor {
 
   AppLifecycleReactor({required this.appOpenAdManager});
 
-  void listenToAppStateChanges() {
+  void listenToAppStateChanges(BuildContext context) {
     AppStateEventNotifier.startListening();
-    AppStateEventNotifier.appStateStream.forEach((state) => _onAppStateChanged(state));
+    AppStateEventNotifier.appStateStream.forEach((state) => _onAppStateChanged(context,state));
   }
 
-  void _onAppStateChanged(AppState appState) {
+  void _onAppStateChanged(BuildContext context,AppState appState) {
     // Try to show an app open ad if the app is being resumed and
     // we're not already showing an app open ad.
-    print(123);
-    print(appState);
+    var iap = Provider.of<IAP>(context);
+    if(iap.isSubscription == true){
+      return;
+    }
     if (appState == AppState.foreground) {
-      print(321);
       appOpenAdManager.showAdIfAvailable();
     }
   }

@@ -120,6 +120,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please choose a time"),
         "recommendation":
             MessageLookupByLibrary.simpleMessage("Suggestions for improvement"),
+        "removeAd": MessageLookupByLibrary.simpleMessage("Remove Ad"),
+        "removeAdInfo": MessageLookupByLibrary.simpleMessage(
+            "We hope that a certain level of advertising can be placed without affecting the normal use of the APP to maintain basic income. If you feel that advertising is annoying, you can choose to buy a plan to remove advertising. At the same time, It is also our support. If you still feel that you have unreasonable or other suggestions, please use \"feedback\"report."),
         "repeat": MessageLookupByLibrary.simpleMessage("Repeat"),
         "sat": MessageLookupByLibrary.simpleMessage("Sat"),
         "saturday": MessageLookupByLibrary.simpleMessage("Saturday"),
@@ -141,6 +144,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Money doesn’t grow on trees."),
         "start": MessageLookupByLibrary.simpleMessage("start"),
         "startExport": MessageLookupByLibrary.simpleMessage("Start Export"),
+        "subscribing": MessageLookupByLibrary.simpleMessage("Subscribing"),
+        "subscription": MessageLookupByLibrary.simpleMessage("Subscribe"),
         "sun": MessageLookupByLibrary.simpleMessage("Sun"),
         "sunday": MessageLookupByLibrary.simpleMessage("Sunday"),
         "tag": MessageLookupByLibrary.simpleMessage("Tag"),

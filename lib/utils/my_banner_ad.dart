@@ -1,6 +1,8 @@
+import 'package:accounting/provider/iap.dart';
 import 'package:accounting/res/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:provider/provider.dart';
 
 class AdBanner extends StatefulWidget {
   final bool large;
@@ -30,10 +32,10 @@ class _AdBannerState extends State<AdBanner> {
 
   @override
   Widget build(BuildContext context) {
-    // var iap = Provider.of<IAP>(context);
-    // if(iap.isSubscription == true){
-    //   return const SizedBox();
-    // }
+    var iap = Provider.of<IAP>(context);
+    if(iap.isSubscription == true){
+      return const SizedBox();
+    }
 
     if (myBanner == null) {
       return const SizedBox(
@@ -49,6 +51,10 @@ class _AdBannerState extends State<AdBanner> {
   }
 
   Future<void> _loadAd() async {
+    var iap = Provider.of<IAP>(context);
+    if(iap.isSubscription == true){
+      return;
+    }
 
     if (widget.large) {
       myBanner = BannerAd(
