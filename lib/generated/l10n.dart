@@ -1309,6 +1309,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Your cloud data will be overwritten and cannot be recovered. Do you want to continue?`
+  String get backupInfo {
+    return Intl.message(
+      'Your cloud data will be overwritten and cannot be recovered. Do you want to continue?',
+      name: 'backupInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload successful`
+  String get uploadSuccess {
+    return Intl.message(
+      'Upload successful',
+      name: 'uploadSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Download successful`
+  String get downloadSuccess {
+    return Intl.message(
+      'Download successful',
+      name: 'downloadSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred`
+  String get error {
+    return Intl.message(
+      'An error occurred',
+      name: 'error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report`
+  String get report {
+    return Intl.message(
+      'Report',
+      name: 'report',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

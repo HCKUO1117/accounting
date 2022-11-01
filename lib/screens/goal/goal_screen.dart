@@ -245,7 +245,9 @@ class _GoalScreenState extends State<GoalScreen> with TickerProviderStateMixin {
                   ),
                 ),
                 Expanded(
-                  child: ListView.separated(
+                  child: provider.fixedIncomeList.isEmpty ?
+                      Center(child: Text(S.of(context).noRecord,style: const TextStyle(color: Colors.orange),),)
+                      :ListView.separated(
                     padding: const EdgeInsets.all(8),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {

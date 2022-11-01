@@ -32,9 +32,9 @@ class _RemoveAdPageState extends State<RemoveAdPage> {
               ),
             ),
             const Divider(),
-            if(iap.isSubscription ?? false)
+            if(true)
               Center(
-                child: Text(S.of(context).subscribing),
+                child: Text(S.of(context).subscribing,style: const TextStyle(color: Colors.orange),),
               )else
             for (var element in iap.products) ...[
               Row(

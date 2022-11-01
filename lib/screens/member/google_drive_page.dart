@@ -3,6 +3,7 @@ import 'package:accounting/provider/google_drive_provider.dart';
 import 'package:accounting/screens/widget/google_sign_in_button.dart';
 import 'package:accounting/utils/my_banner_ad.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -75,60 +76,183 @@ class _GoogleDrivePageState extends State<GoogleDrivePage> {
                       Row(
                         children: [
                           Expanded(
-                            child: ElevatedButton(
-                              style: ButtonStyle(elevation: MaterialStateProperty.all(0)),
-                              onPressed: provider.googleSignInAccount != null
-                                  ? () {
-                                      provider.uploadFile(context);
-                                    }
-                                  : null,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(Icons.cloud_upload_outlined),
-                                  const SizedBox(width: 8),
-                                  Text(S.of(context).backup),
-                                ],
-                              ),
+                            child: Builder(
+                              builder: (c) {
+                                return ElevatedButton(
+                                  style: ButtonStyle(elevation: MaterialStateProperty.all(0)),
+                                  onPressed: provider.googleSignInAccount != null
+                                      ? () async {
+                                          bool? success = await showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              content: Text(S.of(context).backupInfo),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text(S.of(context).cancel),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context, true);
+                                                  },
+                                                  child: Text(S.of(context).ok),
+                                                )
+                                              ],
+                                            ),
+                                          );
+                                          if (success ?? false) {
+                                            if (!mounted) return;
+                                            await provider.uploadFile(
+                                              context,
+                                              onSuccess: () {
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(S.of(context).uploadSuccess),
+                                                    behavior: SnackBarBehavior.floating,
+                                                  ),
+                                                );
+                                              },
+                                              onError: (e) {
+                                                showDialog(
+                                                  context: c,
+                                                  builder: (context) => AlertDialog(
+                                                    content: Text('${S.of(context).error}\n$e'),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () async {
+                                                          final Email email = Email(
+                                                            body: e,
+                                                            subject:
+                                                                'Accounting ${S.of(context).errorReport}',
+                                                            recipients: [
+                                                              'bad.tech.service@gmail.com'
+                                                            ],
+                                                            cc: [],
+                                                            bcc: [],
+                                                            attachmentPaths: [],
+                                                            isHTML: false,
+                                                          );
+                                                          await FlutterEmailSender.send(email);
+                                                          Navigator.pop(context);
+                                                        },
+                                                        child: Text(S.of(context).report),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () async {
+                                                          Navigator.pop(context);
+                                                        },
+                                                        child: Text(S.of(context).ok),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          }
+                                        }
+                                      : null,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(Icons.cloud_upload_outlined),
+                                      const SizedBox(width: 8),
+                                      Text(S.of(context).backup),
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
                           ),
                           const SizedBox(width: 8),
                           Expanded(
-                            child: ElevatedButton(
-                              style: ButtonStyle(elevation: MaterialStateProperty.all(0)),
-                              onPressed: provider.googleSignInAccount != null && provider.id != null
-                                  ? () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                          content: Text(S.of(context).overwriteInfo),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text(S.of(context).cancel),
+                            child: Builder(
+                              builder: (c) {
+                                return ElevatedButton(
+                                  style: ButtonStyle(elevation: MaterialStateProperty.all(0)),
+                                  onPressed: provider.googleSignInAccount != null &&
+                                          provider.id != null
+                                      ? () async {
+                                          bool? success = await showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              content: Text(S.of(context).overwriteInfo),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text(S.of(context).cancel),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context, true);
+                                                  },
+                                                  child: Text(S.of(context).ok),
+                                                )
+                                              ],
                                             ),
-                                            TextButton(
-                                              onPressed: () {
-                                                provider.downloadGoogleDriveFile();
-                                                Navigator.pop(context);
+                                          );
+                                          if (success ?? false) {
+                                            provider.downloadGoogleDriveFile(
+                                              onSuccess: () {
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(S.of(context).downloadSuccess),
+                                                    behavior: SnackBarBehavior.floating,
+                                                  ),
+                                                );
                                               },
-                                              child: Text(S.of(context).ok),
-                                            )
-                                          ],
-                                        ),
-                                      );
-                                    }
-                                  : null,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(Icons.cloud_download_outlined),
-                                  const SizedBox(width: 8),
-                                  Text(S.of(context).download),
-                                ],
-                              ),
+                                              onError: (e) {
+                                                showDialog(
+                                                  context: c,
+                                                  builder: (context) => AlertDialog(
+                                                    content: Text('${S.of(context).error}\n$e'),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () async {
+                                                          final Email email = Email(
+                                                            body: e,
+                                                            subject:
+                                                                'Accounting ${S.of(context).errorReport}',
+                                                            recipients: [
+                                                              'bad.tech.service@gmail.com'
+                                                            ],
+                                                            cc: [],
+                                                            bcc: [],
+                                                            attachmentPaths: [],
+                                                            isHTML: false,
+                                                          );
+                                                          await FlutterEmailSender.send(email);
+                                                          Navigator.pop(context);
+                                                        },
+                                                        child: Text(S.of(context).report),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () async {
+                                                          Navigator.pop(context);
+                                                        },
+                                                        child: Text(S.of(context).ok),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          }
+                                        }
+                                      : null,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(Icons.cloud_download_outlined),
+                                      const SizedBox(width: 8),
+                                      Text(S.of(context).download),
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ],
@@ -164,7 +288,6 @@ class _GoogleDrivePageState extends State<GoogleDrivePage> {
                         child: CircularProgressIndicator(),
                       ),
                     ),
-
                 ],
               ),
             ),

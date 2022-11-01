@@ -124,5 +124,10 @@
   "removeAd": "移除廣告",
   "removeAdInfo": "我們希望可以在不影響APP正常使用的狀態下進行一定程度的廣告投放，用以維持基本的收益。若您覺得廣告令人厭煩，您可以選擇購買去除廣告的方案，這同時也是對我們的支持，若您仍覺得有不合理或其他建議，歡迎使用\"意見回饋\"反映。",
   "subscription": "訂閱",
-  "subscribing": "訂閱中"
+  "subscribing": "訂閱中",
+  "backupInfo": "您的雲端資料將會被覆蓋且無法復原，是否要繼續?",
+  "uploadSuccess": "上傳成功",
+  "downloadSuccess": "下載成功",
+  "error": "發生錯誤",
+  "report": "回報"
 }

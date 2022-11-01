@@ -29,6 +29,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "amountFormatError":
             MessageLookupByLibrary.simpleMessage("Amount format error"),
         "backup": MessageLookupByLibrary.simpleMessage("Backup"),
+        "backupInfo": MessageLookupByLibrary.simpleMessage(
+            "Your cloud data will be overwritten and cannot be recovered. Do you want to continue?"),
         "backupTime": MessageLookupByLibrary.simpleMessage("Backup Time"),
         "balance": MessageLookupByLibrary.simpleMessage("balance"),
         "before": MessageLookupByLibrary.simpleMessage("before"),
@@ -51,6 +53,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "deleteCheck":
             MessageLookupByLibrary.simpleMessage("Do you want to delete?"),
         "download": MessageLookupByLibrary.simpleMessage("download"),
+        "downloadSuccess":
+            MessageLookupByLibrary.simpleMessage("Download successful"),
         "eachDay": MessageLookupByLibrary.simpleMessage("Everyday"),
         "eachMonth": MessageLookupByLibrary.simpleMessage("each month"),
         "eachYear": MessageLookupByLibrary.simpleMessage("Every Year"),
@@ -59,6 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "endBeforeStart": MessageLookupByLibrary.simpleMessage(
             "End time must not be earlier than start time"),
         "enter": MessageLookupByLibrary.simpleMessage("Please enter..."),
+        "error": MessageLookupByLibrary.simpleMessage("An error occurred"),
         "errorFormat": MessageLookupByLibrary.simpleMessage("Format error"),
         "errorReport": MessageLookupByLibrary.simpleMessage("Error report"),
         "expand": MessageLookupByLibrary.simpleMessage("Expand"),
@@ -124,6 +129,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "removeAdInfo": MessageLookupByLibrary.simpleMessage(
             "We hope that a certain level of advertising can be placed without affecting the normal use of the APP to maintain basic income. If you feel that advertising is annoying, you can choose to buy a plan to remove advertising. At the same time, It is also our support. If you still feel that you have unreasonable or other suggestions, please use \"feedback\"report."),
         "repeat": MessageLookupByLibrary.simpleMessage("Repeat"),
+        "report": MessageLookupByLibrary.simpleMessage("Report"),
         "sat": MessageLookupByLibrary.simpleMessage("Sat"),
         "saturday": MessageLookupByLibrary.simpleMessage("Saturday"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
@@ -166,6 +172,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "typeEmpty":
             MessageLookupByLibrary.simpleMessage("Please enter the type"),
         "unCategory": MessageLookupByLibrary.simpleMessage("Uncategory"),
+        "uploadSuccess":
+            MessageLookupByLibrary.simpleMessage("Upload successful"),
         "usageProblem": MessageLookupByLibrary.simpleMessage("Usage Problem"),
         "wed": MessageLookupByLibrary.simpleMessage("Wed"),
         "wednesday": MessageLookupByLibrary.simpleMessage("Wednesday"),

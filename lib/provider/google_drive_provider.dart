@@ -148,46 +148,55 @@ class GoogleDriveProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> uploadFile(BuildContext context) async {
+  Future<void> uploadFile(
+    BuildContext context, {
+    required VoidCallback onSuccess,
+    required Function(String) onError,
+  }) async {
     loading = true;
     notifyListeners();
     if (googleSignInAccount != null) {
-      final authHeaders = await googleSignInAccount!.authHeaders;
-      final authenticateClient = GoogleAuthClient(
-        authHeaders,
-      );
-      final driveApi = drive.DriveApi(authenticateClient);
-
-      Map<String, dynamic> dataMap = await changeDBtoString();
-
-      String content = jsonEncode(dataMap);
-      final Stream<List<int>> mediaStream =
-          Future.value(utf8.encode(content)).asStream().asBroadcastStream();
-
-      var media = drive.Media(mediaStream, utf8.encode(content).length);
-      var driveFile = drive.File();
-      driveFile.name = "accountingData.act";
-      driveFile.createdTime = DateTime.now();
-
-      if (id == null) {
-        drive.File result = await driveApi.files.create(
-          driveFile,
-          uploadMedia: media,
-          $fields: 'createdTime,id,name',
+      try {
+        final authHeaders = await googleSignInAccount!.authHeaders;
+        final authenticateClient = GoogleAuthClient(
+          authHeaders,
         );
-        id = result.id;
-        lastSaveTime = result.createdTime!.toLocal();
-      } else {
-        drive.File result = await driveApi.files.create(
-          driveFile,
-          uploadMedia: media,
-          $fields: 'createdTime,id,name',
-        );
+        final driveApi = drive.DriveApi(authenticateClient);
 
-        await driveApi.files.delete(id!);
+        Map<String, dynamic> dataMap = await changeDBtoString();
 
-        id = result.id;
-        lastSaveTime = result.createdTime!.toLocal();
+        String content = jsonEncode(dataMap);
+        final Stream<List<int>> mediaStream =
+            Future.value(utf8.encode(content)).asStream().asBroadcastStream();
+
+        var media = drive.Media(mediaStream, utf8.encode(content).length);
+        var driveFile = drive.File();
+        driveFile.name = "accountingData.act";
+        driveFile.createdTime = DateTime.now();
+
+        if (id == null) {
+          drive.File result = await driveApi.files.create(
+            driveFile,
+            uploadMedia: media,
+            $fields: 'createdTime,id,name',
+          );
+          id = result.id;
+          lastSaveTime = result.createdTime!.toLocal();
+        } else {
+          drive.File result = await driveApi.files.create(
+            driveFile,
+            uploadMedia: media,
+            $fields: 'createdTime,id,name',
+          );
+
+          await driveApi.files.delete(id!);
+
+          id = result.id;
+          lastSaveTime = result.createdTime!.toLocal();
+        }
+        onSuccess.call();
+      } catch (e) {
+        onError.call(e.toString());
       }
     }
 
@@ -197,67 +206,77 @@ class GoogleDriveProvider with ChangeNotifier {
 
   String text = '';
 
-  Future<void> downloadGoogleDriveFile() async {
+  Future<void> downloadGoogleDriveFile({
+    required VoidCallback onSuccess,
+    required Function(String) onError,
+  }) async {
+
+    if (id == null) return;
     loading = true;
     notifyListeners();
-    if (id == null) return;
-    var client = GoogleAuthClient(await googleSignInAccount!.authHeaders);
-    var driveApi = drive.DriveApi(client);
+    try{
+      var client = GoogleAuthClient(await googleSignInAccount!.authHeaders);
+      var driveApi = drive.DriveApi(client);
 
-    drive.Media file = await driveApi.files
-        .get(id!, downloadOptions: drive.DownloadOptions.fullMedia) as drive.Media;
+      drive.Media file = await driveApi.files
+          .get(id!, downloadOptions: drive.DownloadOptions.fullMedia) as drive.Media;
 
-    List<int> bytes = [];
-    // print(await file.stream.length);
-    await file.stream.forEach((element) {
-      bytes.addAll(element);
-    });
-    text = const Utf8Decoder().convert(bytes);
+      List<int> bytes = [];
+      // print(await file.stream.length);
+      await file.stream.forEach((element) {
+        bytes.addAll(element);
+      });
+      text = const Utf8Decoder().convert(bytes);
 
-    jsonDecode(text);
+      jsonDecode(text);
 
-    List<AccountingModel> accountingList = [];
-    for (var element in jsonDecode(text)['accounting'] as List<dynamic>) {
-      accountingList.add(AccountingModel.fromJson(element));
-    }
+      List<AccountingModel> accountingList = [];
+      for (var element in jsonDecode(text)['accounting'] as List<dynamic>) {
+        accountingList.add(AccountingModel.fromJson(element));
+      }
 
-    List<CategoryModel> categoryList = [];
-    for (var element in jsonDecode(text)['category'] as List<dynamic>) {
-      categoryList.add(CategoryModel.fromJson(element));
-    }
+      List<CategoryModel> categoryList = [];
+      for (var element in jsonDecode(text)['category'] as List<dynamic>) {
+        categoryList.add(CategoryModel.fromJson(element));
+      }
 
-    List<FixedIncomeModel> fixIncomeList = [];
-    for (var element in jsonDecode(text)['fixIncome'] as List<dynamic>) {
-      fixIncomeList.add(FixedIncomeModel.fromJson(element));
-    }
-    List<RecordTagModel> recordTagList = [];
-    for (var element in jsonDecode(text)['recordTag'] as List<dynamic>) {
-      recordTagList.add(RecordTagModel.fromJson(element));
-    }
-    List<TagModel> tagList = [];
-    for (var element in jsonDecode(text)['tag'] as List<dynamic>) {
-      tagList.add(TagModel.fromJson(element));
-    }
+      List<FixedIncomeModel> fixIncomeList = [];
+      for (var element in jsonDecode(text)['fixIncome'] as List<dynamic>) {
+        fixIncomeList.add(FixedIncomeModel.fromJson(element));
+      }
+      List<RecordTagModel> recordTagList = [];
+      for (var element in jsonDecode(text)['recordTag'] as List<dynamic>) {
+        recordTagList.add(RecordTagModel.fromJson(element));
+      }
+      List<TagModel> tagList = [];
+      for (var element in jsonDecode(text)['tag'] as List<dynamic>) {
+        tagList.add(TagModel.fromJson(element));
+      }
 
-    await AccountingDB.deleteDatabase();
-    for (var element in accountingList) {
-      AccountingDB.insertData(element);
-    }
-    await CategoryDB.deleteDatabase();
-    for (var element in categoryList) {
-      CategoryDB.insertData(element);
-    }
-    await FixedIncomeDB.deleteDatabase();
-    for (var element in fixIncomeList) {
-      FixedIncomeDB.insertData(element);
-    }
-    await RecordTagDB.deleteDatabase();
-    for (var element in recordTagList) {
-      RecordTagDB.insertData(element);
-    }
-    await TagDB.deleteDatabase();
-    for (var element in tagList) {
-      TagDB.insertData(element);
+      await AccountingDB.deleteDatabase();
+      for (var element in accountingList) {
+        AccountingDB.insertData(element);
+      }
+      await CategoryDB.deleteDatabase();
+      for (var element in categoryList) {
+        CategoryDB.insertData(element);
+      }
+      await FixedIncomeDB.deleteDatabase();
+      for (var element in fixIncomeList) {
+        FixedIncomeDB.insertData(element);
+      }
+      await RecordTagDB.deleteDatabase();
+      for (var element in recordTagList) {
+        RecordTagDB.insertData(element);
+      }
+      await TagDB.deleteDatabase();
+      for (var element in tagList) {
+        TagDB.insertData(element);
+      }
+      onSuccess.call();
+    }catch(e){
+      print(e);
+      onError.call(e.toString());
     }
 
     loading = false;
