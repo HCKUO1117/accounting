@@ -11,6 +11,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../../provider/iap.dart';
+
 class ChartScreen extends StatefulWidget {
   const ChartScreen({Key? key}) : super(key: key);
 
@@ -18,8 +20,7 @@ class ChartScreen extends StatefulWidget {
   State<ChartScreen> createState() => _ChartScreenState();
 }
 
-class _ChartScreenState extends State<ChartScreen>
-    with TickerProviderStateMixin {
+class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -38,8 +39,8 @@ class _ChartScreenState extends State<ChartScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MainProvider>(
-      builder: (BuildContext context, MainProvider provider, _) {
+    return Consumer2<MainProvider,IAP>(
+      builder: (BuildContext context, MainProvider provider,IAP iap, _) {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -73,9 +74,9 @@ class _ChartScreenState extends State<ChartScreen>
           body: TabBarView(
             controller: _tabController,
             children: [
-              line(provider),
-              pie(provider),
-              stackColumn(provider),
+              line(provider,iap),
+              pie(provider,iap),
+              stackColumn(provider,iap),
             ],
           ),
         );
@@ -83,7 +84,7 @@ class _ChartScreenState extends State<ChartScreen>
     );
   }
 
-  Widget line(MainProvider provider) {
+  Widget line(MainProvider provider,IAP iap) {
     int r = DateTime.now().millisecondsSinceEpoch;
     if (provider.lineChartState == AppState.loading) {
       return const Center(
@@ -112,8 +113,7 @@ class _ChartScreenState extends State<ChartScreen>
                 await showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                     scrollable: true,
                     content: const LineChartSettingPage(
                       type: ChartType.line,
@@ -139,7 +139,7 @@ class _ChartScreenState extends State<ChartScreen>
           series: provider.lineChartList,
         ),
         const SizedBox(height: 16),
-        const AdBanner(large: false),
+        if(!(iap.isSubscription ?? false)) const AdBanner(large: false),
         if (provider.lineScale != 2)
           dayList(
             provider,
@@ -167,7 +167,7 @@ class _ChartScreenState extends State<ChartScreen>
     );
   }
 
-  Widget pie(MainProvider provider) {
+  Widget pie(MainProvider provider,IAP iap) {
     int r = DateTime.now().millisecondsSinceEpoch;
 
     return ListView(
@@ -192,8 +192,7 @@ class _ChartScreenState extends State<ChartScreen>
                 await showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                     scrollable: true,
                     content: const LineChartSettingPage(
                       type: ChartType.pie,
@@ -242,7 +241,7 @@ class _ChartScreenState extends State<ChartScreen>
           ],
         ),
         const SizedBox(height: 16),
-        const AdBanner(large: false),
+        if(!(iap.isSubscription ?? false)) const AdBanner(large: false),
         if (provider.pieScale != 2)
           dayList(
             provider,
@@ -270,7 +269,7 @@ class _ChartScreenState extends State<ChartScreen>
     );
   }
 
-  Widget stackColumn(MainProvider provider) {
+  Widget stackColumn(MainProvider provider,IAP iap) {
     int r = DateTime.now().millisecondsSinceEpoch;
     if (provider.lineChartState == AppState.loading) {
       return const Center(
@@ -299,8 +298,7 @@ class _ChartScreenState extends State<ChartScreen>
                 await showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                     scrollable: true,
                     content: const LineChartSettingPage(
                       type: ChartType.stack,
@@ -325,7 +323,7 @@ class _ChartScreenState extends State<ChartScreen>
             ),
             series: provider.stackChartList),
         const SizedBox(height: 16),
-        const AdBanner(large: false),
+        if(!(iap.isSubscription ?? false)) const AdBanner(large: false),
         if (provider.stackScale != 2)
           dayList(
             provider,
@@ -452,9 +450,7 @@ class _ChartScreenState extends State<ChartScreen>
                     child: Text(
                       (income + expenditure).toString(),
                       style: TextStyle(
-                        color: (income + expenditure) > 0
-                            ? Colors.blueAccent
-                            : Colors.redAccent,
+                        color: (income + expenditure) > 0 ? Colors.blueAccent : Colors.redAccent,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
@@ -554,8 +550,7 @@ class _ChartScreenState extends State<ChartScreen>
                       }
                     } else {
                       if (element.date.isAfter(start) &&
-                          element.date
-                              .isBefore(end.add(const Duration(days: 1)))) {
+                          element.date.isBefore(end.add(const Duration(days: 1)))) {
                         if (element.date.year == list[index].year &&
                             element.date.month == list[index].month) {
                           l.add(element);
@@ -642,9 +637,7 @@ class _ChartScreenState extends State<ChartScreen>
                                 child: Text(
                                   total.toString(),
                                   style: TextStyle(
-                                    color: total < 0
-                                        ? Colors.redAccent
-                                        : Colors.blueAccent,
+                                    color: total < 0 ? Colors.redAccent : Colors.blueAccent,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -681,10 +674,8 @@ class _ChartScreenState extends State<ChartScreen>
                             SizedBox(
                               width: 50,
                               child: Text(
-                                DateFormat.d()
-                                    .format(DateTime(2000, 1, dList[index])),
-                                style: const TextStyle(
-                                    color: Colors.black54, fontSize: 16),
+                                DateFormat.d().format(DateTime(2000, 1, dList[index])),
+                                style: const TextStyle(color: Colors.black54, fontSize: 16),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -715,9 +706,7 @@ class _ChartScreenState extends State<ChartScreen>
                                     child: Text(
                                       balance.toString(),
                                       style: TextStyle(
-                                        color: balance < 0
-                                            ? Colors.redAccent
-                                            : Colors.blueAccent,
+                                        color: balance < 0 ? Colors.redAccent : Colors.blueAccent,
                                         fontSize: 14,
                                       ),
                                       textAlign: TextAlign.end,
@@ -850,9 +839,7 @@ class _ChartScreenState extends State<ChartScreen>
                     child: Text(
                       (income + expenditure).toString(),
                       style: TextStyle(
-                        color: (income + expenditure) > 0
-                            ? Colors.blueAccent
-                            : Colors.redAccent,
+                        color: (income + expenditure) > 0 ? Colors.blueAccent : Colors.redAccent,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
@@ -869,9 +856,7 @@ class _ChartScreenState extends State<ChartScreen>
         Builder(
           builder: (context) {
             List<DateModel> list = [];
-            for (DateTime i = start;
-                i.year != end.year;
-                i = DateTime(i.year + 1, 1)) {
+            for (DateTime i = start; i.year != end.year; i = DateTime(i.year + 1, 1)) {
               list.insert(
                 0,
                 DateModel(
@@ -1010,9 +995,7 @@ class _ChartScreenState extends State<ChartScreen>
                                 child: Text(
                                   total.toString(),
                                   style: TextStyle(
-                                    color: total < 0
-                                        ? Colors.redAccent
-                                        : Colors.blueAccent,
+                                    color: total < 0 ? Colors.redAccent : Colors.blueAccent,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -1049,10 +1032,8 @@ class _ChartScreenState extends State<ChartScreen>
                             SizedBox(
                               width: 50,
                               child: Text(
-                                DateFormat.MMM()
-                                    .format(DateTime(2000, dList[index])),
-                                style: const TextStyle(
-                                    color: Colors.black54, fontSize: 16),
+                                DateFormat.MMM().format(DateTime(2000, dList[index])),
+                                style: const TextStyle(color: Colors.black54, fontSize: 16),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -1083,9 +1064,7 @@ class _ChartScreenState extends State<ChartScreen>
                                     child: Text(
                                       balance.toString(),
                                       style: TextStyle(
-                                        color: balance < 0
-                                            ? Colors.redAccent
-                                            : Colors.blueAccent,
+                                        color: balance < 0 ? Colors.redAccent : Colors.blueAccent,
                                         fontSize: 14,
                                       ),
                                       textAlign: TextAlign.end,

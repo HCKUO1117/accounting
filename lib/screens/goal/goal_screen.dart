@@ -1,4 +1,5 @@
 import 'package:accounting/generated/l10n.dart';
+import 'package:accounting/provider/iap.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
 import 'package:accounting/screens/goal/add_fixed_income_page.dart';
@@ -236,7 +237,8 @@ class _GoalScreenState extends State<GoalScreen> with TickerProviderStateMixin {
                           ),
                   ),
                 ),
-                const AdBanner(large: false),
+                if(!(context.read<IAP>().isSubscription ?? false))
+const AdBanner(large: false),
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: Text(

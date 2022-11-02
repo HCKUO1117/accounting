@@ -129,5 +129,9 @@
   "uploadSuccess": "Upload successful",
   "downloadSuccess": "Download successful",
   "error": "An error occurred",
-  "report": "Report"
+  "report": "Report",
+  "unSubscribe": "Unsubscribe",
+  "updateInfo": "Update Info",
+  "update": "Update",
+  "newVersion": "There is a new version"
 }

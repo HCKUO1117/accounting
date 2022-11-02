@@ -129,5 +129,9 @@
   "uploadSuccess": "上傳成功",
   "downloadSuccess": "下載成功",
   "error": "發生錯誤",
-  "report": "回報"
+  "report": "回報",
+  "unSubscribe": "取消訂閱",
+  "updateInfo": "更新資訊",
+  "update": "更新",
+  "newVersion": "有新的版本"
 }

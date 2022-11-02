@@ -1,3 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:accounting/generated/l10n.dart';
+import 'package:accounting/res/constants.dart';
 import 'package:accounting/screens/category/category_screen.dart';
 import 'package:accounting/screens/chart/chart_screen.dart';
 import 'package:accounting/screens/dashboard/add_recode_page.dart';
@@ -5,8 +10,13 @@ import 'package:accounting/screens/dashboard/dashboard_screen.dart';
 import 'package:accounting/screens/goal/add_fixed_income_page.dart';
 import 'package:accounting/screens/goal/goal_screen.dart';
 import 'package:accounting/screens/member/member_screen.dart';
+import 'package:accounting/screens/widget/yes_no_dialog.dart';
+import 'package:accounting/utils/firebase_remote_config.dart';
+import 'package:accounting/utils/preferences.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -23,6 +33,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   @override
   void initState() {
     _tabController = TabController(length: 5, vsync: this);
+    Future<void>.microtask(() async {
+      await _showAnnouncement();
+      await _checkVersion();
+      await _showUpdateInfo();
+    });
     super.initState();
   }
 
@@ -114,6 +129,117 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
           },
           //other params
         ),
+      ),
+    );
+  }
+
+  Future<void> _checkVersion() async {
+    await FirebaseRemoteConfig.instance.fetchAndActivate();
+    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final String nowVersion = packageInfo.version;
+    final String newVersion =
+    FirebaseRemoteConfig.instance.config!.getString('app_version');
+    debugPrint('currentVersion : $nowVersion');
+    debugPrint('newVersion : $newVersion');
+    final List<String> nowVersions = nowVersion.split('.');
+    final List<String> newVersions = newVersion.split('.');
+
+    if (nowVersion.isNotEmpty && newVersion.isNotEmpty) {
+      if (int.parse(newVersions[0]) > int.parse(nowVersions[0])) {
+        _showUpdateDialog(packageInfo);
+      } else {
+        if (int.parse(newVersions[1]) > int.parse(nowVersions[1])) {
+          _showUpdateDialog(packageInfo);
+        } else {
+          if (int.parse(newVersions[2]) > int.parse(nowVersions[2])) {
+            _showUpdateDialog(packageInfo);
+          }
+        }
+      }
+    }
+  }
+
+  Future<void> _showUpdateInfo() async {
+    final String previousVersion =
+    Preferences.getString(Constants.previousVersion, '0');
+    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final String nowVersion = packageInfo.version;
+    debugPrint(previousVersion);
+    if (previousVersion == '0') {
+      Preferences.setString(Constants.previousVersion, nowVersion);
+      return;
+    }
+
+    final String defaultLocale = Platform.localeName;
+    String languageCode = 'en';
+    if (defaultLocale.length > 1) {
+      String first = defaultLocale.substring(0, 2);
+      languageCode = first.toUpperCase() == 'ZH' ? 'zh':'en';
+    }
+    await FirebaseRemoteConfig.instance.fetchAndActivate();
+    final String info =
+    FirebaseRemoteConfig.instance.config!.getString('update_info_$languageCode');
+    if (nowVersion != previousVersion) {
+      Preferences.setString(Constants.previousVersion, nowVersion);
+      showDialog(
+        context: context,
+        builder: (context) => YesNoDialog(
+          title: S.of(context).updateInfo,
+          content: info,
+          confirmText: S.of(context).ok,
+        ),
+      );
+    }
+  }
+
+  void _showUpdateDialog(PackageInfo packageInfo) {
+    String url = 'market://details?id=${packageInfo.packageName}';
+    //const String iOSAppId = '';
+    if (Platform.isAndroid) {
+      url = 'market://details?id=${packageInfo.packageName}';
+    } else if (Platform.isIOS || Platform.isMacOS) {
+      //url = 'itms-apps://itunes.apple.com/tw/app/apple-store/$iOSAppId?mt=8';
+    }
+    showDialog(
+      context: context,
+      builder: (context) => YesNoDialog(
+        title: S.of(context).update,
+        content: S.of(context).newVersion,
+        onTap: () {
+          launchUrl(Uri.parse(url));
+        },
+        confirmText: S.of(context).update,
+      ),
+    );
+  }
+
+  Future<void> _showAnnouncement() async {
+    final String defaultLocale = Platform.localeName;
+    String languageCode = 'en';
+    if (defaultLocale.length > 1) {
+      String first = defaultLocale.substring(0, 2);
+      languageCode = first.toUpperCase() == 'ZH' ? 'zh':'en';
+    }
+    String param = Constants.announcementText;
+    param += languageCode;
+    await FirebaseRemoteConfig.instance.fetchAndActivate();
+    var announcement = FirebaseRemoteConfig.instance.config!.getString(param);
+    if (announcement.isEmpty) {
+      return;
+    }
+    bool show = json.decode(announcement)['show'];
+    String title = json.decode(announcement)['title'];
+    String content = json.decode(announcement)['content'];
+    print(123);
+    print(show);
+    if (!show) {
+      return;
+    }
+    showDialog(
+      context: context,
+      builder: (context) => YesNoDialog(
+        title: title,
+        content: content,
       ),
     );
   }

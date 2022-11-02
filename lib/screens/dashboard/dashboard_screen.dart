@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:accounting/generated/l10n.dart';
+import 'package:accounting/provider/iap.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
 import 'package:accounting/screens/custom_date_picker_dialog.dart';
@@ -48,8 +49,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       S.of(context).thisYear,
       S.of(context).customize,
     ];
-    return Consumer<MainProvider>(
-      builder: (BuildContext context, MainProvider provider, _) {
+    return Consumer2<MainProvider,IAP>(
+      builder: (BuildContext context, MainProvider provider,IAP iap, _) {
         if (provider.selectedValue == 5) {
           items[5] =
               '${Utils.toDateString(provider.dashBoardStartDate)}${!provider.samDay ? ' ~ ' : ''}${!provider.samDay ? Utils.toDateString(provider.dashBoardEndDate) : ''}';
@@ -253,12 +254,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     height: 50,
                                   ),
                                   const SizedBox(height: 32),
-                                  const AdBanner(large: true),
+                                  if(!(iap.isSubscription ?? false))
+                                    const AdBanner(large: true),
                                 ],
                               )
                             : Column(
                                 children: [
-                                  const AdBanner(large: false),
+                                  if(!(iap.isSubscription ?? false))
+                                    const AdBanner(large: false),
                                   const SizedBox(height: 16),
                                   ListView.separated(
                                     padding: const EdgeInsets.only(bottom: 50),

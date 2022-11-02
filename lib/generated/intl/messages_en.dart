@@ -98,6 +98,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "mon": MessageLookupByLibrary.simpleMessage("Mon"),
         "monday": MessageLookupByLibrary.simpleMessage("Monday"),
         "month": MessageLookupByLibrary.simpleMessage("month"),
+        "newVersion":
+            MessageLookupByLibrary.simpleMessage("There is a new version"),
         "noBudget": MessageLookupByLibrary.simpleMessage("No budget set"),
         "noRecord": MessageLookupByLibrary.simpleMessage("No record"),
         "noTag": MessageLookupByLibrary.simpleMessage("No Tag"),
@@ -172,6 +174,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "typeEmpty":
             MessageLookupByLibrary.simpleMessage("Please enter the type"),
         "unCategory": MessageLookupByLibrary.simpleMessage("Uncategory"),
+        "unSubscribe": MessageLookupByLibrary.simpleMessage("Unsubscribe"),
+        "update": MessageLookupByLibrary.simpleMessage("Update"),
+        "updateInfo": MessageLookupByLibrary.simpleMessage("Update Info"),
         "uploadSuccess":
             MessageLookupByLibrary.simpleMessage("Upload successful"),
         "usageProblem": MessageLookupByLibrary.simpleMessage("Usage Problem"),

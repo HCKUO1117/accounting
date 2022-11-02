@@ -1,5 +1,6 @@
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/google_drive_provider.dart';
+import 'package:accounting/provider/iap.dart';
 import 'package:accounting/screens/widget/google_sign_in_button.dart';
 import 'package:accounting/utils/my_banner_ad.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +20,8 @@ class _GoogleDrivePageState extends State<GoogleDrivePage> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => GoogleDriveProvider()..initializeFirebase(context: context),
-      child: Consumer<GoogleDriveProvider>(
-        builder: (BuildContext context, GoogleDriveProvider provider, _) {
+      child: Consumer2<GoogleDriveProvider,IAP>(
+        builder: (BuildContext context, GoogleDriveProvider provider,IAP iap, _) {
           return Container(
             color: Colors.white,
             child: Scaffold(
@@ -276,7 +277,8 @@ class _GoogleDrivePageState extends State<GoogleDrivePage> {
                       const SizedBox(height: 32),
                       Text(S.of(context).googleDriveInfo),
                       const SizedBox(height: 32),
-                      const AdBanner(large: true),
+                      if(!(iap.isSubscription ?? false))
+                        const AdBanner(large: true),
                     ],
                   ),
                   if (provider.loading)

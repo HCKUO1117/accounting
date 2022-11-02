@@ -5,6 +5,7 @@ class Constants {
   static const String hadOpen = 'hadOpen';
   static const String setIcon = 'setIcon';
   static const String goalNum = 'goalNum';
+  static const String previousVersion = 'previousVersion';
 
   static List<CategoryModel> defaultCategories = [
     CategoryModel(

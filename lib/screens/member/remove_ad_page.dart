@@ -2,6 +2,7 @@ import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/iap.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RemoveAdPage extends StatefulWidget {
   const RemoveAdPage({Key? key}) : super(key: key);
@@ -32,30 +33,51 @@ class _RemoveAdPageState extends State<RemoveAdPage> {
               ),
             ),
             const Divider(),
-            if(true)
+            if (iap.isSubscription ?? false)
               Center(
-                child: Text(S.of(context).subscribing,style: const TextStyle(color: Colors.orange),),
-              )else
-            for (var element in iap.products) ...[
-              Row(
-                children: [
-                  Expanded(child: Text('${element.price}/${S.of(context).eachMonth}')),
-                  ElevatedButton(
-                    onPressed: () {
-                      iap.subscription();
-                    },
-                    style: ButtonStyle(
-                      elevation: MaterialStateProperty.all(0),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 16),
+                    Text(
+                      S.of(context).subscribing,
+                      style: const TextStyle(color: Colors.orange),
                     ),
-                    child: Text(
-                      S.of(context).subscription,
-                      style: const TextStyle(color: Colors.white),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      style: ButtonStyle(elevation: MaterialStateProperty.all(0)),
+                      onPressed: () {
+                        launchUrl(Uri.parse('https://play.google.com/store/account/subscriptions'),
+                            mode: LaunchMode.externalApplication);
+                      },
+                      child: Text(
+                        S.of(context).unSubscribe,
+                        style: const TextStyle(color: Colors.white),
+                      ),
                     ),
-                  )
-                ],
-              ),
-              const Divider()
-            ],
+                  ],
+                ),
+              )
+            else
+              for (var element in iap.products) ...[
+                Row(
+                  children: [
+                    Expanded(child: Text('${element.price}/${S.of(context).eachMonth}')),
+                    ElevatedButton(
+                      onPressed: () {
+                        iap.subscription();
+                      },
+                      style: ButtonStyle(
+                        elevation: MaterialStateProperty.all(0),
+                      ),
+                      child: Text(
+                        S.of(context).subscription,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+                const Divider()
+              ],
           ],
         ),
       );

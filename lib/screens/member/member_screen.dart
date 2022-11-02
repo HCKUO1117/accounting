@@ -29,8 +29,8 @@ class _MemberScreenState extends State<MemberScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MainProvider>(
-      builder: (BuildContext context, MainProvider provider, _) {
+    return Consumer2<MainProvider,IAP>(
+      builder: (BuildContext context, MainProvider provider,IAP iap, _) {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -75,7 +75,7 @@ class _MemberScreenState extends State<MemberScreen> {
                 title: S.of(context).exportExcel,
                 icon: Icons.description_outlined,
                 onTap: () async {
-                  var iap = Provider.of<IAP>(context);
+                  var iap = context.read<IAP>();
                   if (iap.isSubscription != true) {
                     if (interstitialAd != null) {
                       await interstitialAd!.show();
@@ -121,7 +121,7 @@ class _MemberScreenState extends State<MemberScreen> {
               ),
               const Divider(),
               const SizedBox(height: 32),
-              const AdBanner(large: true),
+              if(!(iap.isSubscription ?? false)) const AdBanner(large: true),
             ],
           ),
         );

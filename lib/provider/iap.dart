@@ -186,8 +186,8 @@ class IAP extends ChangeNotifier {
   }
 
   void periodCheckSubscription(){
+    getPurchases();
     Timer(const Duration(seconds: 10), (){
-      getPurchases();
       periodCheckSubscription();
     });
   }

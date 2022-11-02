@@ -38,13 +38,13 @@ class _AppState extends State<App> {
 
   final List<Locale>? systemLocales = WidgetsBinding.instance.window.locales;
 
-  Future<void> setLocale(Locale value) async {
-    setState(() {
-      locale = value;
-    });
-    await Preferences.setString('languageCode', value.languageCode);
-    await Preferences.setString('countryCode', value.countryCode ?? '');
-  }
+  // Future<void> setLocale(Locale value) async {
+  //   setState(() {
+  //     locale = value;
+  //   });
+  //   await Preferences.setString('languageCode', value.languageCode);
+  //   await Preferences.setString('countryCode', value.countryCode ?? '');
+  // }
 
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
@@ -57,33 +57,39 @@ class _AppState extends State<App> {
       AppOpenAdManager appOpenAdManager = AppOpenAdManager();
       appOpenAdManager.loadAd();
       _appLifecycleReactor = AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
-      _appLifecycleReactor.listenToAppStateChanges(context);
+      _appLifecycleReactor.listenToAppStateChanges(context,iap);
       await Preferences.init();
       await CategoryDB.initDataBase();
       await AccountingDB.initDataBase();
       await TagDB.initDataBase();
-      String languageCode = Preferences.getString('languageCode', '');
-      String countryCode = Preferences.getString('countryCode', '');
-      setState(() {
-        if (languageCode.isNotEmpty) {
-          locale = Locale(languageCode, countryCode);
-        } else {
-          if (defaultLocale.length > 1) {
-            String first = defaultLocale.substring(0, 2);
-            String last = defaultLocale.substring(defaultLocale.length - 2, defaultLocale.length);
-            locale = Locale(first, last == 'TW' ? 'TW' : '');
-            Preferences.setString('languageCode', first);
-            if (last == 'TW') {
-              Preferences.setString('countryCode', last);
-            }
-          }
-          // if (defaultLocale == 'zh_Hant_TW') {
-          //   _locale = const Locale('zh','TW');
-          //   Preferences.setString('languageCode', 'zh');
-          //   Preferences.setString('countryCode', 'TW');
-          // }
-        }
-      });
+      if (defaultLocale.length > 1) {
+        String first = defaultLocale.substring(0, 2);
+        String last = defaultLocale.substring(defaultLocale.length - 2, defaultLocale.length);
+        setState(() {
+          locale = Locale(first, last == 'TW' ? 'TW' : '');
+        });
+        // Preferences.setString('languageCode', first);
+        // if (last == 'TW') {
+        //   Preferences.setString('countryCode', last);
+        // }
+      }
+      // String languageCode = Preferences.getString('languageCode', '');
+      // String countryCode = Preferences.getString('countryCode', '');
+      // setState(() {
+      //   if (languageCode.isNotEmpty) {
+      //     locale = Locale(languageCode, countryCode);
+      //   } else {
+      //     if (defaultLocale.length > 1) {
+      //       String first = defaultLocale.substring(0, 2);
+      //       String last = defaultLocale.substring(defaultLocale.length - 2, defaultLocale.length);
+      //       locale = Locale(first, last == 'TW' ? 'TW' : '');
+      //       Preferences.setString('languageCode', first);
+      //       if (last == 'TW') {
+      //         Preferences.setString('countryCode', last);
+      //       }
+      //     }
+      //   }
+      // });
       await mainProvider.setDefaultDB();
       await mainProvider.getCategoryList();
       await mainProvider.getFixedIncomeList();

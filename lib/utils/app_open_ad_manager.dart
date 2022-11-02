@@ -94,15 +94,14 @@ class AppLifecycleReactor {
 
   AppLifecycleReactor({required this.appOpenAdManager});
 
-  void listenToAppStateChanges(BuildContext context) {
+  void listenToAppStateChanges(BuildContext context,IAP iap) {
     AppStateEventNotifier.startListening();
-    AppStateEventNotifier.appStateStream.forEach((state) => _onAppStateChanged(context,state));
+    AppStateEventNotifier.appStateStream.forEach((state) => _onAppStateChanged(context,state,iap));
   }
 
-  void _onAppStateChanged(BuildContext context,AppState appState) {
+  void _onAppStateChanged(BuildContext context,AppState appState,IAP iap) {
     // Try to show an app open ad if the app is being resumed and
     // we're not already showing an app open ad.
-    var iap = Provider.of<IAP>(context);
     if(iap.isSubscription == true){
       return;
     }

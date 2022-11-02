@@ -1,6 +1,7 @@
 import 'package:accounting/db/accounting_model.dart';
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/models/date_model.dart';
+import 'package:accounting/provider/iap.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
 import 'package:accounting/screens/dashboard/filter_page.dart';
@@ -337,7 +338,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
           ),
           const Divider(),
           const SizedBox(height: 16),
-          const AdBanner(large: false),
+          if(!(context.read<IAP>().isSubscription ?? false))
+const AdBanner(large: false),
           provider.currentAccountingList.isEmpty
               ? Column(
                   children: [
@@ -543,7 +545,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
             ),
           ),
           const SizedBox(height: 16),
-          const AdBanner(large: false),
+          if(!(context.read<IAP>().isSubscription ?? false))
+const AdBanner(large: false),
           const SizedBox(height: 16),
           Row(
             children: [
@@ -997,7 +1000,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
             ),
           ),
           const SizedBox(height: 16),
-          const AdBanner(large: false),
+          if(!(context.read<IAP>().isSubscription ?? false))
+const AdBanner(large: false),
           const SizedBox(height: 16),
           Row(
             children: [

@@ -32,7 +32,7 @@ class _AdBannerState extends State<AdBanner> {
 
   @override
   Widget build(BuildContext context) {
-    var iap = Provider.of<IAP>(context);
+    var iap = context.read<IAP>();
     if(iap.isSubscription == true){
       return const SizedBox();
     }
@@ -51,7 +51,7 @@ class _AdBannerState extends State<AdBanner> {
   }
 
   Future<void> _loadAd() async {
-    var iap = Provider.of<IAP>(context);
+    var iap = context.read<IAP>();
     if(iap.isSubscription == true){
       return;
     }

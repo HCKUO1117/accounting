@@ -4,6 +4,7 @@ import 'package:accounting/db/record_tag_db.dart';
 import 'package:accounting/db/tag_db.dart';
 import 'package:accounting/db/tag_model.dart';
 import 'package:accounting/generated/l10n.dart';
+import 'package:accounting/provider/iap.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/screens/category/add_category_page.dart';
 import 'package:accounting/screens/category/add_tag_page.dart';
@@ -36,7 +37,7 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MainProvider>(builder: (BuildContext context, MainProvider mainProvider, _) {
+    return Consumer2<MainProvider,IAP>(builder: (BuildContext context, MainProvider mainProvider,IAP iap, _) {
       return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -65,21 +66,21 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
         body: TabBarView(
           controller: _tabController,
           children: [
-            category(mainProvider),
-            tag(mainProvider),
+            category(mainProvider,iap),
+            tag(mainProvider,iap),
           ],
         ),
       );
     });
   }
 
-  Widget category(MainProvider provider) {
+  Widget category(MainProvider provider,IAP iap) {
     return Container(
       color: Colors.orangeAccent.shade200.withOpacity(0.2),
       child: ListView(
         children: [
           const SizedBox(height: 8),
-          const AdBanner(large: false),
+          if(!(iap.isSubscription ?? false)) const AdBanner(large: false),
           const SizedBox(height: 8),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -284,13 +285,13 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
     );
   }
 
-  Widget tag(MainProvider provider) {
+  Widget tag(MainProvider provider,IAP iap) {
     return Container(
       color: Colors.orangeAccent.shade200.withOpacity(0.2),
       child: ListView(
         children: [
           const SizedBox(height: 8),
-          const AdBanner(large: false),
+          if(!(iap.isSubscription ?? false)) const AdBanner(large: false),
           const SizedBox(height: 8),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
