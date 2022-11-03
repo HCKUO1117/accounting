@@ -338,8 +338,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
           ),
           const Divider(),
           const SizedBox(height: 16),
-          if(!(context.read<IAP>().isSubscription ?? false))
-const AdBanner(large: false),
+          const AdBanner(large: false),
           provider.currentAccountingList.isEmpty
               ? Column(
                   children: [
@@ -545,8 +544,7 @@ const AdBanner(large: false),
             ),
           ),
           const SizedBox(height: 16),
-          if(!(context.read<IAP>().isSubscription ?? false))
-const AdBanner(large: false),
+          const AdBanner(large: false),
           const SizedBox(height: 16),
           Row(
             children: [
@@ -1000,8 +998,7 @@ const AdBanner(large: false),
             ),
           ),
           const SizedBox(height: 16),
-          if(!(context.read<IAP>().isSubscription ?? false))
-const AdBanner(large: false),
+          const AdBanner(large: false),
           const SizedBox(height: 16),
           Row(
             children: [

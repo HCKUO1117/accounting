@@ -12,6 +12,12 @@ class RemoveAdPage extends StatefulWidget {
 }
 
 class _RemoveAdPageState extends State<RemoveAdPage> {
+
+  @override
+  void initState() {
+    context.read<IAP>().initIAP();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Consumer<IAP>(builder: (BuildContext context, IAP iap, _) {

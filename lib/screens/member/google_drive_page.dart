@@ -277,7 +277,7 @@ class _GoogleDrivePageState extends State<GoogleDrivePage> {
                       const SizedBox(height: 32),
                       Text(S.of(context).googleDriveInfo),
                       const SizedBox(height: 32),
-                      if(!(iap.isSubscription ?? false))
+
                         const AdBanner(large: true),
                     ],
                   ),

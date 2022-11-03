@@ -39,8 +39,8 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<MainProvider,IAP>(
-      builder: (BuildContext context, MainProvider provider,IAP iap, _) {
+    return Consumer<MainProvider>(
+      builder: (BuildContext context, MainProvider provider, _) {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -74,9 +74,9 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
           body: TabBarView(
             controller: _tabController,
             children: [
-              line(provider,iap),
-              pie(provider,iap),
-              stackColumn(provider,iap),
+              line(provider),
+              pie(provider),
+              stackColumn(provider),
             ],
           ),
         );
@@ -84,7 +84,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
     );
   }
 
-  Widget line(MainProvider provider,IAP iap) {
+  Widget line(MainProvider provider) {
     int r = DateTime.now().millisecondsSinceEpoch;
     if (provider.lineChartState == AppState.loading) {
       return const Center(
@@ -139,7 +139,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
           series: provider.lineChartList,
         ),
         const SizedBox(height: 16),
-        if(!(iap.isSubscription ?? false)) const AdBanner(large: false),
+         const AdBanner(large: false),
         if (provider.lineScale != 2)
           dayList(
             provider,
@@ -167,7 +167,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
     );
   }
 
-  Widget pie(MainProvider provider,IAP iap) {
+  Widget pie(MainProvider provider) {
     int r = DateTime.now().millisecondsSinceEpoch;
 
     return ListView(
@@ -241,7 +241,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
           ],
         ),
         const SizedBox(height: 16),
-        if(!(iap.isSubscription ?? false)) const AdBanner(large: false),
+         const AdBanner(large: false),
         if (provider.pieScale != 2)
           dayList(
             provider,
@@ -269,7 +269,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
     );
   }
 
-  Widget stackColumn(MainProvider provider,IAP iap) {
+  Widget stackColumn(MainProvider provider) {
     int r = DateTime.now().millisecondsSinceEpoch;
     if (provider.lineChartState == AppState.loading) {
       return const Center(
@@ -323,7 +323,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
             ),
             series: provider.stackChartList),
         const SizedBox(height: 16),
-        if(!(iap.isSubscription ?? false)) const AdBanner(large: false),
+         const AdBanner(large: false),
         if (provider.stackScale != 2)
           dayList(
             provider,

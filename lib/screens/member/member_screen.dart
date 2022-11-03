@@ -29,8 +29,8 @@ class _MemberScreenState extends State<MemberScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<MainProvider,IAP>(
-      builder: (BuildContext context, MainProvider provider,IAP iap, _) {
+    return Consumer<MainProvider>(
+      builder: (BuildContext context, MainProvider provider, _) {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -121,7 +121,7 @@ class _MemberScreenState extends State<MemberScreen> {
               ),
               const Divider(),
               const SizedBox(height: 32),
-              if(!(iap.isSubscription ?? false)) const AdBanner(large: true),
+              const AdBanner(large: true),
             ],
           ),
         );

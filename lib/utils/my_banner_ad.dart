@@ -32,27 +32,29 @@ class _AdBannerState extends State<AdBanner> {
 
   @override
   Widget build(BuildContext context) {
-    var iap = context.read<IAP>();
-    if(iap.isSubscription == true){
-      return const SizedBox();
-    }
 
-    if (myBanner == null) {
-      return const SizedBox(
-        height: 50,
+    return Consumer(builder: (BuildContext context, IAP iap, _) {
+      if (iap.isSubscription == true) {
+        return const SizedBox();
+      }
+
+      if (myBanner == null) {
+        return const SizedBox(
+          height: 50,
+        );
+      }
+      return SizedBox(
+        height: widget.large ? 250 : 50,
+        child: Column(
+          children: [Expanded(child: AdWidget(ad: myBanner!))],
+        ),
       );
-    }
-    return SizedBox(
-      height: widget.large ? 250 : 50,
-      child: Column(
-        children: [Expanded(child: AdWidget(ad: myBanner!))],
-      ),
-    );
+    });
   }
 
   Future<void> _loadAd() async {
     var iap = context.read<IAP>();
-    if(iap.isSubscription == true){
+    if (iap.isSubscription == true) {
       return;
     }
 

@@ -49,8 +49,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       S.of(context).thisYear,
       S.of(context).customize,
     ];
-    return Consumer2<MainProvider,IAP>(
-      builder: (BuildContext context, MainProvider provider,IAP iap, _) {
+    return Consumer<MainProvider>(
+      builder: (BuildContext context, MainProvider provider, _) {
         if (provider.selectedValue == 5) {
           items[5] =
               '${Utils.toDateString(provider.dashBoardStartDate)}${!provider.samDay ? ' ~ ' : ''}${!provider.samDay ? Utils.toDateString(provider.dashBoardEndDate) : ''}';
@@ -254,14 +254,12 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     height: 50,
                                   ),
                                   const SizedBox(height: 32),
-                                  if(!(iap.isSubscription ?? false))
-                                    const AdBanner(large: true),
+                                  const AdBanner(large: true),
                                 ],
                               )
                             : Column(
                                 children: [
-                                  if(!(iap.isSubscription ?? false))
-                                    const AdBanner(large: false),
+                                  const AdBanner(large: false),
                                   const SizedBox(height: 16),
                                   ListView.separated(
                                     padding: const EdgeInsets.only(bottom: 50),
