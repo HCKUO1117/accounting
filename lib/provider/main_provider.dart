@@ -17,14 +17,10 @@ import 'package:accounting/models/states.dart';
 import 'package:accounting/res/constants.dart';
 import 'package:accounting/screens/chart/chart_screen.dart';
 import 'package:accounting/screens/chart/line_chart_setting_page.dart';
-import 'package:accounting/screens/member/export_excel_page.dart';
 import 'package:accounting/utils/preferences.dart';
 import 'package:accounting/utils/utils.dart';
-import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class MainProvider with ChangeNotifier {
@@ -396,8 +392,21 @@ class MainProvider with ChangeNotifier {
   Future<void> setDefaultDB() async {
     final hadOpen = Preferences.getBool(Constants.hadOpen, false);
     if (!hadOpen) {
-      for (var element in Constants.defaultCategories) {
-        await CategoryDB.insertData(element);
+      final String defaultLocale = Platform.localeName;
+      if (defaultLocale.startsWith('zh')) {
+        for (var element in Constants.defaultCategories) {
+          await CategoryDB.insertData(element);
+        }
+        for (var element in Constants.defaultTags) {
+          await TagDB.insertData(element);
+        }
+      } else {
+        for (var element in Constants.defaultCategoriesEn) {
+          await CategoryDB.insertData(element);
+        }
+        for (var element in Constants.defaultTagsEn) {
+          await TagDB.insertData(element);
+        }
       }
     }
     await Preferences.setBool(Constants.hadOpen, true);
@@ -1062,14 +1071,14 @@ class MainProvider with ChangeNotifier {
         if (pieFilter.contains(1))
           PieData(
             S.of(context).expenditure,
-            allEmpty ? 1 : expenditure,
+            expenditure,
             S.of(context).expenditure,
             Colors.redAccent.shade100,
           ),
         if (pieFilter.contains(0))
           PieData(
             S.of(context).income,
-            allEmpty ? 1 : income,
+            income,
             S.of(context).income,
             Colors.blueAccent.shade100,
           )

@@ -1,4 +1,5 @@
 import 'package:accounting/db/category_model.dart';
+import 'package:accounting/db/tag_model.dart';
 import 'package:flutter/material.dart';
 
 class Constants {
@@ -106,6 +107,121 @@ class Constants {
       name: '獎金',
       iconColor: Colors.deepOrangeAccent,
     ),
+  ];
+
+  static List<CategoryModel> defaultCategoriesEn = [
+    CategoryModel(
+      sort: 0,
+      type: CategoryType.expenditure,
+      icon: 'fastfood',
+      name: 'food',
+      iconColor: Colors.redAccent,
+    ),
+    CategoryModel(
+      sort: 1,
+      type: CategoryType.expenditure,
+      icon: 'shopping_bag',
+      name: 'apparel',
+      iconColor: Colors.blue,
+    ),
+    CategoryModel(
+      sort: 2,
+      type: CategoryType.expenditure,
+      icon: 'commute',
+      name: 'transportation',
+      iconColor: Colors.grey,
+    ),
+    CategoryModel(
+      sort: 3,
+      type: CategoryType.expenditure,
+      icon: 'home',
+      name: 'house',
+      iconColor: Colors.limeAccent,
+    ),
+    CategoryModel(
+      sort: 4,
+      type: CategoryType.expenditure,
+      icon: 'flight_takeoff',
+      name: 'travel',
+      iconColor: Colors.deepOrange,
+    ),
+    CategoryModel(
+      sort: 5,
+      type: CategoryType.expenditure,
+      icon: 'school',
+      name: 'education',
+      iconColor: Colors.lightBlueAccent,
+    ),
+    CategoryModel(
+      sort: 6,
+      type: CategoryType.expenditure,
+      icon: 'healing',
+      name: 'health',
+      iconColor: Colors.green,
+    ),
+    CategoryModel(
+      sort: 7,
+      type: CategoryType.expenditure,
+      icon: 'videogame_asset',
+      name: 'entertainment',
+      iconColor: Colors.purpleAccent,
+    ),
+    CategoryModel(
+      sort: 8,
+      type: CategoryType.expenditure,
+      icon: 'people',
+      name: 'social',
+      iconColor: Colors.pinkAccent,
+    ),
+    CategoryModel(
+      sort: 0,
+      type: CategoryType.income,
+      icon: 'account_balance_wallet_outlined',
+      name: 'salary',
+      iconColor: Colors.blue,
+    ),
+    CategoryModel(
+      sort: 1,
+      type: CategoryType.income,
+      icon: 'account_balance',
+      name: 'investment',
+      iconColor: Colors.amber,
+    ),
+    CategoryModel(
+      sort: 2,
+      type: CategoryType.income,
+      icon: 'family_restroom',
+      name: 'family',
+      iconColor: Colors.teal,
+    ),
+    CategoryModel(
+      sort: 3,
+      type: CategoryType.income,
+      icon: 'paid',
+      name: 'rent',
+      iconColor: Colors.cyanAccent,
+    ),
+    CategoryModel(
+      sort: 4,
+      type: CategoryType.income,
+      icon: 'emoji_events',
+      name: 'bonus',
+      iconColor: Colors.deepOrangeAccent,
+    ),
+  ];
+
+  static List<TagModel> defaultTags = [
+    TagModel(sort: 0, color: Colors.blue, name: '必要'),
+    TagModel(sort: 1, color: Colors.deepOrangeAccent, name: '非必要'),
+    TagModel(sort: 2, color: Colors.amber, name: '個人'),
+    TagModel(sort: 3, color: Colors.lightGreenAccent, name: '家人'),
+  ];
+
+  static List<TagModel> defaultTagsEn = [
+    TagModel(sort: 0, color: Colors.blue, name: 'necessary'),
+    TagModel(sort: 1, color: Colors.deepOrangeAccent, name: 'unnecessary'),
+    TagModel(sort: 2, color: Colors.amber, name: 'personal'),
+    TagModel(sort: 3, color: Colors.lightGreenAccent, name: 'family'),
   ];
 
   ///notification
