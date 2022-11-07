@@ -11,8 +11,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../../provider/iap.dart';
-
 class ChartScreen extends StatefulWidget {
   const ChartScreen({Key? key}) : super(key: key);
 
@@ -139,7 +137,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
           series: provider.lineChartList,
         ),
         const SizedBox(height: 16),
-         const AdBanner(large: false),
+        const AdBanner(large: false),
         if (provider.lineScale != 2)
           dayList(
             provider,
@@ -204,44 +202,205 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
             )
           ],
         ),
-        SfCircularChart(
-          key: Key('$r pie'),
-          legend: Legend(isVisible: true),
-          tooltipBehavior: TooltipBehavior(enable: true),
-          series: <PieSeries<PieData, String>>[
-            PieSeries<PieData, String>(
-              strokeColor: Colors.black,
-              strokeWidth: 1,
-              explode: true,
-              explodeIndex: 0,
-              animationDuration: 600,
-              dataSource: provider.pieDataList,
-              xValueMapper: (PieData data, _) => data.xData,
-              yValueMapper: (PieData data, _) => data.yData,
-              dataLabelMapper: (PieData data, _) => data.text,
-              pointColorMapper: (PieData data, _) => data.color,
-              dataLabelSettings: const DataLabelSettings(
-                isVisible: true,
-                textStyle: TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                  color: Colors.white,
-                  shadows: <Shadow>[
-                    Shadow(
-                      offset: Offset(1.0, 1.0),
-                      blurRadius: 5.0,
-                      color: Colors.black54,
+        if (provider.pieChartDataType == ChartDataType.inOut)
+          SfCircularChart(
+            key: Key('$r pie'),
+            legend: Legend(
+              isVisible: true,
+              position: LegendPosition.bottom,
+            ),
+            tooltipBehavior: TooltipBehavior(enable: true),
+            series: <PieSeries<PieData, String>>[
+              PieSeries<PieData, String>(
+                strokeColor: Colors.black,
+                strokeWidth: 1,
+                explode: true,
+                explodeIndex: 0,
+                animationDuration: 600,
+                dataSource: provider.pieDataList,
+                xValueMapper: (PieData data, _) => data.xData,
+                yValueMapper: (PieData data, _) => data.yData,
+                dataLabelMapper: (PieData data, _) => data.text,
+                pointColorMapper: (PieData data, _) => data.color,
+                dataLabelSettings: const DataLabelSettings(
+                  showZeroValue: false,
+                  isVisible: true,
+                  textStyle: TextStyle(
+                    fontFamily: 'RobotoMono',
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                    color: Colors.white,
+                    shadows: <Shadow>[
+                      Shadow(
+                        offset: Offset(1.0, 1.0),
+                        blurRadius: 5.0,
+                        color: Colors.black54,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          )
+        else
+          Row(
+            children: [
+              Expanded(
+                child: SfCircularChart(
+                  key: Key('$r pie1'),
+                  title: ChartTitle(text: S.of(context).income),
+                  legend: Legend(
+                    isVisible: true,
+                    position: LegendPosition.bottom,
+                  ),
+                  tooltipBehavior: TooltipBehavior(enable: true),
+                  series: <PieSeries<PieData, String>>[
+                    PieSeries<PieData, String>(
+                      strokeColor: Colors.black,
+                      strokeWidth: 1,
+                      explode: true,
+                      explodeIndex: 0,
+                      animationDuration: 600,
+                      dataSource: provider.inPieDataList,
+                      xValueMapper: (PieData data, _) => data.xData,
+                      yValueMapper: (PieData data, _) => data.yData,
+                      dataLabelMapper: (PieData data, _) => data.text,
+                      pointColorMapper: (PieData data, _) => data.color,
+                      dataLabelSettings: const DataLabelSettings(
+                        showZeroValue: false,
+                        isVisible: true,
+                        textStyle: TextStyle(
+                          fontFamily: 'RobotoMono',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                          color: Colors.white,
+                          shadows: <Shadow>[
+                            Shadow(
+                              offset: Offset(1.0, 1.0),
+                              blurRadius: 5.0,
+                              color: Colors.black54,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
-            ),
-          ],
-        ),
+              Expanded(
+                child: SfCircularChart(
+                  key: Key('$r pie2'),
+                  title: ChartTitle(text: S.of(context).expenditure),
+                  legend: Legend(
+                    isVisible: true,
+                    position: LegendPosition.bottom,
+                  ),
+                  tooltipBehavior: TooltipBehavior(enable: true),
+                  series: <PieSeries<PieData, String>>[
+                    PieSeries<PieData, String>(
+                      strokeColor: Colors.black,
+                      strokeWidth: 1,
+                      explode: true,
+                      explodeIndex: 0,
+                      animationDuration: 600,
+                      dataSource: provider.outPieDataList,
+                      xValueMapper: (PieData data, _) => data.xData,
+                      yValueMapper: (PieData data, _) => data.yData,
+                      dataLabelMapper: (PieData data, _) => data.text,
+                      pointColorMapper: (PieData data, _) => data.color,
+                      dataLabelSettings: const DataLabelSettings(
+                        showZeroValue: false,
+                        isVisible: true,
+                        textStyle: TextStyle(
+                          fontFamily: 'RobotoMono',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                          color: Colors.white,
+                          shadows: <Shadow>[
+                            Shadow(
+                              offset: Offset(1.0, 1.0),
+                              blurRadius: 5.0,
+                              color: Colors.black54,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        if (provider.pieChartDataType == ChartDataType.category)
+          Column(
+            children: [
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  const SizedBox(width: 16),
+                  Expanded(
+                    flex: provider.pieCurrentIncome.round(),
+                    child: Container(
+                      color: Colors.blueAccent,
+                      height: 10,
+                    ),
+                  ),
+                  Expanded(
+                    flex: provider.pieCurrentExpenditure.abs().round(),
+                    child: Container(
+                      color: Colors.redAccent,
+                      height: 10,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          color: Colors.blueAccent,
+                          height: 10,
+                          width: 10,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          '${S.of(context).income}  ${((provider.pieCurrentIncome / (provider.pieCurrentIncome + provider.pieCurrentExpenditure.abs())) * 100).toStringAsFixed(1)} %',
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          color: Colors.redAccent,
+                          height: 10,
+                          width: 10,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          '${S.of(context).expenditure}  ${((provider.pieCurrentExpenditure.abs() / (provider.pieCurrentIncome + provider.pieCurrentExpenditure.abs())) * 100).toStringAsFixed(1)} %',
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         const SizedBox(height: 16),
-         const AdBanner(large: false),
+        const AdBanner(large: false),
         if (provider.pieScale != 2)
           dayList(
             provider,
@@ -311,19 +470,20 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
           ],
         ),
         SfCartesianChart(
-            key: Key('$r stack'),
-            primaryXAxis: CategoryAxis(),
-            legend: Legend(isVisible: true, position: LegendPosition.bottom),
-            zoomPanBehavior: ZoomPanBehavior(enablePinching: true),
-            trackballBehavior: TrackballBehavior(
-              enable: true,
-              tooltipSettings: const InteractiveTooltip(enable: true),
-              tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
-              activationMode: ActivationMode.singleTap,
-            ),
-            series: provider.stackChartList),
+          key: Key('$r stack'),
+          primaryXAxis: CategoryAxis(),
+          legend: Legend(isVisible: true, position: LegendPosition.bottom),
+          zoomPanBehavior: ZoomPanBehavior(enablePinching: true),
+          trackballBehavior: TrackballBehavior(
+            enable: true,
+            tooltipSettings: const InteractiveTooltip(enable: true),
+            tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
+            activationMode: ActivationMode.singleTap,
+          ),
+          series: provider.stackChartList,
+        ),
         const SizedBox(height: 16),
-         const AdBanner(large: false),
+        const AdBanner(large: false),
         if (provider.stackScale != 2)
           dayList(
             provider,

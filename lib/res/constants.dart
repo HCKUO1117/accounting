@@ -21,7 +21,7 @@ class Constants {
       type: CategoryType.expenditure,
       icon: 'shopping_bag',
       name: '服飾',
-      iconColor: Colors.blue,
+      iconColor: Colors.blueGrey,
     ),
     CategoryModel(
       sort: 2,
@@ -122,7 +122,7 @@ class Constants {
       type: CategoryType.expenditure,
       icon: 'shopping_bag',
       name: 'apparel',
-      iconColor: Colors.blue,
+      iconColor: Colors.blueGrey,
     ),
     CategoryModel(
       sort: 2,

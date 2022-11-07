@@ -1,5 +1,6 @@
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/main_provider.dart';
+import 'package:accounting/res/icons.dart';
 import 'package:accounting/screens/custom_date_picker_dialog.dart';
 import 'package:accounting/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -99,13 +100,10 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
   Widget build(BuildContext context) {
     bool samDay = false;
     if (start != null && end != null) {
-      samDay = start!.year == end!.year &&
-          start!.month == end!.month &&
-          start!.day == end!.day;
+      samDay = start!.year == end!.year && start!.month == end!.month && start!.day == end!.day;
     }
 
-    return Consumer<MainProvider>(
-        builder: (BuildContext context, MainProvider provider, _) {
+    return Consumer<MainProvider>(builder: (BuildContext context, MainProvider provider, _) {
       return Column(
         children: [
           Text(
@@ -348,9 +346,8 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                     selected: tagFilter?.contains(-1) ?? true,
                     selectedColor: Colors.black54,
                     side: BorderSide(
-                        color: tagFilter?.contains(-1) ?? true
-                            ? Colors.transparent
-                            : Colors.black54),
+                        color:
+                            tagFilter?.contains(-1) ?? true ? Colors.transparent : Colors.black54),
                     backgroundColor: Colors.black12,
                     label: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -432,9 +429,7 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                   selected: lineFilter.contains(0),
                   selectedColor: Colors.blueAccent,
                   side: BorderSide(
-                      color: lineFilter.contains(0)
-                          ? Colors.transparent
-                          : Colors.blueAccent),
+                      color: lineFilter.contains(0) ? Colors.transparent : Colors.blueAccent),
                   backgroundColor: Colors.blueAccent.withOpacity(0.2),
                   label: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -453,9 +448,7 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                   selected: lineFilter.contains(1),
                   selectedColor: Colors.redAccent,
                   side: BorderSide(
-                      color: lineFilter.contains(1)
-                          ? Colors.transparent
-                          : Colors.redAccent),
+                      color: lineFilter.contains(1) ? Colors.transparent : Colors.redAccent),
                   backgroundColor: Colors.redAccent.withOpacity(0.2),
                   label: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -474,53 +467,125 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
           ),
         );
       case ChartDataType.category:
-        return SizedBox(
-          width: double.maxFinite,
-          child: Wrap(
-            spacing: 4,
-            children: [
-              for (final element in provider.categoryList)
-                ChoiceChip(
-                    selected: lineFilter.contains(element.id),
-                    selectedColor: element.iconColor,
-                    side: BorderSide(color: element.iconColor),
-                    backgroundColor: element.iconColor.withOpacity(0.2),
-                    label: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [Text(element.name)],
-                    ),
-                    onSelected: (v) {
-                      setState(() {
-                        if (lineFilter.contains(element.id)) {
-                          lineFilter.removeWhere((e) => e == element.id);
-                        } else {
-                          lineFilter.add(element.id!);
-                        }
-                      });
-                    }),
-              ChoiceChip(
-                  selected: lineFilter.contains(-1),
-                  selectedColor: Colors.black54,
-                  side: BorderSide(
-                      color: lineFilter.contains(-1)
-                          ? Colors.transparent
-                          : Colors.black54),
-                  backgroundColor: Colors.black12,
-                  label: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [Text(S.of(context).unCategory)],
-                  ),
-                  onSelected: (v) {
-                    setState(() {
-                      if (lineFilter.contains(-1)) {
-                        lineFilter.removeWhere((e) => e == -1);
-                      } else {
-                        lineFilter.add(-1);
-                      }
-                    });
-                  }),
-            ],
-          ),
+        return Column(
+          children: [
+            Text(
+              '${S.of(context).income} : ',
+              style: const TextStyle(
+                fontFamily: 'RobotoMono',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: double.maxFinite,
+              child: Wrap(
+                spacing: 4,
+                children: [
+                  for (final element in provider.categoryIncomeList)
+                    ChoiceChip(
+                        selected: lineFilter.contains(element.id),
+                        selectedColor: element.iconColor,
+                        side: BorderSide(color: element.iconColor),
+                        backgroundColor: element.iconColor.withOpacity(0.2),
+                        label: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(icons[element.icon]),
+                            const SizedBox(width: 8),
+                            Text(element.name)
+                          ],
+                        ),
+                        onSelected: (v) {
+                          setState(() {
+                            if (lineFilter.contains(element.id)) {
+                              lineFilter.removeWhere((e) => e == element.id);
+                            } else {
+                              lineFilter.add(element.id!);
+                            }
+                          });
+                        }),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              '${S.of(context).expenditure} : ',
+              style: const TextStyle(
+                fontFamily: 'RobotoMono',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: double.maxFinite,
+              child: Wrap(
+                spacing: 4,
+                children: [
+                  for (final element in provider.categoryExpenditureList)
+                    ChoiceChip(
+                        selected: lineFilter.contains(element.id),
+                        selectedColor: element.iconColor,
+                        side: BorderSide(color: element.iconColor),
+                        backgroundColor: element.iconColor.withOpacity(0.2),
+                        label: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(icons[element.icon]),
+                            const SizedBox(width: 8),
+                            Text(element.name)
+                          ],
+                        ),
+                        onSelected: (v) {
+                          setState(() {
+                            if (lineFilter.contains(element.id)) {
+                              lineFilter.removeWhere((e) => e == element.id);
+                            } else {
+                              lineFilter.add(element.id!);
+                            }
+                          });
+                        }),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              '${S.of(context).unCategory} : ',
+              style: const TextStyle(
+                fontFamily: 'RobotoMono',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: double.maxFinite,
+              child: Wrap(
+                spacing: 4,
+                children: [
+                  ChoiceChip(
+                      selected: lineFilter.contains(-1),
+                      selectedColor: Colors.black54,
+                      side: BorderSide(
+                          color: lineFilter.contains(-1) ? Colors.transparent : Colors.black54),
+                      backgroundColor: Colors.black12,
+                      label: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [Text(S.of(context).unCategory)],
+                      ),
+                      onSelected: (v) {
+                        setState(() {
+                          if (lineFilter.contains(-1)) {
+                            lineFilter.removeWhere((e) => e == -1);
+                          } else {
+                            lineFilter.add(-1);
+                          }
+                        });
+                      }),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
         );
       // case ChartDataType.tag:
       //   return const SizedBox();

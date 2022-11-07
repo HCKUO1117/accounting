@@ -922,6 +922,9 @@ class MainProvider with ChangeNotifier {
 
   List<PieData> pieDataList = [];
 
+  List<PieData> inPieDataList = [];
+  List<PieData> outPieDataList = [];
+
   double pieCurrentIncome = 0;
 
   double pieCurrentExpenditure = 0;
@@ -1085,6 +1088,8 @@ class MainProvider with ChangeNotifier {
       ];
     } else {
       pieDataList = [];
+      inPieDataList = [];
+      outPieDataList = [];
       for (var element in pieFilter) {
         List<AccountingModel> l = allList.where((e) => e.category == element).toList();
 
@@ -1092,6 +1097,7 @@ class MainProvider with ChangeNotifier {
         for (var element in l) {
           amount += element.amount;
         }
+
         if (categoryList.indexWhere((e) => e.id == element) != -1) {
           CategoryModel model = categoryList.firstWhere((e) => e.id == element);
           pieDataList.add(PieData(
@@ -1100,6 +1106,21 @@ class MainProvider with ChangeNotifier {
             model.name,
             model.iconColor,
           ));
+          if(model.type == CategoryType.expenditure){
+            outPieDataList.add(PieData(
+              model.name,
+              amount,
+              model.name,
+              model.iconColor,
+            ));
+          }else{
+            inPieDataList.add(PieData(
+              model.name,
+              amount,
+              model.name,
+              model.iconColor,
+            ));
+          }
         }
         if (element == -1) {
           pieDataList.add(PieData(
@@ -1108,6 +1129,21 @@ class MainProvider with ChangeNotifier {
             S.of(context).unCategory,
             Colors.grey,
           ));
+          if(amount < 0){
+            outPieDataList.add(PieData(
+              S.of(context).unCategory,
+              amount,
+              S.of(context).unCategory,
+              Colors.grey,
+            ));
+          }else{
+            inPieDataList.add(PieData(
+              S.of(context).unCategory,
+              amount,
+              S.of(context).unCategory,
+              Colors.grey,
+            ));
+          }
         }
       }
     }
