@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:accounting/generated/l10n.dart';
-import 'package:accounting/provider/iap.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
 import 'package:accounting/screens/custom_date_picker_dialog.dart';
@@ -261,39 +260,75 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 children: [
                                   const AdBanner(large: false),
                                   const SizedBox(height: 16),
-                                  ListView.separated(
-                                    padding: const EdgeInsets.only(bottom: 50),
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: provider.currentAccountingList.length,
-                                    itemBuilder: (context, index) {
-                                      return AccountingTitle(
-                                        onTap: () {
-                                          showModalBottomSheet(
-                                            backgroundColor: Colors.white,
-                                            shape: const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                topRight: Radius.circular(20),
-                                                topLeft: Radius.circular(20),
-                                              ),
-                                            ),
-                                            isScrollControlled: true,
-                                            context: context,
-                                            builder: (context) => Padding(
-                                              padding: EdgeInsets.only(top: widget.topPadding),
-                                              child: AddRecodePage(
+                                  Builder(
+                                    builder: (context) {
+                                      provider.currentDay = provider.dashBoardStartDate
+                                          .subtract(const Duration(days: 1));
+                                      return ListView.separated(
+                                        padding: const EdgeInsets.only(bottom: 50),
+                                        shrinkWrap: true,
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        itemCount: provider.currentAccountingList.length,
+                                        itemBuilder: (context, index) {
+                                          bool show = !Utils.checkIsSameDay(provider.currentDay,
+                                              provider.currentAccountingList[index].date);
+                                          provider.currentDay =
+                                              provider.currentAccountingList[index].date;
+                                          return Column(
+                                            children: [
+                                              if (show) ...[
+                                                const SizedBox(height: 16),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      Utils.toDateString(provider
+                                                          .currentAccountingList[index].date),
+                                                    ),
+                                                    const SizedBox(width: 8),
+                                                    Expanded(
+                                                      child: Container(
+                                                        height: 1,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 8),
+                                              ],
+                                              AccountingTitle(
+                                                showDetailTime: false,
+                                                onTap: () {
+                                                  showModalBottomSheet(
+                                                    backgroundColor: Colors.white,
+                                                    shape: const RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.only(
+                                                        topRight: Radius.circular(20),
+                                                        topLeft: Radius.circular(20),
+                                                      ),
+                                                    ),
+                                                    isScrollControlled: true,
+                                                    context: context,
+                                                    builder: (context) => Padding(
+                                                      padding:
+                                                          EdgeInsets.only(top: widget.topPadding),
+                                                      child: AddRecodePage(
+                                                        model:
+                                                            provider.currentAccountingList[index],
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
                                                 model: provider.currentAccountingList[index],
-                                              ),
-                                            ),
+                                              )
+                                            ],
                                           );
                                         },
-                                        model: provider.currentAccountingList[index],
+                                        separatorBuilder: (context, index) {
+                                          return const SizedBox(height: 4);
+                                        },
                                       );
                                     },
-                                    separatorBuilder: (context, index) {
-                                      return const SizedBox(height: 4);
-                                    },
-                                  )
+                                  ),
                                 ],
                               ),
                       ),

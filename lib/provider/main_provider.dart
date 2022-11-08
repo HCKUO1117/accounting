@@ -62,6 +62,8 @@ class MainProvider with ChangeNotifier {
   List<AccountingModel> accountingList = [];
   List<AccountingModel> currentAccountingList = [];
 
+  DateTime currentDay = DateTime.now();
+
   ///goal
   double get goalNum => double.parse(Preferences.getString(Constants.goalNum, '-1'));
 
@@ -312,34 +314,6 @@ class MainProvider with ChangeNotifier {
     setCurrentAccounting(dashBoardStartDate, dashBoardEndDate);
   }
 
-  // void setFilter(int id) {
-  //   if (dashBoardFilter == null) {
-  //     dashBoardFilter = [];
-  //     if (id != 0) {
-  //       for (var element in categoryList) {
-  //         if (element.id != id) {
-  //           dashBoardFilter!.add(element.id!);
-  //         }
-  //       }
-  //       if (id != -1) {
-  //         dashBoardFilter!.add(-1);
-  //       }
-  //     }
-  //   } else {
-  //     if (id != 0) {
-  //       if (dashBoardFilter!.contains(id)) {
-  //         dashBoardFilter!.removeWhere((element) => element == id);
-  //       } else {
-  //         dashBoardFilter!.add(id);
-  //       }
-  //     } else {
-  //       dashBoardFilter = null;
-  //     }
-  //   }
-  //   setCurrentAccounting(dashBoardStartDate, dashBoardEndDate);
-  //   notifyListeners();
-  // }
-
   void setTagFilter(int id) {
     if (dashBoardTagFilter == null) {
       dashBoardTagFilter = [];
@@ -466,6 +440,7 @@ class MainProvider with ChangeNotifier {
   }
 
   Future<void> setCurrentAccounting(DateTime start, DateTime end, {bool? notify}) async {
+    currentDay = start.subtract(const Duration(days: 1));
     final List<AccountingModel> list = await AccountingDB.displayAllData();
     end = end.add(
       const Duration(days: 1),
@@ -596,6 +571,7 @@ class MainProvider with ChangeNotifier {
 
   ///chart page
   int initTab = 0;
+
   ///line
   DateTime lineChartStart = DateTime.now().subtract(const Duration(days: 30));
   DateTime lineChartEnd = DateTime.now();
@@ -1107,14 +1083,14 @@ class MainProvider with ChangeNotifier {
             model.name,
             model.iconColor,
           ));
-          if(model.type == CategoryType.expenditure){
+          if (model.type == CategoryType.expenditure) {
             outPieDataList.add(PieData(
               model.name,
               amount,
               model.name,
               model.iconColor,
             ));
-          }else{
+          } else {
             inPieDataList.add(PieData(
               model.name,
               amount,
@@ -1130,14 +1106,14 @@ class MainProvider with ChangeNotifier {
             S.of(context).unCategory,
             Colors.grey,
           ));
-          if(amount < 0){
+          if (amount < 0) {
             outPieDataList.add(PieData(
               S.of(context).unCategory,
               amount,
               S.of(context).unCategory,
               Colors.grey,
             ));
-          }else{
+          } else {
             inPieDataList.add(PieData(
               S.of(context).unCategory,
               amount,
@@ -1429,8 +1405,8 @@ class MainProvider with ChangeNotifier {
 
   bool get listSamDay =>
       stackChartStart.year == stackChartEnd.year &&
-          stackChartStart.month == stackChartEnd.month &&
-          stackChartStart.day == stackChartEnd.day;
+      stackChartStart.month == stackChartEnd.month &&
+      stackChartStart.day == stackChartEnd.day;
 
   int listScale = 0;
 
@@ -1457,7 +1433,7 @@ class MainProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> drawListChart()async {
+  Future<void> drawListChart() async {
     listChartState = AppState.loading;
     notifyListeners();
 
@@ -1520,7 +1496,7 @@ class MainProvider with ChangeNotifier {
         }
       }
       allList = list;
-    }else{
+    } else {
       allList = tempList;
     }
 

@@ -53,10 +53,9 @@ class GoogleDriveProvider with ChangeNotifier {
   }
 
   Future<void> getFileData() async {
-    var client = GoogleAuthClient(await googleSignInAccount!.authHeaders);
-    var driveApi = drive.DriveApi(client);
-
     try {
+      var client = GoogleAuthClient(await googleSignInAccount!.authHeaders);
+      var driveApi = drive.DriveApi(client);
       drive.FileList list = await driveApi.files.list($fields: 'files(createdTime,id,name)');
 
       if (list.files == null || list.files!.isEmpty) {
@@ -69,7 +68,6 @@ class GoogleDriveProvider with ChangeNotifier {
 
         return;
       }
-      print(list.files?.length);
 
       drive.File file = list.files!.firstWhere((element) => element.name == 'accountingData.act');
       id = file.id!;
@@ -210,11 +208,10 @@ class GoogleDriveProvider with ChangeNotifier {
     required VoidCallback onSuccess,
     required Function(String) onError,
   }) async {
-
     if (id == null) return;
     loading = true;
     notifyListeners();
-    try{
+    try {
       var client = GoogleAuthClient(await googleSignInAccount!.authHeaders);
       var driveApi = drive.DriveApi(client);
 
@@ -274,7 +271,7 @@ class GoogleDriveProvider with ChangeNotifier {
         TagDB.insertData(element);
       }
       onSuccess.call();
-    }catch(e){
+    } catch (e) {
       print(e);
       onError.call(e.toString());
     }

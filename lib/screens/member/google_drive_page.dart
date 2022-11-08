@@ -1,6 +1,7 @@
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/google_drive_provider.dart';
 import 'package:accounting/provider/iap.dart';
+import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/screens/widget/google_sign_in_button.dart';
 import 'package:accounting/utils/my_banner_ad.dart';
 import 'package:flutter/material.dart';
@@ -197,13 +198,15 @@ class _GoogleDrivePageState extends State<GoogleDrivePage> {
                                           );
                                           if (success ?? false) {
                                             provider.downloadGoogleDriveFile(
-                                              onSuccess: () {
+                                              onSuccess: () async {
                                                 ScaffoldMessenger.of(context).showSnackBar(
                                                   SnackBar(
                                                     content: Text(S.of(context).downloadSuccess),
                                                     behavior: SnackBarBehavior.floating,
                                                   ),
                                                 );
+                                                await context.read<MainProvider>().getFixedIncomeList();
+                                                context.read<MainProvider>().insertAccounting();
                                               },
                                               onError: (e) {
                                                 showDialog(

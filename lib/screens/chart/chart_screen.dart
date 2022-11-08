@@ -191,6 +191,8 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
         ),
 
         const SizedBox(height: 16),
+        const AdBanner(large: false),
+        const SizedBox(height: 16),
 
         ///expenditure
         Padding(

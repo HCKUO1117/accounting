@@ -185,6 +185,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
   }
 
   Widget day(MainProvider provider) {
+    provider.currentDay = provider.dashBoardStartDate
+        .subtract(const Duration(days: 1));
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -367,27 +369,55 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: provider.currentAccountingList.length,
                   itemBuilder: (context, index) {
-                    return AccountingTitle(
-                      onTap: () {
-                        showModalBottomSheet(
-                          backgroundColor: Colors.white,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              topLeft: Radius.circular(20),
-                            ),
+                    bool show = !Utils.checkIsSameDay(provider.currentDay,
+                        provider.currentAccountingList[index].date);
+                    provider.currentDay =
+                        provider.currentAccountingList[index].date;
+                    return Column(
+                      children: [
+                        if (show) ...[
+                          const SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Text(
+                                Utils.toDateString(provider
+                                    .currentAccountingList[index].date),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Container(
+                                  height: 1,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
                           ),
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (context) => Padding(
-                            padding: EdgeInsets.only(top: widget.topPadding),
-                            child: AddRecodePage(
-                              model: provider.currentAccountingList[index],
-                            ),
-                          ),
-                        );
-                      },
-                      model: provider.currentAccountingList[index],
+                          const SizedBox(height: 8),
+                        ],
+                        AccountingTitle(
+                          showDetailTime: false,
+                          onTap: () {
+                            showModalBottomSheet(
+                              backgroundColor: Colors.white,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(20),
+                                  topLeft: Radius.circular(20),
+                                ),
+                              ),
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) => Padding(
+                                padding: EdgeInsets.only(top: widget.topPadding),
+                                child: AddRecodePage(
+                                  model: provider.currentAccountingList[index],
+                                ),
+                              ),
+                            );
+                          },
+                          model: provider.currentAccountingList[index],
+                        )
+                      ],
                     );
                   },
                   separatorBuilder: (context, index) {

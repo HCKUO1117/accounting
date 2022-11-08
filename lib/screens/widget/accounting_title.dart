@@ -10,11 +10,13 @@ import 'package:provider/provider.dart';
 class AccountingTitle extends StatelessWidget {
   final AccountingModel model;
   final VoidCallback onTap;
+  final bool showDetailTime;
 
   const AccountingTitle({
     Key? key,
     required this.model,
     required this.onTap,
+    this.showDetailTime = true,
   }) : super(key: key);
 
   @override
@@ -35,7 +37,7 @@ class AccountingTitle extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    DateFormat('yyyy/MM/dd HH:mm').format(model.date),
+                    DateFormat(showDetailTime ?'yyyy/MM/dd HH:mm' : 'HH:mm').format(model.date),
                     style: const TextStyle(color: Colors.black38),
                   ),
                 ),
