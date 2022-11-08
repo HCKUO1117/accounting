@@ -3,6 +3,7 @@ import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/models/date_model.dart';
 import 'package:accounting/models/states.dart';
 import 'package:accounting/provider/main_provider.dart';
+import 'package:accounting/res/icons.dart';
 import 'package:accounting/screens/chart/line_chart_setting_page.dart';
 import 'package:accounting/utils/my_banner_ad.dart';
 import 'package:accounting/utils/utils.dart';
@@ -23,13 +24,18 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController =
+        TabController(length: 4, vsync: this, initialIndex: context.read<MainProvider>().initTab);
+    _tabController.addListener(() {
+      context.read<MainProvider>().initTab = _tabController.index;
+    });
     Future.delayed(
       Duration.zero,
       () {
         context.read<MainProvider>().drawLineChart(context);
         context.read<MainProvider>().drawPieChart(context);
         context.read<MainProvider>().drawStackChart(context);
+        context.read<MainProvider>().drawListChart();
       },
     );
     super.initState();
@@ -50,19 +56,10 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                 fontFamily: 'RobotoMono',
               ),
             ),
-            // actions: [
-            //   IconButton(
-            //     onPressed: () {},
-            //     icon: const Icon(Icons.compare_arrows),
-            //   ),
-            //   IconButton(
-            //     onPressed: () {},
-            //     icon: const Icon(Icons.restart_alt),
-            //   ),
-            // ],
             bottom: TabBar(
               controller: _tabController,
               tabs: const [
+                Tab(icon: Icon(Icons.list)),
                 Tab(icon: Icon(Icons.show_chart)),
                 Tab(icon: Icon(Icons.pie_chart_outline_outlined)),
                 Tab(icon: Icon(Icons.stacked_bar_chart))
@@ -72,6 +69,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
           body: TabBarView(
             controller: _tabController,
             children: [
+              list(provider),
               line(provider),
               pie(provider),
               stackColumn(provider),
@@ -79,6 +77,481 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
           ),
         );
       },
+    );
+  }
+
+  Widget list(MainProvider provider) {
+    if (provider.listChartState == AppState.loading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    return ListView(
+      children: [
+        Row(
+          children: [
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      '${Utils.dateStringByType(provider.listChartStart, provider.listScale)}${!provider.listSamDay ? ' ~ ' : ''}${!provider.listSamDay ? Utils.dateStringByType(provider.listChartEnd, provider.listScale) : ''}'),
+                ],
+              ),
+            ),
+            IconButton(
+              onPressed: () async {
+                await showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    scrollable: true,
+                    content: const LineChartSettingPage(
+                      type: ChartType.list,
+                    ),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.settings_outlined),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: provider.listCurrentIncome.round(),
+                  child: Container(
+                    color: Colors.blueAccent,
+                    height: 10,
+                  ),
+                ),
+                Expanded(
+                  flex: provider.listCurrentExpenditure.abs().round(),
+                  child: Container(
+                    color: Colors.redAccent,
+                    height: 10,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(width: 16),
+            Container(
+              color: Colors.blueAccent,
+              height: 10,
+              width: 10,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '${S.of(context).income}  ${((provider.listCurrentIncome / (provider.listCurrentIncome + provider.listCurrentExpenditure.abs())) * 100).toStringAsFixed(1)} %',
+              style: const TextStyle(fontSize: 14),
+            ),
+            const Spacer(),
+            Text(
+              provider.listCurrentIncome.toString(),
+              style: const TextStyle(fontSize: 14),
+            ),
+            const SizedBox(width: 16),
+          ],
+        ),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(width: 16),
+            Container(
+              color: Colors.redAccent,
+              height: 10,
+              width: 10,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '${S.of(context).expenditure}  ${((provider.listCurrentExpenditure.abs() / (provider.listCurrentIncome + provider.listCurrentExpenditure.abs())) * 100).toStringAsFixed(1)} %',
+              style: const TextStyle(fontSize: 14),
+            ),
+            const Spacer(),
+            Text(
+              provider.listCurrentExpenditure.toString(),
+              style: const TextStyle(fontSize: 14),
+            ),
+            const SizedBox(width: 16),
+          ],
+        ),
+
+        const SizedBox(height: 16),
+
+        ///expenditure
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(
+            S.of(context).expenditure,
+            style: const TextStyle(
+              fontSize: 16,
+              fontFamily: 'RobotoMono',
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        for (var element in provider.categoryExpenditureList)
+          Builder(
+            builder: (context) {
+              List<AccountingModel> list = [];
+              double amount = 0;
+
+              for (var e in provider.listAllList) {
+                if (e.category == element.id) {
+                  list.add(e);
+                  amount += e.amount;
+                }
+              }
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: element.iconColor,
+                      ),
+                      child: Icon(
+                        icons[element.icon],
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  '${element.name}(${list.length}) ${(amount * 100 / provider.listCurrentExpenditure).abs().toStringAsFixed(1)}%',
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: 'RobotoMono',
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                amount.toString(),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: provider.listCurrentExpenditure == 0
+                                      ? 0
+                                      : (amount * 100 / provider.listCurrentExpenditure).round(),
+                                  child: Container(
+                                    color: Colors.redAccent,
+                                    height: 10,
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: provider.listCurrentExpenditure == 0
+                                      ? 1
+                                      : (100 - (amount * 100 / provider.listCurrentExpenditure))
+                                          .round(),
+                                  child: Container(
+                                    color: Colors.black12,
+                                    height: 10,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
+        Builder(builder: (context) {
+          List<AccountingModel> list = [];
+          double amount = 0;
+
+          for (var e in provider.listAllList) {
+            if (e.amount < 0 && e.category == -1) {
+              list.add(e);
+              amount += e.amount;
+            }
+          }
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: Colors.grey,
+                  ),
+                  child: const Icon(
+                    Icons.help_outline,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              '${S.of(context).unCategory}(${list.length}) ${(amount * 100 / provider.listCurrentExpenditure).abs().toStringAsFixed(1)}%',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'RobotoMono',
+                              ),
+                            ),
+                          ),
+                          Text(
+                            amount.toString(),
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: provider.listCurrentExpenditure == 0
+                                  ? 0
+                                  : (amount * 100 / provider.listCurrentExpenditure).round(),
+                              child: Container(
+                                color: Colors.redAccent,
+                                height: 10,
+                              ),
+                            ),
+                            Expanded(
+                              flex: provider.listCurrentExpenditure == 0
+                                  ? 1
+                                  : (100 - (amount * 100 / provider.listCurrentExpenditure))
+                                      .round(),
+                              child: Container(
+                                color: Colors.black12,
+                                height: 10,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        }),
+        const SizedBox(height: 16),
+
+        ///income
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(
+            S.of(context).income,
+            style: const TextStyle(
+              fontSize: 16,
+              fontFamily: 'RobotoMono',
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        for (var element in provider.categoryIncomeList)
+          Builder(
+            builder: (context) {
+              List<AccountingModel> list = [];
+              double amount = 0;
+
+              for (var e in provider.listAllList) {
+                if (e.category == element.id) {
+                  list.add(e);
+                  amount += e.amount;
+                }
+              }
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: element.iconColor,
+                      ),
+                      child: Icon(
+                        icons[element.icon],
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  '${element.name}(${list.length}) ${(amount * 100 / provider.listCurrentIncome).toStringAsFixed(1)}%',
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: 'RobotoMono',
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                amount.toString(),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: provider.listCurrentIncome == 0
+                                      ? 0
+                                      : (amount * 100 / provider.listCurrentIncome).round(),
+                                  child: Container(
+                                    color: Colors.blueAccent,
+                                    height: 10,
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: provider.listCurrentIncome == 0
+                                      ? 1
+                                      : (100 - (amount * 100 / provider.listCurrentIncome)).round(),
+                                  child: Container(
+                                    color: Colors.black12,
+                                    height: 10,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
+        Builder(builder: (context) {
+          List<AccountingModel> list = [];
+          double amount = 0;
+
+          for (var e in provider.listAllList) {
+            if (e.amount > 0 && e.category == -1) {
+              list.add(e);
+              amount += e.amount;
+            }
+          }
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: Colors.grey,
+                  ),
+                  child: const Icon(
+                    Icons.help_outline,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              '${S.of(context).unCategory}(${list.length}) ${(amount * 100 / provider.listCurrentIncome).toStringAsFixed(1)}%',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'RobotoMono',
+                              ),
+                            ),
+                          ),
+                          Text(
+                            amount.toString(),
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: provider.listCurrentIncome == 0
+                                  ? 0
+                                  : (amount * 100 / provider.listCurrentIncome).round(),
+                              child: Container(
+                                color: Colors.blueAccent,
+                                height: 10,
+                              ),
+                            ),
+                            Expanded(
+                              flex: provider.listCurrentIncome == 0
+                                  ? 1
+                                  : (100 - (amount * 100 / provider.listCurrentIncome)).round(),
+                              child: Container(
+                                color: Colors.black12,
+                                height: 10,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        }),
+        const SizedBox(height: 50),
+      ],
     );
   }
 

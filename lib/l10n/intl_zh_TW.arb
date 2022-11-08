@@ -133,5 +133,7 @@
   "unSubscribe": "取消訂閱",
   "updateInfo": "更新資訊",
   "update": "更新",
-  "newVersion": "有新的版本"
+  "newVersion": "有新的版本",
+  "more": "更多",
+  "fixedInfo": "固定收支將會在您設定的日期或時間自動加入您的帳本，您將不需再手動加入固定的收支。"
 }

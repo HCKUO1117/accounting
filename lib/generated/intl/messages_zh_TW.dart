@@ -73,6 +73,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "finishExportInfo": MessageLookupByLibrary.simpleMessage(
             "請至手機儲存空間的\"下載\"查看匯出的檔案，或點擊\"分享\"將您的檔案分享至您的群組或雲端"),
         "fixedIncome": MessageLookupByLibrary.simpleMessage("固定收支"),
+        "fixedInfo": MessageLookupByLibrary.simpleMessage(
+            "固定收支將會在您設定的日期或時間自動加入您的帳本，您將不需再手動加入固定的收支。"),
         "fri": MessageLookupByLibrary.simpleMessage("週五"),
         "friday": MessageLookupByLibrary.simpleMessage("星期五"),
         "googleDriveInfo": MessageLookupByLibrary.simpleMessage(
@@ -87,6 +89,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "mon": MessageLookupByLibrary.simpleMessage("週一"),
         "monday": MessageLookupByLibrary.simpleMessage("星期一"),
         "month": MessageLookupByLibrary.simpleMessage("月"),
+        "more": MessageLookupByLibrary.simpleMessage("更多"),
         "newVersion": MessageLookupByLibrary.simpleMessage("有新的版本"),
         "noBudget": MessageLookupByLibrary.simpleMessage("未設定預算"),
         "noRecord": MessageLookupByLibrary.simpleMessage("沒有紀錄"),

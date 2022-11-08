@@ -1399,6 +1399,26 @@ class S {
       args: [],
     );
   }
+
+  /// `More`
+  String get more {
+    return Intl.message(
+      'More',
+      name: 'more',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fixed income and expenditure will be automatically added to your ledger at the date or time you set, you will no longer need to manually add fixed income and expenditure.`
+  String get fixedInfo {
+    return Intl.message(
+      'Fixed income and expenditure will be automatically added to your ledger at the date or time you set, you will no longer need to manually add fixed income and expenditure.',
+      name: 'fixedInfo',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

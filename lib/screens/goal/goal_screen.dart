@@ -4,6 +4,7 @@ import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
 import 'package:accounting/screens/goal/add_fixed_income_page.dart';
 import 'package:accounting/screens/goal/add_goal_page.dart';
+import 'package:accounting/screens/widget/custom_dialog.dart';
 import 'package:accounting/screens/widget/fixed_income_title.dart';
 import 'package:accounting/utils/my_banner_ad.dart';
 import 'package:flutter/material.dart';
@@ -240,9 +241,36 @@ class _GoalScreenState extends State<GoalScreen> with TickerProviderStateMixin {
                 const AdBanner(large: false),
                 Padding(
                   padding: const EdgeInsets.all(16),
-                  child: Text(
-                    S.of(context).fixedIncome,
-                    style: const TextStyle(fontSize: 20, fontFamily: 'RobotoMono'),
+                  child: Row(
+                    children: [
+                      Text(
+                        S.of(context).fixedIncome,
+                        style: const TextStyle(fontSize: 20, fontFamily: 'RobotoMono'),
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () async {
+                          await showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              shape:
+                                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                              scrollable: true,
+                              content: Text(S.of(context).fixedInfo),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(S.of(context).ok),
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.help_outline),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(

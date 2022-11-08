@@ -595,6 +595,7 @@ class MainProvider with ChangeNotifier {
   }
 
   ///chart page
+  int initTab = 0;
   ///line
   DateTime lineChartStart = DateTime.now().subtract(const Duration(days: 30));
   DateTime lineChartEnd = DateTime.now();
@@ -1422,6 +1423,123 @@ class MainProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  ///Excel
+  ///list
+  DateTime listChartStart = DateTime.now().subtract(const Duration(days: 30));
+  DateTime listChartEnd = DateTime.now();
 
+  bool get listSamDay =>
+      stackChartStart.year == stackChartEnd.year &&
+          stackChartStart.month == stackChartEnd.month &&
+          stackChartStart.day == stackChartEnd.day;
+
+  int listScale = 0;
+
+  List<int>? listTagFilter;
+
+  AppState listChartState = AppState.finish;
+
+  double listCurrentIncome = 0;
+
+  double listCurrentExpenditure = 0;
+
+  List<AccountingModel> listAllList = [];
+
+  Future<void> setListChartTime({
+    required DateTime start,
+    required DateTime end,
+    required int scale,
+    required List<int>? tagFilter,
+  }) async {
+    listChartStart = start;
+    listChartEnd = end;
+    listScale = scale;
+    listTagFilter = tagFilter;
+    notifyListeners();
+  }
+
+  Future<void> drawListChart()async {
+    listChartState = AppState.loading;
+    notifyListeners();
+
+    List<AccountingModel> tempList = [];
+
+    switch (listScale) {
+      case 0:
+        for (var element in accountingList) {
+          if (listChartStart.year == listChartEnd.year &&
+              listChartStart.month == listChartEnd.month &&
+              listChartStart.day == listChartEnd.day) {
+            if (element.date.year == listChartStart.year &&
+                element.date.month == listChartStart.month &&
+                element.date.day == listChartStart.day) {
+              tempList.add(element);
+            }
+          } else {
+            if (element.date.isAfter(listChartStart) && element.date.isBefore(listChartEnd)) {
+              tempList.add(element);
+            }
+          }
+        }
+        break;
+      case 1:
+        for (var element in accountingList) {
+          if (element.date.isAfter(listChartStart) &&
+              element.date.isBefore(DateTime(listChartEnd.year, listChartEnd.month + 1))) {
+            tempList.add(element);
+          }
+        }
+        break;
+      case 2:
+        for (var element in accountingList) {
+          if (element.date.isAfter(listChartStart) &&
+              element.date.isBefore(DateTime(listChartEnd.year, 12, 31))) {
+            tempList.add(element);
+          }
+        }
+
+        break;
+    }
+
+    List<AccountingModel> allList = [];
+
+    if (listTagFilter != null) {
+      List<AccountingModel> list = [];
+      for (var element in tempList) {
+        if (element.tags.isEmpty) {
+          if (listTagFilter!.contains(-1)) {
+            list.add(element);
+          }
+        } else {
+          bool done = false;
+          for (var e in element.tags) {
+            if (listTagFilter!.contains(e) && !done) {
+              list.add(element);
+              done = true;
+            }
+          }
+        }
+      }
+      allList = list;
+    }else{
+      allList = tempList;
+    }
+
+    allList.sort((a, b) => b.date.compareTo(b.date));
+
+    listAllList = allList;
+
+    listCurrentIncome = 0;
+    listCurrentExpenditure = 0;
+
+    for (var element in allList) {
+      if (element.amount > 0) {
+        listCurrentIncome += element.amount;
+      } else {
+        listCurrentExpenditure += element.amount;
+      }
+    }
+
+    listChartState = AppState.finish;
+    notifyListeners();
+  }
 }

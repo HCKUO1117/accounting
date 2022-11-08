@@ -82,6 +82,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "finishExportInfo": MessageLookupByLibrary.simpleMessage(
             "Please go to \"Download\" in your phone\'s storage to view the exported file, or click \"Share\" to share your file to your group or cloud"),
         "fixedIncome": MessageLookupByLibrary.simpleMessage("Fixed Income"),
+        "fixedInfo": MessageLookupByLibrary.simpleMessage(
+            "Fixed income and expenditure will be automatically added to your ledger at the date or time you set, you will no longer need to manually add fixed income and expenditure."),
         "fri": MessageLookupByLibrary.simpleMessage("Fri"),
         "friday": MessageLookupByLibrary.simpleMessage("Friday"),
         "googleDriveInfo": MessageLookupByLibrary.simpleMessage(
@@ -98,6 +100,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "mon": MessageLookupByLibrary.simpleMessage("Mon"),
         "monday": MessageLookupByLibrary.simpleMessage("Monday"),
         "month": MessageLookupByLibrary.simpleMessage("month"),
+        "more": MessageLookupByLibrary.simpleMessage("More"),
         "newVersion":
             MessageLookupByLibrary.simpleMessage("There is a new version"),
         "noBudget": MessageLookupByLibrary.simpleMessage("No budget set"),

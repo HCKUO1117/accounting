@@ -8,7 +8,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-enum ChartType { line, pie, stack }
+enum ChartType {
+  line,
+  pie,
+  stack,
+  list,
+}
 
 enum ChartDataType {
   inOut,
@@ -89,6 +94,16 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
         if (context.read<MainProvider>().stackTagFilter != null) {
           tagFilter = [];
           tagFilter!.addAll(context.read<MainProvider>().stackTagFilter!);
+        }
+        break;
+      case ChartType.list:
+        start = context.read<MainProvider>().listChartStart;
+        end = context.read<MainProvider>().listChartEnd;
+        scale = context.read<MainProvider>().listScale;
+
+        if (context.read<MainProvider>().listTagFilter != null) {
+          tagFilter = [];
+          tagFilter!.addAll(context.read<MainProvider>().listTagFilter!);
         }
         break;
     }
@@ -226,92 +241,95 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
               ),
             ],
           ),
-          const Divider(),
           const SizedBox(height: 16),
-
-          Row(
-            children: [
-              Text(
-                '${S.of(context).dataType} : ',
-                style: const TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
+          const Divider(),
 
           ///data source
-          if (widget.type == ChartType.stack)
+          if (widget.type != ChartType.list) ...[
+            const SizedBox(height: 16),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  child: Text(
-                    ChartDataType.inOut.text(context),
-                    textAlign: TextAlign.center,
+                Text(
+                  '${S.of(context).dataType} : ',
+                  style: const TextStyle(
+                    fontFamily: 'RobotoMono',
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
-            )
-          else
-            Row(
-              children: [
-                Expanded(
-                  child: DropdownButton<ChartDataType>(
-                    underline: const SizedBox(),
-                    isExpanded: true,
-                    value: lineChartDataType,
-                    items: [
-                      for (final element in ChartDataType.values)
-                        DropdownMenuItem<ChartDataType>(
-                          value: element,
-                          alignment: AlignmentDirectional.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  element.text(context),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                    ],
-                    onChanged: (v) {
-                      setState(() {
-                        if (v != lineChartDataType) {
-                          lineFilter = [];
-                          switch (v!) {
-                            case ChartDataType.inOut:
-                              lineFilter = [0, 1];
-                              break;
-                            case ChartDataType.category:
-                              for (var element in provider.categoryList) {
-                                lineFilter.add(element.id!);
-                              }
-                              lineFilter.add(-1);
-                              break;
-                            // case ChartDataType.tag:
-                            //   for (var element in provider.tagList) {
-                            //     lineFilter.add(element.id!);
-                            //   }
-                            //   lineFilter.add(-1);
-                            //   break;
-                          }
-                        }
-                        lineChartDataType = v!;
-                      });
-                    },
-                  ),
-                )
-              ],
             ),
-          const SizedBox(height: 16),
-          filter(provider),
-          const Divider(),
+            if (widget.type == ChartType.stack)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      ChartDataType.inOut.text(context),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              )
+            else
+              Row(
+                children: [
+                  Expanded(
+                    child: DropdownButton<ChartDataType>(
+                      underline: const SizedBox(),
+                      isExpanded: true,
+                      value: lineChartDataType,
+                      items: [
+                        for (final element in ChartDataType.values)
+                          DropdownMenuItem<ChartDataType>(
+                            value: element,
+                            alignment: AlignmentDirectional.center,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    element.text(context),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                      ],
+                      onChanged: (v) {
+                        setState(() {
+                          if (v != lineChartDataType) {
+                            lineFilter = [];
+                            switch (v!) {
+                              case ChartDataType.inOut:
+                                lineFilter = [0, 1];
+                                break;
+                              case ChartDataType.category:
+                                for (var element in provider.categoryList) {
+                                  lineFilter.add(element.id!);
+                                }
+                                lineFilter.add(-1);
+                                break;
+                              // case ChartDataType.tag:
+                              //   for (var element in provider.tagList) {
+                              //     lineFilter.add(element.id!);
+                              //   }
+                              //   lineFilter.add(-1);
+                              //   break;
+                            }
+                          }
+                          lineChartDataType = v!;
+                        });
+                      },
+                    ),
+                  )
+                ],
+              ),
+            const SizedBox(height: 16),
+            filter(provider),
+            const Divider(),
+          ],
+
           const SizedBox(height: 16),
           Row(
             children: [
@@ -403,6 +421,15 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                   );
                   provider.drawStackChart(context);
                   break;
+                case ChartType.list:
+                  await provider.setListChartTime(
+                    start: start ?? DateTime.now(),
+                    end: end ?? DateTime.now(),
+                    scale: scale,
+                    tagFilter: tagFilter,
+                  );
+                  provider.drawListChart();
+                  break;
               }
 
               Navigator.pop(context);
@@ -470,10 +497,9 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
         return Column(
           children: [
             Text(
-              '${S.of(context).income} : ',
+              S.of(context).income,
               style: const TextStyle(
                 fontFamily: 'RobotoMono',
-                fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 8),
@@ -510,10 +536,9 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
             ),
             const SizedBox(height: 16),
             Text(
-              '${S.of(context).expenditure} : ',
+              S.of(context).expenditure,
               style: const TextStyle(
                 fontFamily: 'RobotoMono',
-                fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 8),
@@ -550,10 +575,9 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
             ),
             const SizedBox(height: 16),
             Text(
-              '${S.of(context).unCategory} : ',
+              S.of(context).unCategory,
               style: const TextStyle(
                 fontFamily: 'RobotoMono',
-                fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 8),

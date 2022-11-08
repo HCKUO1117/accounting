@@ -37,7 +37,7 @@ class _MemberScreenState extends State<MemberScreen> {
             backgroundColor: AppColors.backgroundColor,
             elevation: 0,
             title: Text(
-              S.of(context).setting,
+              S.of(context).more,
               style: const TextStyle(
                 fontFamily: 'RobotoMono',
               ),

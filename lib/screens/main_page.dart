@@ -114,7 +114,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             Icons.pie_chart_outline_outlined,
             Icons.label_outline,
             Icons.account_balance_wallet_outlined,
-            Icons.settings_outlined
+            Icons.more_outlined
           ],
           // gapWidth: _bottomNavIndex == 0 ? null : 0,
           activeColor: Colors.orange,
@@ -230,8 +230,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     bool show = json.decode(announcement)['show'];
     String title = json.decode(announcement)['title'];
     String content = json.decode(announcement)['content'];
-    print(123);
-    print(show);
     if (!show) {
       return;
     }
