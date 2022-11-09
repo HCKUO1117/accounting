@@ -3,6 +3,7 @@ import 'package:accounting/firebase_options.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 Future<void> main() async {
@@ -13,5 +14,9 @@ Future<void> main() async {
   );
   await MobileAds.instance.initialize();
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const App());
 }

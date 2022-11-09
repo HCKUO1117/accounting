@@ -248,7 +248,7 @@ class Constants {
   static const announcementText = 'announcement_';
 
   ///ad
-  static const bool testingMode = true;
+  static const bool testingMode = false;
   static const String testBannerId = 'ca-app-pub-3940256099942544/6300978111';
   static const String testInterstitialAdId = 'ca-app-pub-3940256099942544/1033173712';
   static const String testBackAdId = 'ca-app-pub-3940256099942544/3419835294';
