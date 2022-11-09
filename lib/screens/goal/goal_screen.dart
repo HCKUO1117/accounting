@@ -1,10 +1,8 @@
 import 'package:accounting/generated/l10n.dart';
-import 'package:accounting/provider/iap.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
 import 'package:accounting/screens/goal/add_fixed_income_page.dart';
 import 'package:accounting/screens/goal/add_goal_page.dart';
-import 'package:accounting/screens/widget/custom_dialog.dart';
 import 'package:accounting/screens/widget/fixed_income_title.dart';
 import 'package:accounting/utils/my_banner_ad.dart';
 import 'package:flutter/material.dart';
@@ -292,7 +290,6 @@ class _GoalScreenState extends State<GoalScreen> with TickerProviderStateMixin {
                             return FixedIncomeTitle(
                               model: provider.fixedIncomeList[index],
                               onTap: () {
-                                final double padding = MediaQuery.of(context).padding.top;
                                 showModalBottomSheet(
                                   backgroundColor: Colors.white,
                                   shape: const RoundedRectangleBorder(

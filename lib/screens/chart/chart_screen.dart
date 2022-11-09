@@ -1184,7 +1184,8 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                         }
                       }
                     } else {
-                      if (element.date.isAfter(start) &&
+                      print(start);
+                      if (!element.date.isBefore(start) &&
                           element.date.isBefore(end.add(const Duration(days: 1)))) {
                         if (element.date.year == list[index].year &&
                             element.date.month == list[index].month) {

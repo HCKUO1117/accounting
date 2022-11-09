@@ -206,7 +206,7 @@ class _GoogleDrivePageState extends State<GoogleDrivePage> {
                                                   ),
                                                 );
                                                 await context.read<MainProvider>().getFixedIncomeList();
-                                                context.read<MainProvider>().insertAccounting();
+                                                context.read<MainProvider>().checkInsertData();
                                               },
                                               onError: (e) {
                                                 showDialog(

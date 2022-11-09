@@ -1,7 +1,6 @@
 import 'package:accounting/db/accounting_model.dart';
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/models/date_model.dart';
-import 'package:accounting/provider/iap.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
 import 'package:accounting/screens/dashboard/filter_page.dart';

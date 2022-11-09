@@ -573,8 +573,10 @@ class MainProvider with ChangeNotifier {
   int initTab = 0;
 
   ///line
-  DateTime lineChartStart = DateTime.now().subtract(const Duration(days: 30));
-  DateTime lineChartEnd = DateTime.now();
+  DateTime lineChartStart = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+      .subtract(const Duration(days: 30));
+  DateTime lineChartEnd =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
 
   bool get lineSamDay =>
       lineChartStart.year == lineChartEnd.year &&
@@ -607,8 +609,8 @@ class MainProvider with ChangeNotifier {
     required List<int> filter,
     required List<int>? tagFilter,
   }) async {
-    lineChartStart = start;
-    lineChartEnd = end;
+    lineChartStart = DateTime(start.year, start.month, start.day);
+    lineChartEnd = DateTime(end.year, end.month, end.day, 23, 59, 59);
     lineChartDataType = type;
     lineScale = scale;
     lineFilter = filter;
@@ -677,13 +679,13 @@ class MainProvider with ChangeNotifier {
     lineCurrentIncome = 0;
     lineCurrentExpenditure = 0;
 
-    for (var element in allList) {
-      if (element.amount > 0) {
-        lineCurrentIncome += element.amount;
-      } else {
-        lineCurrentExpenditure += element.amount;
-      }
-    }
+    // for (var element in allList) {
+    //   if (element.amount > 0) {
+    //     lineCurrentIncome += element.amount;
+    //   } else {
+    //     lineCurrentExpenditure += element.amount;
+    //   }
+    // }
 
     if (lineChartDataType == ChartDataType.inOut) {
       int days = lineChartEnd.difference(lineChartStart).inDays + 1;
@@ -705,6 +707,8 @@ class MainProvider with ChangeNotifier {
                 expenditure += element.amount;
               }
             }
+            lineCurrentIncome += income;
+            lineCurrentExpenditure += expenditure;
             incomes.add(SalesData(d, income));
             expenditures.add(SalesData(d, expenditure.abs()));
           }
@@ -726,6 +730,8 @@ class MainProvider with ChangeNotifier {
                 expenditure += element.amount;
               }
             }
+            lineCurrentIncome += income;
+            lineCurrentExpenditure += expenditure;
             incomes.add(SalesData(i, income));
             expenditures.add(SalesData(i, expenditure.abs()));
           }
@@ -745,6 +751,8 @@ class MainProvider with ChangeNotifier {
                 expenditure += element.amount;
               }
             }
+            lineCurrentIncome += income;
+            lineCurrentExpenditure += expenditure;
             incomes.add(SalesData(i, income));
             expenditures.add(SalesData(i, expenditure.abs()));
           }
@@ -879,8 +887,10 @@ class MainProvider with ChangeNotifier {
   }
 
   ///pie
-  DateTime pieChartStart = DateTime.now().subtract(const Duration(days: 30));
-  DateTime pieChartEnd = DateTime.now();
+  DateTime pieChartStart = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+      .subtract(const Duration(days: 30));
+  DateTime pieChartEnd =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
 
   bool get pieSamDay =>
       pieChartStart.year == pieChartEnd.year &&
@@ -916,8 +926,8 @@ class MainProvider with ChangeNotifier {
     required List<int> filter,
     required List<int>? tagFilter,
   }) async {
-    pieChartStart = start;
-    pieChartEnd = end;
+    pieChartStart = DateTime(start.year, start.month, start.day);
+    pieChartEnd = DateTime(end.year, end.month, end.day, 23, 59, 59);
     pieChartDataType = type;
     pieScale = scale;
     pieFilter = filter;
@@ -944,7 +954,7 @@ class MainProvider with ChangeNotifier {
               tempList.add(element);
             }
           } else {
-            if (element.date.isAfter(pieChartStart) && element.date.isBefore(pieChartEnd)) {
+            if (!element.date.isBefore(pieChartStart) && !element.date.isAfter(pieChartEnd)) {
               tempList.add(element);
             }
           }
@@ -952,7 +962,7 @@ class MainProvider with ChangeNotifier {
         break;
       case 1:
         for (var element in accountingList) {
-          if (element.date.isAfter(pieChartStart) &&
+          if (!element.date.isBefore(pieChartStart) &&
               element.date.isBefore(DateTime(pieChartEnd.year, pieChartEnd.month + 1))) {
             tempList.add(element);
           }
@@ -960,7 +970,7 @@ class MainProvider with ChangeNotifier {
         break;
       case 2:
         for (var element in accountingList) {
-          if (element.date.isAfter(pieChartStart) &&
+          if (!element.date.isBefore(pieChartStart) &&
               element.date.isBefore(DateTime(pieChartEnd.year, 12, 31))) {
             tempList.add(element);
           }
@@ -1046,7 +1056,7 @@ class MainProvider with ChangeNotifier {
         }
       }
 
-      bool allEmpty = income == 0 && expenditure == 0;
+      // bool allEmpty = income == 0 && expenditure == 0;
       pieDataList = [
         if (pieFilter.contains(1))
           PieData(
@@ -1129,8 +1139,10 @@ class MainProvider with ChangeNotifier {
   }
 
   ///stack
-  DateTime stackChartStart = DateTime.now().subtract(const Duration(days: 30));
-  DateTime stackChartEnd = DateTime.now();
+  DateTime stackChartStart = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+      .subtract(const Duration(days: 30));
+  DateTime stackChartEnd =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
 
   bool get stackSamDay =>
       stackChartStart.year == stackChartEnd.year &&
@@ -1163,8 +1175,8 @@ class MainProvider with ChangeNotifier {
     required List<int> filter,
     required List<int>? tagFilter,
   }) async {
-    stackChartStart = start;
-    stackChartEnd = end;
+    stackChartStart = DateTime(start.year, start.month, start.day);
+    stackChartEnd = DateTime(end.year, end.month, end.day, 23, 59, 59);
     stackChartDataType = type;
     stackScale = scale;
     stackFilter = filter;
@@ -1212,13 +1224,13 @@ class MainProvider with ChangeNotifier {
     stackCurrentIncome = 0;
     stackCurrentExpenditure = 0;
 
-    for (var element in allList) {
-      if (element.amount > 0) {
-        stackCurrentIncome += element.amount;
-      } else {
-        stackCurrentExpenditure += element.amount;
-      }
-    }
+    // for (var element in allList) {
+    //   if (element.amount > 0) {
+    //     stackCurrentIncome += element.amount;
+    //   } else {
+    //     stackCurrentExpenditure += element.amount;
+    //   }
+    // }
 
     allList.sort((a, b) => b.date.compareTo(b.date));
 
@@ -1248,7 +1260,13 @@ class MainProvider with ChangeNotifier {
                 }
               }
               data.add(ChartData(Utils.dateStringByType(d, 0), amount.abs()));
+              if (amount > 0) {
+                stackCurrentIncome += amount;
+              } else {
+                stackCurrentExpenditure += amount;
+              }
             }
+
             stackChartList.add(
               StackedColumnSeries<ChartData, String>(
                 name: element.name,
@@ -1273,6 +1291,11 @@ class MainProvider with ChangeNotifier {
               }
             }
             data.add(ChartData(Utils.dateStringByType(d, 0), amount.abs()));
+            if (amount > 0) {
+              stackCurrentIncome += amount;
+            } else {
+              stackCurrentExpenditure += amount;
+            }
           }
           stackChartList.add(
             StackedColumnSeries<ChartData, String>(
@@ -1304,6 +1327,11 @@ class MainProvider with ChangeNotifier {
                 }
               }
               data.add(ChartData(Utils.dateStringByType(i, 1), amount.abs()));
+              if (amount > 0) {
+                stackCurrentIncome += amount;
+              } else {
+                stackCurrentExpenditure += amount;
+              }
             }
             stackChartList.add(
               StackedColumnSeries<ChartData, String>(
@@ -1329,6 +1357,11 @@ class MainProvider with ChangeNotifier {
               }
             }
             data.add(ChartData(Utils.dateStringByType(i, 1), amount.abs()));
+            if (amount > 0) {
+              stackCurrentIncome += amount;
+            } else {
+              stackCurrentExpenditure += amount;
+            }
           }
           stackChartList.add(
             StackedColumnSeries<ChartData, String>(
@@ -1358,6 +1391,11 @@ class MainProvider with ChangeNotifier {
                 }
               }
               data.add(ChartData(Utils.dateStringByType(i, 2), amount.abs()));
+              if (amount > 0) {
+                stackCurrentIncome += amount;
+              } else {
+                stackCurrentExpenditure += amount;
+              }
             }
             stackChartList.add(
               StackedColumnSeries<ChartData, String>(
@@ -1381,6 +1419,11 @@ class MainProvider with ChangeNotifier {
               }
             }
             data.add(ChartData(Utils.dateStringByType(i, 2), amount.abs()));
+            if (amount > 0) {
+              stackCurrentIncome += amount;
+            } else {
+              stackCurrentExpenditure += amount;
+            }
           }
           stackChartList.add(
             StackedColumnSeries<ChartData, String>(
@@ -1400,8 +1443,10 @@ class MainProvider with ChangeNotifier {
   }
 
   ///list
-  DateTime listChartStart = DateTime.now().subtract(const Duration(days: 30));
-  DateTime listChartEnd = DateTime.now();
+  DateTime listChartStart = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+      .subtract(const Duration(days: 30));
+  DateTime listChartEnd =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
 
   bool get listSamDay =>
       stackChartStart.year == stackChartEnd.year &&
@@ -1426,8 +1471,8 @@ class MainProvider with ChangeNotifier {
     required int scale,
     required List<int>? tagFilter,
   }) async {
-    listChartStart = start;
-    listChartEnd = end;
+    listChartStart = DateTime(start.year, start.month, start.day);
+    listChartEnd = DateTime(end.year, end.month, end.day, 23, 59, 59);
     listScale = scale;
     listTagFilter = tagFilter;
     notifyListeners();
@@ -1451,7 +1496,7 @@ class MainProvider with ChangeNotifier {
               tempList.add(element);
             }
           } else {
-            if (element.date.isAfter(listChartStart) && element.date.isBefore(listChartEnd)) {
+            if (!element.date.isBefore(listChartStart) && !element.date.isAfter(listChartEnd)) {
               tempList.add(element);
             }
           }
@@ -1459,7 +1504,7 @@ class MainProvider with ChangeNotifier {
         break;
       case 1:
         for (var element in accountingList) {
-          if (element.date.isAfter(listChartStart) &&
+          if (!element.date.isBefore(listChartStart) &&
               element.date.isBefore(DateTime(listChartEnd.year, listChartEnd.month + 1))) {
             tempList.add(element);
           }
@@ -1467,7 +1512,7 @@ class MainProvider with ChangeNotifier {
         break;
       case 2:
         for (var element in accountingList) {
-          if (element.date.isAfter(listChartStart) &&
+          if (!element.date.isBefore(listChartStart) &&
               element.date.isBefore(DateTime(listChartEnd.year, 12, 31))) {
             tempList.add(element);
           }
