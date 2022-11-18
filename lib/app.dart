@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:accounting/db/accounting_db.dart';
 import 'package:accounting/db/category_db.dart';
 import 'package:accounting/db/tag_db.dart';
+import 'package:accounting/provider/home_widget_provider.dart';
 import 'package:accounting/provider/iap.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
@@ -31,6 +32,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   MainProvider mainProvider = MainProvider();
   IAP iap = IAP();
+  HomeWidgetProvider homeWidgetProvider = HomeWidgetProvider();
 
   Locale? locale;
 
