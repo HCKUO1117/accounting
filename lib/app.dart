@@ -14,6 +14,7 @@ import 'package:accounting/utils/preferences.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:provider/provider.dart';
 
 import 'generated/l10n.dart';
@@ -98,6 +99,7 @@ class _AppState extends State<App> {
       mainProvider.checkInsertData();
       await iap.initIAP();
       iap.periodCheckSubscription();
+      HomeWidget.registerBackgroundCallback(backgroundCallback);
     });
 
     super.initState();
