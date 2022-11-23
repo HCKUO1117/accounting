@@ -6,6 +6,7 @@ import 'package:accounting/db/record_tag_db.dart';
 import 'package:accounting/db/record_tag_model.dart';
 import 'package:accounting/db/tag_model.dart';
 import 'package:accounting/generated/l10n.dart';
+import 'package:accounting/provider/home_widget_provider.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/screens/widget/category_title.dart';
 import 'package:accounting/screens/widget/fake_dropdown_button.dart';
@@ -526,8 +527,11 @@ class _AddRecodePageState extends State<AddRecodePage> {
                                       ],
                                     ),
                                   );
+
                                   if (delete ?? false) {
                                     if (!mounted) return;
+                                    ///更新widget
+                                    context.read<HomeWidgetProvider>().sendAndUpdate();
                                     Navigator.pop(context);
                                   }
                                 },
@@ -640,6 +644,8 @@ class _AddRecodePageState extends State<AddRecodePage> {
             behavior: SnackBarBehavior.floating,
           ),
         );
+        ///更新widget
+        context.read<HomeWidgetProvider>().sendAndUpdate();
         Navigator.pop(context);
       },
       child: Text(

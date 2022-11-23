@@ -60,7 +60,7 @@ class _AppState extends State<App> {
       AppOpenAdManager appOpenAdManager = AppOpenAdManager();
       appOpenAdManager.loadAd();
       _appLifecycleReactor = AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
-      _appLifecycleReactor.listenToAppStateChanges(context,iap);
+      _appLifecycleReactor.listenToAppStateChanges(context, iap);
       await Preferences.init();
       await CategoryDB.initDataBase();
       await AccountingDB.initDataBase();
@@ -99,7 +99,9 @@ class _AppState extends State<App> {
       mainProvider.checkInsertData();
       await iap.initIAP();
       iap.periodCheckSubscription();
-      HomeWidget.registerBackgroundCallback(backgroundCallback);
+      await HomeWidget.registerBackgroundCallback(backgroundCallback);
+      homeWidgetProvider.startBackgroundUpdate();
+      homeWidgetProvider.sendAndUpdate();
     });
 
     super.initState();
@@ -111,6 +113,7 @@ class _AppState extends State<App> {
       providers: [
         ChangeNotifierProvider.value(value: mainProvider),
         ChangeNotifierProvider.value(value: iap),
+        ChangeNotifierProvider.value(value: homeWidgetProvider),
       ],
       child: MaterialApp(
         title: '',

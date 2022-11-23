@@ -1,3 +1,9 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlinx-serialization'
+}
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -87,5 +93,6 @@ dependencies {
     implementation 'com.android.support:multidex:2.0.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 }
 apply plugin: 'com.google.gms.google-services'

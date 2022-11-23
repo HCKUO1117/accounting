@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:accounting/db/accounting_db.dart';
@@ -16,31 +17,52 @@ class HomeWidgetProvider with ChangeNotifier {
     HomeWidget.registerBackgroundCallback(backgroundCallback);
   }
 
-  Future<void> _sendData() async {
-    try {
-      Future.wait([
-        HomeWidget.saveWidgetData<String>('title', '_titleController.text'),
-        HomeWidget.saveWidgetData<String>('message', '_messageController.text'),
-      ]);
-    } on PlatformException catch (exception) {
-      debugPrint('Error Sending Data. $exception');
+  Future<void> sendAndUpdate() async {
+    List<AccountingModel> list = await AccountingDB.displayAllData();
+    List<AccountingModel> todayList =
+    list.where((element) => Utils.checkIsSameDay(element.date, DateTime.now())).toList();
+
+    double budgetLeft = double.parse(Preferences.getString(Constants.goalNum, '-1'));
+    if(budgetLeft != -1){
+      double expenditure = 0;
+      for (var element in list) {
+        if (Utils.checkIsSameMonth(element.date, DateTime.now())) {
+          if (element.amount < 0) {
+            expenditure += element.amount;
+          }
+        }
+      }
+      budgetLeft += expenditure;
     }
+
+    Map<String,dynamic> recordMap = <String,dynamic>{
+      'data':List.generate(todayList.length, (index) => todayList[index].toMap())
+    };
+
+    print(jsonEncode(recordMap));
+    return Future.wait<bool?>([
+      HomeWidget.saveWidgetData(
+        'title',
+        'Updated from Background',
+      ),
+      HomeWidget.saveWidgetData(
+        'message',
+        jsonEncode(recordMap),
+      ),
+      HomeWidget.saveWidgetData(
+        'budget',
+        budgetLeft,
+      ),
+      HomeWidget.updateWidget(
+        name: 'HomeWidgetExampleProvider',
+        iOSName: 'HomeWidgetExample',
+      ),
+    ]).then((value) {
+      return !value.contains(false);
+    });
   }
 
-  Future<void> _updateWidget() async {
-    try {
-      HomeWidget.updateWidget(name: 'HomeWidgetExampleProvider', iOSName: 'HomeWidgetExample');
-    } on PlatformException catch (exception) {
-      debugPrint('Error Updating Widget. $exception');
-    }
-  }
-
-  Future<void> _sendAndUpdate() async {
-    await _sendData();
-    await _updateWidget();
-  }
-
-  void _startBackgroundUpdate() {
+  void startBackgroundUpdate() {
     Workmanager().registerPeriodicTask('1', 'widgetBackgroundUpdate',
         frequency: const Duration(minutes: 15));
   }
@@ -69,9 +91,11 @@ void callbackDispatcher() {
       }
       budgetLeft += expenditure;
     }
-
-
-
+    
+    Map<String,dynamic> recordMap = <String,dynamic>{
+      'data':List.generate(todayList.length, (index) => todayList[index].toMap()).toString()
+    };
+    
     return Future.wait<bool?>([
       HomeWidget.saveWidgetData(
         'title',
@@ -79,7 +103,7 @@ void callbackDispatcher() {
       ),
       HomeWidget.saveWidgetData(
         'message',
-        List.generate(todayList.length, (index) => todayList[index].toMap()),
+        jsonEncode(recordMap),
       ),
       HomeWidget.saveWidgetData(
         'budget',

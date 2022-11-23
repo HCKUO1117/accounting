@@ -8,6 +8,8 @@ import android.widget.RemoteViews
 import es.antonborri.home_widget.HomeWidgetBackgroundIntent
 import es.antonborri.home_widget.HomeWidgetLaunchIntent
 import es.antonborri.home_widget.HomeWidgetProvider
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 
 class HomeWidgetExampleProvider : HomeWidgetProvider() {
 
@@ -28,10 +30,17 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
                         Uri.parse("homeWidgetExample://titleClicked")
                 )
                 setOnClickPendingIntent(R.id.widget_title, backgroundIntent)
+                val json = Json {
+                    ignoreUnknownKeys = true
+                    isLenient = true
+                    prettyPrint = true
+                    encodeDefaults = true
+                    classDiscriminator = "#class"
+                }
 
                 val message = widgetData.getString("message", null)
-                setTextViewText(R.id.widget_message, message
-                        ?: "No Message Set")
+                setTextViewText(R.id.widget_message, json.parseToJsonElement(message ?:"""{"data" : "[]"}""".trimIndent()).toString()
+                        )
                 // Detect App opened via Click inside Flutter
                 val pendingIntentWithData = HomeWidgetLaunchIntent.getActivity(
                         context,
