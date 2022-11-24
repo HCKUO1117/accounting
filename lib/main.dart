@@ -21,6 +21,6 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  Workmanager().initialize(callbackDispatcher, isInDebugMode: kDebugMode);
+  Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
   runApp(const App());
 }
