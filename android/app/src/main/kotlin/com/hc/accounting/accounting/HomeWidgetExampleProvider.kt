@@ -2,6 +2,7 @@ package com.hc.accounting.accounting
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.widget.RemoteViews
@@ -21,6 +22,9 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
         widgetData: SharedPreferences
     ) {
         appWidgetIds.forEach { widgetId ->
+
+            print("123456789")
+
             val views = RemoteViews(context.packageName, R.layout.example_layout).apply {
                 // Open App on Widget Click
                 val pendingIntent = HomeWidgetLaunchIntent.getActivity(
@@ -41,6 +45,15 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
                 setOnClickPendingIntent(R.id.widget_title, backgroundIntent)
 
                 val message = widgetData.getString("message", null)
+
+                ///傳值給list view
+                val intent = Intent(context, ListWidgetService::class.java).apply {
+                    // Add the widget ID to the intent extras.
+                    putExtra("data", message)
+                }
+                setRemoteAdapter(R.id.list_view, intent)
+
+
                 val gson = Gson()
                 val type = object: TypeToken<List<MyRecord>>() {
                 }.type
