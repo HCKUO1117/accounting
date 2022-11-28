@@ -44,30 +44,29 @@ class ListRemoteViewsFactory(
     }
 
     override fun onDataSetChanged() {
-        TODO("Not yet implemented")
     }
 
     override fun onDestroy() {
-        TODO("Not yet implemented")
     }
 
     override fun getCount(): Int {
-        TODO("Not yet implemented")
+        return record.size
     }
 
     override fun getLoadingView(): RemoteViews {
-        TODO("Not yet implemented")
+        return RemoteViews(context.packageName, R.layout.record_card).apply {
+        }
     }
 
     override fun getViewTypeCount(): Int {
-        TODO("Not yet implemented")
+        return  1
     }
 
     override fun getItemId(p0: Int): Long {
-        TODO("Not yet implemented")
+        return  p0.toLong()
     }
 
     override fun hasStableIds(): Boolean {
-        TODO("Not yet implemented")
+        return  true
     }
 }

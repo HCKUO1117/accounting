@@ -60,7 +60,7 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
                 val record = gson.fromJson<List<MyRecord>>(message ?: "[]",type)
 
                 setTextViewText(
-                    R.id.widget_message, record[0].category
+                    R.id.widget_message, ""
                 )
                 // Detect App opened via Click inside Flutter
                 val pendingIntentWithData = HomeWidgetLaunchIntent.getActivity(
