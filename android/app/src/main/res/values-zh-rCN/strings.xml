@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="appName">快速記帳</string>
+    <string name="income">收入</string>
+    <string name="expenditure">支出</string>
+    <string name="budget">預算餘額</string>
 </resources>

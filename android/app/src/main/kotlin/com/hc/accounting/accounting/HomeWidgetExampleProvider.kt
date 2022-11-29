@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.widget.RemoteViews
+import android.widget.Toast
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
@@ -23,9 +24,8 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
     ) {
         appWidgetIds.forEach { widgetId ->
 
-            print("123456789")
-
             val views = RemoteViews(context.packageName, R.layout.example_layout).apply {
+
                 // Open App on Widget Click
                 val pendingIntent = HomeWidgetLaunchIntent.getActivity(
                     context,
@@ -60,7 +60,7 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
                 val record = gson.fromJson<List<MyRecord>>(message ?: "[]",type)
 
                 setTextViewText(
-                    R.id.widget_message, ""
+                    R.id.widget_message, record.size.toString()
                 )
                 // Detect App opened via Click inside Flutter
                 val pendingIntentWithData = HomeWidgetLaunchIntent.getActivity(
@@ -73,6 +73,7 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
 
 
             appWidgetManager.updateAppWidget(widgetId, views)
+            appWidgetManager.notifyAppWidgetViewDataChanged(widgetId,R.id.list_view)
         }
     }
 }

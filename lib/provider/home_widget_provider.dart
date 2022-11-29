@@ -63,7 +63,7 @@ class HomeWidgetProvider with ChangeNotifier {
     return Future.wait<bool?>([
       HomeWidget.saveWidgetData(
         'title',
-        'Updated from Background',
+        Utils.toDateString(DateTime.now(),format: 'yyyy/MM/dd'),
       ),
       HomeWidget.saveWidgetData(
         'message',
@@ -137,7 +137,7 @@ void callbackDispatcher() {
     return Future.wait<bool?>([
       HomeWidget.saveWidgetData(
         'title',
-        'Updated from Background',
+        Utils.toDateString(DateTime.now(),format: 'yyyy/MM/dd'),
       ),
       HomeWidget.saveWidgetData(
         'message',

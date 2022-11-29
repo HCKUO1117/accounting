@@ -6,10 +6,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.RemoteViews
-import android.widget.RemoteViewsService
-import android.widget.TextView
+import android.widget.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -28,10 +25,10 @@ class ListRemoteViewsFactory(
     var record:List<MyRecord> = listOf()
 
     override fun onCreate() {
-        val gson = Gson()
-        val type = object: TypeToken<List<MyRecord>>() {
-        }.type
-        record = gson.fromJson( message ?: "[]",type)
+//        val gson = Gson()
+//        val type = object: TypeToken<List<MyRecord>>() {
+//        }.type
+//        record = gson.fromJson( message ?: "[]",type)
     }
 
     override fun getViewAt(position: Int): RemoteViews {
@@ -44,6 +41,10 @@ class ListRemoteViewsFactory(
     }
 
     override fun onDataSetChanged() {
+        val gson = Gson()
+        val type = object: TypeToken<List<MyRecord>>() {
+        }.type
+        record = gson.fromJson( message ?: "[]",type)
     }
 
     override fun onDestroy() {
