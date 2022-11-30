@@ -858,16 +858,35 @@ class MainProvider with ChangeNotifier {
           break;
       }
 
-      lineChartList = [
-        for (final element in chartList)
-          LineSeries<SalesData, String>(
-            dataSource: element.dataList,
-            name: element.model.name,
-            color: element.model.iconColor,
-            xValueMapper: (SalesData sales, _) => dateScaleTransfer(time: sales.year),
-            yValueMapper: (SalesData sales, _) => sales.sales,
-          ),
-      ];
+      lineChartList = [];
+      for (final element in chartList) {
+        double amount = 0;
+        for (var e in element.dataList) {
+          amount += e.sales;
+        }
+        if (amount != 0) {
+          lineChartList.add(
+            LineSeries<SalesData, String>(
+              dataSource: element.dataList,
+              name: element.model.name,
+              color: element.model.iconColor,
+              xValueMapper: (SalesData sales, _) => dateScaleTransfer(time: sales.year),
+              yValueMapper: (SalesData sales, _) => sales.sales,
+            ),
+          );
+        }
+      }
+
+      // lineChartList = [
+      //   for (final element in chartList)
+      //     LineSeries<SalesData, String>(
+      //       dataSource: element.dataList,
+      //       name: element.model.name,
+      //       color: element.model.iconColor,
+      //       xValueMapper: (SalesData sales, _) => dateScaleTransfer(time: sales.year),
+      //       yValueMapper: (SalesData sales, _) => sales.sales,
+      //     ),
+      // ];
     }
     lineChartState = AppState.finish;
     notifyListeners();
@@ -1248,6 +1267,7 @@ class MainProvider with ChangeNotifier {
             }
 
             List<ChartData> data = [];
+            double totalAmount = 0;
             for (int i = 0; i < days; i++) {
               DateTime d =
                   DateTime(stackChartStart.year, stackChartStart.month, stackChartStart.day + i);
@@ -1260,6 +1280,7 @@ class MainProvider with ChangeNotifier {
                 }
               }
               data.add(ChartData(Utils.dateStringByType(d, 0), amount.abs()));
+              totalAmount += amount;
               if (amount > 0) {
                 stackCurrentIncome += amount;
               } else {
@@ -1267,45 +1288,65 @@ class MainProvider with ChangeNotifier {
               }
             }
 
-            stackChartList.add(
-              StackedColumnSeries<ChartData, String>(
-                name: element.name,
-                color: element.iconColor,
-                groupName: element.type == CategoryType.income ? 'income' : 'expenditure',
-                dataSource: data,
-                xValueMapper: (ChartData data, _) => data.x,
-                yValueMapper: (ChartData data, _) => data.y,
-              ),
-            );
+            if (totalAmount != 0) {
+              stackChartList.add(
+                StackedColumnSeries<ChartData, String>(
+                  name: element.name,
+                  color: element.iconColor,
+                  groupName: element.type == CategoryType.income ? 'income' : 'expenditure',
+                  dataSource: data,
+                  xValueMapper: (ChartData data, _) => data.x,
+                  yValueMapper: (ChartData data, _) => data.y,
+                ),
+              );
+            }
           }
-          List<ChartData> data = [];
+          List<ChartData> incomeData = [];
+          List<ChartData> expenditureData = [];
+          double incomeAmount = 0;
+          double expenditureAmount = 0;
           for (int i = 0; i < days; i++) {
             DateTime d =
                 DateTime(stackChartStart.year, stackChartStart.month, stackChartStart.day + i);
             final List<AccountingModel> l =
                 allList.where((element) => Utils.checkIsSameDay(element.date, d)).toList();
-            double amount = 0;
             for (var e in l) {
               if (e.category == -1) {
-                amount += e.amount;
+                if (e.amount > 0) {
+                  incomeData.add(ChartData(Utils.dateStringByType(d, 0), e.amount.abs()));
+                  incomeAmount += e.amount;
+                  stackCurrentIncome += e.amount;
+                } else {
+                  expenditureData.add(ChartData(Utils.dateStringByType(d, 0), e.amount.abs()));
+                  expenditureAmount += e.amount;
+                  stackCurrentExpenditure += e.amount;
+                }
               }
             }
-            data.add(ChartData(Utils.dateStringByType(d, 0), amount.abs()));
-            if (amount > 0) {
-              stackCurrentIncome += amount;
-            } else {
-              stackCurrentExpenditure += amount;
-            }
           }
-          stackChartList.add(
-            StackedColumnSeries<ChartData, String>(
-                name: S.of(context).unCategory,
-                groupName: S.of(context).unCategory,
-                color: Colors.grey,
-                dataSource: data,
-                xValueMapper: (ChartData data, _) => data.x,
-                yValueMapper: (ChartData data, _) => data.y),
-          );
+
+          if (incomeAmount != 0) {
+            stackChartList.add(
+              StackedColumnSeries<ChartData, String>(
+                  name: '${S.of(context).unCategory}-${S.of(context).income}',
+                  groupName: 'income',
+                  color: Colors.grey,
+                  dataSource: incomeData,
+                  xValueMapper: (ChartData data, _) => data.x,
+                  yValueMapper: (ChartData data, _) => data.y),
+            );
+          }
+          if (expenditureAmount != 0) {
+            stackChartList.add(
+              StackedColumnSeries<ChartData, String>(
+                  name: '${S.of(context).unCategory}-${S.of(context).expenditure}',
+                  groupName: 'expenditure',
+                  color: Colors.grey,
+                  dataSource: expenditureData,
+                  xValueMapper: (ChartData data, _) => data.x,
+                  yValueMapper: (ChartData data, _) => data.y),
+            );
+          }
           break;
         case 1:
           for (var element in categoryList) {
@@ -1315,6 +1356,7 @@ class MainProvider with ChangeNotifier {
             }
             List<ChartData> data = [];
             DateTime end = DateTime(stackChartEnd.year, stackChartEnd.month + 1);
+            double totalAmount = 0;
             for (DateTime i = stackChartStart;
                 i.year != end.year || i.month != end.month;
                 i = DateTime(i.year, i.month + 1)) {
@@ -1327,51 +1369,73 @@ class MainProvider with ChangeNotifier {
                 }
               }
               data.add(ChartData(Utils.dateStringByType(i, 1), amount.abs()));
+              totalAmount += amount;
               if (amount > 0) {
                 stackCurrentIncome += amount;
               } else {
                 stackCurrentExpenditure += amount;
               }
             }
-            stackChartList.add(
-              StackedColumnSeries<ChartData, String>(
-                  name: element.name,
-                  groupName: element.type == CategoryType.income ? 'income' : 'expenditure',
-                  color: element.iconColor,
-                  dataSource: data,
-                  xValueMapper: (ChartData data, _) => data.x,
-                  yValueMapper: (ChartData data, _) => data.y),
-            );
+
+            if (totalAmount != 0) {
+              stackChartList.add(
+                StackedColumnSeries<ChartData, String>(
+                    name: element.name,
+                    groupName: element.type == CategoryType.income ? 'income' : 'expenditure',
+                    color: element.iconColor,
+                    dataSource: data,
+                    xValueMapper: (ChartData data, _) => data.x,
+                    yValueMapper: (ChartData data, _) => data.y),
+              );
+            }
           }
-          List<ChartData> data = [];
+          List<ChartData> incomeData = [];
+          List<ChartData> expenditureData = [];
+          double incomeAmount = 0;
+          double expenditureAmount = 0;
           DateTime end = DateTime(stackChartEnd.year, stackChartEnd.month + 1);
           for (DateTime i = stackChartStart;
               i.year != end.year || i.month != end.month;
               i = DateTime(i.year, i.month + 1)) {
             final List<AccountingModel> l =
                 allList.where((element) => Utils.checkIsSameMonth(element.date, i)).toList();
-            double amount = 0;
             for (var e in l) {
               if (e.category == -1) {
-                amount += e.amount;
+                if (e.amount > 0) {
+                  incomeData.add(ChartData(Utils.dateStringByType(i, 1), e.amount.abs()));
+                  incomeAmount += e.amount;
+                  stackCurrentIncome += e.amount;
+                } else {
+                  expenditureData.add(ChartData(Utils.dateStringByType(i, 1), e.amount.abs()));
+                  expenditureAmount += e.amount;
+                  stackCurrentExpenditure += e.amount;
+                }
               }
             }
-            data.add(ChartData(Utils.dateStringByType(i, 1), amount.abs()));
-            if (amount > 0) {
-              stackCurrentIncome += amount;
-            } else {
-              stackCurrentExpenditure += amount;
-            }
           }
-          stackChartList.add(
-            StackedColumnSeries<ChartData, String>(
-                name: S.of(context).unCategory,
-                groupName: S.of(context).unCategory,
-                color: Colors.grey,
-                dataSource: data,
-                xValueMapper: (ChartData data, _) => data.x,
-                yValueMapper: (ChartData data, _) => data.y),
-          );
+
+          if (incomeAmount != 0) {
+            stackChartList.add(
+              StackedColumnSeries<ChartData, String>(
+                  name: '${S.of(context).unCategory}-${S.of(context).income}',
+                  groupName: 'income',
+                  color: Colors.grey,
+                  dataSource: incomeData,
+                  xValueMapper: (ChartData data, _) => data.x,
+                  yValueMapper: (ChartData data, _) => data.y),
+            );
+          }
+          if (expenditureAmount != 0) {
+            stackChartList.add(
+              StackedColumnSeries<ChartData, String>(
+                  name: '${S.of(context).unCategory}-${S.of(context).expenditure}',
+                  groupName: 'expenditure',
+                  color: Colors.grey,
+                  dataSource: expenditureData,
+                  xValueMapper: (ChartData data, _) => data.x,
+                  yValueMapper: (ChartData data, _) => data.y),
+            );
+          }
           break;
         case 2:
           for (var element in categoryList) {
@@ -1381,6 +1445,7 @@ class MainProvider with ChangeNotifier {
             }
             List<ChartData> data = [];
             DateTime end = DateTime(stackChartEnd.year + 1);
+            double totalAmount = 0;
             for (DateTime i = stackChartStart; i.year != end.year; i = DateTime(i.year + 1)) {
               final List<AccountingModel> l =
                   allList.where((element) => Utils.checkIsSameYear(element.date, i)).toList();
@@ -1391,49 +1456,71 @@ class MainProvider with ChangeNotifier {
                 }
               }
               data.add(ChartData(Utils.dateStringByType(i, 2), amount.abs()));
+              totalAmount += amount;
               if (amount > 0) {
                 stackCurrentIncome += amount;
               } else {
                 stackCurrentExpenditure += amount;
               }
             }
-            stackChartList.add(
-              StackedColumnSeries<ChartData, String>(
-                  name: element.name,
-                  groupName: element.type == CategoryType.income ? 'income' : 'expenditure',
-                  color: element.iconColor,
-                  dataSource: data,
-                  xValueMapper: (ChartData data, _) => data.x,
-                  yValueMapper: (ChartData data, _) => data.y),
-            );
+
+            if (totalAmount != 0) {
+              stackChartList.add(
+                StackedColumnSeries<ChartData, String>(
+                    name: element.name,
+                    groupName: element.type == CategoryType.income ? 'income' : 'expenditure',
+                    color: element.iconColor,
+                    dataSource: data,
+                    xValueMapper: (ChartData data, _) => data.x,
+                    yValueMapper: (ChartData data, _) => data.y),
+              );
+            }
           }
-          List<ChartData> data = [];
+          List<ChartData> incomeData = [];
+          List<ChartData> expenditureData = [];
+          double incomeAmount = 0;
+          double expenditureAmount = 0;
           DateTime end = DateTime(lineChartEnd.year + 1);
           for (DateTime i = lineChartStart; i.year != end.year; i = DateTime(i.year + 1)) {
             final List<AccountingModel> l =
                 allList.where((element) => Utils.checkIsSameYear(element.date, i)).toList();
-            double amount = 0;
             for (var e in l) {
               if (e.category == -1) {
-                amount += e.amount;
+                if (e.amount > 0) {
+                  incomeAmount += e.amount;
+                  incomeData.add(ChartData(Utils.dateStringByType(i, 2), e.amount.abs()));
+                  stackCurrentIncome += e.amount;
+                } else {
+                  expenditureAmount += e.amount;
+                  expenditureData.add(ChartData(Utils.dateStringByType(i, 2), e.amount.abs()));
+                  stackCurrentExpenditure += e.amount;
+                }
               }
             }
-            data.add(ChartData(Utils.dateStringByType(i, 2), amount.abs()));
-            if (amount > 0) {
-              stackCurrentIncome += amount;
-            } else {
-              stackCurrentExpenditure += amount;
-            }
           }
-          stackChartList.add(
-            StackedColumnSeries<ChartData, String>(
-                name: S.of(context).unCategory,
-                groupName: S.of(context).unCategory,
-                dataSource: data,
-                color: Colors.grey,
-                xValueMapper: (ChartData data, _) => data.x,
-                yValueMapper: (ChartData data, _) => data.y),
-          );
+
+          if (incomeAmount != 0) {
+            stackChartList.add(
+              StackedColumnSeries<ChartData, String>(
+                  name: '${S.of(context).unCategory}-${S.of(context).income}',
+                  groupName: 'income',
+                  color: Colors.grey,
+                  dataSource: incomeData,
+                  xValueMapper: (ChartData data, _) => data.x,
+                  yValueMapper: (ChartData data, _) => data.y),
+            );
+          }
+          if (expenditureAmount != 0) {
+            stackChartList.add(
+              StackedColumnSeries<ChartData, String>(
+                  name: '${S.of(context).unCategory}-${S.of(context).expenditure}',
+                  groupName: 'expenditure',
+                  color: Colors.grey,
+                  dataSource: expenditureData,
+                  xValueMapper: (ChartData data, _) => data.x,
+                  yValueMapper: (ChartData data, _) => data.y),
+            );
+          }
           break;
       }
     }
@@ -1465,6 +1552,9 @@ class MainProvider with ChangeNotifier {
 
   List<AccountingModel> listAllList = [];
 
+  List<ListChartCategoryModel> sortedIncomeCategories = [];
+  List<ListChartCategoryModel> sortedExpenditureCategories = [];
+
   Future<void> setListChartTime({
     required DateTime start,
     required DateTime end,
@@ -1478,7 +1568,7 @@ class MainProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> drawListChart() async {
+  Future<void> drawListChart(BuildContext context) async {
     listChartState = AppState.loading;
     notifyListeners();
 
@@ -1560,7 +1650,101 @@ class MainProvider with ChangeNotifier {
       }
     }
 
+    sortedIncomeCategories = [];
+
+    for (var element in categoryIncomeList) {
+      double amount = 0;
+      int count = 0;
+      for (var e in listAllList) {
+        if (e.category == element.id) {
+          amount += e.amount;
+          count++;
+        }
+      }
+      sortedIncomeCategories.add(ListChartCategoryModel(
+        model: element,
+        amount: amount,
+        count: count,
+      ));
+    }
+    sortedExpenditureCategories = [];
+    for (var element in categoryExpenditureList) {
+      double amount = 0;
+      int count = 0;
+      for (var e in listAllList) {
+        if (e.category == element.id) {
+          amount += e.amount;
+          count++;
+        }
+      }
+      sortedExpenditureCategories.add(ListChartCategoryModel(
+        model: element,
+        amount: amount,
+        count: count,
+      ));
+    }
+
+    ///加入未分類
+    double unCategoryIncome = 0;
+    int unCategoryIncomeCount = 0;
+    double unCategoryExpenditure = 0;
+    int unCategoryExpenditureCount = 0;
+    for (var e in listAllList) {
+      if (e.category == -1) {
+        if (e.amount > 0) {
+          unCategoryIncome += e.amount;
+          unCategoryIncomeCount++;
+        } else {
+          unCategoryExpenditure += e.amount;
+          unCategoryExpenditureCount++;
+        }
+      }
+    }
+    sortedIncomeCategories.add(
+      ListChartCategoryModel(
+        model: CategoryModel(
+          id: -1,
+          sort: 0,
+          type: CategoryType.income,
+          icon: 'help_outline',
+          iconColor: Colors.grey,
+          name: S.of(context).unCategory,
+        ),
+        amount: unCategoryIncome,
+        count: unCategoryIncomeCount,
+      ),
+    );
+    sortedExpenditureCategories.add(
+      ListChartCategoryModel(
+        model: CategoryModel(
+          id: -1,
+          sort: 0,
+          type: CategoryType.expenditure,
+          icon: 'help_outline',
+          iconColor: Colors.grey,
+          name: S.of(context).unCategory,
+        ),
+        amount: unCategoryExpenditure,
+        count: unCategoryExpenditureCount,
+      ),
+    );
+
+    sortedIncomeCategories.sort((a, b) => b.amount.compareTo(a.amount));
+    sortedExpenditureCategories.sort((a, b) => a.amount.compareTo(b.amount));
+
     listChartState = AppState.finish;
     notifyListeners();
   }
+}
+
+class ListChartCategoryModel {
+  CategoryModel model;
+  double amount;
+  int count;
+
+  ListChartCategoryModel({
+    required this.model,
+    required this.amount,
+    required this.count,
+  });
 }

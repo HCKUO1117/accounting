@@ -29,7 +29,11 @@ class CategoryTitle extends StatelessWidget {
             child: Text(
               model.name,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: Colors.black45,fontSize: 16,fontFamily: 'RobotoMono',),
+              style: const TextStyle(
+                color: Colors.black87,
+                fontSize: 16,
+                fontFamily: 'RobotoMono',
+              ),
             ),
           )
         ],

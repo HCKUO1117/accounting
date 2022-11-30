@@ -23,8 +23,8 @@ class AddFixedIncomePage extends StatefulWidget {
 }
 
 class _AddFixedIncomePageState extends State<AddFixedIncomePage> {
-  List<bool> _selectedIndex = [true, false];
-  int currentIndex = 0;
+  List<bool> _selectedIndex = [false, true];
+  int currentIndex = 1;
 
   final TextEditingController amount = TextEditingController();
   String? errorText;

@@ -3,5 +3,6 @@
     <string name="appName">快速記帳</string>
     <string name="income">收入</string>
     <string name="expenditure">支出</string>
-    <string name="budget">預算餘額</string>
+    <string name="budget">本月預算餘額</string>
+    <string name="unCategory">未分類</string>
 </resources>

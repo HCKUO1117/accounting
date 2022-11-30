@@ -1,4 +1,5 @@
 import 'package:accounting/generated/l10n.dart';
+import 'package:accounting/provider/home_widget_provider.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/utils/show_toast.dart';
 import 'package:flutter/material.dart';
@@ -107,6 +108,7 @@ class _AddGoalPageState extends State<AddGoalPage> {
                       double.parse(amount.text),
                     );
                 if (!mounted) return;
+                context.read<HomeWidgetProvider>().sendAndUpdate();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(S.of(context).addSuccess),

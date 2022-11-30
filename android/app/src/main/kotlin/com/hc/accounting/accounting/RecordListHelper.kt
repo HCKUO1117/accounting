@@ -1,11 +1,8 @@
 package com.hc.accounting.accounting
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.content.res.Resources
 import android.widget.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -35,7 +32,13 @@ class ListRemoteViewsFactory(
         // Construct a remote views item based on the widget item XML file,
         // and set the text based on the position.
         return RemoteViews(context.packageName, R.layout.record_card).apply {
-            setTextViewText(R.id.name, record[position].category)
+            if(record[position].category.isNotEmpty()){
+                setTextViewText(R.id.name, record[position].category)
+            }else{
+                setTextViewText(R.id.name, context.getString(R.string.unCategory))
+            }
+
+
             setTextViewText(R.id.amount,record[position].amount.toString())
         }
     }

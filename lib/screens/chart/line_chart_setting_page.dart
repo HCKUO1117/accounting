@@ -1,5 +1,6 @@
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/main_provider.dart';
+import 'package:accounting/res/app_color.dart';
 import 'package:accounting/res/icons.dart';
 import 'package:accounting/screens/custom_date_picker_dialog.dart';
 import 'package:accounting/utils/utils.dart';
@@ -130,127 +131,71 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
               color: Colors.orangeAccent,
             ),
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 16),
 
           ///scale
-          Row(
-            children: [
-              Text(
-                '${S.of(context).timeScale} : ',
-                style: const TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Expanded(
-                child: DropdownButton<int>(
-                  underline: const SizedBox(),
-                  isExpanded: true,
-                  value: scale,
-                  items: [
-                    DropdownMenuItem<int>(
-                      value: 0,
-                      alignment: AlignmentDirectional.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [Text(S.of(context).day)],
-                      ),
-                    ),
-                    DropdownMenuItem<int>(
-                      value: 1,
-                      alignment: AlignmentDirectional.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [Text(S.of(context).month)],
-                      ),
-                    ),
-                    DropdownMenuItem<int>(
-                      value: 2,
-                      alignment: AlignmentDirectional.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [Text(S.of(context).year)],
-                      ),
-                    ),
-                  ],
-                  onChanged: (v) {
-                    setState(() {
-                      if (v != scale) {
-                        start = null;
-                        end = null;
-                      }
-                      scale = v!;
-                    });
-                  },
-                ),
-              )
-            ],
-          ),
-          const Divider(),
-          const SizedBox(height: 16),
-
-          ///time
-          Row(
-            children: [
-              Text(
-                '${S.of(context).time} : ',
-                style: const TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Expanded(
-                child: InkWell(
-                  onTap: () async {
-                    DateTimeRange? range;
-                    await CustomDatePickerDialog.show(
-                      context,
-                      onDateSelect: (arg) {
-                        PickerDateRange r = arg.value;
-                        range = DateTimeRange(
-                          start: r.startDate!,
-                          end: r.endDate != null ? r.endDate! : r.startDate!,
-                        );
-                      },
-                      start: start ?? DateTime.now(),
-                      end: end ?? DateTime.now(),
-                      showDot: false,
-                      allowViewNavigation: scale == 0,
-                      view: scale == 0
-                          ? DateRangePickerView.month
-                          : scale == 1
-                              ? DateRangePickerView.year
-                              : DateRangePickerView.decade,
-                      noInit: start == null || end == null ? true : false,
-                    );
-                    if (range == null) {
-                      return;
-                    }
-                    setState(() {
-                      start = range!.start;
-                      end = range!.end;
-                    });
-                  },
-                  child: Text(
-                    start != null && end != null
-                        ? '${Utils.dateStringByType(start!, scale)}${!samDay ? ' ~ ' : ''}${!samDay ? Utils.dateStringByType(end!, scale) : ''}'
-                        : S.of(context).plzChooseTime,
-                    strutStyle: const StrutStyle(height: 1.5),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          const Divider(),
-
-          ///data source
-          if (widget.type != ChartType.list) ...[
-            const SizedBox(height: 16),
+          cardBackground([
             Row(
               children: [
                 Text(
-                  '${S.of(context).dataType} : ',
+                  '${S.of(context).timeScale} : ',
+                  style: const TextStyle(
+                    fontFamily: 'RobotoMono',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Expanded(
+                  child: DropdownButton<int>(
+                    isExpanded: true,
+                    value: scale,
+                    items: [
+                      DropdownMenuItem<int>(
+                        value: 0,
+                        alignment: AlignmentDirectional.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [Text(S.of(context).day)],
+                        ),
+                      ),
+                      DropdownMenuItem<int>(
+                        value: 1,
+                        alignment: AlignmentDirectional.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [Text(S.of(context).month)],
+                        ),
+                      ),
+                      DropdownMenuItem<int>(
+                        value: 2,
+                        alignment: AlignmentDirectional.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [Text(S.of(context).year)],
+                        ),
+                      ),
+                    ],
+                    onChanged: (v) {
+                      setState(() {
+                        if (v != scale) {
+                          start = null;
+                          end = null;
+                        }
+                        scale = v!;
+                      });
+                    },
+                  ),
+                )
+              ],
+            )
+          ]),
+          const SizedBox(height: 8),
+
+          ///time
+          cardBackground([
+            Row(
+              children: [
+                Text(
+                  '${S.of(context).time} : ',
                   style: const TextStyle(
                     fontFamily: 'RobotoMono',
                     fontWeight: FontWeight.bold,
@@ -258,126 +203,191 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                 ),
               ],
             ),
-            if (widget.type == ChartType.stack)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+            const SizedBox(height: 8),
+            InkWell(
+              onTap: () async {
+                DateTimeRange? range;
+                await CustomDatePickerDialog.show(
+                  context,
+                  onDateSelect: (arg) {
+                    PickerDateRange r = arg.value;
+                    range = DateTimeRange(
+                      start: r.startDate!,
+                      end: r.endDate != null ? r.endDate! : r.startDate!,
+                    );
+                  },
+                  start: start ?? DateTime.now(),
+                  end: end ?? DateTime.now(),
+                  showDot: false,
+                  allowViewNavigation: scale == 0,
+                  view: scale == 0
+                      ? DateRangePickerView.month
+                      : scale == 1
+                          ? DateRangePickerView.year
+                          : DateRangePickerView.decade,
+                  noInit: start == null || end == null ? true : false,
+                );
+                if (range == null) {
+                  return;
+                }
+                setState(() {
+                  start = range!.start;
+                  end = range!.end;
+                });
+              },
+              child: Row(
                 children: [
                   Expanded(
                     child: Text(
-                      ChartDataType.inOut.text(context),
+                      start != null && end != null
+                          ? '${Utils.dateStringByType(start!, scale)}${!samDay ? ' ~ ' : ''}${!samDay ? Utils.dateStringByType(end!, scale) : ''}'
+                          : S.of(context).plzChooseTime,
                       textAlign: TextAlign.center,
+                      strutStyle: const StrutStyle(height: 1.5),
+                    ),
+                  ),
+                  const Icon(Icons.arrow_drop_down),
+                ],
+              ),
+            ),
+          ]),
+          const SizedBox(height: 8),
+
+          ///data source
+          if (widget.type != ChartType.list)
+            cardBackground([
+              Row(
+                children: [
+                  Text(
+                    '${S.of(context).dataType} : ',
+                    style: const TextStyle(
+                      fontFamily: 'RobotoMono',
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
-              )
-            else
-              Row(
-                children: [
-                  Expanded(
-                    child: DropdownButton<ChartDataType>(
-                      underline: const SizedBox(),
-                      isExpanded: true,
-                      value: lineChartDataType,
-                      items: [
-                        for (final element in ChartDataType.values)
-                          DropdownMenuItem<ChartDataType>(
-                            value: element,
-                            alignment: AlignmentDirectional.center,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    element.text(context),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                      ],
-                      onChanged: (v) {
-                        setState(() {
-                          if (v != lineChartDataType) {
-                            lineFilter = [];
-                            switch (v!) {
-                              case ChartDataType.inOut:
-                                lineFilter = [0, 1];
-                                break;
-                              case ChartDataType.category:
-                                for (var element in provider.categoryList) {
-                                  lineFilter.add(element.id!);
-                                }
-                                lineFilter.add(-1);
-                                break;
-                              // case ChartDataType.tag:
-                              //   for (var element in provider.tagList) {
-                              //     lineFilter.add(element.id!);
-                              //   }
-                              //   lineFilter.add(-1);
-                              //   break;
-                            }
-                          }
-                          lineChartDataType = v!;
-                        });
-                      },
-                    ),
-                  )
-                ],
               ),
-            const SizedBox(height: 16),
-            filter(provider),
-            const Divider(),
-          ],
-
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Text(
-                '${S.of(context).filter} : ',
-                style: const TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            width: double.maxFinite,
-            child: Wrap(
-              spacing: 4,
-              children: [
-                for (final element in provider.tagList)
-                  ChoiceChip(
-                      selected: tagFilter?.contains(element.id) ?? true,
-                      selectedColor: element.color,
-                      side: BorderSide(color: element.color),
-                      backgroundColor: element.color.withOpacity(0.2),
-                      label: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [Text(element.name)],
+              if (widget.type == ChartType.stack)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        ChartDataType.inOut.text(context),
+                        textAlign: TextAlign.center,
                       ),
-                      onSelected: (v) {
-                        setTagFilter(element.id!);
-                      }),
-                ChoiceChip(
-                    selected: tagFilter?.contains(-1) ?? true,
-                    selectedColor: Colors.black54,
-                    side: BorderSide(
-                        color:
-                            tagFilter?.contains(-1) ?? true ? Colors.transparent : Colors.black54),
-                    backgroundColor: Colors.black12,
-                    label: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [Text(S.of(context).noTag)],
                     ),
-                    onSelected: (v) {
-                      setTagFilter(-1);
-                    }),
+                  ],
+                )
+              else
+                Row(
+                  children: [
+                    Expanded(
+                      child: DropdownButton<ChartDataType>(
+                        isExpanded: true,
+                        value: lineChartDataType,
+                        items: [
+                          for (final element in ChartDataType.values)
+                            DropdownMenuItem<ChartDataType>(
+                              value: element,
+                              alignment: AlignmentDirectional.center,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      element.text(context),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
+                        onChanged: (v) {
+                          setState(() {
+                            if (v != lineChartDataType) {
+                              lineFilter = [];
+                              switch (v!) {
+                                case ChartDataType.inOut:
+                                  lineFilter = [0, 1];
+                                  break;
+                                case ChartDataType.category:
+                                  for (var element in provider.categoryList) {
+                                    lineFilter.add(element.id!);
+                                  }
+                                  lineFilter.add(-1);
+                                  break;
+                                // case ChartDataType.tag:
+                                //   for (var element in provider.tagList) {
+                                //     lineFilter.add(element.id!);
+                                //   }
+                                //   lineFilter.add(-1);
+                                //   break;
+                              }
+                            }
+                            lineChartDataType = v!;
+                          });
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              const SizedBox(height: 16),
+              filter(provider),
+            ]),
+
+          const SizedBox(height: 8),
+          cardBackground([
+            Row(
+              children: [
+                Text(
+                  '${S.of(context).filter} : ',
+                  style: const TextStyle(
+                    fontFamily: 'RobotoMono',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
-          ),
-          const SizedBox(height: 32),
+            SizedBox(
+              width: double.maxFinite,
+              child: Wrap(
+                spacing: 4,
+                children: [
+                  for (final element in provider.tagList)
+                    ChoiceChip(
+                        selected: tagFilter?.contains(element.id) ?? true,
+                        selectedColor: element.color,
+                        side: BorderSide(color: element.color),
+                        backgroundColor: element.color.withOpacity(0.2),
+                        label: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [Text(element.name)],
+                        ),
+                        onSelected: (v) {
+                          setTagFilter(element.id!);
+                        }),
+                  ChoiceChip(
+                      selected: tagFilter?.contains(-1) ?? true,
+                      selectedColor: Colors.black54,
+                      side: BorderSide(
+                          color: tagFilter?.contains(-1) ?? true
+                              ? Colors.transparent
+                              : Colors.black54),
+                      backgroundColor: Colors.black12,
+                      label: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [Text(S.of(context).noTag)],
+                      ),
+                      onSelected: (v) {
+                        setTagFilter(-1);
+                      }),
+                ],
+              ),
+            )
+          ]),
+          const SizedBox(height: 16),
           ElevatedButton(
             style: ButtonStyle(
               elevation: MaterialStateProperty.all(0),
@@ -428,7 +438,7 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                     scale: scale,
                     tagFilter: tagFilter,
                   );
-                  provider.drawListChart();
+                  provider.drawListChart(context);
                   break;
               }
 
@@ -641,5 +651,16 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
       }
     }
     setState(() {});
+  }
+
+  Widget cardBackground(List<Widget> child) {
+    return Container(
+      decoration: BoxDecoration(
+          color: AppColors.backgroundColorLight, borderRadius: BorderRadius.circular(10)),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: child,
+      ),
+    );
   }
 }

@@ -35,7 +35,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
         context.read<MainProvider>().drawLineChart(context);
         context.read<MainProvider>().drawPieChart(context);
         context.read<MainProvider>().drawStackChart(context);
-        context.read<MainProvider>().drawListChart();
+        context.read<MainProvider>().drawListChart(context);
       },
     );
     super.initState();
@@ -96,7 +96,9 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      '${Utils.dateStringByType(provider.listChartStart, provider.listScale)}${!provider.listSamDay ? ' ~ ' : ''}${!provider.listSamDay ? Utils.dateStringByType(provider.listChartEnd, provider.listScale) : ''}'),
+                    '${Utils.dateStringByType(provider.listChartStart, provider.listScale)}${!provider.listSamDay ? ' ~ ' : ''}${!provider.listSamDay ? Utils.dateStringByType(provider.listChartEnd, provider.listScale) : ''}',
+                    style: const TextStyle(color: Colors.black54),
+                  ),
                 ],
               ),
             ),
@@ -206,18 +208,9 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
             ),
           ),
         ),
-        for (var element in provider.categoryExpenditureList)
+        for (var element in provider.sortedExpenditureCategories)
           Builder(
             builder: (context) {
-              List<AccountingModel> list = [];
-              double amount = 0;
-
-              for (var e in provider.listAllList) {
-                if (e.category == element.id) {
-                  list.add(e);
-                  amount += e.amount;
-                }
-              }
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Row(
@@ -226,10 +219,10 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        color: element.iconColor,
+                        color: element.model.iconColor,
                       ),
                       child: Icon(
-                        icons[element.icon],
+                        icons[element.model.icon],
                         color: Colors.white,
                       ),
                     ),
@@ -241,7 +234,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                             children: [
                               Expanded(
                                 child: Text(
-                                  '${element.name}(${list.length}) ${(amount * 100 / provider.listCurrentExpenditure).abs().toStringAsFixed(1)}%',
+                                  '${element.model.name}(${element.count}) ${(element.amount * 100 / provider.listCurrentExpenditure).abs().toStringAsFixed(1)}%',
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontFamily: 'RobotoMono',
@@ -249,7 +242,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                                 ),
                               ),
                               Text(
-                                amount.toString(),
+                                element.amount.toString(),
                                 style: const TextStyle(
                                   fontSize: 14,
                                 ),
@@ -264,7 +257,8 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                                 Expanded(
                                   flex: provider.listCurrentExpenditure == 0
                                       ? 0
-                                      : (amount * 100 / provider.listCurrentExpenditure).round(),
+                                      : (element.amount * 100 / provider.listCurrentExpenditure)
+                                          .round(),
                                   child: Container(
                                     color: Colors.redAccent,
                                     height: 10,
@@ -273,7 +267,10 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                                 Expanded(
                                   flex: provider.listCurrentExpenditure == 0
                                       ? 1
-                                      : (100 - (amount * 100 / provider.listCurrentExpenditure))
+                                      : (100 -
+                                              (element.amount *
+                                                  100 /
+                                                  provider.listCurrentExpenditure))
                                           .round(),
                                   child: Container(
                                     color: Colors.black12,
@@ -291,88 +288,6 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
               );
             },
           ),
-        Builder(builder: (context) {
-          List<AccountingModel> list = [];
-          double amount = 0;
-
-          for (var e in provider.listAllList) {
-            if (e.amount < 0 && e.category == -1) {
-              list.add(e);
-              amount += e.amount;
-            }
-          }
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: Colors.grey,
-                  ),
-                  child: const Icon(
-                    Icons.help_outline,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(width: 4),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              '${S.of(context).unCategory}(${list.length}) ${(amount * 100 / provider.listCurrentExpenditure).abs().toStringAsFixed(1)}%',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontFamily: 'RobotoMono',
-                              ),
-                            ),
-                          ),
-                          Text(
-                            amount.toString(),
-                            style: const TextStyle(
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: provider.listCurrentExpenditure == 0
-                                  ? 0
-                                  : (amount * 100 / provider.listCurrentExpenditure).round(),
-                              child: Container(
-                                color: Colors.redAccent,
-                                height: 10,
-                              ),
-                            ),
-                            Expanded(
-                              flex: provider.listCurrentExpenditure == 0
-                                  ? 1
-                                  : (100 - (amount * 100 / provider.listCurrentExpenditure))
-                                      .round(),
-                              child: Container(
-                                color: Colors.black12,
-                                height: 10,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-          );
-        }),
         const SizedBox(height: 16),
 
         ///income
@@ -387,18 +302,9 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
             ),
           ),
         ),
-        for (var element in provider.categoryIncomeList)
+        for (var element in provider.sortedIncomeCategories)
           Builder(
             builder: (context) {
-              List<AccountingModel> list = [];
-              double amount = 0;
-
-              for (var e in provider.listAllList) {
-                if (e.category == element.id) {
-                  list.add(e);
-                  amount += e.amount;
-                }
-              }
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Row(
@@ -407,10 +313,10 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        color: element.iconColor,
+                        color: element.model.iconColor,
                       ),
                       child: Icon(
-                        icons[element.icon],
+                        icons[element.model.icon],
                         color: Colors.white,
                       ),
                     ),
@@ -422,7 +328,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                             children: [
                               Expanded(
                                 child: Text(
-                                  '${element.name}(${list.length}) ${(amount * 100 / provider.listCurrentIncome).toStringAsFixed(1)}%',
+                                  '${element.model.name}(${element.count}) ${(element.amount * 100 / provider.listCurrentIncome).toStringAsFixed(1)}%',
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontFamily: 'RobotoMono',
@@ -430,7 +336,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                                 ),
                               ),
                               Text(
-                                amount.toString(),
+                                element.amount.toString(),
                                 style: const TextStyle(
                                   fontSize: 14,
                                 ),
@@ -445,7 +351,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                                 Expanded(
                                   flex: provider.listCurrentIncome == 0
                                       ? 0
-                                      : (amount * 100 / provider.listCurrentIncome).round(),
+                                      : (element.amount * 100 / provider.listCurrentIncome).round(),
                                   child: Container(
                                     color: Colors.blueAccent,
                                     height: 10,
@@ -454,7 +360,8 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                                 Expanded(
                                   flex: provider.listCurrentIncome == 0
                                       ? 1
-                                      : (100 - (amount * 100 / provider.listCurrentIncome)).round(),
+                                      : (100 - (element.amount * 100 / provider.listCurrentIncome))
+                                          .round(),
                                   child: Container(
                                     color: Colors.black12,
                                     height: 10,
@@ -471,87 +378,6 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
               );
             },
           ),
-        Builder(builder: (context) {
-          List<AccountingModel> list = [];
-          double amount = 0;
-
-          for (var e in provider.listAllList) {
-            if (e.amount > 0 && e.category == -1) {
-              list.add(e);
-              amount += e.amount;
-            }
-          }
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: Colors.grey,
-                  ),
-                  child: const Icon(
-                    Icons.help_outline,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(width: 4),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              '${S.of(context).unCategory}(${list.length}) ${(amount * 100 / provider.listCurrentIncome).toStringAsFixed(1)}%',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontFamily: 'RobotoMono',
-                              ),
-                            ),
-                          ),
-                          Text(
-                            amount.toString(),
-                            style: const TextStyle(
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: provider.listCurrentIncome == 0
-                                  ? 0
-                                  : (amount * 100 / provider.listCurrentIncome).round(),
-                              child: Container(
-                                color: Colors.blueAccent,
-                                height: 10,
-                              ),
-                            ),
-                            Expanded(
-                              flex: provider.listCurrentIncome == 0
-                                  ? 1
-                                  : (100 - (amount * 100 / provider.listCurrentIncome)).round(),
-                              child: Container(
-                                color: Colors.black12,
-                                height: 10,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-          );
-        }),
         const SizedBox(height: 50),
       ],
     );
@@ -575,9 +401,13 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      '${Utils.dateStringByType(provider.lineChartStart, provider.lineScale)}${!provider.lineSamDay ? ' ~ ' : ''}${!provider.lineSamDay ? Utils.dateStringByType(provider.lineChartEnd, provider.lineScale) : ''}'),
+                    '${Utils.dateStringByType(provider.lineChartStart, provider.lineScale)}${!provider.lineSamDay ? ' ~ ' : ''}${!provider.lineSamDay ? Utils.dateStringByType(provider.lineChartEnd, provider.lineScale) : ''}',
+                    style: const TextStyle(color: Colors.black54),
+                  ),
                   Text(
-                      '${S.of(context).timeScale} : ${provider.lineScale == 0 ? S.of(context).day : provider.lineScale == 1 ? S.of(context).month : S.of(context).year}')
+                    '${S.of(context).timeScale} : ${provider.lineScale == 0 ? S.of(context).day : provider.lineScale == 1 ? S.of(context).month : S.of(context).year}',
+                    style: const TextStyle(color: Colors.black54),
+                  )
                 ],
               ),
             ),
@@ -654,9 +484,13 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      '${Utils.dateStringByType(provider.pieChartStart, provider.pieScale)}${!provider.pieSamDay ? ' ~ ' : ''}${!provider.pieSamDay ? Utils.dateStringByType(provider.pieChartEnd, provider.pieScale) : ''}'),
+                    '${Utils.dateStringByType(provider.pieChartStart, provider.pieScale)}${!provider.pieSamDay ? ' ~ ' : ''}${!provider.pieSamDay ? Utils.dateStringByType(provider.pieChartEnd, provider.pieScale) : ''}',
+                    style: const TextStyle(color: Colors.black54),
+                  ),
                   Text(
-                      '${S.of(context).timeScale} : ${provider.pieScale == 0 ? S.of(context).day : provider.pieScale == 1 ? S.of(context).month : S.of(context).year}')
+                    '${S.of(context).timeScale} : ${provider.pieScale == 0 ? S.of(context).day : provider.pieScale == 1 ? S.of(context).month : S.of(context).year}',
+                    style: const TextStyle(color: Colors.black54),
+                  )
                 ],
               ),
             ),
@@ -921,9 +755,13 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      '${Utils.dateStringByType(provider.stackChartStart, provider.stackScale)}${!provider.stackSamDay ? ' ~ ' : ''}${!provider.stackSamDay ? Utils.dateStringByType(provider.stackChartEnd, provider.stackScale) : ''}'),
+                    '${Utils.dateStringByType(provider.stackChartStart, provider.stackScale)}${!provider.stackSamDay ? ' ~ ' : ''}${!provider.stackSamDay ? Utils.dateStringByType(provider.stackChartEnd, provider.stackScale) : ''}',
+                    style: const TextStyle(color: Colors.black54),
+                  ),
                   Text(
-                      '${S.of(context).timeScale} : ${provider.stackScale == 0 ? S.of(context).day : provider.stackScale == 1 ? S.of(context).month : S.of(context).year}')
+                    '${S.of(context).timeScale} : ${provider.stackScale == 0 ? S.of(context).day : provider.stackScale == 1 ? S.of(context).month : S.of(context).year}',
+                    style: const TextStyle(color: Colors.black54),
+                  )
                 ],
               ),
             ),

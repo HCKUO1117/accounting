@@ -3,5 +3,6 @@
     <string name="appName">Fast Accounting</string>
     <string name="income">Income</string>
     <string name="expenditure">Expenditure</string>
-    <string name="budget">budget balance</string>
+    <string name="budget">Budget balance for this month</string>
+    <string name="unCategory">unCategory</string>
 </resources>

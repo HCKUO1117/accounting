@@ -283,6 +283,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                                     Text(
                                                       Utils.toDateString(provider
                                                           .currentAccountingList[index].date),
+                                                      style: const TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
                                                     ),
                                                     const SizedBox(width: 8),
                                                     Expanded(

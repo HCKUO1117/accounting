@@ -20,23 +20,25 @@ class HomeWidgetProvider with ChangeNotifier {
 
   Future<void> sendAndUpdate() async {
     List<AccountingModel> list = await AccountingDB.displayAllData();
-    List<AccountingModel> todayList =
-        list.where((element) => Utils.checkIsSameDay(element.date, DateTime.now())).toList();
+    List<AccountingModel> todayList = [];
     List<CategoryModel> categories = await CategoryDB.displayAllData();
 
     List<Map<String, dynamic>> mapList = [];
 
-    double budgetLeft = double.parse(Preferences.getString(Constants.goalNum, '-1'));
+    double budget = double.parse(Preferences.getString(Constants.goalNum, '-1'));
+    print(budget);
     double income = 0;
     double expenditure = 0;
+    double monthExpenditure = 0;
 
     for (var element in list) {
       if (Utils.checkIsSameDay(element.date, DateTime.now())) {
-        String categoryName = '';
+        todayList.add(element);
+        String? categoryName = '';
         if (categories.indexWhere((e) => e.id == element.category) != -1) {
           categoryName = categories.firstWhere((e) => e.id == element.category).name;
         } else {
-          categoryName = "";
+          categoryName = '';
         }
 
         mapList.add({
@@ -51,14 +53,12 @@ class HomeWidgetProvider with ChangeNotifier {
           income += element.amount;
         }
       }
+      if(Utils.checkIsSameMonth(element.date, DateTime.now())){
+        if(element.amount < 0){
+          monthExpenditure += element.amount;
+        }
+      }
     }
-    if (budgetLeft != -1) {
-      budgetLeft += expenditure;
-    }
-
-    Map<String, dynamic> recordMap = <String, dynamic>{
-      'data': List.generate(todayList.length, (index) => todayList[index].toMap())
-    };
 
     return Future.wait<bool?>([
       HomeWidget.saveWidgetData(
@@ -70,8 +70,24 @@ class HomeWidgetProvider with ChangeNotifier {
         List.generate(mapList.length, (index) => jsonEncode(mapList[index])).toString(),
       ),
       HomeWidget.saveWidgetData(
+        'income',
+        income.toString(),
+      ),
+      HomeWidget.saveWidgetData(
+        'expenditure',
+        expenditure.toString(),
+      ),
+      HomeWidget.saveWidgetData(
+        'balance',
+        (income + expenditure).toString(),
+      ),
+      HomeWidget.saveWidgetData(
         'budget',
-        budgetLeft,
+        budget.toString(),
+      ),
+      HomeWidget.saveWidgetData(
+        'monthExpenditure',
+        monthExpenditure.toString(),
       ),
       HomeWidget.updateWidget(
         name: 'HomeWidgetExampleProvider',
@@ -94,18 +110,19 @@ class HomeWidgetProvider with ChangeNotifier {
 void callbackDispatcher() {
   Workmanager().executeTask((taskName, inputData) async {
     List<AccountingModel> list = await AccountingDB.displayAllData();
-    List<AccountingModel> todayList =
-        list.where((element) => Utils.checkIsSameDay(element.date, DateTime.now())).toList();
+    List<AccountingModel> todayList = [];
     List<CategoryModel> categories = await CategoryDB.displayAllData();
 
     List<Map<String, dynamic>> mapList = [];
 
-    double budgetLeft = double.parse(Preferences.getString(Constants.goalNum, '-1'));
+    double budget = double.parse(Preferences.getString(Constants.goalNum, '-1'));
     double income = 0;
     double expenditure = 0;
+    double monthExpenditure = 0;
 
     for (var element in list) {
       if (Utils.checkIsSameDay(element.date, DateTime.now())) {
+        todayList.add(element);
         String categoryName = '';
         if (categories.indexWhere((e) => e.id == element.category) != -1) {
           categoryName = categories.firstWhere((e) => e.id == element.category).name;
@@ -125,14 +142,13 @@ void callbackDispatcher() {
           income += element.amount;
         }
       }
-    }
-    if (budgetLeft != -1) {
-      budgetLeft += expenditure;
+      if(Utils.checkIsSameMonth(element.date, DateTime.now())){
+        if(element.amount < 0){
+          monthExpenditure += element.amount;
+        }
+      }
     }
 
-    Map<String, dynamic> recordMap = <String, dynamic>{
-      'data': List.generate(todayList.length, (index) => todayList[index].toMap()).toString()
-    };
 
     return Future.wait<bool?>([
       HomeWidget.saveWidgetData(
@@ -144,8 +160,24 @@ void callbackDispatcher() {
         List.generate(mapList.length, (index) => jsonEncode(mapList[index])).toString(),
       ),
       HomeWidget.saveWidgetData(
+        'income',
+        income.toString(),
+      ),
+      HomeWidget.saveWidgetData(
+        'expenditure',
+        expenditure.toString(),
+      ),
+      HomeWidget.saveWidgetData(
+        'balance',
+        (income + expenditure).toString(),
+      ),
+      HomeWidget.saveWidgetData(
         'budget',
-        budgetLeft,
+        budget.toString(),
+      ),
+      HomeWidget.saveWidgetData(
+        'monthExpenditure',
+        monthExpenditure.toString(),
       ),
       HomeWidget.updateWidget(
         name: 'HomeWidgetExampleProvider',

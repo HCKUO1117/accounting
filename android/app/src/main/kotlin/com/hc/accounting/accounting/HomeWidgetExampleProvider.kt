@@ -4,12 +4,10 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.net.Uri
 import android.widget.RemoteViews
-import android.widget.Toast
-import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
-import com.google.gson.reflect.TypeToken
 import es.antonborri.home_widget.HomeWidgetBackgroundIntent
 import es.antonborri.home_widget.HomeWidgetLaunchIntent
 import es.antonborri.home_widget.HomeWidgetProvider
@@ -44,31 +42,76 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
                 )
                 setOnClickPendingIntent(R.id.widget_title, backgroundIntent)
 
-                val message = widgetData.getString("message", null)
+                val data = widgetData.getString("message", null)
 
                 ///傳值給list view
                 val intent = Intent(context, ListWidgetService::class.java).apply {
                     // Add the widget ID to the intent extras.
-                    putExtra("data", message)
+                    putExtra("data", data)
                 }
                 setRemoteAdapter(R.id.list_view, intent)
 
 
-                val gson = Gson()
-                val type = object: TypeToken<List<MyRecord>>() {
-                }.type
-                val record = gson.fromJson<List<MyRecord>>(message ?: "[]",type)
+                val income = widgetData.getString("income", "0")
 
                 setTextViewText(
-                    R.id.widget_message, record.size.toString()
+                    R.id.income_amount, income
                 )
+
+                val expenditure = widgetData.getString("expenditure", "0")
+
+                setTextViewText(
+                    R.id.expenditure_amount, expenditure
+                )
+
+                val balance = widgetData.getString("balance", "0")
+                val balanceNum = balance!!.toDouble()
+
+                setTextViewText(
+                    R.id.balance, balance
+                )
+
+//                if(balanceNum <0){
+//                    setTextColor(R.id.balance, Color.parseColor("#FF5252"))
+//                }
+
+
+
+                val budget = widgetData.getString("budget", "-1")
+
+
+                val budgetNum = budget!!.toDouble()
+
+                if(budget == "-1"){
+                    setTextViewText(
+                        R.id.budget_amount, ""
+                    )
+                }else{
+                    val monthExpenditure = widgetData.getString("monthExpenditure", "0")
+                    val monthExpenditureNum = monthExpenditure!!.toDouble()
+                    val budgetLeft = budgetNum + monthExpenditureNum
+
+                    setTextViewText(
+                        R.id.budget_amount, budgetLeft.toString()
+                    )
+                    if(budgetLeft < 0){
+                        setTextColor(R.id.budget_amount, Color.parseColor("#FF5252"))
+                    }else{
+                        setTextColor(R.id.budget_amount, Color.parseColor("#448AFF"))
+                    }
+                }
+
+
+
+
+
                 // Detect App opened via Click inside Flutter
-                val pendingIntentWithData = HomeWidgetLaunchIntent.getActivity(
-                    context,
-                    MainActivity::class.java,
-                    Uri.parse("homeWidgetExample://message?message=$message")
-                )
-                setOnClickPendingIntent(R.id.widget_message, pendingIntentWithData)
+//                val pendingIntentWithData = HomeWidgetLaunchIntent.getActivity(
+//                    context,
+//                    MainActivity::class.java,
+//                    Uri.parse("homeWidgetExample://message?message=$message")
+//                )
+//                setOnClickPendingIntent(R.id.widget_message, pendingIntentWithData)
             }
 
 
