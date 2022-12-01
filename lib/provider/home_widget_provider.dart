@@ -25,8 +25,7 @@ class HomeWidgetProvider with ChangeNotifier {
 
     List<Map<String, dynamic>> mapList = [];
 
-    double budget = double.parse(Preferences.getString(Constants.goalNum, '-1'));
-    print(budget);
+    String budget = Preferences.getString(Constants.goalNum, '-1.0');
     double income = 0;
     double expenditure = 0;
     double monthExpenditure = 0;
@@ -83,7 +82,7 @@ class HomeWidgetProvider with ChangeNotifier {
       ),
       HomeWidget.saveWidgetData(
         'budget',
-        budget.toString(),
+        budget,
       ),
       HomeWidget.saveWidgetData(
         'monthExpenditure',
@@ -115,7 +114,7 @@ void callbackDispatcher() {
 
     List<Map<String, dynamic>> mapList = [];
 
-    double budget = double.parse(Preferences.getString(Constants.goalNum, '-1'));
+    String budget = Preferences.getString(Constants.goalNum, '-1.0');
     double income = 0;
     double expenditure = 0;
     double monthExpenditure = 0;
@@ -173,7 +172,7 @@ void callbackDispatcher() {
       ),
       HomeWidget.saveWidgetData(
         'budget',
-        budget.toString(),
+        budget,
       ),
       HomeWidget.saveWidgetData(
         'monthExpenditure',

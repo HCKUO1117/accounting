@@ -5,4 +5,5 @@
     <string name="expenditure">支出</string>
     <string name="budget">本月預算餘額</string>
     <string name="unCategory">未分類</string>
+    <string name="unSet">未設定</string>
 </resources>

@@ -5,10 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
-import android.net.Uri
 import android.widget.RemoteViews
 import com.google.gson.annotations.SerializedName
-import es.antonborri.home_widget.HomeWidgetBackgroundIntent
 import es.antonborri.home_widget.HomeWidgetLaunchIntent
 import es.antonborri.home_widget.HomeWidgetProvider
 
@@ -36,11 +34,11 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
                     R.id.widget_title, widgetData.getString("title", null)
                         ?: "No Title Set"
                 )
-                val backgroundIntent = HomeWidgetBackgroundIntent.getBroadcast(
-                    context,
-                    Uri.parse("homeWidgetExample://titleClicked")
-                )
-                setOnClickPendingIntent(R.id.widget_title, backgroundIntent)
+//                val backgroundIntent = HomeWidgetBackgroundIntent.getBroadcast(
+//                    context,
+//                    Uri.parse("homeWidgetExample://titleClicked")
+//                )
+//                setOnClickPendingIntent(R.id.widget_title, backgroundIntent)
 
                 val data = widgetData.getString("message", null)
 
@@ -65,7 +63,6 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
                 )
 
                 val balance = widgetData.getString("balance", "0")
-                val balanceNum = balance!!.toDouble()
 
                 setTextViewText(
                     R.id.balance, balance
@@ -75,18 +72,20 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
 //                    setTextColor(R.id.balance, Color.parseColor("#FF5252"))
 //                }
 
+                val share = context.getSharedPreferences(
+                    "FlutterSharedPreferences",
+                    Context.MODE_PRIVATE
+                )
 
 
-                val budget = widgetData.getString("budget", "-1")
+                val budget = share.getString("flutter.goalNum","-1.0")
 
 
                 val budgetNum = budget!!.toDouble()
-
-                if(budget == "-1"){
-                    setTextViewText(
-                        R.id.budget_amount, ""
-                    )
-                }else{
+                if (budget == "-1.0") {
+                    setTextViewText(R.id.budget_amount, context.getString(R.string.unSet))
+                    setTextColor(R.id.budget_amount, Color.parseColor("#9E9E9E"))
+                } else {
                     val monthExpenditure = widgetData.getString("monthExpenditure", "0")
                     val monthExpenditureNum = monthExpenditure!!.toDouble()
                     val budgetLeft = budgetNum + monthExpenditureNum
@@ -94,15 +93,12 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
                     setTextViewText(
                         R.id.budget_amount, budgetLeft.toString()
                     )
-                    if(budgetLeft < 0){
+                    if (budgetLeft < 0) {
                         setTextColor(R.id.budget_amount, Color.parseColor("#FF5252"))
-                    }else{
+                    } else {
                         setTextColor(R.id.budget_amount, Color.parseColor("#448AFF"))
                     }
                 }
-
-
-
 
 
                 // Detect App opened via Click inside Flutter
@@ -116,7 +112,7 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
 
 
             appWidgetManager.updateAppWidget(widgetId, views)
-            appWidgetManager.notifyAppWidgetViewDataChanged(widgetId,R.id.list_view)
+            appWidgetManager.notifyAppWidgetViewDataChanged(widgetId, R.id.list_view)
         }
     }
 }

@@ -263,7 +263,7 @@ class _GoogleDrivePageState extends State<GoogleDrivePage> {
                       ),
                       ElevatedButton(
                         style: ButtonStyle(elevation: MaterialStateProperty.all(0)),
-                        onPressed: provider.googleSignInAccount != null
+                        onPressed: provider.user != null
                             ? () {
                                 provider.signOut(context);
                               }

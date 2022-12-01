@@ -58,8 +58,7 @@ class ListRemoteViewsFactory(
     }
 
     override fun getLoadingView(): RemoteViews {
-        return RemoteViews(context.packageName, R.layout.record_card).apply {
-        }
+        return RemoteViews(context.packageName, R.layout.loading_layout)
     }
 
     override fun getViewTypeCount(): Int {

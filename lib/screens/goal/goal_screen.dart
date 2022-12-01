@@ -1,4 +1,5 @@
 import 'package:accounting/generated/l10n.dart';
+import 'package:accounting/provider/home_widget_provider.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
 import 'package:accounting/screens/goal/add_fixed_income_page.dart';
@@ -217,6 +218,7 @@ class _GoalScreenState extends State<GoalScreen> with TickerProviderStateMixin {
                                             TextButton(
                                               onPressed: () async {
                                                 provider.setGoal(-1);
+                                                context.read<HomeWidgetProvider>().sendAndUpdate();
                                                 Navigator.pop(context, true);
                                               },
                                               child: Text(S.of(context).ok),
