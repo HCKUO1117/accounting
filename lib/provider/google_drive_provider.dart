@@ -116,7 +116,9 @@ class GoogleDriveProvider with ChangeNotifier {
     if (user != null) {
       isLogin = true;
 
-      print(user);
+      if (kDebugMode) {
+        print(user);
+      }
     }
 
     logingIn = false;
@@ -272,7 +274,9 @@ class GoogleDriveProvider with ChangeNotifier {
       }
       onSuccess.call();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       onError.call(e.toString());
     }
 
