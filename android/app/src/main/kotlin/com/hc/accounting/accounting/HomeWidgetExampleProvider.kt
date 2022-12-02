@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.net.Uri
 import android.widget.RemoteViews
 import com.google.gson.annotations.SerializedName
 import es.antonborri.home_widget.HomeWidgetLaunchIntent
@@ -47,6 +48,8 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
                     // Add the widget ID to the intent extras.
                     putExtra("data", data)
                 }
+                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
+                intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME));
                 setRemoteAdapter(R.id.list_view, intent)
 
 
@@ -78,7 +81,7 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
                 )
 
 
-                val budget = share.getString("flutter.goalNum","-1.0")
+                val budget = share.getString("flutter.goalNum", "-1.0")
 
 
                 val budgetNum = budget!!.toDouble()
