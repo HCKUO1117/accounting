@@ -1419,6 +1419,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Select Icon`
+  String get selectIcon {
+    return Intl.message(
+      'Select Icon',
+      name: 'selectIcon',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -122,6 +122,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "save1": MessageLookupByLibrary.simpleMessage("存"),
         "savingNow": MessageLookupByLibrary.simpleMessage("現在就開始記帳吧!"),
         "selectDay": MessageLookupByLibrary.simpleMessage("選擇日期"),
+        "selectIcon": MessageLookupByLibrary.simpleMessage("請選擇圖案"),
         "selectTime": MessageLookupByLibrary.simpleMessage("選擇時間"),
         "send": MessageLookupByLibrary.simpleMessage("送出"),
         "setBudget": MessageLookupByLibrary.simpleMessage("設定預算"),

@@ -3,6 +3,7 @@ import 'package:accounting/db/category_model.dart';
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/icons.dart';
+import 'package:accounting/res/icons_to_show.dart';
 import 'package:accounting/screens/category/choose_icon_page.dart';
 import 'package:accounting/screens/widget/bouncing_button.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
 
   Color iconPickerColor = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
   late Color iconColor;
-  String iconString = icons.keys.toList()[math.Random().nextInt(icons.length)];
+  String iconString = iconsToShow.keys.toList()[math.Random().nextInt(iconsToShow.length)];
 
   @override
   void initState() {
@@ -134,7 +135,9 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                   onPress: () async {
                     String? icon = await Navigator.of(context).push(
                       MaterialPageRoute<String>(
-                        builder: (context) => const ChooseIconPage(),
+                        builder: (context) => ChooseIconPage(
+                          selectedIcon: iconString,
+                        ),
                       ),
                     );
                     if (icon != null) {
@@ -175,7 +178,10 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                         ),
                         actions: <Widget>[
                           ElevatedButton(
-                            child: const Text('Confirm'),
+                            child: Text(
+                              S.of(context).ok,
+                              style: const TextStyle(color: Colors.white),
+                            ),
                             onPressed: () {
                               setState(() {
                                 iconColor = iconPickerColor;
@@ -205,9 +211,8 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.black38)
-                    ),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.black38)),
                     child: TextField(
                       controller: _editingController,
                       decoration: InputDecoration(
@@ -234,21 +239,20 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                 }
                 if (widget.model == null) {
                   int newSort = 0;
-                  if(widget.type == CategoryType.income){
-
+                  if (widget.type == CategoryType.income) {
                     context.read<MainProvider>().categoryIncomeList.forEach((element) {
-                      if(element.sort > newSort){
+                      if (element.sort > newSort) {
                         newSort = element.sort;
                       }
                     });
-                    newSort ++;
-                  }else{
+                    newSort++;
+                  } else {
                     context.read<MainProvider>().categoryExpenditureList.forEach((element) {
-                      if(element.sort > newSort){
+                      if (element.sort > newSort) {
                         newSort = element.sort;
                       }
                     });
-                    newSort ++;
+                    newSort++;
                   }
 
                   await CategoryDB.insertData(

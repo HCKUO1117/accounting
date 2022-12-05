@@ -41,6 +41,7 @@ dependencies:
   package_info_plus: ^1.0.1
   home_widget: ^0.1.6
   workmanager: ^0.5.1
+  scroll_to_index: ^3.0.1
   flutter_localizations:
     sdk: flutter
 

@@ -141,6 +141,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "save1": MessageLookupByLibrary.simpleMessage("save"),
         "savingNow": MessageLookupByLibrary.simpleMessage("Start saving now!"),
         "selectDay": MessageLookupByLibrary.simpleMessage("Select Day"),
+        "selectIcon": MessageLookupByLibrary.simpleMessage("Select Icon"),
         "selectTime": MessageLookupByLibrary.simpleMessage("Select Time"),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
         "setBudget": MessageLookupByLibrary.simpleMessage("Set Budget"),

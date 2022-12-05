@@ -96,7 +96,7 @@ class Constants {
     CategoryModel(
       sort: 3,
       type: CategoryType.income,
-      icon: 'paid',
+      icon: 'holiday_village',
       name: '租金',
       iconColor: Colors.cyanAccent,
     ),

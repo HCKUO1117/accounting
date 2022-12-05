@@ -1,7 +1,5 @@
 import 'package:accounting/models/icon_model.dart';
-import 'package:accounting/res/constants.dart';
-import 'package:accounting/res/icons.dart';
-import 'package:accounting/utils/preferences.dart';
+import 'package:accounting/res/icons_to_show.dart';
 import 'package:flutter/material.dart';
 
 class IconProvider with ChangeNotifier {
@@ -9,9 +7,9 @@ class IconProvider with ChangeNotifier {
 
   String selected = '';
 
-  void fetch({String? keyword}) {
-    selected = Preferences.getString(Constants.setIcon, '');
-    icons.forEach((key, value) {
+  void fetch({String? keyword,required String iconName}) {
+    selected = iconName;
+    iconsToShow.forEach((key, value) {
       list.add(IconModel(name: key, iconData: value));
     });
     notifyListeners();

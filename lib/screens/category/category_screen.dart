@@ -128,7 +128,23 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              return CategoryTitle(model: provider.categoryIncomeList[index]);
+                              return InkWell(
+                                onTap: (){
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20)),
+                                      scrollable: true,
+                                      content: AddCategoryPage(
+                                        type: CategoryType.income,
+                                        model:provider.categoryIncomeList[index],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: CategoryTitle(model: provider.categoryIncomeList[index]),
+                              );
                             },
                             separatorBuilder: (context, index) {
                               return const Divider();
@@ -225,7 +241,23 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              return CategoryTitle(model: provider.categoryExpenditureList[index]);
+                              return InkWell(
+                                onTap: (){
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20)),
+                                      scrollable: true,
+                                      content: AddCategoryPage(
+                                        type: CategoryType.expenditure,
+                                        model:provider.categoryExpenditureList[index],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: CategoryTitle(model: provider.categoryExpenditureList[index]),
+                              );
                             },
                             separatorBuilder: (context, index) {
                               return const Divider();

@@ -135,5 +135,6 @@
   "update": "Update",
   "newVersion": "There is a new version",
   "more": "More",
-  "fixedInfo": "Fixed income and expenditure will be automatically added to your ledger at the date or time you set, you will no longer need to manually add fixed income and expenditure."
+  "fixedInfo": "Fixed income and expenditure will be automatically added to your ledger at the date or time you set, you will no longer need to manually add fixed income and expenditure.",
+  "selectIcon": "Select Icon"
 }
