@@ -1439,6 +1439,36 @@ class S {
       args: [],
     );
   }
+
+  /// `"Widgets" can display your income and expenditure on your home screen, which is convenient for you to manage your finances. Do you want to view the tutorial?`
+  String get appWidgetShow {
+    return Intl.message(
+      '"Widgets" can display your income and expenditure on your home screen, which is convenient for you to manage your finances. Do you want to view the tutorial?',
+      name: 'appWidgetShow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View Now`
+  String get showMeNow {
+    return Intl.message(
+      'View Now',
+      name: 'showMeNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Understand!`
+  String get understand {
+    return Intl.message(
+      'Understand!',
+      name: 'understand',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -18,6 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'app_widget_splash.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
@@ -37,6 +39,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       await _showAnnouncement();
       await _checkVersion();
       await _showUpdateInfo();
+      await _showAppWidgetTutorial();
     });
     super.initState();
   }
@@ -52,8 +55,12 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             topPadding: MediaQuery.of(context).padding.top,
           ),
           const ChartScreen(),
-          CategoryScreen(topPadding: MediaQuery.of(context).padding.top,),
-          GoalScreen(topPadding: MediaQuery.of(context).padding.top,),
+          CategoryScreen(
+            topPadding: MediaQuery.of(context).padding.top,
+          ),
+          GoalScreen(
+            topPadding: MediaQuery.of(context).padding.top,
+          ),
           const MemberScreen(),
         ],
       ),
@@ -61,7 +68,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
           ? FloatingActionButton(
               onPressed: () {
                 final double padding = MediaQuery.of(context).padding.top;
-                if(_bottomNavIndex == 0){
+                if (_bottomNavIndex == 0) {
                   showModalBottomSheet(
                     backgroundColor: Colors.white,
                     shape: const RoundedRectangleBorder(
@@ -78,7 +85,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                     ),
                   );
                 }
-                if(_bottomNavIndex == 3){
+                if (_bottomNavIndex == 3) {
                   showModalBottomSheet(
                     backgroundColor: Colors.white,
                     shape: const RoundedRectangleBorder(
@@ -104,9 +111,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: Container(
-        color: _bottomNavIndex == 2
-            ? Colors.orangeAccent.shade200.withOpacity(0.2)
-            : Colors.white,
+        color: _bottomNavIndex == 2 ? Colors.orangeAccent.shade200.withOpacity(0.2) : Colors.white,
         child: AnimatedBottomNavigationBar(
           elevation: 10,
           icons: const [
@@ -137,8 +142,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     await FirebaseRemoteConfig.instance.fetchAndActivate();
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final String nowVersion = packageInfo.version;
-    final String newVersion =
-    FirebaseRemoteConfig.instance.config!.getString('app_version');
+    final String newVersion = FirebaseRemoteConfig.instance.config!.getString('app_version');
     debugPrint('currentVersion : $nowVersion');
     debugPrint('newVersion : $newVersion');
     final List<String> nowVersions = nowVersion.split('.');
@@ -146,22 +150,22 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
     if (nowVersion.isNotEmpty && newVersion.isNotEmpty) {
       if (int.parse(newVersions[0]) > int.parse(nowVersions[0])) {
-        _showUpdateDialog(packageInfo);
+        await _showUpdateDialog(packageInfo);
       } else {
         if (int.parse(newVersions[1]) > int.parse(nowVersions[1])) {
-          _showUpdateDialog(packageInfo);
+          await _showUpdateDialog(packageInfo);
         } else {
           if (int.parse(newVersions[2]) > int.parse(nowVersions[2])) {
-            _showUpdateDialog(packageInfo);
+            await _showUpdateDialog(packageInfo);
           }
         }
       }
     }
+    await _showUpdateDialog(packageInfo);
   }
 
   Future<void> _showUpdateInfo() async {
-    final String previousVersion =
-    Preferences.getString(Constants.previousVersion, '0');
+    final String previousVersion = Preferences.getString(Constants.previousVersion, '0');
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final String nowVersion = packageInfo.version;
     debugPrint(previousVersion);
@@ -174,14 +178,14 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     String languageCode = 'en';
     if (defaultLocale.length > 1) {
       String first = defaultLocale.substring(0, 2);
-      languageCode = first.toUpperCase() == 'ZH' ? 'zh':'en';
+      languageCode = first.toUpperCase() == 'ZH' ? 'zh' : 'en';
     }
     await FirebaseRemoteConfig.instance.fetchAndActivate();
     final String info =
-    FirebaseRemoteConfig.instance.config!.getString('update_info_$languageCode');
+        FirebaseRemoteConfig.instance.config!.getString('update_info_$languageCode');
     if (nowVersion != previousVersion) {
       Preferences.setString(Constants.previousVersion, nowVersion);
-      showDialog(
+      await showDialog(
         context: context,
         builder: (context) => YesNoDialog(
           title: S.of(context).updateInfo,
@@ -192,7 +196,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     }
   }
 
-  void _showUpdateDialog(PackageInfo packageInfo) {
+  Future<void> _showUpdateDialog(PackageInfo packageInfo) async {
     String url = 'market://details?id=${packageInfo.packageName}';
     //const String iOSAppId = '';
     if (Platform.isAndroid) {
@@ -200,7 +204,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     } else if (Platform.isIOS || Platform.isMacOS) {
       //url = 'itms-apps://itunes.apple.com/tw/app/apple-store/$iOSAppId?mt=8';
     }
-    showDialog(
+    await showDialog(
       context: context,
       builder: (context) => YesNoDialog(
         title: S.of(context).update,
@@ -218,7 +222,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     String languageCode = 'en';
     if (defaultLocale.length > 1) {
       String first = defaultLocale.substring(0, 2);
-      languageCode = first.toUpperCase() == 'ZH' ? 'zh':'en';
+      languageCode = first.toUpperCase() == 'ZH' ? 'zh' : 'en';
     }
     String param = Constants.announcementText;
     param += languageCode;
@@ -239,6 +243,42 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
         title: title,
         content: content,
       ),
+    );
+  }
+
+  Future<void> _showAppWidgetTutorial() async {
+    final bool appWidgetShowed = Preferences.getBool(Constants.appWidget, false);
+
+    if (!appWidgetShowed) {
+      await showDialog(
+        context: context,
+        builder: (context) => YesNoDialog(
+          content: S.of(context).appWidgetShow,
+          otherContents: Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: Image.asset(
+              'assets/images/accounting_app_widget.png',
+              fit: BoxFit.contain,
+            ),
+          ),
+          onTap: () {
+            Navigator.of(context).pop();
+            _showAppWidgetTutorial2();
+          },
+          confirmText: S.of(context).showMeNow,
+        ),
+      );
+    }
+  }
+
+
+
+
+  Future<void> _showAppWidgetTutorial2() async {
+    await showDialog(
+      context: context,
+      builder: (context) =>
+      const AppWidgetSplash(),
     );
   }
 }

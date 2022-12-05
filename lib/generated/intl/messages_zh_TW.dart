@@ -27,6 +27,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "all": MessageLookupByLibrary.simpleMessage("全部"),
         "amount": MessageLookupByLibrary.simpleMessage("金額"),
         "amountFormatError": MessageLookupByLibrary.simpleMessage("金額格式錯誤"),
+        "appWidgetShow": MessageLookupByLibrary.simpleMessage(
+            "\"小工具\"可以您的主螢幕顯示您的收支，方便您管理財務，是否查看教學?"),
         "backup": MessageLookupByLibrary.simpleMessage("備份"),
         "backupInfo":
             MessageLookupByLibrary.simpleMessage("您的雲端資料將會被覆蓋且無法復原，是否要繼續?"),
@@ -129,6 +131,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "setBudget": MessageLookupByLibrary.simpleMessage("設定預算"),
         "setting": MessageLookupByLibrary.simpleMessage("設定"),
         "share": MessageLookupByLibrary.simpleMessage("分享"),
+        "showMeNow": MessageLookupByLibrary.simpleMessage("立即查看"),
         "showRecord": MessageLookupByLibrary.simpleMessage("查看項目"),
         "slang1": MessageLookupByLibrary.simpleMessage("省一分錢就是賺一分錢"),
         "slang2": MessageLookupByLibrary.simpleMessage("存錢以備不時之需"),
@@ -157,6 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "typeEmpty": MessageLookupByLibrary.simpleMessage("請輸入類型"),
         "unCategory": MessageLookupByLibrary.simpleMessage("未分類"),
         "unSubscribe": MessageLookupByLibrary.simpleMessage("取消訂閱"),
+        "understand": MessageLookupByLibrary.simpleMessage("了解了!"),
         "update": MessageLookupByLibrary.simpleMessage("更新"),
         "updateInfo": MessageLookupByLibrary.simpleMessage("更新資訊"),
         "uploadSuccess": MessageLookupByLibrary.simpleMessage("上傳成功"),

@@ -28,6 +28,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "amount": MessageLookupByLibrary.simpleMessage("Amount"),
         "amountFormatError":
             MessageLookupByLibrary.simpleMessage("Amount format error"),
+        "appWidgetShow": MessageLookupByLibrary.simpleMessage(
+            "\"Widgets\" can display your income and expenditure on your home screen, which is convenient for you to manage your finances. Do you want to view the tutorial?"),
         "backup": MessageLookupByLibrary.simpleMessage("Backup"),
         "backupInfo": MessageLookupByLibrary.simpleMessage(
             "Your cloud data will be overwritten and cannot be recovered. Do you want to continue?"),
@@ -149,6 +151,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "setBudget": MessageLookupByLibrary.simpleMessage("Set Budget"),
         "setting": MessageLookupByLibrary.simpleMessage("Setting"),
         "share": MessageLookupByLibrary.simpleMessage("Share"),
+        "showMeNow": MessageLookupByLibrary.simpleMessage("View Now"),
         "showRecord": MessageLookupByLibrary.simpleMessage("View items"),
         "slang1": MessageLookupByLibrary.simpleMessage(
             "A penny saved is a penny earned"),
@@ -181,6 +184,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter the type"),
         "unCategory": MessageLookupByLibrary.simpleMessage("Uncategory"),
         "unSubscribe": MessageLookupByLibrary.simpleMessage("Unsubscribe"),
+        "understand": MessageLookupByLibrary.simpleMessage("Understand!"),
         "update": MessageLookupByLibrary.simpleMessage("Update"),
         "updateInfo": MessageLookupByLibrary.simpleMessage("Update Info"),
         "uploadSuccess":

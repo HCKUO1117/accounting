@@ -7,6 +7,7 @@ class Constants {
   static const String setIcon = 'setIcon';
   static const String goalNum = 'goalNum';
   static const String previousVersion = 'previousVersion';
+  static const String appWidget = 'appWidget';
 
   static List<CategoryModel> defaultCategories = [
     CategoryModel(
@@ -266,8 +267,10 @@ class Constants {
   ];
 
 
-  ///icon
-  static const List<String> iconToShow = [
-
+  ///appWidget images
+  static const List<String> appWidgetsTW = [
+    'assets/images/app_widget_tw_1.png',
+    'assets/images/app_widget_tw_2.png',
+    'assets/images/app_widget_tw_3.png'
   ];
 }

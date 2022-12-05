@@ -137,5 +137,8 @@
   "more": "More",
   "fixedInfo": "Fixed income and expenditure will be automatically added to your ledger at the date or time you set, you will no longer need to manually add fixed income and expenditure.",
   "selectIcon": "Select Icon",
-  "categoryTutorial": "Long press and drag to change the order"
+  "categoryTutorial": "Long press and drag to change the order",
+  "appWidgetShow": "\"Widgets\" can display your income and expenditure on your home screen, which is convenient for you to manage your finances. Do you want to view the tutorial?",
+  "showMeNow": "View Now",
+  "understand": "Understand!"
 }

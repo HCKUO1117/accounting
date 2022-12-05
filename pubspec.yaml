@@ -42,6 +42,7 @@ dependencies:
   home_widget: ^0.1.6
   workmanager: ^0.5.1
   scroll_to_index: ^3.0.1
+  smooth_page_indicator: ^1.0.0+2
   flutter_localizations:
     sdk: flutter
 
@@ -86,6 +87,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/icons/
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

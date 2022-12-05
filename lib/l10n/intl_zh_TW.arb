@@ -137,5 +137,8 @@
   "more": "更多",
   "fixedInfo": "固定收支將會在您設定的日期或時間自動加入您的帳本，您將不需再手動加入固定的收支。",
   "selectIcon": "請選擇圖案",
-  "categoryTutorial":"長按並拖動可以變更順序"
+  "categoryTutorial":"長按並拖動可以變更順序",
+  "appWidgetShow": "\"小工具\"可以您的主螢幕顯示您的收支，方便您管理財務，是否查看教學?",
+  "showMeNow": "立即查看",
+  "understand": "了解了!"
 }
