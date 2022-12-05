@@ -42,6 +42,28 @@ class _IncomeCategoryPageState extends State<IncomeCategoryPage> {
           ),
           actions: [
             IconButton(
+              onPressed: () async {
+                await showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                  shape:
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  scrollable: true,
+                  content: Text(S.of(context).categoryTutorial),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(S.of(context).ok),
+                    )
+                  ],
+                ),
+                );
+              },
+              icon: const Icon(Icons.help_outline),
+            ),
+            IconButton(
               onPressed: () {
                 Navigator.pop(context);
               },

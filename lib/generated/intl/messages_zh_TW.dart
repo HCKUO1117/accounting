@@ -39,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cantBe0": MessageLookupByLibrary.simpleMessage("金額不得為0"),
         "category": MessageLookupByLibrary.simpleMessage("分類"),
         "categoryName": MessageLookupByLibrary.simpleMessage("分類名稱"),
+        "categoryTutorial": MessageLookupByLibrary.simpleMessage("長按並拖動可以變更順序"),
         "chart": MessageLookupByLibrary.simpleMessage("圖表"),
         "clickSetBudget": MessageLookupByLibrary.simpleMessage("點此設定預算"),
         "color": MessageLookupByLibrary.simpleMessage("顏色"),

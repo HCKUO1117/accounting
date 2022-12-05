@@ -1429,6 +1429,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Long press and drag to change the order`
+  String get categoryTutorial {
+    return Intl.message(
+      'Long press and drag to change the order',
+      name: 'categoryTutorial',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
