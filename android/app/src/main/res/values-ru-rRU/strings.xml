@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName">быстрый учет</string>
+    <string name="income">доход</string>
+    <string name="expenditure">статья расхода</string>
+    <string name="budget">Остаток бюджета за месяц</string>
+    <string name="unCategory">некатегоризированный</string>
+    <string name="unSet">не установлен</string>
+</resources>

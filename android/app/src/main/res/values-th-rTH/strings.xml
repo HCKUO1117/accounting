@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName">การบัญชีที่รวดเร็ว</string>
+    <string name="income">รายได้</string>
+    <string name="expenditure">รายจ่าย</string>
+    <string name="budget">ดุลงบประมาณสำหรับเดือน</string>
+    <string name="unCategory">ไม่มีหมวดหมู่</string>
+    <string name="unSet">ไม่ได้ตั้งค่า</string>
+</resources>

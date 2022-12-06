@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName">迅速な会計</string>
+    <string name="income">所得</string>
+    <string name="expenditure">支出</string>
+    <string name="budget">その月の予算残高</string>
+    <string name="unCategory">未分類</string>
+    <string name="unSet">設定されていません</string>
+</resources>

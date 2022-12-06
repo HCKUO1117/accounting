@@ -167,6 +167,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "usageProblem": MessageLookupByLibrary.simpleMessage("使用問題"),
         "wed": MessageLookupByLibrary.simpleMessage("週三"),
         "wednesday": MessageLookupByLibrary.simpleMessage("星期三"),
+        "widgets": MessageLookupByLibrary.simpleMessage("小工具"),
         "year": MessageLookupByLibrary.simpleMessage("年"),
         "yesterday": MessageLookupByLibrary.simpleMessage("昨天"),
         "yorContent": MessageLookupByLibrary.simpleMessage("您的內容"),

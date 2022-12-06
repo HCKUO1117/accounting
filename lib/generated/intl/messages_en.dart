@@ -29,7 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "amountFormatError":
             MessageLookupByLibrary.simpleMessage("Amount format error"),
         "appWidgetShow": MessageLookupByLibrary.simpleMessage(
-            "\"Widgets\" can display your income and expenditure on your home screen, which is convenient for you to manage your finances. Do you want to view the tutorial?"),
+            "\"Widgets\" can display your income and spending on your home screen, which is convenient for you to manage your finances. Do you want to view the tutorial?"),
         "backup": MessageLookupByLibrary.simpleMessage("Backup"),
         "backupInfo": MessageLookupByLibrary.simpleMessage(
             "Your cloud data will be overwritten and cannot be recovered. Do you want to continue?"),
@@ -71,7 +71,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorFormat": MessageLookupByLibrary.simpleMessage("Format error"),
         "errorReport": MessageLookupByLibrary.simpleMessage("Error report"),
         "expand": MessageLookupByLibrary.simpleMessage("Expand"),
-        "expenditure": MessageLookupByLibrary.simpleMessage("Expenditure"),
+        "expenditure": MessageLookupByLibrary.simpleMessage("Spending"),
         "explainFeedback": MessageLookupByLibrary.simpleMessage(
             "Please explain your question or feedback"),
         "exportExcel": MessageLookupByLibrary.simpleMessage("Export Excel"),
@@ -87,7 +87,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please go to \"Download\" in your phone\'s storage to view the exported file, or click \"Share\" to share your file to your group or cloud"),
         "fixedIncome": MessageLookupByLibrary.simpleMessage("Fixed Income"),
         "fixedInfo": MessageLookupByLibrary.simpleMessage(
-            "Fixed income and expenditure will be automatically added to your ledger at the date or time you set, you will no longer need to manually add fixed income and expenditure."),
+            "Fixed income and spending will be automatically added to your ledger at the date or time you set, you will no longer need to manually add fixed income and Spending."),
         "fri": MessageLookupByLibrary.simpleMessage("Fri"),
         "friday": MessageLookupByLibrary.simpleMessage("Friday"),
         "googleDriveInfo": MessageLookupByLibrary.simpleMessage(
@@ -95,8 +95,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "icon": MessageLookupByLibrary.simpleMessage("Icon"),
         "inAndOut":
             MessageLookupByLibrary.simpleMessage("Fixed Income and Budget"),
-        "inOut":
-            MessageLookupByLibrary.simpleMessage("Incoming and Expenditure"),
+        "inOut": MessageLookupByLibrary.simpleMessage("Incoming and Spending"),
         "income": MessageLookupByLibrary.simpleMessage("Income"),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
@@ -192,6 +191,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "usageProblem": MessageLookupByLibrary.simpleMessage("Usage Problem"),
         "wed": MessageLookupByLibrary.simpleMessage("Wed"),
         "wednesday": MessageLookupByLibrary.simpleMessage("Wednesday"),
+        "widgets": MessageLookupByLibrary.simpleMessage("Widgets"),
         "year": MessageLookupByLibrary.simpleMessage("year"),
         "yesterday": MessageLookupByLibrary.simpleMessage("Yesterday"),
         "yorContent": MessageLookupByLibrary.simpleMessage("Your Content"),

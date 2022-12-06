@@ -60,10 +60,10 @@ class S {
     );
   }
 
-  /// `Expenditure`
+  /// `Spending`
   String get expenditure {
     return Intl.message(
-      'Expenditure',
+      'Spending',
       name: 'expenditure',
       desc: '',
       args: [],
@@ -740,10 +740,10 @@ class S {
     );
   }
 
-  /// `Incoming and Expenditure`
+  /// `Incoming and Spending`
   String get inOut {
     return Intl.message(
-      'Incoming and Expenditure',
+      'Incoming and Spending',
       name: 'inOut',
       desc: '',
       args: [],
@@ -1410,10 +1410,10 @@ class S {
     );
   }
 
-  /// `Fixed income and expenditure will be automatically added to your ledger at the date or time you set, you will no longer need to manually add fixed income and expenditure.`
+  /// `Fixed income and spending will be automatically added to your ledger at the date or time you set, you will no longer need to manually add fixed income and Spending.`
   String get fixedInfo {
     return Intl.message(
-      'Fixed income and expenditure will be automatically added to your ledger at the date or time you set, you will no longer need to manually add fixed income and expenditure.',
+      'Fixed income and spending will be automatically added to your ledger at the date or time you set, you will no longer need to manually add fixed income and Spending.',
       name: 'fixedInfo',
       desc: '',
       args: [],
@@ -1440,10 +1440,10 @@ class S {
     );
   }
 
-  /// `"Widgets" can display your income and expenditure on your home screen, which is convenient for you to manage your finances. Do you want to view the tutorial?`
+  /// `"Widgets" can display your income and spending on your home screen, which is convenient for you to manage your finances. Do you want to view the tutorial?`
   String get appWidgetShow {
     return Intl.message(
-      '"Widgets" can display your income and expenditure on your home screen, which is convenient for you to manage your finances. Do you want to view the tutorial?',
+      '"Widgets" can display your income and spending on your home screen, which is convenient for you to manage your finances. Do you want to view the tutorial?',
       name: 'appWidgetShow',
       desc: '',
       args: [],
@@ -1469,6 +1469,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Widgets`
+  String get widgets {
+    return Intl.message(
+      'Widgets',
+      name: 'widgets',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -1477,6 +1487,13 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'es'),
+      Locale.fromSubtags(languageCode: 'hi'),
+      Locale.fromSubtags(languageCode: 'ja'),
+      Locale.fromSubtags(languageCode: 'ko'),
+      Locale.fromSubtags(languageCode: 'ru'),
+      Locale.fromSubtags(languageCode: 'th'),
+      Locale.fromSubtags(languageCode: 'vi'),
       Locale.fromSubtags(languageCode: 'zh', countryCode: 'TW'),
     ];
   }

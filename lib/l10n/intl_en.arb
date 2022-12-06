@@ -1,6 +1,6 @@
 {
   "income": "Income",
-  "expenditure": "Expenditure",
+  "expenditure": "Spending",
   "category": "Category",
   "tag": "Tag",
   "budget": "Budget",
@@ -68,7 +68,7 @@
   "noTag": "No Tag",
   "timeScale": "Time Scale",
   "dataType": "Data Source",
-  "inOut": "Incoming and Expenditure",
+  "inOut": "Incoming and Spending",
   "filter": "Filter",
   "plzChooseTime": "Please choose a time",
   "chart": "Chart",
@@ -135,10 +135,11 @@
   "update": "Update",
   "newVersion": "There is a new version",
   "more": "More",
-  "fixedInfo": "Fixed income and expenditure will be automatically added to your ledger at the date or time you set, you will no longer need to manually add fixed income and expenditure.",
+  "fixedInfo": "Fixed income and spending will be automatically added to your ledger at the date or time you set, you will no longer need to manually add fixed income and Spending.",
   "selectIcon": "Select Icon",
   "categoryTutorial": "Long press and drag to change the order",
-  "appWidgetShow": "\"Widgets\" can display your income and expenditure on your home screen, which is convenient for you to manage your finances. Do you want to view the tutorial?",
+  "appWidgetShow": "\"Widgets\" can display your income and spending on your home screen, which is convenient for you to manage your finances. Do you want to view the tutorial?",
   "showMeNow": "View Now",
-  "understand": "Understand!"
+  "understand": "Understand!",
+  "widgets": "Widgets"
 }

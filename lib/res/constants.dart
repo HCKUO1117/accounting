@@ -273,4 +273,52 @@ class Constants {
     'assets/images/app_widget_tw_2.png',
     'assets/images/app_widget_tw_3.png'
   ];
+
+  static const List<String> appWidgetsEN = [
+    'assets/images/app_widget_en_1.png',
+    'assets/images/app_widget_en_2.png',
+    'assets/images/app_widget_en_3.png'
+  ];
+
+  static const List<String> appWidgetsKO = [
+    'assets/images/app_widget_ko_1.png',
+    'assets/images/app_widget_ko_2.png',
+    'assets/images/app_widget_ko_3.png'
+  ];
+
+  static const List<String> appWidgetsJA = [
+    'assets/images/app_widget_ja_1.png',
+    'assets/images/app_widget_ja_2.png',
+    'assets/images/app_widget_ja_3.png'
+  ];
+
+  static const List<String> appWidgetsRU = [
+    'assets/images/app_widget_ru_1.png',
+    'assets/images/app_widget_ru_2.png',
+    'assets/images/app_widget_ru_3.png'
+  ];
+
+  static const List<String> appWidgetsHI = [
+    'assets/images/app_widget_hi_1.png',
+    'assets/images/app_widget_hi_2.png',
+    'assets/images/app_widget_hi_3.png'
+  ];
+
+  static const List<String> appWidgetsVI = [
+    'assets/images/app_widget_vi_1.png',
+    'assets/images/app_widget_vi_2.png',
+    'assets/images/app_widget_vi_3.png'
+  ];
+
+  static const List<String> appWidgetsTH = [
+    'assets/images/app_widget_th_1.png',
+    'assets/images/app_widget_th_2.png',
+    'assets/images/app_widget_th_3.png'
+  ];
+
+  static const List<String> appWidgetsES = [
+    'assets/images/app_widget_es_1.png',
+    'assets/images/app_widget_es_2.png',
+    'assets/images/app_widget_es_3.png'
+  ];
 }

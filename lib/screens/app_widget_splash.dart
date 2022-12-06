@@ -1,3 +1,4 @@
+import 'package:accounting/app.dart';
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/res/constants.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,39 @@ class _AppWidgetSplashState extends State<AppWidgetSplash> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> images = Constants.appWidgetsEN;
+
+    switch(App.of(context)?.locale?.languageCode){
+      case 'en':
+        images = Constants.appWidgetsEN;
+        break;
+      case 'zh':
+        images = Constants.appWidgetsTW;
+        break;
+      case 'ko':
+        images = Constants.appWidgetsKO;
+        break;
+      case 'ja':
+        images = Constants.appWidgetsJA;
+        break;
+      case 'ru':
+        images = Constants.appWidgetsRU;
+        break;
+      case 'hi':
+        images = Constants.appWidgetsHI;
+        break;
+      case 'vi':
+        images = Constants.appWidgetsVI;
+        break;
+      case 'th':
+        images = Constants.appWidgetsTH;
+        break;
+      case 'es':
+        images = Constants.appWidgetsES;
+        break;
+    }
+
+
     return SafeArea(
       child: Stack(
         children: [
@@ -27,7 +61,7 @@ class _AppWidgetSplashState extends State<AppWidgetSplash> {
               });
             },
             children: [
-              for (var element in Constants.appWidgetsTW)
+              for (var element in images)
                 Stack(
                   alignment: Alignment.center,
                   children: [
@@ -52,7 +86,7 @@ class _AppWidgetSplashState extends State<AppWidgetSplash> {
                 if (currentPage != 2)
                   SmoothPageIndicator(
                     controller: pageController, // PageController
-                    count: Constants.appWidgetsTW.length,
+                    count: images.length,
                     effect: const WormEffect(
                         dotColor: Colors.white,
                         activeDotColor: Colors.orangeAccent), // your preferred effect

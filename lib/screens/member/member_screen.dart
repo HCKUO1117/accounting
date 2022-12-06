@@ -3,11 +3,13 @@ import 'package:accounting/provider/iap.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
 import 'package:accounting/res/constants.dart';
+import 'package:accounting/screens/app_widget_splash.dart';
 import 'package:accounting/screens/member/export_excel_page.dart';
 import 'package:accounting/screens/member/feedback_page.dart';
 import 'package:accounting/screens/member/google_drive_page.dart';
 import 'package:accounting/screens/member/notification_page.dart';
 import 'package:accounting/screens/member/remove_ad_page.dart';
+import 'package:accounting/screens/widget/yes_no_dialog.dart';
 import 'package:accounting/utils/my_banner_ad.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -108,6 +110,31 @@ class _MemberScreenState extends State<MemberScreen> {
               ),
               const Divider(),
               settingTitle(
+                title: S.of(context).widgets,
+                icon: Icons.widgets_outlined,
+                onTap: () async {
+                  await showDialog(
+                    context: context,
+                    builder: (context) => YesNoDialog(
+                      content: S.of(context).appWidgetShow,
+                      otherContents: Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Image.asset(
+                          'assets/images/accounting_app_widget.png',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        _showAppWidgetTutorial2();
+                      },
+                      confirmText: S.of(context).showMeNow,
+                    ),
+                  );
+                },
+              ),
+              const Divider(),
+              settingTitle(
                 title: S.of(context).removeAd,
                 icon: Icons.web_asset_off_outlined,
                 onTap: () async {
@@ -182,6 +209,14 @@ class _MemberScreenState extends State<MemberScreen> {
         ad.dispose();
       },
       onAdImpression: (InterstitialAd ad) => print('$ad impression occurred.'),
+    );
+  }
+
+  Future<void> _showAppWidgetTutorial2() async {
+    await showDialog(
+      context: context,
+      builder: (context) =>
+      const AppWidgetSplash(),
     );
   }
 }

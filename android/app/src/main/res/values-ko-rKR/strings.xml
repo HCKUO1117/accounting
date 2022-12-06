@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName">빠른 회계</string>
+    <string name="income">소득</string>
+    <string name="expenditure">지출</string>
+    <string name="budget">이달의 예산 잔액</string>
+    <string name="unCategory">분류되지 않은</string>
+    <string name="unSet">설정되지 않음</string>
+</resources>

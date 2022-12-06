@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName">kế toán nhanh</string>
+    <string name="income">thu nhập</string>
+    <string name="expenditure">chi phí</string>
+    <string name="budget">Cân đối ngân sách trong tháng</string>
+    <string name="unCategory">chưa được phân loại</string>
+    <string name="unSet">không được thiết lập</string>
+</resources>

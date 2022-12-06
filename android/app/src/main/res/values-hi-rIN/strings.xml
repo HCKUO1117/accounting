@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName">तेजी से लेखा</string>
+    <string name="income">आय</string>
+    <string name="expenditure">व्यय</string>
+    <string name="budget">महीने के लिए बजट शेष</string>
+    <string name="unCategory">अवर्गीकृत</string>
+    <string name="unSet">सेट नहीं</string>
+</resources>

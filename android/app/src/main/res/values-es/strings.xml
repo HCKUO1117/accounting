@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName">contabilidad rápida</string>
+    <string name="income">ingreso</string>
+    <string name="expenditure">gasto</string>
+    <string name="budget">Saldo presupuestario del mes</string>
+    <string name="unCategory">sin categorizar</string>
+    <string name="unSet">no establecido</string>
+</resources>

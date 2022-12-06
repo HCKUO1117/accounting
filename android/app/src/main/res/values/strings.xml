@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="appName">Fast Accounting</string>
+    <string name="appName">Fast Expense Tracker</string>
     <string name="income">Income</string>
-    <string name="expenditure">Expenditure</string>
+    <string name="expenditure">Spending</string>
     <string name="budget">Budget balance for this month</string>
     <string name="unCategory">unCategory</string>
     <string name="unSet">not set</string>

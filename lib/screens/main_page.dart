@@ -161,7 +161,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
         }
       }
     }
-    await _showUpdateDialog(packageInfo);
   }
 
   Future<void> _showUpdateInfo() async {
@@ -268,6 +267,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
           confirmText: S.of(context).showMeNow,
         ),
       );
+      Preferences.setBool(Constants.appWidget, true);
     }
   }
 
