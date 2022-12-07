@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:rive_splash_screen/rive_splash_screen.dart';
 
 import 'generated/l10n.dart';
 
@@ -125,9 +126,13 @@ class _AppState extends State<App> {
               backgroundColor: AppColors.backgroundColor,
               elevation: 0,
             )),
-        home: ScrollConfiguration(
-          behavior: NoGlow(),
-          child: const MainPage(),
+        home: SplashScreen.navigate(
+          name: 'assets/rives/accounting_splash_icon.riv',
+          next: (_) => ScrollConfiguration(
+            behavior: NoGlow(),
+            child: const MainPage(),
+          ),
+          until: () => Future.delayed(const Duration(seconds: 2)),
         ),
         localizationsDelegates: const [
           S.delegate,
