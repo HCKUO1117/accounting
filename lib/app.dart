@@ -128,11 +128,15 @@ class _AppState extends State<App> {
             )),
         home: SplashScreen.navigate(
           name: 'assets/rives/accounting_splash_icon.riv',
+          height: 150,
+          width: 150,
+          backgroundColor: Colors.white,
           next: (_) => ScrollConfiguration(
             behavior: NoGlow(),
             child: const MainPage(),
           ),
-          until: () => Future.delayed(const Duration(seconds: 2)),
+          until: () => Future.delayed(const Duration(seconds: 3)),
+          startAnimation: 'Timeline 1',
         ),
         localizationsDelegates: const [
           S.delegate,

@@ -1,5 +1,4 @@
 import 'package:accounting/generated/l10n.dart';
-import 'package:accounting/res/app_color.dart';
 import 'package:flutter/material.dart';
 
 class YesNoDialog extends StatelessWidget {
@@ -8,6 +7,7 @@ class YesNoDialog extends StatelessWidget {
   final String? confirmText;
   final String? title;
   final Widget? otherContents;
+  final bool side;
 
   const YesNoDialog({
     Key? key,
@@ -16,6 +16,7 @@ class YesNoDialog extends StatelessWidget {
     this.confirmText,
     this.title,
     this.otherContents,
+    this.side = false,
   }) : super(key: key);
 
   @override
@@ -26,6 +27,7 @@ class YesNoDialog extends StatelessWidget {
       title: title != null ? Text(title!) : null,
       content: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: side ? CrossAxisAlignment.start : CrossAxisAlignment.center,
         children: [
           Text(content),
           if (otherContents != null) otherContents!,
