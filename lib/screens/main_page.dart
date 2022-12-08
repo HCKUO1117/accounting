@@ -272,14 +272,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     }
   }
 
-
-
-
   Future<void> _showAppWidgetTutorial2() async {
     await showDialog(
       context: context,
-      builder: (context) =>
-      const AppWidgetSplash(),
+      builder: (context) => const AppWidgetSplash(),
     );
   }
 }
