@@ -190,6 +190,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
           title: S.of(context).updateInfo,
           content: info,
           confirmText: S.of(context).ok,
+          side: true,
         ),
       );
     }

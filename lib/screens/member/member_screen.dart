@@ -13,6 +13,7 @@ import 'package:accounting/screens/widget/yes_no_dialog.dart';
 import 'package:accounting/utils/my_banner_ad.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 class MemberScreen extends StatefulWidget {
@@ -23,9 +24,17 @@ class MemberScreen extends StatefulWidget {
 }
 
 class _MemberScreenState extends State<MemberScreen> {
+  String version = '';
+
   @override
   void initState() {
     loadAd();
+    Future.microtask(() async {
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      setState(() {
+        version = 'v${packageInfo.version}';
+      });
+    });
     super.initState();
   }
 
@@ -149,6 +158,17 @@ class _MemberScreenState extends State<MemberScreen> {
               const Divider(),
               const SizedBox(height: 32),
               const AdBanner(large: true),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    version,
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                  const SizedBox(width: 16),
+                ],
+              ),
+              const SizedBox(height: 16),
             ],
           ),
         );
@@ -215,8 +235,7 @@ class _MemberScreenState extends State<MemberScreen> {
   Future<void> _showAppWidgetTutorial2() async {
     await showDialog(
       context: context,
-      builder: (context) =>
-      const AppWidgetSplash(),
+      builder: (context) => const AppWidgetSplash(),
     );
   }
 }
