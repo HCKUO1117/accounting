@@ -66,7 +66,6 @@ class ListRemoteViewsFactory(
                 setTextViewText(R.id.name, context.getString(R.string.unCategory))
             }
 
-
             setTextViewText(R.id.amount, record[position].amount.toString())
         }
     }

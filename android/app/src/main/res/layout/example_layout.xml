@@ -76,11 +76,11 @@
 
         </LinearLayout>
 
-<!--        <View-->
-<!--            android:id="@+id/divider"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="1dp"-->
-<!--            android:background="?android:attr/listDivider" />-->
+        <!--        <View-->
+        <!--            android:id="@+id/divider"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="1dp"-->
+        <!--            android:background="?android:attr/listDivider" />-->
 
 
         <TextView
@@ -92,9 +92,8 @@
             android:textSize="16sp" />
 
 
-
-
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -123,8 +122,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text=""
             android:singleLine="true"
+            android:text=""
             android:textColor="#448AFF"
             android:textSize="12sp" />
 
@@ -132,8 +131,10 @@
     </LinearLayout>
 
     <ListView
-    android:id="@+id/list_view"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="8dp" />
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:listSelector="@android:color/transparent"
+        android:padding="8dp" />
 </LinearLayout>
