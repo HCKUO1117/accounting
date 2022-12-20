@@ -9,7 +9,7 @@ class GoogleSignInButton extends StatefulWidget {
       : super(key: key);
 
   @override
-  _GoogleSignInButtonState createState() => _GoogleSignInButtonState();
+  State<GoogleSignInButton> createState() => _GoogleSignInButtonState();
 }
 
 class _GoogleSignInButtonState extends State<GoogleSignInButton> {
