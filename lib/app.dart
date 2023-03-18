@@ -53,15 +53,17 @@ class _AppState extends State<App> {
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
-  late AppLifecycleReactor _appLifecycleReactor;
+  ///先移除回ＡＰＰ廣告
+  // late AppLifecycleReactor _appLifecycleReactor;
 
   @override
   void initState() {
     Future<void>.microtask(() async {
-      AppOpenAdManager appOpenAdManager = AppOpenAdManager();
-      appOpenAdManager.loadAd();
-      _appLifecycleReactor = AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
-      _appLifecycleReactor.listenToAppStateChanges(context, iap);
+      ///先移除回ＡＰＰ廣告
+      // AppOpenAdManager appOpenAdManager = AppOpenAdManager();
+      // appOpenAdManager.loadAd();
+      // _appLifecycleReactor = AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
+      // _appLifecycleReactor.listenToAppStateChanges(context, iap);
       await Preferences.init();
       await CategoryDB.initDataBase();
       await AccountingDB.initDataBase();
