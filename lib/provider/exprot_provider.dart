@@ -10,10 +10,12 @@ import 'package:accounting/db/tag_db.dart';
 import 'package:accounting/db/tag_model.dart';
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/screens/member/export_excel_page.dart';
+import 'package:accounting/utils/show_toast.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ExportProvider with ChangeNotifier {
   ExportStatus exportStatus = ExportStatus.ready;
@@ -68,6 +70,15 @@ class ExportProvider with ChangeNotifier {
 
     var directory = Directory('/storage/emulated/0/Download');
 
+    if(!(await Permission.manageExternalStorage.isGranted)){
+      var status = await Permission.manageExternalStorage.request();
+      if(!status.isGranted){
+        ShowToast.showToast('請先同意');
+        exportStatus = ExportStatus.ready;
+        notifyListeners();
+        return;
+      }
+    }
     File(join("${directory.path}/accountingData.xlsx"))
       ..createSync(recursive: true)
       ..writeAsBytesSync(fileBytes!);
