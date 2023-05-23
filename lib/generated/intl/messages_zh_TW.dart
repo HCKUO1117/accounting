@@ -111,6 +111,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "overwriteInfo":
             MessageLookupByLibrary.simpleMessage("您的資料將會被覆蓋且無法復原，是否要繼續?"),
         "period": MessageLookupByLibrary.simpleMessage("週期"),
+        "permissionInfo":
+            MessageLookupByLibrary.simpleMessage("我們需要您的文件存取權才能匯出檔案"),
         "pleaseEnterName": MessageLookupByLibrary.simpleMessage("請輸入名稱"),
         "plzChooseTime": MessageLookupByLibrary.simpleMessage("請選擇時間"),
         "recommendation": MessageLookupByLibrary.simpleMessage("改善建議"),
@@ -124,6 +126,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "save": MessageLookupByLibrary.simpleMessage("儲存"),
         "save1": MessageLookupByLibrary.simpleMessage("存"),
         "savingNow": MessageLookupByLibrary.simpleMessage("現在就開始記帳吧!"),
+        "selectAll": MessageLookupByLibrary.simpleMessage("全選"),
         "selectDay": MessageLookupByLibrary.simpleMessage("選擇日期"),
         "selectIcon": MessageLookupByLibrary.simpleMessage("請選擇圖案"),
         "selectTime": MessageLookupByLibrary.simpleMessage("選擇時間"),

@@ -1,5 +1,5 @@
 {
-  "income": "thu nhập = earnings",
+  "income": "thu nhập",
   "expenditure": "chi phí",
   "category": "phân loại",
   "tag": "Nhãn mác",
@@ -141,5 +141,7 @@
   "appWidgetShow": "\"Tiện ích\" có thể hiển thị thu nhập và chi tiêu của bạn trên màn hình chính, thuận tiện cho bạn trong việc quản lý tài chính của mình. Bạn có muốn xem hướng dẫn không?",
   "showMeNow": "xem ngay bây giờ",
   "understand": "hiểu!",
-  "widgets": "Tiện ích"
+  "widgets": "Tiện ích",
+  "selectAll": "Chọn Tất cả",
+  "permissionInfo": "Chúng tôi cần quyền truy cập tệp của bạn để xuất tệp"
 }

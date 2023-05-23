@@ -42,9 +42,11 @@ class MainProvider with ChangeNotifier {
   int selectedValue = 0;
 
   bool get filter =>
-      incomeCategoryFilter != null ||
-      expenditureCategoryFilter != null ||
-      dashBoardTagFilter != null;
+      (incomeCategoryFilter != null &&
+          incomeCategoryFilter!.length != categoryIncomeList.length + 1) ||
+      (expenditureCategoryFilter != null &&
+          expenditureCategoryFilter!.length != categoryExpenditureList.length + 1) ||
+      (dashBoardTagFilter != null && dashBoardTagFilter!.length != tagList.length + 1);
 
   double get balance => currentIncome + currentExpenditure;
 
@@ -281,7 +283,11 @@ class MainProvider with ChangeNotifier {
           incomeCategoryFilter!.add(id);
         }
       } else {
-        incomeCategoryFilter = null;
+        if (incomeCategoryFilter!.length == categoryIncomeList.length + 1) {
+          incomeCategoryFilter = [];
+        } else {
+          incomeCategoryFilter = null;
+        }
       }
     }
     setCurrentAccounting(dashBoardStartDate, dashBoardEndDate);
@@ -308,7 +314,11 @@ class MainProvider with ChangeNotifier {
           expenditureCategoryFilter!.add(id);
         }
       } else {
-        expenditureCategoryFilter = null;
+        if (expenditureCategoryFilter!.length == categoryExpenditureList.length + 1) {
+          expenditureCategoryFilter = [];
+        } else {
+          expenditureCategoryFilter = null;
+        }
       }
     }
     setCurrentAccounting(dashBoardStartDate, dashBoardEndDate);
@@ -335,7 +345,11 @@ class MainProvider with ChangeNotifier {
           dashBoardTagFilter!.add(id);
         }
       } else {
-        dashBoardTagFilter = null;
+        if (dashBoardTagFilter!.length == tagList.length + 1) {
+          dashBoardTagFilter = [];
+        } else {
+          dashBoardTagFilter = null;
+        }
       }
     }
     setCurrentAccounting(dashBoardStartDate, dashBoardEndDate);

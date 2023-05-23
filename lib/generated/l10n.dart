@@ -1479,6 +1479,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Select All`
+  String get selectAll {
+    return Intl.message(
+      'Select All',
+      name: 'selectAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We need your file access permission to export the file`
+  String get permissionInfo {
+    return Intl.message(
+      'We need your file access permission to export the file',
+      name: 'permissionInfo',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

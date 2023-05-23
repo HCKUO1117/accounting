@@ -130,6 +130,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "overwriteInfo": MessageLookupByLibrary.simpleMessage(
             "ข้อมูลของคุณจะถูกเขียนทับและไม่สามารถกู้คืนได้ คุณต้องการดำเนินการต่อหรือไม่"),
         "period": MessageLookupByLibrary.simpleMessage("รอบ"),
+        "permissionInfo": MessageLookupByLibrary.simpleMessage(
+            "เราต้องการสิทธิ์การเข้าถึงไฟล์ของคุณเพื่อส่งออกไฟล์"),
         "pleaseEnterName": MessageLookupByLibrary.simpleMessage("กรุณาใส่ชื่อ"),
         "plzChooseTime": MessageLookupByLibrary.simpleMessage("กรุณาเลือกเวลา"),
         "recommendation":
@@ -144,6 +146,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "save": MessageLookupByLibrary.simpleMessage("เก็บ"),
         "save1": MessageLookupByLibrary.simpleMessage("สด"),
         "savingNow": MessageLookupByLibrary.simpleMessage("เริ่มทำบัญชีทันที!"),
+        "selectAll": MessageLookupByLibrary.simpleMessage("เลือกทั้งหมด"),
         "selectDay": MessageLookupByLibrary.simpleMessage("เลือกวันที่"),
         "selectIcon": MessageLookupByLibrary.simpleMessage("กรุณาเลือกรูปแบบ"),
         "selectTime": MessageLookupByLibrary.simpleMessage("ระยะเวลาคัดเลือก"),

@@ -118,6 +118,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "overwriteInfo":
             MessageLookupByLibrary.simpleMessage("データは上書きされ、復元できません。続行しますか?"),
         "period": MessageLookupByLibrary.simpleMessage("サイクル"),
+        "permissionInfo": MessageLookupByLibrary.simpleMessage(
+            "ファイルをエクスポートするにはファイル アクセス許可が必要です"),
         "pleaseEnterName": MessageLookupByLibrary.simpleMessage("名前を入力してください"),
         "plzChooseTime": MessageLookupByLibrary.simpleMessage("時間を選択してください"),
         "recommendation": MessageLookupByLibrary.simpleMessage("改善のための推奨事項"),
@@ -131,6 +133,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "save": MessageLookupByLibrary.simpleMessage("お店"),
         "save1": MessageLookupByLibrary.simpleMessage("住む"),
         "savingNow": MessageLookupByLibrary.simpleMessage("今すぐ会計を始めましょう！"),
+        "selectAll": MessageLookupByLibrary.simpleMessage("すべて選択"),
         "selectDay": MessageLookupByLibrary.simpleMessage("日付を選択"),
         "selectIcon": MessageLookupByLibrary.simpleMessage("パターンを選択してください"),
         "selectTime": MessageLookupByLibrary.simpleMessage("選考期間"),

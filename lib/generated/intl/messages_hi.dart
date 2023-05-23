@@ -128,6 +128,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "overwriteInfo": MessageLookupByLibrary.simpleMessage(
             "आपका डेटा अधिलेखित कर दिया जाएगा और पुनर्प्राप्त नहीं किया जा सकता. क्या आप जारी रखना चाहते हैं?"),
         "period": MessageLookupByLibrary.simpleMessage("चक्र"),
+        "permissionInfo": MessageLookupByLibrary.simpleMessage(
+            "हमें फ़ाइल निर्यात करने के लिए आपकी फ़ाइल एक्सेस अनुमति की आवश्यकता है"),
         "pleaseEnterName":
             MessageLookupByLibrary.simpleMessage("कृपया एक नाम दर्ज करें"),
         "plzChooseTime":
@@ -145,6 +147,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "save1": MessageLookupByLibrary.simpleMessage("लाइव"),
         "savingNow":
             MessageLookupByLibrary.simpleMessage("अभी हिसाब लगाना शुरू करें!"),
+        "selectAll": MessageLookupByLibrary.simpleMessage("सभी का चयन करें"),
         "selectDay": MessageLookupByLibrary.simpleMessage("तारीख़ चुनें"),
         "selectIcon":
             MessageLookupByLibrary.simpleMessage("कृपया एक पैटर्न चुनें"),

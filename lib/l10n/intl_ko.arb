@@ -141,5 +141,7 @@
   "appWidgetShow": "\"위젯\"은 수입과 지출을 홈 화면에 표시할 수 있어 재정 관리에 편리합니다. 강의를 보고 싶습니까?",
   "showMeNow": "지금 보기",
   "understand": "이해했다!",
-  "widgets": "위젯"
+  "widgets": "위젯",
+  "selectAll": "모두 선택",
+  "permissionInfo": "파일을 내보내려면 파일 액세스 권한이 필요합니다."
 }

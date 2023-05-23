@@ -127,6 +127,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "overwriteInfo": MessageLookupByLibrary.simpleMessage(
             "Your data will be overwritten and cannot be recovered. Do you want to continue?"),
         "period": MessageLookupByLibrary.simpleMessage("period"),
+        "permissionInfo": MessageLookupByLibrary.simpleMessage(
+            "We need your file access permission to export the file"),
         "pleaseEnterName":
             MessageLookupByLibrary.simpleMessage("Please enter a name"),
         "plzChooseTime":
@@ -143,6 +145,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "save1": MessageLookupByLibrary.simpleMessage("save"),
         "savingNow": MessageLookupByLibrary.simpleMessage("Start saving now!"),
+        "selectAll": MessageLookupByLibrary.simpleMessage("Select All"),
         "selectDay": MessageLookupByLibrary.simpleMessage("Select Day"),
         "selectIcon": MessageLookupByLibrary.simpleMessage("Select Icon"),
         "selectTime": MessageLookupByLibrary.simpleMessage("Select Time"),

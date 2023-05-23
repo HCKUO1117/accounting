@@ -100,7 +100,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "inAndOut": MessageLookupByLibrary.simpleMessage(
             "thu nhập cố định và ngân sách"),
         "inOut": MessageLookupByLibrary.simpleMessage("thu chi"),
-        "income": MessageLookupByLibrary.simpleMessage("thu nhập = earnings"),
+        "income": MessageLookupByLibrary.simpleMessage("thu nhập"),
         "login": MessageLookupByLibrary.simpleMessage("đăng nhập"),
         "logout": MessageLookupByLibrary.simpleMessage("Đăng xuất"),
         "longBefore": MessageLookupByLibrary.simpleMessage("...Trước"),
@@ -131,6 +131,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "overwriteInfo": MessageLookupByLibrary.simpleMessage(
             "Dữ liệu của bạn sẽ bị ghi đè và không thể phục hồi. Bạn có muốn tiếp tục không?"),
         "period": MessageLookupByLibrary.simpleMessage("đi xe đạp"),
+        "permissionInfo": MessageLookupByLibrary.simpleMessage(
+            "Chúng tôi cần quyền truy cập tệp của bạn để xuất tệp"),
         "pleaseEnterName":
             MessageLookupByLibrary.simpleMessage("vui lòng nhập tên"),
         "plzChooseTime":
@@ -149,6 +151,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "save1": MessageLookupByLibrary.simpleMessage("trực tiếp"),
         "savingNow": MessageLookupByLibrary.simpleMessage(
             "Bắt đầu kế toán ngay bây giờ!"),
+        "selectAll": MessageLookupByLibrary.simpleMessage("Chọn Tất cả"),
         "selectDay": MessageLookupByLibrary.simpleMessage("chọn ngày"),
         "selectIcon":
             MessageLookupByLibrary.simpleMessage("Vui lòng chọn một mẫu"),

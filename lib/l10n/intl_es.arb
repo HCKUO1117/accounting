@@ -141,5 +141,7 @@
   "appWidgetShow": "\"Widgets\" puede mostrar sus ingresos y gastos en su pantalla de inicio, lo cual es conveniente para administrar sus finanzas. ¿Desea ver la enseñanza?",
   "showMeNow": "ver ahora",
   "understand": "¡comprendido!",
-  "widgets": "Widgets"
+  "widgets": "Widgets",
+  "selectAll": "Seleccionar todo",
+  "permissionInfo": "Necesitamos su permiso de acceso al archivo para exportar el archivo"
 }

@@ -134,6 +134,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "overwriteInfo": MessageLookupByLibrary.simpleMessage(
             "Tus datos se sobrescribirán y no se podrán recuperar. ¿Quieres continuar?"),
         "period": MessageLookupByLibrary.simpleMessage("ciclo"),
+        "permissionInfo": MessageLookupByLibrary.simpleMessage(
+            "Necesitamos su permiso de acceso al archivo para exportar el archivo"),
         "pleaseEnterName":
             MessageLookupByLibrary.simpleMessage("por favor ingrese un nombre"),
         "plzChooseTime": MessageLookupByLibrary.simpleMessage(
@@ -151,6 +153,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "save1": MessageLookupByLibrary.simpleMessage("En Vivo"),
         "savingNow": MessageLookupByLibrary.simpleMessage(
             "¡Empiece a contabilizar ahora!"),
+        "selectAll": MessageLookupByLibrary.simpleMessage("Seleccionar todo"),
         "selectDay": MessageLookupByLibrary.simpleMessage("seleccione fecha"),
         "selectIcon": MessageLookupByLibrary.simpleMessage(
             "Por favor seleccione un patrón"),

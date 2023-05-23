@@ -141,5 +141,7 @@
   "appWidgetShow": "\"Widgets\" can display your income and spending on your home screen, which is convenient for you to manage your finances. Do you want to view the tutorial?",
   "showMeNow": "View Now",
   "understand": "Understand!",
-  "widgets": "Widgets"
+  "widgets": "Widgets",
+  "selectAll": "Select All",
+  "permissionInfo": "We need your file access permission to export the file"
 }

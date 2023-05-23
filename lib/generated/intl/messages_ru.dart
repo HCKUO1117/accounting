@@ -133,6 +133,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "overwriteInfo": MessageLookupByLibrary.simpleMessage(
             "Ваши данные будут перезаписаны без возможности восстановления. Продолжить?"),
         "period": MessageLookupByLibrary.simpleMessage("цикл"),
+        "permissionInfo": MessageLookupByLibrary.simpleMessage(
+            "Нам нужно ваше разрешение на доступ к файлу, чтобы экспортировать файл"),
         "pleaseEnterName":
             MessageLookupByLibrary.simpleMessage("пожалуйста, введите имя"),
         "plzChooseTime":
@@ -150,6 +152,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "save1": MessageLookupByLibrary.simpleMessage("жить"),
         "savingNow": MessageLookupByLibrary.simpleMessage(
             "Начните бухгалтерский учет прямо сейчас!"),
+        "selectAll": MessageLookupByLibrary.simpleMessage("Выбрать все"),
         "selectDay": MessageLookupByLibrary.simpleMessage("выберите дату"),
         "selectIcon":
             MessageLookupByLibrary.simpleMessage("Пожалуйста, выберите узор"),

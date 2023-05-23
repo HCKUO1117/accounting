@@ -118,6 +118,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "overwriteInfo": MessageLookupByLibrary.simpleMessage(
             "데이터를 덮어쓰게 되며 복구할 수 없습니다. 계속하시겠습니까?"),
         "period": MessageLookupByLibrary.simpleMessage("주기"),
+        "permissionInfo":
+            MessageLookupByLibrary.simpleMessage("파일을 내보내려면 파일 액세스 권한이 필요합니다."),
         "pleaseEnterName": MessageLookupByLibrary.simpleMessage("이름을 입력하세요"),
         "plzChooseTime": MessageLookupByLibrary.simpleMessage("시간을 선택하세요."),
         "recommendation": MessageLookupByLibrary.simpleMessage("개선을 위한 권장 사항"),
@@ -131,6 +133,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "save": MessageLookupByLibrary.simpleMessage("가게"),
         "save1": MessageLookupByLibrary.simpleMessage("라이브"),
         "savingNow": MessageLookupByLibrary.simpleMessage("지금 회계를 시작하세요!"),
+        "selectAll": MessageLookupByLibrary.simpleMessage("모두 선택"),
         "selectDay": MessageLookupByLibrary.simpleMessage("날짜 선택"),
         "selectIcon": MessageLookupByLibrary.simpleMessage("패턴을 선택하세요."),
         "selectTime": MessageLookupByLibrary.simpleMessage("선발 기간"),

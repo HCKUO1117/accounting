@@ -141,5 +141,7 @@
   "appWidgetShow": "「ウィジェット」は家計管理に便利なホーム画面に収入や支出を表示することができます。",
   "showMeNow": "今すぐ見る",
   "understand": "了解した！",
-  "widgets": "ウィジェット"
+  "widgets": "ウィジェット",
+  "selectAll": "すべて選択",
+  "permissionInfo": "ファイルをエクスポートするにはファイル アクセス許可が必要です"
 }
