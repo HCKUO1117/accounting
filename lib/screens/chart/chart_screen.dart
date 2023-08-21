@@ -234,7 +234,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                             children: [
                               Expanded(
                                 child: Text(
-                                  '${element.model.name}(${element.count}) ${(element.amount * 100 / provider.listCurrentExpenditure).abs().toStringAsFixed(1)}%',
+                                  '${element.model.name}(${element.count}) ${provider.listCurrentExpenditure != 0 ? (element.amount * 100 / provider.listCurrentExpenditure).abs().toStringAsFixed(1) : 0}%',
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontFamily: 'RobotoMono',
@@ -328,7 +328,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                             children: [
                               Expanded(
                                 child: Text(
-                                  '${element.model.name}(${element.count}) ${(element.amount * 100 / provider.listCurrentIncome).toStringAsFixed(1)}%',
+                                  '${element.model.name}(${element.count}) ${provider.listCurrentIncome != 0 ? (element.amount * 100 / provider.listCurrentIncome).toStringAsFixed(1) : 0}%',
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontFamily: 'RobotoMono',
