@@ -10,12 +10,13 @@ import 'package:accounting/db/tag_db.dart';
 import 'package:accounting/db/tag_model.dart';
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/screens/member/export_excel_page.dart';
-import 'package:accounting/utils/show_toast.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:media_store_plus/media_store_platform_interface.dart';
+import 'package:media_store_plus/media_store_plus.dart';
 import 'package:path/path.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ExportProvider with ChangeNotifier {
   ExportStatus exportStatus = ExportStatus.ready;
@@ -68,20 +69,18 @@ class ExportProvider with ChangeNotifier {
 
     var fileBytes = excel.save(fileName: 'accountingData.xlsx');
 
-    var directory = Directory('/storage/emulated/0/Download');
+    var directory = await getApplicationSupportDirectory();
 
-    if(!(await Permission.manageExternalStorage.isGranted)){
-      var status = await Permission.manageExternalStorage.request();
-      if(!status.isGranted){
-        ShowToast.showToast('請先同意');
-        exportStatus = ExportStatus.ready;
-        notifyListeners();
-        return;
-      }
-    }
     File(join("${directory.path}/accountingData.xlsx"))
       ..createSync(recursive: true)
       ..writeAsBytesSync(fileBytes!);
+    await MediaStorePlatform.instance.saveFile(
+      tempFilePath: "${directory.path}/accountingData.xlsx",
+      fileName: 'accountingData.xlsx',
+      dirType: DirType.download,
+      dirName: DirName.download,
+      relativePath: '',
+    );
 
     exportStatus = ExportStatus.finish;
     notifyListeners();

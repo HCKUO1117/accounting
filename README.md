@@ -3,7 +3,7 @@
 A new Flutter project.
 
 ## 開發環境
-flutter:3.3.0
+flutter:3.10.6
 
 ## 圖片來源
 no data : <a href="https://www.flaticon.com/free-icons/question" title="question icons">Question icons created by photo3idea_studio - Flaticon</a>

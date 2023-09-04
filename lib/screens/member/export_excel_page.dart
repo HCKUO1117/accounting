@@ -1,6 +1,5 @@
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/exprot_provider.dart';
-import 'package:accounting/provider/main_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
