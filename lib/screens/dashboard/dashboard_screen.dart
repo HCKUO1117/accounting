@@ -63,8 +63,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             title: DropdownButtonHideUnderline(
               child: DropdownButton2(
                 isExpanded: true,
-                hint: Row(
-                  children: const [
+                hint: const Row(
+                  children: [
                     Expanded(
                       child: Text(
                         'Select Item',

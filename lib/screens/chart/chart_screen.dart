@@ -115,7 +115,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                   ),
                 );
               },
-              icon: const Icon(Icons.settings_outlined),
+              icon: const Icon(Icons.tune),
             ),
           ],
         ),
@@ -424,7 +424,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                   ),
                 );
               },
-              icon: const Icon(Icons.settings_outlined),
+              icon: const Icon(Icons.tune),
             )
           ],
         ),
@@ -507,7 +507,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                   ),
                 );
               },
-              icon: const Icon(Icons.settings_outlined),
+              icon: const Icon(Icons.tune),
             )
           ],
         ),
@@ -778,7 +778,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                   ),
                 );
               },
-              icon: const Icon(Icons.settings_outlined),
+              icon: const Icon(Icons.tune),
             )
           ],
         ),
