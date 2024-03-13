@@ -8,6 +8,7 @@ import 'package:accounting/db/tag_model.dart';
 import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/home_widget_provider.dart';
 import 'package:accounting/provider/main_provider.dart';
+import 'package:accounting/screens/widget/calculator/calculator_screen.dart';
 import 'package:accounting/screens/widget/category_title.dart';
 import 'package:accounting/screens/widget/fake_dropdown_button.dart';
 import 'package:accounting/screens/widget/tag_title.dart';
@@ -302,7 +303,24 @@ class _AddRecodePageState extends State<AddRecodePage> {
                               ),
                             ),
                           ),
-                        )
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            var rawResult = await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const CalculatorScreen(),
+                              ),
+                            );
+
+                            if (rawResult != null) {
+                              var result = (double.tryParse(rawResult) ?? 0).abs().toStringAsFixed(2);
+                              setState(() {
+                                amount.text = result;
+                              });
+                            }
+                          },
+                          icon: const Icon(Icons.calculate_outlined),
+                        ),
                       ],
                     ),
                     if (provider.goalNum != -1)
@@ -530,6 +548,7 @@ class _AddRecodePageState extends State<AddRecodePage> {
 
                                   if (delete ?? false) {
                                     if (!mounted) return;
+
                                     ///更新widget
                                     context.read<HomeWidgetProvider>().sendAndUpdate();
                                     Navigator.pop(context);
@@ -644,6 +663,7 @@ class _AddRecodePageState extends State<AddRecodePage> {
             behavior: SnackBarBehavior.floating,
           ),
         );
+
         ///更新widget
         context.read<HomeWidgetProvider>().sendAndUpdate();
         Navigator.pop(context);

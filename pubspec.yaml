@@ -16,8 +16,8 @@ dependencies:
   animated_bottom_navigation_bar: ^1.1.0
   provider: ^6.0.3
   table_calendar: ^3.0.7
-  syncfusion_flutter_charts: ^20.2.49
-  syncfusion_flutter_datepicker: ^20.2.49
+  syncfusion_flutter_charts: ^24.2.9
+  syncfusion_flutter_datepicker: ^24.2.9
   intl: ^0.18.0
   shared_preferences: ^2.0.12
   sqflite: ^2.1.0
@@ -61,6 +61,7 @@ dependencies:
   firebase_analytics: ^10.0.2
   firebase_auth: ^4.7.3
   firebase_remote_config: ^3.0.3
+  math_expressions: ^2.4.0
 
 dev_dependencies:
   flutter_test:

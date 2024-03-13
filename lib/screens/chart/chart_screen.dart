@@ -430,8 +430,8 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
         ),
         SfCartesianChart(
           key: Key('$r line'),
-          primaryXAxis: CategoryAxis(),
-          legend: Legend(isVisible: true, position: LegendPosition.bottom),
+          primaryXAxis: const CategoryAxis(),
+          legend: const Legend(isVisible: true, position: LegendPosition.bottom),
           zoomPanBehavior: ZoomPanBehavior(enablePinching: true),
           trackballBehavior: TrackballBehavior(
             enable: true,
@@ -514,7 +514,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
         if (provider.pieChartDataType == ChartDataType.inOut)
           SfCircularChart(
             key: Key('$r pie'),
-            legend: Legend(
+            legend: const Legend(
               isVisible: true,
               position: LegendPosition.bottom,
             ),
@@ -559,7 +559,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                 child: SfCircularChart(
                   key: Key('$r pie1'),
                   title: ChartTitle(text: S.of(context).income),
-                  legend: Legend(
+                  legend: const Legend(
                     isVisible: true,
                     position: LegendPosition.bottom,
                   ),
@@ -602,7 +602,7 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                 child: SfCircularChart(
                   key: Key('$r pie2'),
                   title: ChartTitle(text: S.of(context).expenditure),
-                  legend: Legend(
+                  legend: const Legend(
                     isVisible: true,
                     position: LegendPosition.bottom,
                   ),
@@ -784,8 +784,8 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
         ),
         SfCartesianChart(
           key: Key('$r stack'),
-          primaryXAxis: CategoryAxis(),
-          legend: Legend(isVisible: true, position: LegendPosition.bottom),
+          primaryXAxis: const CategoryAxis(),
+          legend: const Legend(isVisible: true, position: LegendPosition.bottom),
           zoomPanBehavior: ZoomPanBehavior(enablePinching: true),
           trackballBehavior: TrackballBehavior(
             enable: true,

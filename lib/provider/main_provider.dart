@@ -605,7 +605,7 @@ class MainProvider with ChangeNotifier {
 
   List<int>? lineTagFilter;
 
-  List<ChartSeries> lineChartList = [];
+  List<CartesianSeries> lineChartList = [];
 
   AppState lineChartState = AppState.finish;
 
@@ -1190,7 +1190,7 @@ class MainProvider with ChangeNotifier {
 
   List<int>? stackTagFilter;
 
-  List<ChartSeries> stackChartList = [];
+  List<CartesianSeries> stackChartList = [];
 
   AppState stackChartState = AppState.finish;
 
