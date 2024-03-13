@@ -114,6 +114,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "notify": MessageLookupByLibrary.simpleMessage("알아채다"),
         "oClock": MessageLookupByLibrary.simpleMessage("가리키다"),
         "ok": MessageLookupByLibrary.simpleMessage("확인하다"),
+        "openAlarmPermission": MessageLookupByLibrary.simpleMessage(
+            "알림을 설정할 수 있도록 알람 시계 권한을 활성화하세요."),
         "other": MessageLookupByLibrary.simpleMessage("다른..."),
         "overwriteInfo": MessageLookupByLibrary.simpleMessage(
             "데이터를 덮어쓰게 되며 복구할 수 없습니다. 계속하시겠습니까?"),

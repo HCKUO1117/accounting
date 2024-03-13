@@ -143,5 +143,6 @@
   "understand": "了解した！",
   "widgets": "ウィジェット",
   "selectAll": "すべて選択",
-  "permissionInfo": "ファイルをエクスポートするにはファイル アクセス許可が必要です"
+  "permissionInfo": "ファイルをエクスポートするにはファイル アクセス許可が必要です",
+  "openAlarmPermission": "リマインダーを設定できるように、目覚まし時計の許可を有効にしてください"
 }

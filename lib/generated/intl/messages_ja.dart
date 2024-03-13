@@ -114,6 +114,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "notify": MessageLookupByLibrary.simpleMessage("知らせ"),
         "oClock": MessageLookupByLibrary.simpleMessage("点"),
         "ok": MessageLookupByLibrary.simpleMessage("確認"),
+        "openAlarmPermission": MessageLookupByLibrary.simpleMessage(
+            "リマインダーを設定できるように、目覚まし時計の許可を有効にしてください"),
         "other": MessageLookupByLibrary.simpleMessage("他の..."),
         "overwriteInfo":
             MessageLookupByLibrary.simpleMessage("データは上書きされ、復元できません。続行しますか?"),

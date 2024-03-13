@@ -28,8 +28,7 @@ class _NotificationCardState extends State<NotificationCard> {
     String week = '';
     for (int i = 0; i < Constants.weeksShort.length; i++) {
       if (widget.notificationData.weekTimes[i] == 1) {
-        week +=
-            TranslateLanguage().getLanguageByContext(Constants.weeksShort[i]);
+        week += TranslateLanguage().getLanguageByContext(Constants.weeksShort[i]);
         week += ',';
       }
     }
@@ -38,7 +37,7 @@ class _NotificationCardState extends State<NotificationCard> {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Card(
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -63,32 +62,36 @@ class _NotificationCardState extends State<NotificationCard> {
                         ),
                       );
                       if (newTime != null) {
-                        await data.update(NotificationData(
-                          id: widget.notificationData.id,
-                          content: widget.notificationData.content,
-                          timeOfDay: newTime,
-                          open: widget.notificationData.open,
-                          weekTimes: widget.notificationData.weekTimes,
-                        ));
+                        await data.update(
+                          NotificationData(
+                            id: widget.notificationData.id,
+                            content: widget.notificationData.content,
+                            timeOfDay: newTime,
+                            open: widget.notificationData.open,
+                            weekTimes: widget.notificationData.weekTimes,
+                          ),
+                          context,
+                        );
                       }
                     },
                     child: Text(
-                      '${widget.notificationData.timeOfDay.hour < 10 ? '0' : ''}${widget.notificationData.timeOfDay.hour}:${widget.notificationData.timeOfDay.minute < 10
-                              ? '0'
-                              : ''}${widget.notificationData.timeOfDay.minute}',
+                      '${widget.notificationData.timeOfDay.hour < 10 ? '0' : ''}${widget.notificationData.timeOfDay.hour}:${widget.notificationData.timeOfDay.minute < 10 ? '0' : ''}${widget.notificationData.timeOfDay.minute}',
                       style: const TextStyle(fontSize: 24),
                     ),
                   ),
                   Switch(
                     value: widget.notificationData.open,
                     onChanged: (value) async {
-                      await data.update(NotificationData(
-                        id: widget.notificationData.id,
-                        content: widget.notificationData.content,
-                        timeOfDay: widget.notificationData.timeOfDay,
-                        open: value,
-                        weekTimes: widget.notificationData.weekTimes,
-                      ));
+                      await data.update(
+                        NotificationData(
+                          id: widget.notificationData.id,
+                          content: widget.notificationData.content,
+                          timeOfDay: widget.notificationData.timeOfDay,
+                          open: value,
+                          weekTimes: widget.notificationData.weekTimes,
+                        ),
+                        context,
+                      );
                     },
                   ),
                 ],
@@ -109,16 +112,11 @@ class _NotificationCardState extends State<NotificationCard> {
                               builder: (context, ReminderData data, _) {
                                 return Column(
                                   children: [
-                                    for (int i = 0;
-                                        i < Constants.weeks.length;
-                                        i++)
+                                    for (int i = 0; i < Constants.weeks.length; i++)
                                       CheckboxListTile(
-                                        value: data.weekCheck[i] == 1
-                                            ? true
-                                            : false,
+                                        value: data.weekCheck[i] == 1 ? true : false,
                                         title: Text(TranslateLanguage()
-                                            .getLanguageByContext(
-                                                Constants.weeks[i])),
+                                            .getLanguageByContext(Constants.weeks[i])),
                                         onChanged: (value) {
                                           data.setWeek(i, value! ? 1 : 0);
                                         },
@@ -131,13 +129,16 @@ class _NotificationCardState extends State<NotificationCard> {
                         ),
                       );
                       if (set ?? false) {
-                        await data.update(NotificationData(
-                          id: widget.notificationData.id,
-                          content: widget.notificationData.content,
-                          timeOfDay: widget.notificationData.timeOfDay,
-                          open: widget.notificationData.open,
-                          weekTimes: data.weekCheck,
-                        ));
+                        await data.update(
+                          NotificationData(
+                            id: widget.notificationData.id,
+                            content: widget.notificationData.content,
+                            timeOfDay: widget.notificationData.timeOfDay,
+                            open: widget.notificationData.open,
+                            weekTimes: data.weekCheck,
+                          ),
+                          context,
+                        );
                       }
                     },
                     child: Text(
@@ -149,10 +150,12 @@ class _NotificationCardState extends State<NotificationCard> {
                     onPressed: () async {
                       bool? delete = await showDialog(
                           context: context,
-                          builder: (context) => YesNoDialog(
-                              content: S.of(context).deleteCheck));
+                          builder: (context) => YesNoDialog(content: S.of(context).deleteCheck));
                       if (delete ?? false) {
-                        data.delete(widget.notificationData);
+                        data.delete(
+                          widget.notificationData,
+                          context,
+                        );
                       }
                     },
                     icon: const Icon(Icons.delete_outline),

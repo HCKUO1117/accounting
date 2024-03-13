@@ -143,5 +143,6 @@
   "understand": "¡comprendido!",
   "widgets": "Widgets",
   "selectAll": "Seleccionar todo",
-  "permissionInfo": "Necesitamos su permiso de acceso al archivo para exportar el archivo"
+  "permissionInfo": "Necesitamos su permiso de acceso al archivo para exportar el archivo",
+  "openAlarmPermission": "Habilite el permiso del despertador para que podamos configurar recordatorios para usted"
 }

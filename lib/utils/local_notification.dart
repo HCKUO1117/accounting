@@ -2,9 +2,10 @@ import 'dart:math';
 
 import 'package:accounting/app.dart';
 import 'package:accounting/generated/l10n.dart';
+import 'package:accounting/utils/show_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -31,18 +32,35 @@ class LocalNotification {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  Future<void> init(Function(String?)? selectNotification) async {
+  Future<void> init(BuildContext context) async {
+    var result = await checkPermission();
+    if (!result) {
+      ShowToast.showToast(S.of(context).openAlarmPermission);
+    }
 // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
     const InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
     );
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: selectNotification);
-    final String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+    );
+    final String currentTimeZone = await FlutterTimezone.getLocalTimezone();
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation(currentTimeZone));
+  }
+
+  Future<bool> checkPermission() async {
+    bool? result = await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        ?.canScheduleExactNotifications();
+    if (result == true) return true;
+    bool? r = await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestExactAlarmsPermission();
+
+    return r == true;
   }
 
   Future<void> displayNotification() async {
@@ -76,7 +94,8 @@ class LocalNotification {
         NotificationDetails(
           android: AndroidNotificationDetails('$id', '$id', channelDescription: '$id'),
         ),
-        androidAllowWhileIdle: true,
+        // androidAllowWhileIdle: true,
+        androidScheduleMode: AndroidScheduleMode.alarmClock,
         uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
   }

@@ -129,6 +129,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "notify": MessageLookupByLibrary.simpleMessage("Уведомление"),
         "oClock": MessageLookupByLibrary.simpleMessage("точка"),
         "ok": MessageLookupByLibrary.simpleMessage("подтверждать"),
+        "openAlarmPermission": MessageLookupByLibrary.simpleMessage(
+            "Пожалуйста, включите разрешение будильника, чтобы мы могли устанавливать для вас напоминания."),
         "other": MessageLookupByLibrary.simpleMessage("Другой..."),
         "overwriteInfo": MessageLookupByLibrary.simpleMessage(
             "Ваши данные будут перезаписаны без возможности восстановления. Продолжить?"),

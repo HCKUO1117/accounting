@@ -143,5 +143,6 @@
   "understand": "hiểu!",
   "widgets": "Tiện ích",
   "selectAll": "Chọn Tất cả",
-  "permissionInfo": "Chúng tôi cần quyền truy cập tệp của bạn để xuất tệp"
+  "permissionInfo": "Chúng tôi cần quyền truy cập tệp của bạn để xuất tệp",
+  "openAlarmPermission": "Vui lòng bật quyền đồng hồ báo thức để chúng tôi có thể đặt lời nhắc cho bạn"
 }

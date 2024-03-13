@@ -126,6 +126,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "notify": MessageLookupByLibrary.simpleMessage("สังเกต"),
         "oClock": MessageLookupByLibrary.simpleMessage("จุด"),
         "ok": MessageLookupByLibrary.simpleMessage("ยืนยัน"),
+        "openAlarmPermission": MessageLookupByLibrary.simpleMessage(
+            "โปรดเปิดใช้งานการอนุญาตนาฬิกาปลุกเพื่อให้เราสามารถตั้งระบบเตือนให้คุณ"),
         "other": MessageLookupByLibrary.simpleMessage("อื่นๆ..."),
         "overwriteInfo": MessageLookupByLibrary.simpleMessage(
             "ข้อมูลของคุณจะถูกเขียนทับและไม่สามารถกู้คืนได้ คุณต้องการดำเนินการต่อหรือไม่"),

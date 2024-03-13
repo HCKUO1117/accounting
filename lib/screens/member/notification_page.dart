@@ -24,7 +24,7 @@ class _NotificationPageState extends State<NotificationPage> {
 
   @override
   void initState() {
-    localNotification.init((p0) {});
+    localNotification.init(context);
     localNotification.pendingNotification();
     reminderData.fetch();
     super.initState();
@@ -48,8 +48,8 @@ class _NotificationPageState extends State<NotificationPage> {
                 itemCount: data.notifications.length + 1,
                 itemBuilder: (context, index) {
                   if (index == data.notifications.length) {
-                    return Column(
-                      children: const [
+                    return const Column(
+                      children: [
                         SizedBox(height: 32),
                         AdBanner(large: true),
                       ],
@@ -109,6 +109,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         open: true,
                         weekTimes: data.weekCheck,
                       ),
+                      context,
                     );
                   }
                 }

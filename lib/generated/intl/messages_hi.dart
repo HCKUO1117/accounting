@@ -124,6 +124,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "notify": MessageLookupByLibrary.simpleMessage("सूचना"),
         "oClock": MessageLookupByLibrary.simpleMessage("बिंदु"),
         "ok": MessageLookupByLibrary.simpleMessage("पुष्टि करें"),
+        "openAlarmPermission": MessageLookupByLibrary.simpleMessage(
+            "कृपया अलार्म घड़ी की अनुमति सक्षम करें ताकि हम आपके लिए अनुस्मारक सेट कर सकें"),
         "other": MessageLookupByLibrary.simpleMessage("अन्य..."),
         "overwriteInfo": MessageLookupByLibrary.simpleMessage(
             "आपका डेटा अधिलेखित कर दिया जाएगा और पुनर्प्राप्त नहीं किया जा सकता. क्या आप जारी रखना चाहते हैं?"),

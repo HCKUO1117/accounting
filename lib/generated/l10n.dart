@@ -1499,6 +1499,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Please enable the alarm clock permission so that we can set reminders for you`
+  String get openAlarmPermission {
+    return Intl.message(
+      'Please enable the alarm clock permission so that we can set reminders for you',
+      name: 'openAlarmPermission',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

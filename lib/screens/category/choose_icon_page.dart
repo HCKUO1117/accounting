@@ -79,7 +79,7 @@ class _ChooseIconPageState extends State<ChooseIconPage> {
               ],
             ),
             body: Scrollbar(
-              isAlwaysShown: true,
+              thumbVisibility: true,
               thickness: 5,
               interactive: true,
               radius: const Radius.circular(10),

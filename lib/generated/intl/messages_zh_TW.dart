@@ -107,6 +107,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "notify": MessageLookupByLibrary.simpleMessage("通知"),
         "oClock": MessageLookupByLibrary.simpleMessage("點"),
         "ok": MessageLookupByLibrary.simpleMessage("確認"),
+        "openAlarmPermission":
+            MessageLookupByLibrary.simpleMessage("請開啟鬧鐘權限我們才能為您設置提醒"),
         "other": MessageLookupByLibrary.simpleMessage("其他..."),
         "overwriteInfo":
             MessageLookupByLibrary.simpleMessage("您的資料將會被覆蓋且無法復原，是否要繼續?"),

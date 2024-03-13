@@ -130,6 +130,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "notify": MessageLookupByLibrary.simpleMessage("Aviso"),
         "oClock": MessageLookupByLibrary.simpleMessage("punto"),
         "ok": MessageLookupByLibrary.simpleMessage("confirmar"),
+        "openAlarmPermission": MessageLookupByLibrary.simpleMessage(
+            "Habilite el permiso del despertador para que podamos configurar recordatorios para usted"),
         "other": MessageLookupByLibrary.simpleMessage("otro..."),
         "overwriteInfo": MessageLookupByLibrary.simpleMessage(
             "Tus datos se sobrescribirán y no se podrán recuperar. ¿Quieres continuar?"),

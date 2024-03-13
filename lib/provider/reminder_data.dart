@@ -1,9 +1,11 @@
-
 import 'package:accounting/db/notification_data.dart';
 import 'package:accounting/db/notification_db.dart';
 import 'package:accounting/utils/local_notification.dart';
+import 'package:accounting/utils/show_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../generated/l10n.dart';
 
 class ReminderData extends ChangeNotifier {
   List<NotificationData> notifications = [];
@@ -35,27 +37,41 @@ class ReminderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> insert(
-    NotificationData notificationData,
-  ) async {
+  Future<void> insert(NotificationData notificationData, BuildContext context) async {
+    bool result = await LocalNotification().checkPermission();
+    if (!result) {
+      ShowToast.showToast(S.of(context).openAlarmPermission);
+      return;
+    }
     await NotificationDB.insertData(notificationData);
     await fetch();
-    await setNotification();
+    await setNotification(context);
   }
 
-  Future<void> update(NotificationData notificationData) async {
+  Future<void> update(NotificationData notificationData, BuildContext context) async {
+    bool result = await LocalNotification().checkPermission();
+    if (!result) {
+      ShowToast.showToast(S.of(context).openAlarmPermission);
+      return;
+    }
     await NotificationDB.updateData(notificationData);
     await fetch();
-    await setNotification();
+    await setNotification(context);
   }
 
-  Future<void> delete(NotificationData notificationData) async {
+  Future<void> delete(NotificationData notificationData, BuildContext context) async {
+    // bool result = await LocalNotification().checkPermission();
+    // if (!result) {
+    //   ShowToast.showToast(S.of(context).openAlarmPermission);
+    //   return;
+    // }
     await NotificationDB.deleteData(notificationData);
     await fetch();
-    await setNotification();
+    await setNotification(context);
   }
 
-  Future<void> setNotification() async {
+  Future<void> setNotification(BuildContext context) async {
+
     await LocalNotification().deleteNotification();
     for (int i = 0; i < notifications.length; i++) {
       if (notifications[i].open) {

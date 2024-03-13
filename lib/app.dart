@@ -123,6 +123,7 @@ class _AppState extends State<App> {
         navigatorKey: App.navigatorKey,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          useMaterial3: false,
             primarySwatch: Colors.orange,
             appBarTheme: AppBarTheme(
               backgroundColor: AppColors.backgroundColor,

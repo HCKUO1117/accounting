@@ -127,6 +127,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "notify": MessageLookupByLibrary.simpleMessage("Để ý"),
         "oClock": MessageLookupByLibrary.simpleMessage("điểm"),
         "ok": MessageLookupByLibrary.simpleMessage("xác nhận"),
+        "openAlarmPermission": MessageLookupByLibrary.simpleMessage(
+            "Vui lòng bật quyền đồng hồ báo thức để chúng tôi có thể đặt lời nhắc cho bạn"),
         "other": MessageLookupByLibrary.simpleMessage("khác..."),
         "overwriteInfo": MessageLookupByLibrary.simpleMessage(
             "Dữ liệu của bạn sẽ bị ghi đè và không thể phục hồi. Bạn có muốn tiếp tục không?"),

@@ -143,5 +143,6 @@
   "understand": "了解了!",
   "widgets": "小工具",
   "selectAll": "全選",
-  "permissionInfo": "我們需要您的文件存取權才能匯出檔案"
+  "permissionInfo": "我們需要您的文件存取權才能匯出檔案",
+  "openAlarmPermission": "請開啟鬧鐘權限我們才能為您設置提醒"
 }
