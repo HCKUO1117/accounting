@@ -33,6 +33,9 @@ class LocalNotification {
       FlutterLocalNotificationsPlugin();
 
   Future<void> init(BuildContext context) async {
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestNotificationsPermission();
     var result = await checkPermission();
     if (!result) {
       ShowToast.showToast(S.of(context).openAlarmPermission);
