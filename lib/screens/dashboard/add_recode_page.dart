@@ -442,12 +442,14 @@ class _AddRecodePageState extends State<AddRecodePage> {
                               });
                             }
                           },
-                          child: Text(DateFormat('yyyy/MM/dd').format(date),
+                          child: Text(
+                            DateFormat('yyyy/MM/dd').format(date),
                             style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'RobotoMono',
-                                color: Colors.orange),),
+                                color: Colors.orange),
+                          ),
                         ),
                       ],
                     ),
@@ -546,7 +548,7 @@ class _AddRecodePageState extends State<AddRecodePage> {
                                       onPressed: () async {
                                         await AccountingDB.deleteData(widget.model!.id!);
                                         await provider.getAccountingList();
-                                        if (!mounted) return;
+                                        if (!context.mounted) return;
                                         Navigator.pop(context, true);
                                       },
                                       child: Text(S.of(context).ok),
@@ -556,7 +558,7 @@ class _AddRecodePageState extends State<AddRecodePage> {
                               );
 
                               if (delete ?? false) {
-                                if (!mounted) return;
+                                if (!context.mounted) return;
 
                                 ///更新widget
                                 context.read<HomeWidgetProvider>().sendAndUpdate();
@@ -572,7 +574,7 @@ class _AddRecodePageState extends State<AddRecodePage> {
                       ),
                     const SizedBox(height: 32),
 
-                    saveButton(provider, false),
+                    saveButton(provider, widget.model == null),
                     // Stack(
                     //   alignment: Alignment.center,
                     //   children: [
@@ -628,7 +630,7 @@ class _AddRecodePageState extends State<AddRecodePage> {
                     //       )
                     //   ],
                     // ),
-                    if (widget.model == null) saveButton(provider, true),
+                    // if (widget.model == null) saveButton(provider, true),
                     const SizedBox(height: 32),
                   ],
                 ),
@@ -743,11 +745,7 @@ class _AddRecodePageState extends State<AddRecodePage> {
         Navigator.pop(context);
       },
       child: Text(
-        keepAdd
-            ? S.of(context).addAndToNext
-            : widget.model != null
-                ? S.of(context).edit
-                : S.of(context).add,
+        widget.model != null ? S.of(context).edit : S.of(context).add,
         style: const TextStyle(color: Colors.white),
       ),
     );

@@ -152,10 +152,13 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       if (int.parse(newVersions[0]) > int.parse(nowVersions[0])) {
         await _showUpdateDialog(packageInfo);
       } else {
-        if (int.parse(newVersions[1]) > int.parse(nowVersions[1])) {
+        if (int.parse(newVersions[0]) == int.parse(nowVersions[0]) &&
+            int.parse(newVersions[1]) > int.parse(nowVersions[1])) {
           await _showUpdateDialog(packageInfo);
         } else {
-          if (int.parse(newVersions[2]) > int.parse(nowVersions[2])) {
+          if (int.parse(newVersions[0]) == int.parse(nowVersions[0]) &&
+              int.parse(newVersions[1]) == int.parse(nowVersions[1]) &&
+              int.parse(newVersions[2]) > int.parse(nowVersions[2])) {
             await _showUpdateDialog(packageInfo);
           }
         }

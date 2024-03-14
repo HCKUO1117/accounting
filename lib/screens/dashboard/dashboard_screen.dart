@@ -538,7 +538,7 @@ class DashBoardSliverPersistentHeaderDelegate extends SliverPersistentHeaderDele
                               Expanded(
                                 child: Center(
                                   child: SfCircularChart(
-                                    legend: Legend(isVisible: false),
+                                    legend: const Legend(isVisible: false),
                                     series: <PieSeries<_PieData, String>>[
                                       PieSeries<_PieData, String>(
                                         strokeColor: Colors.black,

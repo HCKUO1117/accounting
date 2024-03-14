@@ -106,7 +106,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "note": MessageLookupByLibrary.simpleMessage("註記"),
         "notification": MessageLookupByLibrary.simpleMessage("提醒"),
         "notify": MessageLookupByLibrary.simpleMessage("通知"),
-        "oClock": MessageLookupByLibrary.simpleMessage("點"),
+        "oClock": MessageLookupByLibrary.simpleMessage("時"),
         "ok": MessageLookupByLibrary.simpleMessage("確認"),
         "openAlarmPermission":
             MessageLookupByLibrary.simpleMessage("請開啟鬧鐘權限我們才能為您設置提醒"),

@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../widget/calculator/calculator_screen.dart';
+
 class AddFixedIncomePage extends StatefulWidget {
   final FixedIncomeModel? model;
 
@@ -281,7 +283,25 @@ class _AddFixedIncomePageState extends State<AddFixedIncomePage> {
                               ),
                             ),
                           ),
-                        )
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            var rawResult = await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const CalculatorScreen(),
+                              ),
+                            );
+
+                            if (rawResult != null) {
+                              var result =
+                              (double.tryParse(rawResult) ?? 0).abs().toStringAsFixed(2);
+                              setState(() {
+                                amount.text = result;
+                              });
+                            }
+                          },
+                          icon: const Icon(Icons.calculate_outlined),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 16),
