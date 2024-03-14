@@ -32,8 +32,6 @@ class _AdBannerState extends State<AdBanner> {
 
   @override
   Widget build(BuildContext context) {
-
-    return SizedBox();
     return Consumer(builder: (BuildContext context, IAP iap, _) {
       if (iap.isSubscription == true) {
         return const SizedBox();

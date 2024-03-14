@@ -586,20 +586,44 @@ class MainProvider with ChangeNotifier {
   ///chart page
   int initTab = 0;
 
-  ///line
-  DateTime lineChartStart = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+  DateTime chartStart = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
       .subtract(const Duration(days: 30));
-  DateTime lineChartEnd =
+  DateTime chartEnd =
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
 
-  bool get lineSamDay =>
-      lineChartStart.year == lineChartEnd.year &&
-      lineChartStart.month == lineChartEnd.month &&
-      lineChartStart.day == lineChartEnd.day;
+  bool get chartSameDay =>
+      chartStart.year == chartEnd.year &&
+      chartStart.month == chartEnd.month &&
+      chartStart.day == chartEnd.day;
+
+  int chartScale = 0;
+
+  Future<void> setChartTime({
+    required DateTime start,
+    required DateTime end,
+    required int scale,
+  }) async {
+    chartStart = DateTime(start.year, start.month, start.day);
+    chartEnd = DateTime(end.year, end.month, end.day, 23, 59, 59);
+    chartScale = scale;
+
+    notifyListeners();
+  }
+
+  ///line
+  // DateTime lineChartStart = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+  //     .subtract(const Duration(days: 30));
+  // DateTime lineChartEnd =
+  //     DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
+  //
+  // bool get lineSamDay =>
+  //     lineChartStart.year == lineChartEnd.year &&
+  //     lineChartStart.month == lineChartEnd.month &&
+  //     lineChartStart.day == lineChartEnd.day;
 
   ChartDataType lineChartDataType = ChartDataType.inOut;
 
-  int lineScale = 0;
+  // int lineScale = 0;
 
   List<int> lineFilter = [0, 1];
 
@@ -623,10 +647,10 @@ class MainProvider with ChangeNotifier {
     required List<int> filter,
     required List<int>? tagFilter,
   }) async {
-    lineChartStart = DateTime(start.year, start.month, start.day);
-    lineChartEnd = DateTime(end.year, end.month, end.day, 23, 59, 59);
+    chartStart = DateTime(start.year, start.month, start.day);
+    chartEnd = DateTime(end.year, end.month, end.day, 23, 59, 59);
     lineChartDataType = type;
-    lineScale = scale;
+    chartScale = scale;
     lineFilter = filter;
     lineTagFilter = tagFilter;
 
@@ -702,16 +726,15 @@ class MainProvider with ChangeNotifier {
     // }
 
     if (lineChartDataType == ChartDataType.inOut) {
-      int days = lineChartEnd.difference(lineChartStart).inDays + 1;
+      int days = chartEnd.difference(chartStart).inDays + 1;
       List<SalesData> incomes = [];
       List<SalesData> expenditures = [];
-      switch (lineScale) {
+      switch (chartScale) {
         case 0:
           for (int i = 0; i < days; i++) {
             double income = 0;
             double expenditure = 0;
-            DateTime d =
-                DateTime(lineChartStart.year, lineChartStart.month, lineChartStart.day + i);
+            DateTime d = DateTime(chartStart.year, chartStart.month, chartStart.day + i);
             final List<AccountingModel> l =
                 allList.where((element) => Utils.checkIsSameDay(element.date, d)).toList();
             for (var element in l) {
@@ -728,8 +751,8 @@ class MainProvider with ChangeNotifier {
           }
           break;
         case 1:
-          DateTime end = DateTime(lineChartEnd.year, lineChartEnd.month + 1);
-          for (DateTime i = lineChartStart;
+          DateTime end = DateTime(chartEnd.year, chartEnd.month + 1);
+          for (DateTime i = chartStart;
               i.year != end.year || i.month != end.month;
               i = DateTime(i.year, i.month + 1)) {
             double income = 0;
@@ -751,8 +774,8 @@ class MainProvider with ChangeNotifier {
           }
           break;
         case 2:
-          DateTime end = DateTime(lineChartEnd.year + 1);
-          for (DateTime i = lineChartStart; i.year != end.year; i = DateTime(i.year + 1)) {
+          DateTime end = DateTime(chartEnd.year + 1);
+          for (DateTime i = chartStart; i.year != end.year; i = DateTime(i.year + 1)) {
             double income = 0;
             double expenditure = 0;
 
@@ -816,12 +839,11 @@ class MainProvider with ChangeNotifier {
         );
       }
 
-      switch (lineScale) {
+      switch (chartScale) {
         case 0:
-          int days = lineChartEnd.difference(lineChartStart).inDays + 1;
+          int days = chartEnd.difference(chartStart).inDays + 1;
           for (int i = 0; i < days; i++) {
-            DateTime d =
-                DateTime(lineChartStart.year, lineChartStart.month, lineChartStart.day + i);
+            DateTime d = DateTime(chartStart.year, chartStart.month, chartStart.day + i);
 
             final List<AccountingModel> l =
                 allList.where((element) => Utils.checkIsSameDay(element.date, d)).toList();
@@ -837,8 +859,8 @@ class MainProvider with ChangeNotifier {
           }
           break;
         case 1:
-          DateTime end = DateTime(lineChartEnd.year, lineChartEnd.month + 1);
-          for (DateTime i = lineChartStart;
+          DateTime end = DateTime(chartEnd.year, chartEnd.month + 1);
+          for (DateTime i = chartStart;
               i.year != end.year || i.month != end.month;
               i = DateTime(i.year, i.month + 1)) {
             final List<AccountingModel> l =
@@ -855,8 +877,8 @@ class MainProvider with ChangeNotifier {
           }
           break;
         case 2:
-          DateTime end = DateTime(lineChartEnd.year);
-          for (DateTime i = lineChartStart; i.year != end.year + 1; i = DateTime(i.year + 1)) {
+          DateTime end = DateTime(chartEnd.year);
+          for (DateTime i = chartStart; i.year != end.year + 1; i = DateTime(i.year + 1)) {
             final List<AccountingModel> l =
                 allList.where((element) => Utils.checkIsSameYear(element.date, i)).toList();
 
@@ -907,7 +929,7 @@ class MainProvider with ChangeNotifier {
   }
 
   String dateScaleTransfer({required DateTime time}) {
-    switch (lineScale) {
+    switch (chartScale) {
       case 0:
         return DateFormat('yyyy/MM/dd').format(time);
       case 1:
@@ -920,15 +942,15 @@ class MainProvider with ChangeNotifier {
   }
 
   ///pie
-  DateTime pieChartStart = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
-      .subtract(const Duration(days: 30));
-  DateTime pieChartEnd =
-      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
-
-  bool get pieSamDay =>
-      pieChartStart.year == pieChartEnd.year &&
-      pieChartStart.month == pieChartEnd.month &&
-      pieChartStart.day == pieChartEnd.day;
+  // DateTime pieChartStart = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+  //     .subtract(const Duration(days: 30));
+  // DateTime pieChartEnd =
+  //     DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
+  //
+  // bool get pieSamDay =>
+  //     pieChartStart.year == pieChartEnd.year &&
+  //     pieChartStart.month == pieChartEnd.month &&
+  //     pieChartStart.day == pieChartEnd.day;
 
   ChartDataType pieChartDataType = ChartDataType.inOut;
 
@@ -936,7 +958,7 @@ class MainProvider with ChangeNotifier {
 
   List<int>? pieTagFilter;
 
-  int pieScale = 0;
+  // int pieScale = 0;
 
   AppState pieChartState = AppState.finish;
 
@@ -959,10 +981,10 @@ class MainProvider with ChangeNotifier {
     required List<int> filter,
     required List<int>? tagFilter,
   }) async {
-    pieChartStart = DateTime(start.year, start.month, start.day);
-    pieChartEnd = DateTime(end.year, end.month, end.day, 23, 59, 59);
+    chartStart = DateTime(start.year, start.month, start.day);
+    chartEnd = DateTime(end.year, end.month, end.day, 23, 59, 59);
     pieChartDataType = type;
-    pieScale = scale;
+    chartScale = scale;
     pieFilter = filter;
     pieTagFilter = tagFilter;
 
@@ -975,19 +997,19 @@ class MainProvider with ChangeNotifier {
 
     List<AccountingModel> tempList = [];
 
-    switch (pieScale) {
+    switch (chartScale) {
       case 0:
         for (var element in accountingList) {
-          if (pieChartStart.year == pieChartEnd.year &&
-              pieChartStart.month == pieChartEnd.month &&
-              pieChartStart.day == pieChartEnd.day) {
-            if (element.date.year == pieChartStart.year &&
-                element.date.month == pieChartStart.month &&
-                element.date.day == pieChartStart.day) {
+          if (chartStart.year == chartEnd.year &&
+              chartStart.month == chartEnd.month &&
+              chartStart.day == chartEnd.day) {
+            if (element.date.year == chartStart.year &&
+                element.date.month == chartStart.month &&
+                element.date.day == chartStart.day) {
               tempList.add(element);
             }
           } else {
-            if (!element.date.isBefore(pieChartStart) && !element.date.isAfter(pieChartEnd)) {
+            if (!element.date.isBefore(chartStart) && !element.date.isAfter(chartEnd)) {
               tempList.add(element);
             }
           }
@@ -995,16 +1017,16 @@ class MainProvider with ChangeNotifier {
         break;
       case 1:
         for (var element in accountingList) {
-          if (!element.date.isBefore(pieChartStart) &&
-              element.date.isBefore(DateTime(pieChartEnd.year, pieChartEnd.month + 1))) {
+          if (!element.date.isBefore(chartStart) &&
+              element.date.isBefore(DateTime(chartEnd.year, chartEnd.month + 1))) {
             tempList.add(element);
           }
         }
         break;
       case 2:
         for (var element in accountingList) {
-          if (!element.date.isBefore(pieChartStart) &&
-              element.date.isBefore(DateTime(pieChartEnd.year, 12, 31))) {
+          if (!element.date.isBefore(chartStart) &&
+              element.date.isBefore(DateTime(chartEnd.year, 12, 31))) {
             tempList.add(element);
           }
         }
@@ -1172,19 +1194,19 @@ class MainProvider with ChangeNotifier {
   }
 
   ///stack
-  DateTime stackChartStart = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
-      .subtract(const Duration(days: 30));
-  DateTime stackChartEnd =
-      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
-
-  bool get stackSamDay =>
-      stackChartStart.year == stackChartEnd.year &&
-      stackChartStart.month == stackChartEnd.month &&
-      stackChartStart.day == stackChartEnd.day;
+  // DateTime stackChartStart = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+  //     .subtract(const Duration(days: 30));
+  // DateTime stackChartEnd =
+  //     DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
+  //
+  // bool get stackSamDay =>
+  //     stackChartStart.year == stackChartEnd.year &&
+  //     stackChartStart.month == stackChartEnd.month &&
+  //     stackChartStart.day == stackChartEnd.day;
 
   ChartDataType stackChartDataType = ChartDataType.inOut;
 
-  int stackScale = 0;
+  // int stackScale = 0;
 
   List<int> stackFilter = [0, 1];
 
@@ -1208,10 +1230,10 @@ class MainProvider with ChangeNotifier {
     required List<int> filter,
     required List<int>? tagFilter,
   }) async {
-    stackChartStart = DateTime(start.year, start.month, start.day);
-    stackChartEnd = DateTime(end.year, end.month, end.day, 23, 59, 59);
+    chartStart = DateTime(start.year, start.month, start.day);
+    chartEnd = DateTime(end.year, end.month, end.day, 23, 59, 59);
     stackChartDataType = type;
-    stackScale = scale;
+    chartScale = scale;
     stackFilter = filter;
     stackTagFilter = tagFilter;
     notifyListeners();
@@ -1270,9 +1292,9 @@ class MainProvider with ChangeNotifier {
     stackAllList = allList;
 
     if (stackChartDataType == ChartDataType.inOut) {
-      int days = stackChartEnd.difference(stackChartStart).inDays + 1;
+      int days = chartEnd.difference(chartStart).inDays + 1;
       stackChartList = [];
-      switch (stackScale) {
+      switch (chartScale) {
         case 0:
           for (var element in categoryList) {
             if ((!stackFilter.contains(0) && element.type == CategoryType.income ||
@@ -1283,8 +1305,7 @@ class MainProvider with ChangeNotifier {
             List<ChartData> data = [];
             double totalAmount = 0;
             for (int i = 0; i < days; i++) {
-              DateTime d =
-                  DateTime(stackChartStart.year, stackChartStart.month, stackChartStart.day + i);
+              DateTime d = DateTime(chartStart.year, chartStart.month, chartStart.day + i);
               final List<AccountingModel> l =
                   allList.where((element) => Utils.checkIsSameDay(element.date, d)).toList();
               double amount = 0;
@@ -1320,8 +1341,7 @@ class MainProvider with ChangeNotifier {
           double incomeAmount = 0;
           double expenditureAmount = 0;
           for (int i = 0; i < days; i++) {
-            DateTime d =
-                DateTime(stackChartStart.year, stackChartStart.month, stackChartStart.day + i);
+            DateTime d = DateTime(chartStart.year, chartStart.month, chartStart.day + i);
             final List<AccountingModel> l =
                 allList.where((element) => Utils.checkIsSameDay(element.date, d)).toList();
             for (var e in l) {
@@ -1369,9 +1389,9 @@ class MainProvider with ChangeNotifier {
               continue;
             }
             List<ChartData> data = [];
-            DateTime end = DateTime(stackChartEnd.year, stackChartEnd.month + 1);
+            DateTime end = DateTime(chartEnd.year, chartEnd.month + 1);
             double totalAmount = 0;
-            for (DateTime i = stackChartStart;
+            for (DateTime i = chartStart;
                 i.year != end.year || i.month != end.month;
                 i = DateTime(i.year, i.month + 1)) {
               final List<AccountingModel> l =
@@ -1407,8 +1427,8 @@ class MainProvider with ChangeNotifier {
           List<ChartData> expenditureData = [];
           double incomeAmount = 0;
           double expenditureAmount = 0;
-          DateTime end = DateTime(stackChartEnd.year, stackChartEnd.month + 1);
-          for (DateTime i = stackChartStart;
+          DateTime end = DateTime(chartEnd.year, chartEnd.month + 1);
+          for (DateTime i = chartStart;
               i.year != end.year || i.month != end.month;
               i = DateTime(i.year, i.month + 1)) {
             final List<AccountingModel> l =
@@ -1458,9 +1478,9 @@ class MainProvider with ChangeNotifier {
               continue;
             }
             List<ChartData> data = [];
-            DateTime end = DateTime(stackChartEnd.year + 1);
+            DateTime end = DateTime(chartEnd.year + 1);
             double totalAmount = 0;
-            for (DateTime i = stackChartStart; i.year != end.year; i = DateTime(i.year + 1)) {
+            for (DateTime i = chartStart; i.year != end.year; i = DateTime(i.year + 1)) {
               final List<AccountingModel> l =
                   allList.where((element) => Utils.checkIsSameYear(element.date, i)).toList();
               double amount = 0;
@@ -1494,8 +1514,8 @@ class MainProvider with ChangeNotifier {
           List<ChartData> expenditureData = [];
           double incomeAmount = 0;
           double expenditureAmount = 0;
-          DateTime end = DateTime(lineChartEnd.year + 1);
-          for (DateTime i = lineChartStart; i.year != end.year; i = DateTime(i.year + 1)) {
+          DateTime end = DateTime(chartEnd.year + 1);
+          for (DateTime i = chartStart; i.year != end.year; i = DateTime(i.year + 1)) {
             final List<AccountingModel> l =
                 allList.where((element) => Utils.checkIsSameYear(element.date, i)).toList();
             for (var e in l) {
@@ -1544,17 +1564,17 @@ class MainProvider with ChangeNotifier {
   }
 
   ///list
-  DateTime listChartStart = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
-      .subtract(const Duration(days: 30));
-  DateTime listChartEnd =
-      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
+  // DateTime listChartStart = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+  //     .subtract(const Duration(days: 30));
+  // DateTime listChartEnd =
+  //     DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
+  //
+  // bool get listSamDay =>
+  //     stackChartStart.year == stackChartEnd.year &&
+  //     stackChartStart.month == stackChartEnd.month &&
+  //     stackChartStart.day == stackChartEnd.day;
 
-  bool get listSamDay =>
-      stackChartStart.year == stackChartEnd.year &&
-      stackChartStart.month == stackChartEnd.month &&
-      stackChartStart.day == stackChartEnd.day;
-
-  int listScale = 0;
+  // int listScale = 0;
 
   List<int>? listTagFilter;
 
@@ -1575,9 +1595,9 @@ class MainProvider with ChangeNotifier {
     required int scale,
     required List<int>? tagFilter,
   }) async {
-    listChartStart = DateTime(start.year, start.month, start.day);
-    listChartEnd = DateTime(end.year, end.month, end.day, 23, 59, 59);
-    listScale = scale;
+    chartStart = DateTime(start.year, start.month, start.day);
+    chartEnd = DateTime(end.year, end.month, end.day, 23, 59, 59);
+    chartScale = scale;
     listTagFilter = tagFilter;
     notifyListeners();
   }
@@ -1588,19 +1608,19 @@ class MainProvider with ChangeNotifier {
 
     List<AccountingModel> tempList = [];
 
-    switch (listScale) {
+    switch (chartScale) {
       case 0:
         for (var element in accountingList) {
-          if (listChartStart.year == listChartEnd.year &&
-              listChartStart.month == listChartEnd.month &&
-              listChartStart.day == listChartEnd.day) {
-            if (element.date.year == listChartStart.year &&
-                element.date.month == listChartStart.month &&
-                element.date.day == listChartStart.day) {
+          if (chartStart.year == chartEnd.year &&
+              chartStart.month == chartEnd.month &&
+              chartStart.day == chartEnd.day) {
+            if (element.date.year == chartStart.year &&
+                element.date.month == chartStart.month &&
+                element.date.day == chartStart.day) {
               tempList.add(element);
             }
           } else {
-            if (!element.date.isBefore(listChartStart) && !element.date.isAfter(listChartEnd)) {
+            if (!element.date.isBefore(chartStart) && !element.date.isAfter(chartEnd)) {
               tempList.add(element);
             }
           }
@@ -1608,16 +1628,16 @@ class MainProvider with ChangeNotifier {
         break;
       case 1:
         for (var element in accountingList) {
-          if (!element.date.isBefore(listChartStart) &&
-              element.date.isBefore(DateTime(listChartEnd.year, listChartEnd.month + 1))) {
+          if (!element.date.isBefore(chartStart) &&
+              element.date.isBefore(DateTime(chartEnd.year, chartEnd.month + 1))) {
             tempList.add(element);
           }
         }
         break;
       case 2:
         for (var element in accountingList) {
-          if (!element.date.isBefore(listChartStart) &&
-              element.date.isBefore(DateTime(listChartEnd.year, 12, 31))) {
+          if (!element.date.isBefore(chartStart) &&
+              element.date.isBefore(DateTime(chartEnd.year, 12, 31))) {
             tempList.add(element);
           }
         }

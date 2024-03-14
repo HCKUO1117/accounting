@@ -260,10 +260,10 @@ class S {
     );
   }
 
-  /// `OK`
+  /// `Confirm`
   String get ok {
     return Intl.message(
-      'OK',
+      'Confirm',
       name: 'ok',
       desc: '',
       args: [],

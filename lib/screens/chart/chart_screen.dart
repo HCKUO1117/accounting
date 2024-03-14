@@ -4,6 +4,7 @@ import 'package:accounting/models/date_model.dart';
 import 'package:accounting/models/states.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/icons.dart';
+import 'package:accounting/screens/chart/chart_time_setting_page.dart';
 import 'package:accounting/screens/chart/line_chart_setting_page.dart';
 import 'package:accounting/utils/my_banner_ad.dart';
 import 'package:accounting/utils/utils.dart';
@@ -56,23 +57,61 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                 fontFamily: 'RobotoMono',
               ),
             ),
-            bottom: TabBar(
-              controller: _tabController,
-              tabs: const [
-                Tab(icon: Icon(Icons.list)),
-                Tab(icon: Icon(Icons.show_chart)),
-                Tab(icon: Icon(Icons.pie_chart_outline_outlined)),
-                Tab(icon: Icon(Icons.stacked_bar_chart))
-              ],
-            ),
           ),
-          body: TabBarView(
-            controller: _tabController,
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              list(provider),
-              line(provider),
-              pie(provider),
-              stackColumn(provider),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: InkWell(
+                  onTap: () async {
+                    await showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                        scrollable: true,
+                        content: const ChartTimeSettingPage(),
+                      ),
+                    );
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        '${Utils.dateStringByType(provider.chartStart, provider.chartScale)}${!provider.chartSameDay ? ' ~ ' : ''}${!provider.chartSameDay ? Utils.dateStringByType(provider.chartEnd, provider.chartScale) : ''}',
+                        style: const TextStyle(color: Colors.orange),
+                      ),
+                      Text(
+                        '${S.of(context).timeScale} : ${provider.chartScale == 0 ? S.of(context).day : provider.chartScale == 1 ? S.of(context).month : S.of(context).year}',
+                        style: const TextStyle(color: Colors.black54),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              TabBar(
+                controller: _tabController,
+                labelColor: Colors.orange,
+                unselectedLabelColor: Colors.grey,
+                tabs: const [
+                  Tab(icon: Icon(Icons.list)),
+                  Tab(icon: Icon(Icons.show_chart)),
+                  Tab(icon: Icon(Icons.pie_chart_outline_outlined)),
+                  Tab(icon: Icon(Icons.stacked_bar_chart))
+                ],
+              ),
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    list(provider),
+                    line(provider),
+                    pie(provider),
+                    stackColumn(provider),
+                  ],
+                ),
+              ),
             ],
           ),
         );
@@ -91,17 +130,18 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
         Row(
           children: [
             const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${Utils.dateStringByType(provider.listChartStart, provider.listScale)}${!provider.listSamDay ? ' ~ ' : ''}${!provider.listSamDay ? Utils.dateStringByType(provider.listChartEnd, provider.listScale) : ''}',
-                    style: const TextStyle(color: Colors.black54),
-                  ),
-                ],
-              ),
-            ),
+            // Expanded(
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       Text(
+            //         '${Utils.dateStringByType(provider.chartStart, provider.chartScale)}${!provider.chartSameDay ? ' ~ ' : ''}${!provider.chartSameDay ? Utils.dateStringByType(provider.chartEnd, provider.chartScale) : ''}',
+            //         style: const TextStyle(color: Colors.black54),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            const Spacer(),
             IconButton(
               onPressed: () async {
                 await showDialog(
@@ -396,21 +436,22 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
         Row(
           children: [
             const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${Utils.dateStringByType(provider.lineChartStart, provider.lineScale)}${!provider.lineSamDay ? ' ~ ' : ''}${!provider.lineSamDay ? Utils.dateStringByType(provider.lineChartEnd, provider.lineScale) : ''}',
-                    style: const TextStyle(color: Colors.black54),
-                  ),
-                  Text(
-                    '${S.of(context).timeScale} : ${provider.lineScale == 0 ? S.of(context).day : provider.lineScale == 1 ? S.of(context).month : S.of(context).year}',
-                    style: const TextStyle(color: Colors.black54),
-                  )
-                ],
-              ),
-            ),
+            // Expanded(
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       Text(
+            //         '${Utils.dateStringByType(provider.chartStart, provider.chartScale)}${!provider.chartSameDay ? ' ~ ' : ''}${!provider.chartSameDay ? Utils.dateStringByType(provider.chartEnd, provider.chartScale) : ''}',
+            //         style: const TextStyle(color: Colors.black54),
+            //       ),
+            //       Text(
+            //         '${S.of(context).timeScale} : ${provider.chartScale == 0 ? S.of(context).day : provider.chartScale == 1 ? S.of(context).month : S.of(context).year}',
+            //         style: const TextStyle(color: Colors.black54),
+            //       )
+            //     ],
+            //   ),
+            // ),
+            const Spacer(),
             IconButton(
               onPressed: () async {
                 await showDialog(
@@ -443,14 +484,14 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
         ),
         const SizedBox(height: 16),
         const AdBanner(large: false),
-        if (provider.lineScale != 2)
+        if (provider.chartScale != 2)
           dayList(
             provider,
-            start: provider.lineChartStart,
-            end: provider.lineChartEnd,
+            start: provider.chartStart,
+            end: provider.chartEnd,
             categoryFilter: provider.lineFilter,
             tagFilter: provider.lineTagFilter,
-            scale: provider.lineScale,
+            scale: provider.chartScale,
             income: provider.lineCurrentIncome,
             expenditure: provider.lineCurrentExpenditure,
             allList: provider.lineAllList,
@@ -458,8 +499,8 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
         else
           yearList(
             provider,
-            start: provider.lineChartStart,
-            end: provider.lineChartEnd,
+            start: provider.chartStart,
+            end: provider.chartEnd,
             categoryFilter: provider.lineFilter,
             tagFilter: provider.lineTagFilter,
             income: provider.lineCurrentIncome,
@@ -479,21 +520,22 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
         Row(
           children: [
             const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${Utils.dateStringByType(provider.pieChartStart, provider.pieScale)}${!provider.pieSamDay ? ' ~ ' : ''}${!provider.pieSamDay ? Utils.dateStringByType(provider.pieChartEnd, provider.pieScale) : ''}',
-                    style: const TextStyle(color: Colors.black54),
-                  ),
-                  Text(
-                    '${S.of(context).timeScale} : ${provider.pieScale == 0 ? S.of(context).day : provider.pieScale == 1 ? S.of(context).month : S.of(context).year}',
-                    style: const TextStyle(color: Colors.black54),
-                  )
-                ],
-              ),
-            ),
+            // Expanded(
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       Text(
+            //         '${Utils.dateStringByType(provider.chartStart, provider.chartScale)}${!provider.chartSameDay ? ' ~ ' : ''}${!provider.chartSameDay ? Utils.dateStringByType(provider.chartEnd, provider.chartScale) : ''}',
+            //         style: const TextStyle(color: Colors.black54),
+            //       ),
+            //       Text(
+            //         '${S.of(context).timeScale} : ${provider.chartScale == 0 ? S.of(context).day : provider.chartScale == 1 ? S.of(context).month : S.of(context).year}',
+            //         style: const TextStyle(color: Colors.black54),
+            //       )
+            //     ],
+            //   ),
+            // ),
+            const Spacer(),
             IconButton(
               onPressed: () async {
                 await showDialog(
@@ -710,14 +752,14 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
           ),
         const SizedBox(height: 16),
         const AdBanner(large: false),
-        if (provider.pieScale != 2)
+        if (provider.chartScale != 2)
           dayList(
             provider,
-            start: provider.pieChartStart,
-            end: provider.pieChartEnd,
+            start: provider.chartStart,
+            end: provider.chartEnd,
             categoryFilter: provider.pieFilter,
             tagFilter: provider.pieTagFilter,
-            scale: provider.pieScale,
+            scale: provider.chartScale,
             income: provider.pieCurrentIncome,
             expenditure: provider.pieCurrentExpenditure,
             allList: provider.pieAllList,
@@ -725,8 +767,8 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
         else
           yearList(
             provider,
-            start: provider.pieChartStart,
-            end: provider.pieChartEnd,
+            start: provider.chartStart,
+            end: provider.chartEnd,
             categoryFilter: provider.pieFilter,
             tagFilter: provider.pieTagFilter,
             income: provider.pieCurrentIncome,
@@ -750,21 +792,22 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
         Row(
           children: [
             const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${Utils.dateStringByType(provider.stackChartStart, provider.stackScale)}${!provider.stackSamDay ? ' ~ ' : ''}${!provider.stackSamDay ? Utils.dateStringByType(provider.stackChartEnd, provider.stackScale) : ''}',
-                    style: const TextStyle(color: Colors.black54),
-                  ),
-                  Text(
-                    '${S.of(context).timeScale} : ${provider.stackScale == 0 ? S.of(context).day : provider.stackScale == 1 ? S.of(context).month : S.of(context).year}',
-                    style: const TextStyle(color: Colors.black54),
-                  )
-                ],
-              ),
-            ),
+            // Expanded(
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       Text(
+            //         '${Utils.dateStringByType(provider.chartStart, provider.chartScale)}${!provider.chartSameDay ? ' ~ ' : ''}${!provider.chartSameDay ? Utils.dateStringByType(provider.chartEnd, provider.chartScale) : ''}',
+            //         style: const TextStyle(color: Colors.black54),
+            //       ),
+            //       Text(
+            //         '${S.of(context).timeScale} : ${provider.chartScale == 0 ? S.of(context).day : provider.chartScale == 1 ? S.of(context).month : S.of(context).year}',
+            //         style: const TextStyle(color: Colors.black54),
+            //       )
+            //     ],
+            //   ),
+            // ),
+            const Spacer(),
             IconButton(
               onPressed: () async {
                 await showDialog(
@@ -797,14 +840,14 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
         ),
         const SizedBox(height: 16),
         const AdBanner(large: false),
-        if (provider.stackScale != 2)
+        if (provider.chartScale != 2)
           dayList(
             provider,
-            start: provider.stackChartStart,
-            end: provider.stackChartEnd,
+            start: provider.chartStart,
+            end: provider.chartEnd,
             categoryFilter: provider.stackFilter,
             tagFilter: provider.stackTagFilter,
-            scale: provider.stackScale,
+            scale: provider.chartScale,
             income: provider.stackCurrentIncome,
             expenditure: provider.stackCurrentExpenditure,
             allList: provider.stackAllList,
@@ -812,8 +855,8 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
         else
           yearList(
             provider,
-            start: provider.stackChartStart,
-            end: provider.stackChartEnd,
+            start: provider.chartStart,
+            end: provider.chartEnd,
             categoryFilter: provider.stackFilter,
             tagFilter: provider.stackTagFilter,
             income: provider.stackCurrentIncome,
@@ -1022,7 +1065,6 @@ class _ChartScreenState extends State<ChartScreen> with TickerProviderStateMixin
                         }
                       }
                     } else {
-                      print(start);
                       if (!element.date.isBefore(start) &&
                           element.date.isBefore(end.add(const Duration(days: 1)))) {
                         if (element.date.year == list[index].year &&

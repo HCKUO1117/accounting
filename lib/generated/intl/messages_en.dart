@@ -124,7 +124,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "notification": MessageLookupByLibrary.simpleMessage("Reminder"),
         "notify": MessageLookupByLibrary.simpleMessage("Notification"),
         "oClock": MessageLookupByLibrary.simpleMessage("o\'clock"),
-        "ok": MessageLookupByLibrary.simpleMessage("OK"),
+        "ok": MessageLookupByLibrary.simpleMessage("Confirm"),
         "openAlarmPermission": MessageLookupByLibrary.simpleMessage(
             "Please enable the alarm clock permission so that we can set reminders for you"),
         "other": MessageLookupByLibrary.simpleMessage("Other..."),

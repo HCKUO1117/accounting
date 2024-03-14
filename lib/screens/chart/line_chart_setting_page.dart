@@ -2,12 +2,9 @@ import 'package:accounting/generated/l10n.dart';
 import 'package:accounting/provider/main_provider.dart';
 import 'package:accounting/res/app_color.dart';
 import 'package:accounting/res/icons.dart';
-import 'package:accounting/screens/custom_date_picker_dialog.dart';
-import 'package:accounting/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 enum ChartType {
   line,
@@ -62,10 +59,10 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
   void initState() {
     switch (widget.type) {
       case ChartType.line:
-        start = context.read<MainProvider>().lineChartStart;
-        end = context.read<MainProvider>().lineChartEnd;
+        start = context.read<MainProvider>().chartStart;
+        end = context.read<MainProvider>().chartEnd;
         lineChartDataType = context.read<MainProvider>().lineChartDataType;
-        scale = context.read<MainProvider>().lineScale;
+        scale = context.read<MainProvider>().chartScale;
 
         lineFilter.addAll(context.read<MainProvider>().lineFilter);
         if (context.read<MainProvider>().lineTagFilter != null) {
@@ -74,10 +71,10 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
         }
         break;
       case ChartType.pie:
-        start = context.read<MainProvider>().pieChartStart;
-        end = context.read<MainProvider>().pieChartEnd;
+        start = context.read<MainProvider>().chartStart;
+        end = context.read<MainProvider>().chartEnd;
         lineChartDataType = context.read<MainProvider>().pieChartDataType;
-        scale = context.read<MainProvider>().pieScale;
+        scale = context.read<MainProvider>().chartScale;
 
         lineFilter.addAll(context.read<MainProvider>().pieFilter);
         if (context.read<MainProvider>().pieTagFilter != null) {
@@ -86,10 +83,10 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
         }
         break;
       case ChartType.stack:
-        start = context.read<MainProvider>().stackChartStart;
-        end = context.read<MainProvider>().stackChartEnd;
+        start = context.read<MainProvider>().chartStart;
+        end = context.read<MainProvider>().chartEnd;
         lineChartDataType = context.read<MainProvider>().stackChartDataType;
-        scale = context.read<MainProvider>().stackScale;
+        scale = context.read<MainProvider>().chartScale;
 
         lineFilter.addAll(context.read<MainProvider>().stackFilter);
         if (context.read<MainProvider>().stackTagFilter != null) {
@@ -98,9 +95,9 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
         }
         break;
       case ChartType.list:
-        start = context.read<MainProvider>().listChartStart;
-        end = context.read<MainProvider>().listChartEnd;
-        scale = context.read<MainProvider>().listScale;
+        start = context.read<MainProvider>().chartStart;
+        end = context.read<MainProvider>().chartEnd;
+        scale = context.read<MainProvider>().chartScale;
 
         if (context.read<MainProvider>().listTagFilter != null) {
           tagFilter = [];
@@ -114,11 +111,6 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
 
   @override
   Widget build(BuildContext context) {
-    bool samDay = false;
-    if (start != null && end != null) {
-      samDay = start!.year == end!.year && start!.month == end!.month && start!.day == end!.day;
-    }
-
     return Consumer<MainProvider>(builder: (BuildContext context, MainProvider provider, _) {
       return Column(
         children: [
@@ -132,126 +124,6 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
             ),
           ),
           const SizedBox(height: 16),
-
-          ///scale
-          cardBackground([
-            Row(
-              children: [
-                Text(
-                  '${S.of(context).timeScale} : ',
-                  style: const TextStyle(
-                    fontFamily: 'RobotoMono',
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Expanded(
-                  child: DropdownButton<int>(
-                    isExpanded: true,
-                    value: scale,
-                    items: [
-                      DropdownMenuItem<int>(
-                        value: 0,
-                        alignment: AlignmentDirectional.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [Text(S.of(context).day)],
-                        ),
-                      ),
-                      DropdownMenuItem<int>(
-                        value: 1,
-                        alignment: AlignmentDirectional.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [Text(S.of(context).month)],
-                        ),
-                      ),
-                      DropdownMenuItem<int>(
-                        value: 2,
-                        alignment: AlignmentDirectional.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [Text(S.of(context).year)],
-                        ),
-                      ),
-                    ],
-                    onChanged: (v) {
-                      setState(() {
-                        if (v != scale) {
-                          start = null;
-                          end = null;
-                        }
-                        scale = v!;
-                      });
-                    },
-                  ),
-                )
-              ],
-            )
-          ]),
-          const SizedBox(height: 8),
-
-          ///time
-          cardBackground([
-            Row(
-              children: [
-                Text(
-                  '${S.of(context).time} : ',
-                  style: const TextStyle(
-                    fontFamily: 'RobotoMono',
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            InkWell(
-              onTap: () async {
-                DateTimeRange? range;
-                await CustomDatePickerDialog.show(
-                  context,
-                  onDateSelect: (arg) {
-                    PickerDateRange r = arg.value;
-                    range = DateTimeRange(
-                      start: r.startDate!,
-                      end: r.endDate != null ? r.endDate! : r.startDate!,
-                    );
-                  },
-                  start: start ?? DateTime.now(),
-                  end: end ?? DateTime.now(),
-                  showDot: false,
-                  allowViewNavigation: scale == 0,
-                  view: scale == 0
-                      ? DateRangePickerView.month
-                      : scale == 1
-                          ? DateRangePickerView.year
-                          : DateRangePickerView.decade,
-                  noInit: start == null || end == null ? true : false,
-                );
-                if (range == null) {
-                  return;
-                }
-                setState(() {
-                  start = range!.start;
-                  end = range!.end;
-                });
-              },
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      start != null && end != null
-                          ? '${Utils.dateStringByType(start!, scale)}${!samDay ? ' ~ ' : ''}${!samDay ? Utils.dateStringByType(end!, scale) : ''}'
-                          : S.of(context).plzChooseTime,
-                      textAlign: TextAlign.center,
-                      strutStyle: const StrutStyle(height: 1.5),
-                    ),
-                  ),
-                  const Icon(Icons.arrow_drop_down),
-                ],
-              ),
-            ),
-          ]),
-          const SizedBox(height: 8),
 
           ///data source
           if (widget.type != ChartType.list)
@@ -267,6 +139,7 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                   ),
                 ],
               ),
+              const SizedBox(height: 8),
               if (widget.type == ChartType.stack)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -283,52 +156,61 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                 Row(
                   children: [
                     Expanded(
-                      child: DropdownButton<ChartDataType>(
-                        isExpanded: true,
-                        value: lineChartDataType,
-                        items: [
-                          for (final element in ChartDataType.values)
-                            DropdownMenuItem<ChartDataType>(
-                              value: element,
-                              alignment: AlignmentDirectional.center,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      element.text(context),
-                                      textAlign: TextAlign.center,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(),
+                        ),
+                        child: DropdownButton<ChartDataType>(
+                          underline: const SizedBox(),
+                          isExpanded: true,
+                          value: lineChartDataType,
+                          borderRadius: BorderRadius.circular(10),
+                          items: [
+                            for (final element in ChartDataType.values)
+                              DropdownMenuItem<ChartDataType>(
+                                value: element,
+                                alignment: AlignmentDirectional.center,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        element.text(context),
+                                        textAlign: TextAlign.center,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                        ],
-                        onChanged: (v) {
-                          setState(() {
-                            if (v != lineChartDataType) {
-                              lineFilter = [];
-                              switch (v!) {
-                                case ChartDataType.inOut:
-                                  lineFilter = [0, 1];
-                                  break;
-                                case ChartDataType.category:
-                                  for (var element in provider.categoryList) {
-                                    lineFilter.add(element.id!);
-                                  }
-                                  lineFilter.add(-1);
-                                  break;
-                                // case ChartDataType.tag:
-                                //   for (var element in provider.tagList) {
-                                //     lineFilter.add(element.id!);
-                                //   }
-                                //   lineFilter.add(-1);
-                                //   break;
+                          ],
+                          onChanged: (v) {
+                            setState(() {
+                              if (v != lineChartDataType) {
+                                lineFilter = [];
+                                switch (v!) {
+                                  case ChartDataType.inOut:
+                                    lineFilter = [0, 1];
+                                    break;
+                                  case ChartDataType.category:
+                                    for (var element in provider.categoryList) {
+                                      lineFilter.add(element.id!);
+                                    }
+                                    lineFilter.add(-1);
+                                    break;
+                                  // case ChartDataType.tag:
+                                  //   for (var element in provider.tagList) {
+                                  //     lineFilter.add(element.id!);
+                                  //   }
+                                  //   lineFilter.add(-1);
+                                  //   break;
+                                }
                               }
-                            }
-                            lineChartDataType = v!;
-                          });
-                        },
+                              lineChartDataType = v!;
+                            });
+                          },
+                        ),
                       ),
                     )
                   ],
@@ -363,7 +245,15 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                         backgroundColor: element.color.withOpacity(0.2),
                         label: Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: [Text(element.name)],
+                          children: [
+                            Text(
+                              element.name,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                shadows: [Shadow(blurRadius: 4)],
+                              ),
+                            ),
+                          ],
                         ),
                         onSelected: (v) {
                           setTagFilter(element.id!);
@@ -378,7 +268,13 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                       backgroundColor: Colors.black12,
                       label: Row(
                         mainAxisSize: MainAxisSize.min,
-                        children: [Text(S.of(context).noTag)],
+                        children: [
+                          Text(
+                            S.of(context).noTag,
+                            style: const TextStyle(
+                                color: Colors.white, shadows: [Shadow(blurRadius: 4)]),
+                          )
+                        ],
                       ),
                       onSelected: (v) {
                         setTagFilter(-1);
@@ -397,6 +293,7 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                 Fluttertoast.showToast(msg: S.of(context).plzChooseTime);
                 return;
               }
+
               switch (widget.type) {
                 case ChartType.line:
                   await provider.setLineChartTime(
@@ -407,6 +304,7 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                     filter: lineFilter,
                     tagFilter: tagFilter,
                   );
+                  if (!context.mounted) return;
                   provider.drawLineChart(context);
                   break;
                 case ChartType.pie:
@@ -418,6 +316,7 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                     filter: lineFilter,
                     tagFilter: tagFilter,
                   );
+                  if (!context.mounted) return;
                   provider.drawPieChart(context);
                   break;
                 case ChartType.stack:
@@ -429,6 +328,7 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                     filter: lineFilter,
                     tagFilter: tagFilter,
                   );
+                  if (!context.mounted) return;
                   provider.drawStackChart(context);
                   break;
                 case ChartType.list:
@@ -438,6 +338,7 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                     scale: scale,
                     tagFilter: tagFilter,
                   );
+                  if (!context.mounted) return;
                   provider.drawListChart(context);
                   break;
               }
@@ -445,7 +346,7 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
               Navigator.pop(context);
             },
             child: Text(
-              S.of(context).save,
+              S.of(context).ok,
               style: const TextStyle(color: Colors.white),
             ),
           ),
@@ -470,7 +371,14 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                   backgroundColor: Colors.blueAccent.withOpacity(0.2),
                   label: Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: [Text(S.of(context).income)],
+                    children: [
+                      Text(
+                        S.of(context).income,
+                        style: const TextStyle(color: Colors.white, shadows: [
+                          Shadow(blurRadius: 4),
+                        ]),
+                      ),
+                    ],
                   ),
                   onSelected: (v) {
                     setState(() {
@@ -489,7 +397,14 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                   backgroundColor: Colors.redAccent.withOpacity(0.2),
                   label: Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: [Text(S.of(context).expenditure)],
+                    children: [
+                      Text(
+                        S.of(context).expenditure,
+                        style: const TextStyle(color: Colors.white, shadows: [
+                          Shadow(blurRadius: 4),
+                        ]),
+                      )
+                    ],
                   ),
                   onSelected: (v) {
                     setState(() {
@@ -527,9 +442,20 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                         label: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(icons[element.icon]),
+                            Icon(
+                              icons[element.icon],
+                              color: Colors.white,
+                              shadows: const [
+                                Shadow(blurRadius: 4),
+                              ],
+                            ),
                             const SizedBox(width: 8),
-                            Text(element.name)
+                            Text(
+                              element.name,
+                              style: const TextStyle(color: Colors.white, shadows: [
+                                Shadow(blurRadius: 4),
+                              ]),
+                            )
                           ],
                         ),
                         onSelected: (v) {
@@ -566,9 +492,20 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                         label: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(icons[element.icon]),
+                            Icon(
+                              icons[element.icon],
+                              color: Colors.white,
+                              shadows: const [
+                                Shadow(blurRadius: 4),
+                              ],
+                            ),
                             const SizedBox(width: 8),
-                            Text(element.name)
+                            Text(
+                              element.name,
+                              style: const TextStyle(color: Colors.white, shadows: [
+                                Shadow(blurRadius: 4),
+                              ]),
+                            )
                           ],
                         ),
                         onSelected: (v) {
@@ -604,7 +541,14 @@ class _LineChartSettingPageState extends State<LineChartSettingPage> {
                       backgroundColor: Colors.black12,
                       label: Row(
                         mainAxisSize: MainAxisSize.min,
-                        children: [Text(S.of(context).unCategory)],
+                        children: [
+                          Text(
+                            S.of(context).unCategory,
+                            style: const TextStyle(color: Colors.white, shadows: [
+                              Shadow(blurRadius: 4),
+                            ]),
+                          )
+                        ],
                       ),
                       onSelected: (v) {
                         setState(() {
