@@ -23,6 +23,8 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "add": MessageLookupByLibrary.simpleMessage("जोड़ें"),
+        "addAndToNext": MessageLookupByLibrary.simpleMessage(
+            "जोड़ें, फिर जोड़ना जारी रखें"),
         "addSuccess":
             MessageLookupByLibrary.simpleMessage("सफलतापूर्वक शामिल हों!"),
         "all": MessageLookupByLibrary.simpleMessage("सब"),

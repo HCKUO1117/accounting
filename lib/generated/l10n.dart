@@ -1509,6 +1509,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Add, then continue adding`
+  String get addAndToNext {
+    return Intl.message(
+      'Add, then continue adding',
+      name: 'addAndToNext',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -144,5 +144,6 @@
   "widgets": "ウィジェット",
   "selectAll": "すべて選択",
   "permissionInfo": "ファイルをエクスポートするにはファイル アクセス許可が必要です",
-  "openAlarmPermission": "リマインダーを設定できるように、目覚まし時計の許可を有効にしてください"
+  "openAlarmPermission": "リマインダーを設定できるように、目覚まし時計の許可を有効にしてください",
+  "addAndToNext": "追加し、追加を続けます"
 }

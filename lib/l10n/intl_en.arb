@@ -144,5 +144,6 @@
   "widgets": "Widgets",
   "selectAll": "Select All",
   "permissionInfo": "We need your file access permission to export the file",
-  "openAlarmPermission": "Please enable the alarm clock permission so that we can set reminders for you"
+  "openAlarmPermission": "Please enable the alarm clock permission so that we can set reminders for you",
+  "addAndToNext": "Add, then continue adding"
 }

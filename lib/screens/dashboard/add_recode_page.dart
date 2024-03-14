@@ -313,7 +313,8 @@ class _AddRecodePageState extends State<AddRecodePage> {
                             );
 
                             if (rawResult != null) {
-                              var result = (double.tryParse(rawResult) ?? 0).abs().toStringAsFixed(2);
+                              var result =
+                                  (double.tryParse(rawResult) ?? 0).abs().toStringAsFixed(2);
                               setState(() {
                                 amount.text = result;
                               });
@@ -441,12 +442,18 @@ class _AddRecodePageState extends State<AddRecodePage> {
                               });
                             }
                           },
-                          child: Text(DateFormat('yyyy/MM/dd').format(date)),
+                          child: Text(DateFormat('yyyy/MM/dd').format(date),
+                            style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'RobotoMono',
+                                color: Colors.orange),),
                         ),
                       ],
                     ),
                     const SizedBox(height: 16),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Icon(Icons.schedule),
                         const SizedBox(width: 8),
@@ -474,7 +481,14 @@ class _AddRecodePageState extends State<AddRecodePage> {
                               });
                             }
                           },
-                          child: Text(time.format(context)),
+                          child: Text(
+                            time.format(context),
+                            style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'RobotoMono',
+                                color: Colors.orange),
+                          ),
                         ),
                       ],
                     ),
@@ -507,62 +521,114 @@ class _AddRecodePageState extends State<AddRecodePage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 32),
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        saveButton(provider),
-                        if (widget.model != null)
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              IconButton(
-                                onPressed: () async {
-                                  bool? delete = await showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      title: Text(S.of(context).notify),
-                                      content: Text(S.of(context).deleteCheck),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text(
-                                            S.of(context).cancel,
-                                            style: const TextStyle(color: Colors.black54),
-                                          ),
-                                        ),
-                                        TextButton(
-                                          onPressed: () async {
-                                            await AccountingDB.deleteData(widget.model!.id!);
-                                            await provider.getAccountingList();
-                                            if (!mounted) return;
-                                            Navigator.pop(context, true);
-                                          },
-                                          child: Text(S.of(context).ok),
-                                        )
-                                      ],
+                    if (widget.model != null)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            onPressed: () async {
+                              bool? delete = await showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text(S.of(context).notify),
+                                  content: Text(S.of(context).deleteCheck),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        S.of(context).cancel,
+                                        style: const TextStyle(color: Colors.black54),
+                                      ),
                                     ),
-                                  );
-
-                                  if (delete ?? false) {
-                                    if (!mounted) return;
-
-                                    ///更新widget
-                                    context.read<HomeWidgetProvider>().sendAndUpdate();
-                                    Navigator.pop(context);
-                                  }
-                                },
-                                icon: Icon(
-                                  Icons.delete_outline,
-                                  color: Colors.redAccent.shade700,
+                                    TextButton(
+                                      onPressed: () async {
+                                        await AccountingDB.deleteData(widget.model!.id!);
+                                        await provider.getAccountingList();
+                                        if (!mounted) return;
+                                        Navigator.pop(context, true);
+                                      },
+                                      child: Text(S.of(context).ok),
+                                    )
+                                  ],
                                 ),
-                              )
-                            ],
+                              );
+
+                              if (delete ?? false) {
+                                if (!mounted) return;
+
+                                ///更新widget
+                                context.read<HomeWidgetProvider>().sendAndUpdate();
+                                Navigator.pop(context);
+                              }
+                            },
+                            icon: Icon(
+                              Icons.delete_outline,
+                              color: Colors.redAccent.shade700,
+                            ),
                           )
-                      ],
-                    ),
+                        ],
+                      ),
+                    const SizedBox(height: 32),
+
+                    saveButton(provider, false),
+                    // Stack(
+                    //   alignment: Alignment.center,
+                    //   children: [
+                    //     saveButton(provider, false),
+                    //     if (widget.model != null)
+                    //       Row(
+                    //         mainAxisAlignment: MainAxisAlignment.end,
+                    //         children: [
+                    //           IconButton(
+                    //             onPressed: () async {
+                    //               bool? delete = await showDialog(
+                    //                 context: context,
+                    //                 builder: (context) => AlertDialog(
+                    //                   title: Text(S.of(context).notify),
+                    //                   content: Text(S.of(context).deleteCheck),
+                    //                   actions: [
+                    //                     TextButton(
+                    //                       onPressed: () {
+                    //                         Navigator.pop(context);
+                    //                       },
+                    //                       child: Text(
+                    //                         S.of(context).cancel,
+                    //                         style: const TextStyle(color: Colors.black54),
+                    //                       ),
+                    //                     ),
+                    //                     TextButton(
+                    //                       onPressed: () async {
+                    //                         await AccountingDB.deleteData(widget.model!.id!);
+                    //                         await provider.getAccountingList();
+                    //                         if (!mounted) return;
+                    //                         Navigator.pop(context, true);
+                    //                       },
+                    //                       child: Text(S.of(context).ok),
+                    //                     )
+                    //                   ],
+                    //                 ),
+                    //               );
+                    //
+                    //               if (delete ?? false) {
+                    //                 if (!mounted) return;
+                    //
+                    //                 ///更新widget
+                    //                 context.read<HomeWidgetProvider>().sendAndUpdate();
+                    //                 Navigator.pop(context);
+                    //               }
+                    //             },
+                    //             icon: Icon(
+                    //               Icons.delete_outline,
+                    //               color: Colors.redAccent.shade700,
+                    //             ),
+                    //           )
+                    //         ],
+                    //       )
+                    //   ],
+                    // ),
+                    if (widget.model == null) saveButton(provider, true),
                     const SizedBox(height: 32),
                   ],
                 ),
@@ -574,7 +640,10 @@ class _AddRecodePageState extends State<AddRecodePage> {
     );
   }
 
-  Widget saveButton(MainProvider provider) {
+  Widget saveButton(
+    MainProvider provider,
+    bool keepAdd,
+  ) {
     return ElevatedButton(
       style: ButtonStyle(
         elevation: MaterialStateProperty.all(0),
@@ -666,10 +735,19 @@ class _AddRecodePageState extends State<AddRecodePage> {
 
         ///更新widget
         context.read<HomeWidgetProvider>().sendAndUpdate();
+
+        if (keepAdd) {
+          amount.text = '';
+          return;
+        }
         Navigator.pop(context);
       },
       child: Text(
-        S.of(context).save,
+        keepAdd
+            ? S.of(context).addAndToNext
+            : widget.model != null
+                ? S.of(context).edit
+                : S.of(context).add,
         style: const TextStyle(color: Colors.white),
       ),
     );

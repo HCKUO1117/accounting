@@ -23,6 +23,8 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "add": MessageLookupByLibrary.simpleMessage("추가하다"),
+        "addAndToNext":
+            MessageLookupByLibrary.simpleMessage("추가한 다음 계속 추가하세요."),
         "addSuccess": MessageLookupByLibrary.simpleMessage("성공적으로 가입하세요!"),
         "all": MessageLookupByLibrary.simpleMessage("모두"),
         "amount": MessageLookupByLibrary.simpleMessage("금액"),

@@ -213,7 +213,6 @@ class _FilterPageState extends State<FilterPage> with TickerProviderStateMixin {
               //     }),
             ],
           ),
-          const Divider(),
           const SizedBox(height: 16),
           Text(
             S.of(context).tag,
