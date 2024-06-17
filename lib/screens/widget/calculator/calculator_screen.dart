@@ -2,7 +2,6 @@ import 'package:accounting/utils/show_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
 
-
 import '../../../generated/l10n.dart';
 import 'button_values.dart';
 
@@ -72,6 +71,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
           Expression expression = p.parse(userInput);
           ContextModel cm = ContextModel();
           var finalValue = expression.evaluate(EvaluationType.REAL, cm);
+          print(userInput);
+          print(finalValue);
           output = formatNumber(finalValue.toString());
 
           // Format the input with periods as thousands separators
@@ -82,12 +83,12 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         } catch (e) {
           // Handle parsing or evaluation errors
           output = 'Error';
-          input = '';
+          // input = '';
         }
       } else {
         // Handle the case when parentheses are not balanced
         output = 'Error';
-        input = '';
+        // input = '';
       }
     } else if (context == "+/-") {
       // ... (existing code)
@@ -98,10 +99,10 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       }
     } else {
       // Handle numeric input
-      if (context == "." && input.contains(".")) {
-        // Prevent entering multiple decimal points
-        return;
-      }
+      // if (context == "." && input.contains(".")) {
+      //   // Prevent entering multiple decimal points
+      //   return;
+      // }
 
       if (context == "÷") {
         // Handle division symbol
@@ -155,19 +156,19 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
           } catch (e) {
             // Handle parsing or evaluation errors
             output = 'Error';
-            input = '';
+            // input = '';
           }
         } else {
           // Handle the case when parentheses are not balanced
           output = 'Error';
-          input = '';
+          // input = '';
         }
         setState(() {});
         if (output.isEmpty) {
           ShowToast.showToast(S.of(buildContext).amountFormatError);
           return;
         }
-        if(output == 'Infinity' || output == 'NaN'){
+        if (output == 'Infinity' || output == 'NaN') {
           ShowToast.showToast(S.of(buildContext).amountFormatError);
           return;
         }
@@ -236,7 +237,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     var formattedNumber = numberString.replaceAll('/', '÷').replaceAll('*', '×');
 
     // Check if the number is an integer
-    if (formattedNumber.contains('.') && double.tryParse(formattedNumber)! % 1 == 0) {
+    if (formattedNumber.contains('.') && (double.tryParse(formattedNumber) ?? 0) % 1 == 0) {
       // Remove decimal part for integers
       formattedNumber = formattedNumber.replaceAll(RegExp(r'\.0$'), '');
     }

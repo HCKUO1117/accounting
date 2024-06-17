@@ -61,7 +61,7 @@ dependencies:
   firebase_analytics: ^10.0.2
   firebase_auth: ^4.7.3
   firebase_remote_config: ^3.0.3
-  math_expressions: ^2.4.0
+  math_expressions: ^2.5.0
 
 dev_dependencies:
   flutter_test:
